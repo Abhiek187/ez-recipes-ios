@@ -18,6 +18,7 @@
 		F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C5E2904CB9800C3302B /* RecipeError.swift */; };
 		F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C602904CBEC00C3302B /* Recipe.swift */; };
 		F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C622904CED500C3302B /* NetworkManager.swift */; };
+		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12C1C662904D16700C3302B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +197,9 @@
 			dependencies = (
 			);
 			name = "EZ Recipes";
+			packageProductDependencies = (
+				F12C1C652904D16700C3302B /* Alamofire */,
+			);
 			productName = "EZ Recipes";
 			productReference = F12C1C272904951600C3302B /* EZ Recipes.app */;
 			productType = "com.apple.product-type.application";
@@ -267,6 +272,9 @@
 				Base,
 			);
 			mainGroup = F12C1C1E2904951600C3302B;
+			packageReferences = (
+				F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = F12C1C282904951600C3302B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -639,6 +647,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F12C1C652904D16700C3302B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F12C1C1F2904951600C3302B /* Project object */;
 }

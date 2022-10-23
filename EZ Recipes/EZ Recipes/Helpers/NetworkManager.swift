@@ -5,4 +5,30 @@
 //  Created by Abhishek Chaudhuri on 10/22/22.
 //
 
-import Foundation
+import Alamofire
+
+struct NetworkManager {
+    func getRandomRecipe() async -> Result<Recipe, Error> {
+        let request = AF.request("\(Constants.recipeBaseUrl)/random")
+        
+        do {
+            let recipe = try await request.serializingDecodable(Recipe.self).value
+            return .success(recipe)
+        } catch {
+            print("getRandomRecipe :: error: \(error.localizedDescription)")
+            return .failure(error)
+        }
+    }
+    
+    func getRecipe(byId id: String) async -> Result<Recipe, Error> {
+        let request = AF.request("\(Constants.recipeBaseUrl)/\(id)")
+        
+        do {
+            let recipe = try await request.serializingDecodable(Recipe.self).value
+            return .success(recipe)
+        } catch {
+            print("getRecipe(byId:) :: error: \(error.localizedDescription)")
+            return .failure(error)
+        }
+    }
+}
