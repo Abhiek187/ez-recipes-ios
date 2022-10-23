@@ -14,6 +14,10 @@
 		F12C1C3C2904951B00C3302B /* EZ_RecipesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C3B2904951B00C3302B /* EZ_RecipesTests.swift */; };
 		F12C1C462904951B00C3302B /* EZ_RecipesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */; };
 		F12C1C482904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */; };
+		F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C5C2904CB3200C3302B /* Constants.swift */; };
+		F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C5E2904CB9800C3302B /* RecipeError.swift */; };
+		F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C602904CBEC00C3302B /* Recipe.swift */; };
+		F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C622904CED500C3302B /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,10 @@
 		F12C1C55290495A500C3302B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; name = .gitignore; path = ../.gitignore; sourceTree = "<group>"; };
 		F12C1C56290495A500C3302B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F12C1C5729049F7200C3302B /* EZ-Recipes-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "EZ-Recipes-Info.plist"; sourceTree = SOURCE_ROOT; };
+		F12C1C5C2904CB3200C3302B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F12C1C5E2904CB9800C3302B /* RecipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeError.swift; sourceTree = "<group>"; };
+		F12C1C602904CBEC00C3302B /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		F12C1C622904CED500C3302B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,9 +109,12 @@
 		F12C1C292904951600C3302B /* EZ Recipes */ = {
 			isa = PBXGroup;
 			children = (
+				F12C1C5B2904CAE600C3302B /* Helpers */,
+				F12C1C582904CACD00C3302B /* Models */,
+				F12C1C592904CAD400C3302B /* Views */,
+				F12C1C5A2904CADA00C3302B /* ViewModels */,
 				F12C1C5729049F7200C3302B /* EZ-Recipes-Info.plist */,
 				F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */,
-				F12C1C2C2904951600C3302B /* ContentView.swift */,
 				F12C1C2E2904951A00C3302B /* Assets.xcassets */,
 				F12C1C302904951A00C3302B /* Preview Content */,
 			);
@@ -133,6 +144,39 @@
 				F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */,
 			);
 			path = "EZ RecipesUITests";
+			sourceTree = "<group>";
+		};
+		F12C1C582904CACD00C3302B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F12C1C602904CBEC00C3302B /* Recipe.swift */,
+				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F12C1C592904CAD400C3302B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F12C1C2C2904951600C3302B /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F12C1C5A2904CADA00C3302B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F12C1C5B2904CAE600C3302B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F12C1C5C2904CB3200C3302B /* Constants.swift */,
+				F12C1C622904CED500C3302B /* NetworkManager.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,8 +309,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */,
 				F12C1C2D2904951600C3302B /* ContentView.swift in Sources */,
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
+				F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */,
+				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
+				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
