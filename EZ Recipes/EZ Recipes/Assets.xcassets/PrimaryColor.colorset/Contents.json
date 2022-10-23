@@ -2,8 +2,8 @@
   "colors" : [
     {
       "color" : {
-        "platform" : "osx",
-        "reference" : "systemYellowColor"
+        "platform" : "universal",
+        "reference" : "systemIndigoColor"
       },
       "idiom" : "universal"
     }
