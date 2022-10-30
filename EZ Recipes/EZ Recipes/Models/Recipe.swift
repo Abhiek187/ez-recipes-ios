@@ -40,16 +40,10 @@ struct Recipe: Decodable {
         struct Step: Decodable {
             let number: Int
             let step: String
-            let ingredients: [StepIngredient]
-            let equipment: [StepEquipment]
+            let ingredients: [StepItem]
+            let equipment: [StepItem]
             
-            struct StepIngredient: Decodable {
-                let id: Int
-                let name: String
-                let image: String
-            }
-            
-            struct StepEquipment: Decodable {
+            struct StepItem: Decodable {
                 let id: Int
                 let name: String
                 let image: String
