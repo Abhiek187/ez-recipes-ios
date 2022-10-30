@@ -15,6 +15,7 @@ class ContentViewModel: ObservableObject {
     
     private var repository: NetworkManager
     
+    // Utilizing dependency injection for happy little tests
     init(repository: NetworkManager) {
         self.repository = repository
     }
@@ -26,7 +27,6 @@ class ContentViewModel: ObservableObject {
             switch result {
             case .success(let recipe):
                 self.recipe = recipe
-                print(recipe)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -40,7 +40,6 @@ class ContentViewModel: ObservableObject {
             switch result {
             case .success(let recipe):
                 self.recipe = recipe
-                print(recipe)
             case .failure(let error):
                 print(error.localizedDescription)
             }

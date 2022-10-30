@@ -9,9 +9,10 @@ import Alamofire
 
 struct NetworkManager {
     static let shared = NetworkManager() // singleton
+    private let session = Session(eventMonitors: [AFLogger()])
     
     func getRandomRecipe() async -> Result<Recipe, Error> {
-        let request = AF.request("\(Constants.recipeBaseUrl)/random")
+        let request = session.request("\(Constants.recipeBaseUrl)/random")
         
         do {
             let recipe = try await request.serializingDecodable(Recipe.self).value
@@ -23,7 +24,7 @@ struct NetworkManager {
     }
     
     func getRecipe(byId id: String) async -> Result<Recipe, Error> {
-        let request = AF.request("\(Constants.recipeBaseUrl)/\(id)")
+        let request = session.request("\(Constants.recipeBaseUrl)/\(id)")
         
         do {
             let recipe = try await request.serializingDecodable(Recipe.self).value
