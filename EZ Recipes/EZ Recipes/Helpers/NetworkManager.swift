@@ -8,6 +8,8 @@
 import Alamofire
 
 struct NetworkManager {
+    static let shared = NetworkManager() // singleton
+    
     func getRandomRecipe() async -> Result<Recipe, Error> {
         let request = AF.request("\(Constants.recipeBaseUrl)/random")
         
