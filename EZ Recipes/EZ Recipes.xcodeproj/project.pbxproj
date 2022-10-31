@@ -27,6 +27,7 @@
 		F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC0290F5088000FF99C /* Instruction.swift */; };
 		F1F38EC3290F509B000FF99C /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC2290F509B000FF99C /* Step.swift */; };
 		F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC4290F50A9000FF99C /* StepItem.swift */; };
+		F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		F1F38EC9290F58EB000FF99C /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		F1F38ECA290F58EB000FF99C /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
 		F1F38ECB290F5FC4000FF99C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F1F38ECE290F6923000FF99C /* Snapfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
+		F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,7 @@
 		F12C1C442904951B00C3302B /* EZ RecipesUITests */ = {
 			isa = PBXGroup;
 			children = (
+				F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */,
 				F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */,
 				F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */,
 			);
@@ -219,6 +223,7 @@
 				F1F38EC7290F58EB000FF99C /* Appfile */,
 				F1F38EC8290F58EB000FF99C /* Fastfile */,
 				F1F38ECB290F5FC4000FF99C /* README.md */,
+				F1F38ECE290F6923000FF99C /* Snapfile */,
 			);
 			path = fastlane;
 			sourceTree = "<group>";
@@ -390,6 +395,7 @@
 			files = (
 				F12C1C462904951B00C3302B /* EZ_RecipesUITests.swift in Sources */,
 				F12C1C482904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift in Sources */,
+				F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

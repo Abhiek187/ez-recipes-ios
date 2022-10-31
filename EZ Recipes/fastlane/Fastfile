@@ -22,4 +22,12 @@ platform :ios do
     run_tests(devices: ["iPhone 8, iPhone 13 Pro Max", "iPad Pro (9.7-inch)"],
               scheme: "EZ Recipes")
   end
+  
+  desc "Upload a new build to the App Store"
+  lane :release do
+    capture_screenshots                  # generate new screenshots for the App Store
+    sync_code_signing(type: "appstore")  # see code signing guide for more information
+    build_app(scheme: "EZ Recipes")
+    upload_to_app_store                  # upload your app to App Store Connect
+  end
 end
