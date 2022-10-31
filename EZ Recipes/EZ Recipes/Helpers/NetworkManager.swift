@@ -7,7 +7,13 @@
 
 import Alamofire
 
-struct NetworkManager {
+// A protocol allows mock repositories to be created for tests
+protocol RecipeRepository {
+    func getRandomRecipe() async -> Result<Recipe, Error>
+    func getRecipe(byId id: String) async -> Result<Recipe, Error>
+}
+
+struct NetworkManager: RecipeRepository {
     static let shared = NetworkManager() // singleton
     private let session = Session(eventMonitors: [AFLogger()])
     

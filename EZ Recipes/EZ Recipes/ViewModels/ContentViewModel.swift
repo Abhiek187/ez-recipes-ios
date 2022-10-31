@@ -7,16 +7,23 @@
 
 import Foundation
 
+// Ensure all ViewModels inject a repository to call the APIs
+protocol ViewModel {
+    associatedtype Repository
+    init(repository: Repository)
+}
+
 // MainActor ensures UI changes happen on the main thread
 @MainActor
-class ContentViewModel: ObservableObject {
+class ContentViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel
     @Published private(set) var recipe: Recipe?
     
-    private var repository: NetworkManager
+    private var repository: RecipeRepository
     
-    // Utilizing dependency injection for happy little tests
-    init(repository: NetworkManager) {
+    // Utilize dependency injection for happy little tests
+    // The initializer isn't isolated since the protocol doesn't require it to be in a main actor
+    nonisolated required init(repository: RecipeRepository) {
         self.repository = repository
     }
     
