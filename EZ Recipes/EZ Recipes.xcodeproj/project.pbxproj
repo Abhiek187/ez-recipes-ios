@@ -22,6 +22,11 @@
 		F1F38EB7290F215C000FF99C /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB6290F215C000FF99C /* ContentViewModel.swift */; };
 		F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB8290F3020000FF99C /* AFLogger.swift */; };
 		F1F38EBB290F3751000FF99C /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */; };
+		F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBC290F5053000FF99C /* Nutrient.swift */; };
+		F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBE290F506F000FF99C /* Ingredient.swift */; };
+		F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC0290F5088000FF99C /* Instruction.swift */; };
+		F1F38EC3290F509B000FF99C /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC2290F509B000FF99C /* Step.swift */; };
+		F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC4290F50A9000FF99C /* StepItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +68,11 @@
 		F1F38EB6290F215C000FF99C /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		F1F38EB8290F3020000FF99C /* AFLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFLogger.swift; sourceTree = "<group>"; };
 		F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
+		F1F38EBC290F5053000FF99C /* Nutrient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nutrient.swift; sourceTree = "<group>"; };
+		F1F38EBE290F506F000FF99C /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		F1F38EC0290F5088000FF99C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		F1F38EC2290F509B000FF99C /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		F1F38EC4290F50A9000FF99C /* StepItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +170,11 @@
 			children = (
 				F12C1C602904CBEC00C3302B /* Recipe.swift */,
 				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
+				F1F38EBC290F5053000FF99C /* Nutrient.swift */,
+				F1F38EBE290F506F000FF99C /* Ingredient.swift */,
+				F1F38EC0290F5088000FF99C /* Instruction.swift */,
+				F1F38EC2290F509B000FF99C /* Step.swift */,
+				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -328,12 +343,17 @@
 			files = (
 				F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */,
 				F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */,
+				F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */,
+				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* ContentView.swift in Sources */,
+				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
+				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
 				F1F38EB7290F215C000FF99C /* ContentViewModel.swift in Sources */,
 				F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */,
 				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
+				F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

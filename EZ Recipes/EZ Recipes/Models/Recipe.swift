@@ -19,35 +19,4 @@ struct Recipe: Decodable, Equatable {
     let nutrients: [Nutrient]
     let ingredients: [Ingredient]
     let instructions: [Instruction]
-    
-    struct Nutrient: Decodable, Equatable {
-        let name: String
-        let amount: Double
-        let unit: String
-    }
-    
-    struct Ingredient: Decodable, Equatable {
-        let id: Int
-        let name: String
-        let amount: Double
-        let unit: String
-    }
-    
-    struct Instruction: Decodable, Equatable {
-        let name: String
-        let steps: [Step]
-        
-        struct Step: Decodable, Equatable {
-            let number: Int
-            let step: String
-            let ingredients: [StepItem]
-            let equipment: [StepItem]
-            
-            struct StepItem: Decodable, Equatable {
-                let id: Int
-                let name: String
-                let image: String
-            }
-        }
-    }
 }
