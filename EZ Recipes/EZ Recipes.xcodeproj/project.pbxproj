@@ -81,6 +81,7 @@
 		F1F38ECB290F5FC4000FF99C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F1F38ECE290F6923000FF99C /* Snapfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; };
 		F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		F1F38ED1290F6F3E000FF99C /* fastlane.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = fastlane.yml; path = .github/workflows/fastlane.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +113,7 @@
 		F12C1C1E2904951600C3302B = {
 			isa = PBXGroup;
 			children = (
+				F1F38ED1290F6F3E000FF99C /* fastlane.yml */,
 				F1F38EC6290F58EB000FF99C /* fastlane */,
 				F12C1C55290495A500C3302B /* .gitignore */,
 				F1F38EC9290F58EB000FF99C /* Gemfile */,
