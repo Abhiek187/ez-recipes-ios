@@ -19,6 +19,15 @@
 		F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C602904CBEC00C3302B /* Recipe.swift */; };
 		F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C622904CED500C3302B /* NetworkManager.swift */; };
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
+		F1F38EB7290F215C000FF99C /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB6290F215C000FF99C /* ContentViewModel.swift */; };
+		F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB8290F3020000FF99C /* AFLogger.swift */; };
+		F1F38EBB290F3751000FF99C /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */; };
+		F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBC290F5053000FF99C /* Nutrient.swift */; };
+		F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBE290F506F000FF99C /* Ingredient.swift */; };
+		F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC0290F5088000FF99C /* Instruction.swift */; };
+		F1F38EC3290F509B000FF99C /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC2290F509B000FF99C /* Step.swift */; };
+		F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC4290F50A9000FF99C /* StepItem.swift */; };
+		F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +66,22 @@
 		F12C1C5E2904CB9800C3302B /* RecipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeError.swift; sourceTree = "<group>"; };
 		F12C1C602904CBEC00C3302B /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		F12C1C622904CED500C3302B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		F1F38EB6290F215C000FF99C /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		F1F38EB8290F3020000FF99C /* AFLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFLogger.swift; sourceTree = "<group>"; };
+		F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
+		F1F38EBC290F5053000FF99C /* Nutrient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nutrient.swift; sourceTree = "<group>"; };
+		F1F38EBE290F506F000FF99C /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		F1F38EC0290F5088000FF99C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		F1F38EC2290F509B000FF99C /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		F1F38EC4290F50A9000FF99C /* StepItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepItem.swift; sourceTree = "<group>"; };
+		F1F38EC7290F58EB000FF99C /* Appfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Appfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F38EC8290F58EB000FF99C /* Fastfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F38EC9290F58EB000FF99C /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F38ECA290F58EB000FF99C /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F38ECB290F5FC4000FF99C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F1F38ECE290F6923000FF99C /* Snapfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		F1F38ED4290F773E000FF99C /* fastlane.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = fastlane.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +113,11 @@
 		F12C1C1E2904951600C3302B = {
 			isa = PBXGroup;
 			children = (
+				F1F38ED2290F773E000FF99C /* .github */,
+				F1F38EC6290F58EB000FF99C /* fastlane */,
 				F12C1C55290495A500C3302B /* .gitignore */,
+				F1F38EC9290F58EB000FF99C /* Gemfile */,
+				F1F38ECA290F58EB000FF99C /* Gemfile.lock */,
 				F12C1C56290495A500C3302B /* LICENSE */,
 				F12C1C54290495A500C3302B /* README.md */,
 				F12C1C292904951600C3302B /* EZ Recipes */,
@@ -135,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				F12C1C3B2904951B00C3302B /* EZ_RecipesTests.swift */,
+				F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -142,6 +172,7 @@
 		F12C1C442904951B00C3302B /* EZ RecipesUITests */ = {
 			isa = PBXGroup;
 			children = (
+				F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */,
 				F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */,
 				F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */,
 			);
@@ -153,6 +184,11 @@
 			children = (
 				F12C1C602904CBEC00C3302B /* Recipe.swift */,
 				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
+				F1F38EBC290F5053000FF99C /* Nutrient.swift */,
+				F1F38EBE290F506F000FF99C /* Ingredient.swift */,
+				F1F38EC0290F5088000FF99C /* Instruction.swift */,
+				F1F38EC2290F509B000FF99C /* Step.swift */,
+				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,6 +204,7 @@
 		F12C1C5A2904CADA00C3302B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				F1F38EB6290F215C000FF99C /* ContentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -177,8 +214,37 @@
 			children = (
 				F12C1C5C2904CB3200C3302B /* Constants.swift */,
 				F12C1C622904CED500C3302B /* NetworkManager.swift */,
+				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F1F38EC6290F58EB000FF99C /* fastlane */ = {
+			isa = PBXGroup;
+			children = (
+				F1F38EC7290F58EB000FF99C /* Appfile */,
+				F1F38EC8290F58EB000FF99C /* Fastfile */,
+				F1F38ECB290F5FC4000FF99C /* README.md */,
+				F1F38ECE290F6923000FF99C /* Snapfile */,
+			);
+			path = fastlane;
+			sourceTree = "<group>";
+		};
+		F1F38ED2290F773E000FF99C /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				F1F38ED3290F773E000FF99C /* workflows */,
+			);
+			name = .github;
+			path = ../.github;
+			sourceTree = "<group>";
+		};
+		F1F38ED3290F773E000FF99C /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				F1F38ED4290F773E000FF99C /* fastlane.yml */,
+			);
+			path = workflows;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,12 +383,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */,
 				F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */,
+				F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */,
+				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* ContentView.swift in Sources */,
+				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
+				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
+				F1F38EB7290F215C000FF99C /* ContentViewModel.swift in Sources */,
 				F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */,
 				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
+				F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1F38EBB290F3751000FF99C /* ContentViewModelTests.swift in Sources */,
 				F12C1C3C2904951B00C3302B /* EZ_RecipesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +414,7 @@
 			files = (
 				F12C1C462904951B00C3302B /* EZ_RecipesUITests.swift in Sources */,
 				F12C1C482904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift in Sources */,
+				F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

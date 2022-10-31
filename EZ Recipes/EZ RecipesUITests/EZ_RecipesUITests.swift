@@ -8,6 +8,7 @@
 import XCTest
 
 class EZ_RecipesUITests: XCTestCase {
+    var app: XCUIApplication!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -16,6 +17,9 @@ class EZ_RecipesUITests: XCTestCase {
         continueAfterFailure = false
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        setupSnapshot(app)
+        app.launch()
     }
 
     override func tearDownWithError() throws {
@@ -24,8 +28,7 @@ class EZ_RecipesUITests: XCTestCase {
 
     func testExample() throws {
         // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+        snapshot("01LoginScreen")
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
