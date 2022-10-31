@@ -19,7 +19,7 @@ platform :ios do
   desc "Run tests on multiple devices"
   lane :tests do
     # add actions here: https://docs.fastlane.tools/actions
-    run_tests(devices: ["iPhone 8, iPhone 13 Pro Max", "iPad Pro (9.7-inch)"],
+    run_tests(devices: ["iPhone 8", "iPhone 13 Pro Max", "iPad Pro (9.7-inch)"],
               scheme: "EZ Recipes")
   end
   
