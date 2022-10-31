@@ -73,6 +73,11 @@
 		F1F38EC0290F5088000FF99C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		F1F38EC2290F509B000FF99C /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		F1F38EC4290F50A9000FF99C /* StepItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepItem.swift; sourceTree = "<group>"; };
+		F1F38EC7290F58EB000FF99C /* Appfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Appfile; sourceTree = "<group>"; };
+		F1F38EC8290F58EB000FF99C /* Fastfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; };
+		F1F38EC9290F58EB000FF99C /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
+		F1F38ECA290F58EB000FF99C /* Gemfile.lock */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
+		F1F38ECB290F5FC4000FF99C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +109,10 @@
 		F12C1C1E2904951600C3302B = {
 			isa = PBXGroup;
 			children = (
+				F1F38EC6290F58EB000FF99C /* fastlane */,
 				F12C1C55290495A500C3302B /* .gitignore */,
+				F1F38EC9290F58EB000FF99C /* Gemfile */,
+				F1F38ECA290F58EB000FF99C /* Gemfile.lock */,
 				F12C1C56290495A500C3302B /* LICENSE */,
 				F12C1C54290495A500C3302B /* README.md */,
 				F12C1C292904951600C3302B /* EZ Recipes */,
@@ -203,6 +211,16 @@
 				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F1F38EC6290F58EB000FF99C /* fastlane */ = {
+			isa = PBXGroup;
+			children = (
+				F1F38EC7290F58EB000FF99C /* Appfile */,
+				F1F38EC8290F58EB000FF99C /* Fastfile */,
+				F1F38ECB290F5FC4000FF99C /* README.md */,
+			);
+			path = fastlane;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
