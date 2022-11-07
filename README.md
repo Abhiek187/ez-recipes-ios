@@ -1,4 +1,7 @@
 # ez-recipes-ios
+
+[![Fastlane](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml)
+
 Easy recipes finder iOS app
 
 ## Fastlane
