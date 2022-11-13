@@ -20,9 +20,10 @@
 		F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C622904CED500C3302B /* NetworkManager.swift */; };
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
 		F1EAC7E929216A240046B268 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7E829216A240046B268 /* Device.swift */; };
+		F1EAC7EB29216F350046B268 /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */; };
 		F1F38EB7290F215C000FF99C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB6290F215C000FF99C /* HomeViewModel.swift */; };
 		F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB8290F3020000FF99C /* AFLogger.swift */; };
-		F1F38EBB290F3751000FF99C /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */; };
+		F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */; };
 		F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBC290F5053000FF99C /* Nutrient.swift */; };
 		F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBE290F506F000FF99C /* Ingredient.swift */; };
 		F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC0290F5088000FF99C /* Instruction.swift */; };
@@ -68,9 +69,10 @@
 		F12C1C602904CBEC00C3302B /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		F12C1C622904CED500C3302B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F1EAC7E829216A240046B268 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1F38EB6290F215C000FF99C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F1F38EB8290F3020000FF99C /* AFLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFLogger.swift; sourceTree = "<group>"; };
-		F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
+		F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
 		F1F38EBC290F5053000FF99C /* Nutrient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nutrient.swift; sourceTree = "<group>"; };
 		F1F38EBE290F506F000FF99C /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		F1F38EC0290F5088000FF99C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
@@ -166,7 +168,8 @@
 			isa = PBXGroup;
 			children = (
 				F12C1C3B2904951B00C3302B /* EZ_RecipesTests.swift */,
-				F1F38EBA290F3751000FF99C /* ContentViewModelTests.swift */,
+				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
+				F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -407,8 +410,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1F38EBB290F3751000FF99C /* ContentViewModelTests.swift in Sources */,
+				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
 				F12C1C3C2904951B00C3302B /* EZ_RecipesTests.swift in Sources */,
+				F1EAC7EB29216F350046B268 /* NetworkManagerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
