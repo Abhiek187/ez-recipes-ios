@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 class HomeViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel, except for bindings
-    @Published private(set) var isLoading = false
+    @Published var isLoading = false
     @Published var isRecipeLoaded = false
     @Published private(set) var recipe: Recipe? {
         didSet {

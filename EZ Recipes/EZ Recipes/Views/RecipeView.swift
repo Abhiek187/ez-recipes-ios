@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeView: View {
-    @EnvironmentObject var viewModel: HomeViewModel
+    @EnvironmentObject private var viewModel: HomeViewModel
     
     var body: some View {
         VStack {
@@ -18,6 +18,8 @@ struct RecipeView: View {
                 Text("No recipe loaded") // shouldn't be seen normally
             }
         }
+        .navigationTitle("Recipe")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -29,10 +31,12 @@ struct RecipeView_Previews: PreviewProvider {
         viewModel.getRandomRecipe()
         
         return ForEach(Device.all, id: \.self) { device in
-            RecipeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
-                .environmentObject(viewModel)
+            NavigationView {
+                RecipeView()
+                    .previewDevice(PreviewDevice(rawValue: device))
+                    .previewDisplayName(device)
+                    .environmentObject(viewModel)
+            }
         }
     }
 }

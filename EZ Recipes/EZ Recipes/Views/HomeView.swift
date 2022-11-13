@@ -20,7 +20,8 @@ struct HomeView: View {
                         viewModel.getRandomRecipe()
                     } label: {
                         Text("Find me a recipe!")
-                            .foregroundColor(.primary)
+                            .foregroundColor(.black)
+                            .font(.system(size: 25))
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -30,6 +31,7 @@ struct HomeView: View {
                     ProgressView()
                 }
             }
+            .navigationTitle("Home")
         }
     }
 }
