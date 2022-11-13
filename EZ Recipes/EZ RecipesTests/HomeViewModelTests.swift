@@ -1,5 +1,5 @@
 //
-//  ContentViewModelTests.swift
+//  HomeViewModelTests.swift
 //  EZ RecipesTests
 //
 //  Created by Abhishek Chaudhuri on 10/30/22.
@@ -10,7 +10,7 @@ import Combine
 @testable import EZ_Recipes
 
 class HomeViewModelTests: XCTestCase {
-    let mockRepo = NetworkManagerMock()
+    let mockRepo = NetworkManagerMock.shared
     var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
     

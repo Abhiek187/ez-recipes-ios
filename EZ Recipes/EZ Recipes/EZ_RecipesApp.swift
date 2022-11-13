@@ -12,6 +12,7 @@ struct EZ_RecipesApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .environmentObject(HomeViewModel(repository: NetworkManager.shared))
         }
     }
 }

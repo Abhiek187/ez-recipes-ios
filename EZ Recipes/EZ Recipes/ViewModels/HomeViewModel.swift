@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  HomeViewModel.swift
 //  EZ Recipes
 //
 //  Created by Abhishek Chaudhuri on 10/30/22.
@@ -7,17 +7,17 @@
 
 import Foundation
 
-// Ensure all ViewModels inject a repository to call the APIs
-protocol ViewModel {
-    associatedtype Repository
-    init(repository: Repository)
-}
-
 // MainActor ensures UI changes happen on the main thread
 @MainActor
 class HomeViewModel: ViewModel, ObservableObject {
-    // Don't allow the View to make changes to the ViewModel
-    @Published private(set) var recipe: Recipe?
+    // Don't allow the View to make changes to the ViewModel, except for bindings
+    @Published private(set) var isLoading = false
+    @Published var isRecipeLoaded = false
+    @Published private(set) var recipe: Recipe? {
+        didSet {
+            isRecipeLoaded = recipe != nil
+        }
+    }
     
     private var repository: RecipeRepository
     
@@ -29,7 +29,9 @@ class HomeViewModel: ViewModel, ObservableObject {
     
     func getRandomRecipe() {
         Task {
+            isLoading = true
             let result = await repository.getRandomRecipe()
+            isLoading = false
             
             switch result {
             case .success(let recipe):
@@ -42,7 +44,9 @@ class HomeViewModel: ViewModel, ObservableObject {
     
     func getRecipe(byId id: String) {
         Task {
+            isLoading = true
             let result = await repository.getRecipe(byId: id)
+            isLoading = false
             
             switch result {
             case .success(let recipe):
