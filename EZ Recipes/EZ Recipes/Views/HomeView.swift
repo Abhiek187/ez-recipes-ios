@@ -37,12 +37,22 @@ struct HomeView: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
+    // Show previews of the HomeView with and without the spinner
+    static let viewModelWithoutLoading = HomeViewModel(repository: NetworkManagerMock.shared)
+    static let viewModelWithLoading = HomeViewModel(repository: NetworkManagerMock.shared)
     static var previews: some View {
-        ForEach(Device.all, id: \.self) { device in
+        viewModelWithLoading.isLoading = true
+        
+        return ForEach(Device.all, id: \.self) { device in
             HomeView()
                 .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
-                .environmentObject(HomeViewModel(repository: NetworkManagerMock.shared))
+                .previewDisplayName("\(device) (No Loading)")
+                .environmentObject(viewModelWithoutLoading)
+            
+            HomeView()
+                .previewDevice(PreviewDevice(rawValue: device))
+                .previewDisplayName("\(device) (Loading)")
+                .environmentObject(viewModelWithLoading)
         }
     }
 }
