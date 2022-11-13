@@ -23,6 +23,7 @@
 		F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F3292185B90046B268 /* RecipeRepository.swift */; };
 		F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F5292185D70046B268 /* ViewModel.swift */; };
 		F1EAC7F8292187330046B268 /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */; };
+		F1EAC7FC2921A2550046B268 /* DeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7FB2921A2550046B268 /* DeviceTests.swift */; };
 		F1F38EB7290F215C000FF99C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB6290F215C000FF99C /* HomeViewModel.swift */; };
 		F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB8290F3020000FF99C /* AFLogger.swift */; };
 		F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */; };
@@ -74,6 +75,7 @@
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		F1EAC7F3292185B90046B268 /* RecipeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRepository.swift; sourceTree = "<group>"; };
 		F1EAC7F5292185D70046B268 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		F1EAC7FB2921A2550046B268 /* DeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTests.swift; sourceTree = "<group>"; };
 		F1F38EB6290F215C000FF99C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F1F38EB8290F3020000FF99C /* AFLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFLogger.swift; sourceTree = "<group>"; };
 		F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
+				F1EAC7FB2921A2550046B268 /* DeviceTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
+				F1EAC7FC2921A2550046B268 /* DeviceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

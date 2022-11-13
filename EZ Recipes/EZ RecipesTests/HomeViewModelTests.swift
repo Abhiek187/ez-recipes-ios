@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import EZ_Recipes
 
-class HomeViewModelTests: XCTestCase {
+final class HomeViewModelTests: XCTestCase {
     let mockRepo = NetworkManagerMock.shared
     var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
