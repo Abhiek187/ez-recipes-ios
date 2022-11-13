@@ -15,7 +15,7 @@ protocol ViewModel {
 
 // MainActor ensures UI changes happen on the main thread
 @MainActor
-class ContentViewModel: ViewModel, ObservableObject {
+class HomeViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel
     @Published private(set) var recipe: Recipe?
     

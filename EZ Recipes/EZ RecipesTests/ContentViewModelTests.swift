@@ -24,11 +24,11 @@ class NetworkManagerMock: RecipeRepository {
 
 class ContentViewModelTests: XCTestCase {
     let mockRepo = NetworkManagerMock()
-    var viewModel: ContentViewModel!
+    var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
     
     override func setUpWithError() throws {
-        viewModel = ContentViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo)
     }
     
     @MainActor func testGetRandomRecipe() {
