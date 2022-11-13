@@ -8,7 +8,7 @@
 /// A list of devices to preview simultaneously
 enum Device: String, CaseIterable {
     case iPhone8 = "iPhone 8"
-    case iPhone13ProMax = "iPhone 13 Pro Max"
+    case iPhone13ProMax = "iPhone 14 Pro Max"
     case iPadPro = "iPad Pro (9.7-inch)"
     
     /// An array of all the devices as strings
