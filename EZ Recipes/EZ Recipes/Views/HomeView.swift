@@ -24,6 +24,7 @@ struct HomeView: View {
                             .font(.system(size: 25))
                     }
                     .buttonStyle(.borderedProminent)
+                    // Show an alert if the request failed
                     .alert("Error", isPresented: $viewModel.recipeFailedToLoad) {
                         Button("Ok", role: .cancel) {}
                     } message: {
@@ -43,11 +44,17 @@ struct HomeView: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
-    // Show previews of the HomeView with and without the spinner
-    static let viewModelWithoutLoading = HomeViewModel(repository: NetworkManagerMock.shared)
-    static let viewModelWithLoading = HomeViewModel(repository: NetworkManagerMock.shared)
+    // Show previews of the HomeView with and without the spinner or an alert box
+    static let repoSuccess = NetworkManagerMock.shared
+    static var repoFail = NetworkManagerMock.shared
+    
+    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess)
+    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess)
+    static let viewModelWithAlert = HomeViewModel(repository: repoFail)
+    
     static var previews: some View {
         viewModelWithLoading.isLoading = true
+        repoFail.isSuccess = false
         
         return ForEach(Device.all, id: \.self) { device in
             HomeView()
@@ -59,6 +66,11 @@ struct HomeView_Previews: PreviewProvider {
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName("\(device) (Loading)")
                 .environmentObject(viewModelWithLoading)
+            
+            HomeView()
+                .previewDevice(PreviewDevice(rawValue: device))
+                .previewDisplayName("\(device) (Alert)")
+                .environmentObject(viewModelWithAlert)
         }
     }
 }
