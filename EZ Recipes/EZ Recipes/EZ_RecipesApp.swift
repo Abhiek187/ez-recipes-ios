@@ -11,7 +11,8 @@ import SwiftUI
 struct EZ_RecipesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+                .environmentObject(HomeViewModel(repository: NetworkManager.shared))
         }
     }
 }
