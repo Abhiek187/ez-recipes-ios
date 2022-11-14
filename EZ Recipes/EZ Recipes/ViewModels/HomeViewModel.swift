@@ -18,6 +18,7 @@ class HomeViewModel: ViewModel, ObservableObject {
             isRecipeLoaded = recipe != nil
         }
     }
+    @Published var recipeError: RecipeError?
     
     private var repository: RecipeRepository
     
@@ -36,8 +37,10 @@ class HomeViewModel: ViewModel, ObservableObject {
             switch result {
             case .success(let recipe):
                 self.recipe = recipe
-            case .failure(let error):
-                print(error.localizedDescription)
+                self.recipeError = nil
+            case .failure(let recipeError):
+                self.recipe = nil
+                self.recipeError = recipeError
             }
         }
     }
@@ -51,8 +54,10 @@ class HomeViewModel: ViewModel, ObservableObject {
             switch result {
             case .success(let recipe):
                 self.recipe = recipe
-            case .failure(let error):
-                print(error.localizedDescription)
+                self.recipeError = nil
+            case .failure(let recipeError):
+                self.recipe = nil
+                self.recipeError = recipeError
             }
         }
     }
