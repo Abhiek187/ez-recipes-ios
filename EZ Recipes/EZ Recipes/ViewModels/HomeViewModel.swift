@@ -18,7 +18,12 @@ class HomeViewModel: ViewModel, ObservableObject {
             isRecipeLoaded = recipe != nil
         }
     }
-    @Published var recipeError: RecipeError?
+    @Published var recipeFailedToLoad = false
+    @Published var recipeError: RecipeError? {
+        didSet {
+            recipeFailedToLoad = recipeError != nil
+        }
+    }
     
     private var repository: RecipeRepository
     

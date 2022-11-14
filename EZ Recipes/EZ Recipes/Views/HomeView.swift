@@ -24,6 +24,12 @@ struct HomeView: View {
                             .font(.system(size: 25))
                     }
                     .buttonStyle(.borderedProminent)
+                    .alert("Error", isPresented: $viewModel.recipeFailedToLoad) {
+                        Button("Ok", role: .cancel) {}
+                    } message: {
+                        // recipeError shouldn't be nil if recipeFailedToLoad is true
+                        Text(viewModel.recipeError?.error ?? "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
+                    }
                 }
                 
                 // Show a spinner while the network request is loading
