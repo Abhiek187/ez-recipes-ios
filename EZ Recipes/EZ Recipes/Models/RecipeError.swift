@@ -5,6 +5,6 @@
 //  Created by Abhishek Chaudhuri on 10/22/22.
 //
 
-struct RecipeError: Decodable, Error {
+struct RecipeError: Decodable, Equatable, Error {
     let error: String
 }
