@@ -41,7 +41,7 @@ struct NetworkManager: RecipeRepository {
         return await parseResponse(fromRequest: request, method: #function)
     }
     
-    func getRecipe(byId id: String) async -> Result<Recipe, RecipeError> {
+    func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError> {
         let request = session.request("\(Constants.recipeBaseUrl)/\(id)")
         return await parseResponse(fromRequest: request, method: #function)
     }

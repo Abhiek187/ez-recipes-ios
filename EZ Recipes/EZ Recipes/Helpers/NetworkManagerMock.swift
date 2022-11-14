@@ -14,7 +14,7 @@ struct NetworkManagerMock: RecipeRepository {
         return isSuccess ? .success(Constants.mockRecipe) : .failure(Constants.mockRecipeError)
     }
     
-    func getRecipe(byId id: String) async -> Result<Recipe, RecipeError> {
+    func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError> {
         return isSuccess ? .success(Constants.mockRecipe) : .failure(Constants.mockRecipeError)
     }
 }

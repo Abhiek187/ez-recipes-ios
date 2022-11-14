@@ -69,7 +69,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         .store(in: &cancellable)
         
-        viewModel.getRecipe(byId: "1")
+        viewModel.getRecipe(byId: 1)
         wait(for: [expectation], timeout: 1)
     }
     
@@ -89,7 +89,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         .store(in: &cancellable) // automatically deallocate the subscription once the sink finishes
         
-        viewModel.getRecipe(byId: "1")
+        viewModel.getRecipe(byId: 1)
         wait(for: [expectation], timeout: 1)
     }
 }

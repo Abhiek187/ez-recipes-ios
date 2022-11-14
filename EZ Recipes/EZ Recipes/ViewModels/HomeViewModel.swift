@@ -50,7 +50,7 @@ class HomeViewModel: ViewModel, ObservableObject {
         }
     }
     
-    func getRecipe(byId id: String) {
+    func getRecipe(byId id: Int) {
         Task {
             isLoading = true
             let result = await repository.getRecipe(byId: id)
