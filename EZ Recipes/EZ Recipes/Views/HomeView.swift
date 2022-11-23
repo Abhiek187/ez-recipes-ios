@@ -24,6 +24,8 @@ struct HomeView: View {
                             .font(.system(size: 25))
                     }
                     .buttonStyle(.borderedProminent)
+                    // Prevent users from spamming the button
+                    .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
                     .alert("Error", isPresented: $viewModel.recipeFailedToLoad) {
                         Button("Ok", role: .cancel) {}
