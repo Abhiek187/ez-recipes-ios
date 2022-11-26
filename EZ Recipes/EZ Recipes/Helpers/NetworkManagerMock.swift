@@ -11,10 +11,10 @@ struct NetworkManagerMock: RecipeRepository {
     var isSuccess = true // controls whether the mock API calls succeed or fail
     
     func getRandomRecipe() async -> Result<Recipe, RecipeError> {
-        return isSuccess ? .success(Constants.mockRecipe) : .failure(Constants.mockRecipeError)
+        return isSuccess ? .success(Constants.Mocks.mockRecipe) : .failure(Constants.Mocks.mockRecipeError)
     }
     
     func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError> {
-        return isSuccess ? .success(Constants.mockRecipe) : .failure(Constants.mockRecipeError)
+        return isSuccess ? .success(Constants.Mocks.mockRecipe) : .failure(Constants.Mocks.mockRecipeError)
     }
 }

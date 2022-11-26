@@ -15,10 +15,10 @@ struct RecipeView: View {
             if let recipe = viewModel.recipe {
                 Text(recipe.name)
             } else {
-                Text("No recipe loaded") // shouldn't be seen normally
+                Text(Constants.Strings.noRecipe) // shouldn't be seen normally
             }
         }
-        .navigationTitle("Recipe")
+        .navigationTitle(Constants.Strings.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
