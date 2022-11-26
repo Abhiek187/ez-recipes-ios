@@ -36,9 +36,9 @@ struct HomeView: View {
                 }
                 
                 // Show a spinner while the network request is loading
-                if viewModel.isLoading {
-                    ProgressView()
-                }
+                // Use opacity instead of an if statement so the button doesn't jump when pressed
+                ProgressView()
+                    .opacity(viewModel.isLoading ? 1 : 0)
             }
             .navigationTitle(Constants.Strings.homeTitle)
         }
