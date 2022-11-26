@@ -21,9 +21,10 @@ struct HomeView: View {
                     } label: {
                         Text(Constants.Strings.findRecipeButton)
                             .foregroundColor(.black)
-                            .font(.system(size: 25))
+                            .font(.system(size: 22))
                     }
                     .buttonStyle(.borderedProminent)
+                    .tint(.yellow)
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
