@@ -19,28 +19,29 @@ struct HomeView: View {
                     Button {
                         viewModel.getRandomRecipe()
                     } label: {
-                        Text("Find me a recipe!")
+                        Text(Constants.Strings.findRecipeButton)
                             .foregroundColor(.black)
-                            .font(.system(size: 25))
+                            .font(.system(size: 22))
                     }
                     .buttonStyle(.borderedProminent)
+                    .tint(.yellow)
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
-                    .alert("Error", isPresented: $viewModel.recipeFailedToLoad) {
-                        Button("Ok", role: .cancel) {}
+                    .alert(Constants.Strings.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                        Button(Constants.Strings.okButton, role: .cancel) {}
                     } message: {
                         // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
+                        Text(viewModel.recipeError?.error ?? Constants.Strings.unknownError)
                     }
                 }
                 
                 // Show a spinner while the network request is loading
-                if viewModel.isLoading {
-                    ProgressView()
-                }
+                // Use opacity instead of an if statement so the button doesn't jump when pressed
+                ProgressView()
+                    .opacity(viewModel.isLoading ? 1 : 0)
             }
-            .navigationTitle("Home")
+            .navigationTitle(Constants.Strings.homeTitle)
         }
     }
 }
