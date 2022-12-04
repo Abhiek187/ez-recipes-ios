@@ -17,10 +17,10 @@ struct RecipeHeader: View {
                 Text(recipe.name)
                     .font(.title)
                 
-                Button {
-                    print("Opening \(recipe.url)")
-                } label: {
-                    Label(Constants.Strings.recipeLinkAlt, systemImage: "link")
+                if let url = URL(string: recipe.url) {
+                    Link(destination: url) {
+                        Label(Constants.Strings.recipeLinkAlt, systemImage: "link")
+                    }
                 }
             }
             
