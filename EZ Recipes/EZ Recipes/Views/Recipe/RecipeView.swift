@@ -15,7 +15,7 @@ struct RecipeView: View {
     var body: some View {
         VStack {
             if let recipe = viewModel.recipe {
-                Text(recipe.name)
+                RecipeHeader(recipe: recipe)
             } else {
                 Text(Constants.Strings.noRecipe) // shouldn't be seen normally
             }
@@ -23,6 +23,7 @@ struct RecipeView: View {
         .navigationTitle(Constants.Strings.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            // Buttons on the top right of the screen
             ToolbarItemGroup {
                 Button {
                     isFavorite.toggle()

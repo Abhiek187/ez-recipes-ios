@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Constants {
     static let recipeBaseUrl = "https://ez-recipes-server.onrender.com/api/recipes"
@@ -32,16 +33,27 @@ struct Constants {
         static let shareAlt = "Share this recipe"
         static let shareBody = "Check out this low-effort recipe!"
         
+        static let recipeLinkAlt = "Open recipe source"
         // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html
-        static let imageCopyright = "Image © %@"
+        static let imageCopyright: (String, String) -> LocalizedStringKey = { credit, source in
+            // Substitute the format variables, then convert to a LocalizedStringKey to parse the markdown
+            LocalizedStringKey(String(format: "Image © [%@](%@)", credit, source))
+        }
         // strings dict used for plurals
-        static let recipeTime = NSLocalizedString("Time: %d minute(s)", comment: "recipe time")
+        static let recipeTime: (Int) -> LocalizedStringKey = { minutes in
+            // String(localized:) == NSLocalizedString
+            LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
+        }
         static let madeButton = "I Made This!"
         static let showRecipeButton = "Show Me Another Recipe!"
         
         static let nutritionFacts = "Nutrition Facts"
-        static let healthScore = "Health Score: %d%%"
-        static let servings = NSLocalizedString("%d serving(s)", comment: "servings")
+        static let healthScore: (Int) -> String = { score in
+            String(format: "Health Score: %d%%", score)
+        }
+        static let servings: (Int) -> String = { servings in
+            String(format: String(localized: "%d serving(s)"), servings)
+        }
         static let calories = "Calories"
         static let fat = "Fat"
         static let saturatedFat = "Saturated Fat"

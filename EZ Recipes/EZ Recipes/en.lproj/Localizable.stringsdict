@@ -18,7 +18,7 @@
 			<string>%d servings</string>
 		</dict>
 	</dict>
-	<key>Time: %d minute(s)</key>
+	<key>**Time:** %d minute(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@minutes@</string>
@@ -29,9 +29,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>Time: %d minute</string>
+			<string>**Time:** %d minute</string>
 			<key>other</key>
-			<string>Time: %d minutes</string>
+			<string>**Time:** %d minutes</string>
 		</dict>
 	</dict>
 </dict>
