@@ -211,9 +211,8 @@
 		F12C1C592904CAD400C3302B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F12C1C2C2904951600C3302B /* HomeView.swift */,
-				F1EAC7F029217E250046B268 /* RecipeView.swift */,
-				F13037B82932B6A7003E562C /* ActivityView.swift */,
+				F1E0FD3F293D23600007255F /* Home */,
+				F1E0FD40293D236E0007255F /* Recipe */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +237,23 @@
 				F1EAC7E829216A240046B268 /* Device.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F1E0FD3F293D23600007255F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F12C1C2C2904951600C3302B /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		F1E0FD40293D236E0007255F /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				F1EAC7F029217E250046B268 /* RecipeView.swift */,
+				F13037B82932B6A7003E562C /* ActivityView.swift */,
+			);
+			path = Recipe;
 			sourceTree = "<group>";
 		};
 		F1F38EC6290F58EB000FF99C /* fastlane */ = {
