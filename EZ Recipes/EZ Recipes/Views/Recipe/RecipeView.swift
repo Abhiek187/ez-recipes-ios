@@ -13,11 +13,13 @@ struct RecipeView: View {
     @State var shareText: ShareText?
     
     var body: some View {
-        VStack {
-            if let recipe = viewModel.recipe {
-                RecipeHeader(recipe: recipe)
-            } else {
-                Text(Constants.Strings.noRecipe) // shouldn't be seen normally
+        ScrollView {
+            VStack {
+                if let recipe = viewModel.recipe {
+                    RecipeHeader(recipe: recipe)
+                } else {
+                    Text(Constants.Strings.noRecipe) // shouldn't be seen normally
+                }
             }
         }
         .navigationTitle(Constants.Strings.recipeTitle)
