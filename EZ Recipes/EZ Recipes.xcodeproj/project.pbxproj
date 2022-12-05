@@ -21,6 +21,7 @@
 		F13037B3293291AF003E562C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F13037B5293291AF003E562C /* Localizable.stringsdict */; };
 		F13037B92932B6A7003E562C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13037B82932B6A7003E562C /* ActivityView.swift */; };
 		F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD43293D24CF0007255F /* RecipeHeader.swift */; };
+		F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD47293D73B20007255F /* RecipeFooter.swift */; };
 		F1EAC7E929216A240046B268 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7E829216A240046B268 /* Device.swift */; };
 		F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F029217E250046B268 /* RecipeView.swift */; };
 		F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F3292185B90046B268 /* RecipeRepository.swift */; };
@@ -76,6 +77,7 @@
 		F13037B4293291AF003E562C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F13037B82932B6A7003E562C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
+		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1EAC7E829216A240046B268 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				F1EAC7F029217E250046B268 /* RecipeView.swift */,
 				F13037B82932B6A7003E562C /* ActivityView.swift */,
 				F1E0FD43293D24CF0007255F /* RecipeHeader.swift */,
+				F1E0FD47293D73B20007255F /* RecipeFooter.swift */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
+				F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */,
 				F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

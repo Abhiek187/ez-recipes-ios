@@ -17,11 +17,16 @@ struct RecipeView: View {
             VStack {
                 if let recipe = viewModel.recipe {
                     RecipeHeader(recipe: recipe)
+                    
+                    Divider()
+                    
+                    RecipeFooter()
                 } else {
                     Text(Constants.Strings.noRecipe) // shouldn't be seen normally
                 }
             }
         }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle(Constants.Strings.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
