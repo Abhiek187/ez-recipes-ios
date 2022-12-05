@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A845293D85CE00C8E127 /* DoubleExtension.swift */; };
+		F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */; };
 		F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */; };
 		F12C1C2D2904951600C3302B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C2C2904951600C3302B /* HomeView.swift */; };
 		F12C1C2F2904951A00C3302B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F12C1C2E2904951A00C3302B /* Assets.xcassets */; };
@@ -22,6 +24,7 @@
 		F13037B92932B6A7003E562C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13037B82932B6A7003E562C /* ActivityView.swift */; };
 		F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD43293D24CF0007255F /* RecipeHeader.swift */; };
 		F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD47293D73B20007255F /* RecipeFooter.swift */; };
+		F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD49293D753C0007255F /* NutritionLabel.swift */; };
 		F1EAC7E929216A240046B268 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7E829216A240046B268 /* Device.swift */; };
 		F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F029217E250046B268 /* RecipeView.swift */; };
 		F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F3292185B90046B268 /* RecipeRepository.swift */; };
@@ -57,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F123A845293D85CE00C8E127 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EZ_RecipesApp.swift; sourceTree = "<group>"; };
 		F12C1C2C2904951600C3302B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -78,6 +83,7 @@
 		F13037B82932B6A7003E562C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
+		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
 		F1EAC7E829216A240046B268 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 			children = (
 				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
 				F1EAC7FB2921A2550046B268 /* DeviceTests.swift */,
+				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -239,6 +246,7 @@
 				F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */,
 				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
 				F1EAC7E829216A240046B268 /* Device.swift */,
+				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -258,6 +266,7 @@
 				F13037B82932B6A7003E562C /* ActivityView.swift */,
 				F1E0FD43293D24CF0007255F /* RecipeHeader.swift */,
 				F1E0FD47293D73B20007255F /* RecipeFooter.swift */,
+				F1E0FD49293D753C0007255F /* NutritionLabel.swift */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -436,12 +445,14 @@
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
 				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F1EAC7F8292187330046B268 /* NetworkManagerMock.swift in Sources */,
+				F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */,
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
 				F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */,
 				F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */,
 				F13037B92932B6A7003E562C /* ActivityView.swift in Sources */,
 				F1F38EB7290F215C000FF99C /* HomeViewModel.swift in Sources */,
 				F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */,
+				F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */,
 				F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */,
 				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
@@ -455,6 +466,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
 				F1EAC7FC2921A2550046B268 /* DeviceTests.swift in Sources */,
 			);

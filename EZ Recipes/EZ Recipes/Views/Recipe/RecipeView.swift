@@ -17,6 +17,7 @@ struct RecipeView: View {
             VStack {
                 if let recipe = viewModel.recipe {
                     RecipeHeader(recipe: recipe)
+                    NutritionLabel(recipe: recipe)
                     
                     Divider()
                     
