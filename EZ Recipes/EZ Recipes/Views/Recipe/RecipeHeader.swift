@@ -7,8 +7,25 @@
 
 import SwiftUI
 
+// Workaround since ternaries must be of the same type
+private extension Button {
+    /// Make the backgrounds of buttons more opaque in light mode than in dark mode
+    @ViewBuilder
+    func buttonStyle(for colorScheme: ColorScheme) -> some View {
+        switch colorScheme {
+        case .light:
+            buttonStyle(.borderedProminent)
+        case .dark:
+            buttonStyle(.bordered)
+        @unknown default:
+            buttonStyle(.borderedProminent)
+        }
+    }
+}
+
 struct RecipeHeader: View {
     @State var recipe: Recipe
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         VStack(spacing: 16) {
@@ -41,6 +58,7 @@ struct RecipeHeader: View {
             // Recipe time and buttons
             VStack {
                 Text(Constants.Strings.recipeTime(recipe.time))
+                    .font(.system(size: 20))
                 
                 HStack {
                     Button {
@@ -48,7 +66,7 @@ struct RecipeHeader: View {
                     } label: {
                         Label(Constants.Strings.madeButton, systemImage: "tuningfork") // TODO: find a food icon outside of SFSymbols
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(for: colorScheme)
                     .tint(.red)
                     
                     Button {
@@ -56,8 +74,9 @@ struct RecipeHeader: View {
                     } label: {
                         Label(Constants.Strings.showRecipeButton, systemImage: "text.book.closed")
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(for: colorScheme)
                     .tint(.yellow)
+                    .foregroundColor(colorScheme == .light ? .black : .yellow)
                 }
             }
         }
