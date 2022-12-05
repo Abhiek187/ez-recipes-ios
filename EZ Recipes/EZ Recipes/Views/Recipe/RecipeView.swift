@@ -13,16 +13,25 @@ struct RecipeView: View {
     @State var shareText: ShareText?
     
     var body: some View {
-        VStack {
-            if let recipe = viewModel.recipe {
-                Text(recipe.name)
-            } else {
-                Text(Constants.Strings.noRecipe) // shouldn't be seen normally
+        ScrollView {
+            VStack(spacing: 16) {
+                if let recipe = viewModel.recipe {
+                    RecipeHeader(recipe: recipe)
+                    NutritionLabel(recipe: recipe)
+                    
+                    Divider()
+                    
+                    RecipeFooter()
+                } else {
+                    Text(Constants.Strings.noRecipe) // shouldn't be seen normally
+                }
             }
         }
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle(Constants.Strings.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            // Buttons on the top right of the screen
             ToolbarItemGroup {
                 Button {
                     isFavorite.toggle()
