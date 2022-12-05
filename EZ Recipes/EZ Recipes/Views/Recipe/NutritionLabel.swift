@@ -16,21 +16,25 @@ struct NutritionLabel: View {
     
     var body: some View {
         // Nutritional information
-        VStack {
+        VStack(spacing: 8) {
             Text(Constants.Strings.nutritionFacts)
                 .font(.title2.bold())
-            Text(Constants.Strings.healthScore(recipe.healthScore))
-                .font(.subheadline)
-            Text(Constants.Strings.servings(recipe.servings))
-                .font(.subheadline)
+            
+            VStack(spacing: 4) {
+                Text(Constants.Strings.healthScore(recipe.healthScore))
+                    .font(.subheadline)
+                Text(Constants.Strings.servings(recipe.servings))
+                    .font(.subheadline)
+            }
             
             Divider()
             
-            VStack {
+            VStack(spacing: 12) {
                 ForEach(recipe.nutrients, id: \.name) { nutrient in
                     HStack {
                         Text(nutrient.name)
                             .multilineTextAlignment(.leading)
+                        Spacer()
                         Text("\(nutrient.amount.whole()) \(nutrient.unit)")
                             .multilineTextAlignment(.trailing)
                     }
@@ -39,6 +43,7 @@ struct NutritionLabel: View {
                 }
             }
         }
+        .frame(width: 200)
         .padding()
         // Light the background in dark mode instead of showing a shadow
         .background(

@@ -14,7 +14,7 @@ struct RecipeView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 16) {
                 if let recipe = viewModel.recipe {
                     RecipeHeader(recipe: recipe)
                     NutritionLabel(recipe: recipe)
