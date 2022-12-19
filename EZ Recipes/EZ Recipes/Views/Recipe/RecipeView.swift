@@ -18,6 +18,7 @@ struct RecipeView: View {
                 if let recipe = viewModel.recipe {
                     RecipeHeader(recipe: recipe)
                     NutritionLabel(recipe: recipe)
+                    SummaryBox(recipe: recipe)
                     
                     Divider()
                     
