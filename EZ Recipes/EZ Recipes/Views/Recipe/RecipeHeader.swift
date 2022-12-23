@@ -31,7 +31,7 @@ struct RecipeHeader: View {
         VStack(spacing: 16) {
             // Recipe name and link
             VStack {
-                Text(recipe.name)
+                Text(recipe.name.capitalized)
                     .font(.title)
                 
                 if let url = URL(string: recipe.url) {

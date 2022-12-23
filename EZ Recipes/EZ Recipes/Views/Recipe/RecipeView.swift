@@ -19,6 +19,7 @@ struct RecipeView: View {
                     RecipeHeader(recipe: recipe)
                     NutritionLabel(recipe: recipe)
                     SummaryBox(recipe: recipe)
+                    IngredientsList(recipe: recipe)
                     
                     Divider()
                     

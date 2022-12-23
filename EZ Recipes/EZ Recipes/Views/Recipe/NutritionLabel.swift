@@ -35,7 +35,7 @@ struct NutritionLabel: View {
                         Text(nutrient.name)
                             .multilineTextAlignment(.leading)
                         Spacer()
-                        Text("\(nutrient.amount.whole()) \(nutrient.unit)")
+                        Text("\(nutrient.amount.round()) \(nutrient.unit)")
                             .multilineTextAlignment(.trailing)
                     }
                     // .bold(condition) and .fontWeight are only available on iOS 16
