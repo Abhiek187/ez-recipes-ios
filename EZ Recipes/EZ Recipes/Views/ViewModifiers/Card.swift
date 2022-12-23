@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Surround the SwiftUI view with a border and drop shadow
 struct Card: ViewModifier {
     var width: CGFloat
     @Environment(\.colorScheme) var colorScheme
@@ -32,6 +31,9 @@ struct Card: ViewModifier {
 
 // Apply the .card modifier to a SwiftUI view
 extension View {
+    /// Surround the SwiftUI view with a border and drop shadow
+    /// - Parameter width: the width of the card
+    /// - Returns: the resulting View
     func card(width: CGFloat) -> some View {
         modifier(Card(width: width))
     }
