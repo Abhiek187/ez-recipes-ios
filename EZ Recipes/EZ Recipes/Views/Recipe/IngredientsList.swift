@@ -9,10 +9,9 @@ import SwiftUI
 
 struct IngredientsList: View {
     @State var recipe: Recipe
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             Text(Constants.Strings.ingredients)
                 .font(.title2.bold())
             
@@ -26,19 +25,7 @@ struct IngredientsList: View {
                 }
             }
         }
-        .frame(width: 300)
-        .padding()
-        // Light the background in dark mode instead of showing a shadow
-        .background(
-            colorScheme == .light ? AnyView(
-                Rectangle()
-                    .fill(.background)
-                    .shadow(radius: 5)
-            ) : AnyView(
-                Rectangle()
-                    .fill(.secondary.opacity(0.3))
-            )
-        )
+        .card(width: 300)
     }
 }
 

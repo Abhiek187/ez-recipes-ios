@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NutritionLabel: View {
     @State var recipe: Recipe
-    @Environment(\.colorScheme) var colorScheme
     
     // Nutrients that should be bolded in the nutrition label
     let nutrientHeadings = ["Calories", "Fat", "Carbohydrates", "Protein"]
@@ -43,19 +42,7 @@ struct NutritionLabel: View {
                 }
             }
         }
-        .frame(width: 200)
-        .padding()
-        // Light the background in dark mode instead of showing a shadow
-        .background(
-            colorScheme == .light ? AnyView(
-                Rectangle()
-                    .fill(.background)
-                    .shadow(radius: 5)
-            ) : AnyView(
-                Rectangle()
-                    .fill(.secondary.opacity(0.3))
-            )
-        )
+        .card(width: 200)
     }
 }
 
