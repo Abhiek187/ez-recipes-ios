@@ -10,6 +10,10 @@ import SwiftUI
 struct StepCard: View {
     @State var step: Step
     
+    let columns = [
+        GridItem(.adaptive(minimum: 100))
+    ]
+    
     var body: some View {
         VStack(spacing: 8) {
             // Step number & text
@@ -23,6 +27,8 @@ struct StepCard: View {
                     )
                 Text(step.step)
             }
+            // Align all items to the start
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             Divider()
             
@@ -30,16 +36,23 @@ struct StepCard: View {
             HStack(spacing: 8) {
                 Text(Constants.Strings.ingredients)
                     .font(.headline.bold())
-                Spacer()
+                    .padding(.trailing)
                 
-                ForEach(step.ingredients, id: \.id) { ingredient in
-                    VStack {
-                        AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"))
-                            .frame(width: 50, height: 50)
-                        Text(ingredient.name)
+                // Wrap items if they can't fit in one row
+                LazyVGrid(columns: columns) {
+                    ForEach(step.ingredients, id: \.id) { ingredient in
+                        VStack {
+                            // Scale the height to fit the width of the frame so it doesn't overlap the text
+                            AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"))
+                                .frame(width: 50)
+                                .scaledToFit()
+                            
+                            Text(ingredient.name)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             Divider()
             
@@ -47,16 +60,21 @@ struct StepCard: View {
             HStack(spacing: 8) {
                 Text(Constants.Strings.equipment)
                     .font(.headline.bold())
-                Spacer()
+                    .padding(.trailing)
                 
-                ForEach(step.equipment, id: \.id) { equipment in
-                    VStack {
-                        AsyncImage(url: URL(string: "https://spoonacular.com/cdn/equipment_100x100/\(equipment.image)"))
-                            .frame(width: 50, height: 50)
-                        Text(equipment.name)
+                LazyVGrid(columns: columns) {
+                    ForEach(step.equipment, id: \.id) { equipment in
+                        VStack {
+                            AsyncImage(url: URL(string: "https://spoonacular.com/cdn/equipment_100x100/\(equipment.image)"))
+                                .frame(width: 50)
+                                .scaledToFit()
+                            
+                            Text(equipment.name)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .card()
     }
