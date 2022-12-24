@@ -13,12 +13,13 @@ struct StepCard: View {
     var body: some View {
         VStack(spacing: 8) {
             // Step number & text
-            HStack(spacing: 16) {
+            HStack(spacing: 32) {
                 Text("\(step.number)")
                     .font(.title)
                     .background(
-                        RoundedRectangle(cornerRadius: 10)
+                        Circle()
                             .stroke(.foreground, lineWidth: 1)
+                            .frame(width: 50) // the radius will be capped at the appropriate max
                     )
                 Text(step.step)
             }
@@ -57,7 +58,7 @@ struct StepCard: View {
                 }
             }
         }
-        .card(width: 300)
+        .card()
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Card: ViewModifier {
-    var width: CGFloat
+    var width: CGFloat?
     @Environment(\.colorScheme) var colorScheme
     
     func body(content: Content) -> some View {
@@ -26,15 +26,16 @@ struct Card: ViewModifier {
                         .fill(.secondary.opacity(0.3))
                 )
             )
+            .padding()
     }
 }
 
 // Apply the .card modifier to a SwiftUI view
 extension View {
     /// Surround the SwiftUI view with a border and drop shadow
-    /// - Parameter width: the width of the card
+    /// - Parameter width: the width of the card, `nil` means the card will fit the screen
     /// - Returns: the resulting View
-    func card(width: CGFloat) -> some View {
+    func card(width: CGFloat? = nil) -> some View {
         modifier(Card(width: width))
     }
 }
