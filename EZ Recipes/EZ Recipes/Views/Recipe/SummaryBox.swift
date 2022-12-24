@@ -38,7 +38,7 @@ struct SummaryBox: View {
 struct SummaryBox_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            SummaryBox(recipe: Constants.Mocks.mockRecipe)
+            SummaryBox(recipe: Constants.Mocks.blueberryYogurt)
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }

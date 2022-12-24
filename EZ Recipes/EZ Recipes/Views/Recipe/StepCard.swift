@@ -64,7 +64,7 @@ struct StepCard: View {
 struct StepCard_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            StepCard(step: Constants.Mocks.mockRecipe.instructions[0].steps[0])
+            StepCard(step: Constants.Mocks.blueberryYogurt.instructions[0].steps[0])
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }

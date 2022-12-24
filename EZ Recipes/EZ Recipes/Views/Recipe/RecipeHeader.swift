@@ -86,7 +86,7 @@ struct RecipeHeader: View {
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            RecipeHeader(recipe: Constants.Mocks.mockRecipe)
+            RecipeHeader(recipe: Constants.Mocks.blueberryYogurt)
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }
