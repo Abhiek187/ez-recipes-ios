@@ -14,11 +14,13 @@ struct RecipeView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: 8) {
                 if let recipe = viewModel.recipe {
                     RecipeHeader(recipe: recipe)
                     NutritionLabel(recipe: recipe)
                     SummaryBox(recipe: recipe)
+                    IngredientsList(recipe: recipe)
+                    InstructionsList(recipe: recipe)
                     
                     Divider()
                     

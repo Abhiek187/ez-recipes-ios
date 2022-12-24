@@ -24,7 +24,7 @@ final class HomeViewModelTests: XCTestCase {
         
         // Observe when the recipe property changes and fulfill the expectation if it's set to the mock recipe
         viewModel.$recipe.sink { recipe in
-            if recipe == Constants.Mocks.mockRecipe {
+            if recipe == Constants.Mocks.chocolateCupcake {
                 expectation.fulfill()
             }
         }
@@ -44,7 +44,7 @@ final class HomeViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Fetch a random recipe")
         
         viewModel.$recipeError.sink { recipeError in
-            if recipeError == Constants.Mocks.mockRecipeError {
+            if recipeError == Constants.Mocks.recipeError {
                 expectation.fulfill()
             }
         }
@@ -63,7 +63,7 @@ final class HomeViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
         
         viewModel.$recipe.sink { recipe in
-            if recipe == Constants.Mocks.mockRecipe {
+            if recipe == Constants.Mocks.chocolateCupcake {
                 expectation.fulfill()
             }
         }
@@ -83,7 +83,7 @@ final class HomeViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
         
         viewModel.$recipeError.sink { recipeError in
-            if recipeError == Constants.Mocks.mockRecipeError {
+            if recipeError == Constants.Mocks.recipeError {
                 expectation.fulfill()
             }
         }

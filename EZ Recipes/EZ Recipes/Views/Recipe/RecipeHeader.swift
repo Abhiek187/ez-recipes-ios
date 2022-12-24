@@ -31,7 +31,7 @@ struct RecipeHeader: View {
         VStack(spacing: 16) {
             // Recipe name and link
             VStack {
-                Text(recipe.name)
+                Text(recipe.name.capitalized)
                     .font(.title)
                 
                 if let url = URL(string: recipe.url) {
@@ -86,7 +86,7 @@ struct RecipeHeader: View {
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            RecipeHeader(recipe: Constants.Mocks.mockRecipe)
+            RecipeHeader(recipe: Constants.Mocks.blueberryYogurt)
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }
