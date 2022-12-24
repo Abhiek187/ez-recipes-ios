@@ -11,7 +11,7 @@ struct InstructionsList: View {
     @State var recipe: Recipe
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 8) {
             Text(Constants.Strings.steps)
                 .font(.title2.bold())
             
