@@ -18,6 +18,7 @@ struct SummaryBox: View {
                     .font(.title2.bold())
                 Spacer()
                 Image(systemName: "lightbulb")
+                    .accessibilityHidden(true) // make the image decorative
             }
             
             //HTMLText(recipe.summary)
