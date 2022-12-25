@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StepCard: View {
-    @State var step: Step
+    @Binding var step: Step
     
     let columns = [
         GridItem(.adaptive(minimum: 100))
@@ -30,51 +30,55 @@ struct StepCard: View {
             // Align all items to the start
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            Divider()
-            
-            // Ingredients for the step
-            HStack(spacing: 8) {
-                Text(Constants.Strings.ingredients)
-                    .font(.headline.bold())
-                    .padding(.trailing)
+            if !step.ingredients.isEmpty {
+                Divider()
                 
-                // Wrap items if they can't fit in one row
-                LazyVGrid(columns: columns) {
-                    ForEach(step.ingredients, id: \.id) { ingredient in
-                        VStack {
-                            // Scale the height to fit the width of the frame so it doesn't overlap the text
-                            AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"))
-                                .frame(width: 50)
-                                .scaledToFit()
-                            
-                            Text(ingredient.name)
+                // Ingredients for the step
+                HStack(spacing: 8) {
+                    Text(Constants.Strings.ingredients)
+                        .font(.headline.bold())
+                        .padding(.trailing)
+                    
+                    // Wrap items if they can't fit in one row
+                    LazyVGrid(columns: columns) {
+                        ForEach(step.ingredients, id: \.id) { ingredient in
+                            VStack {
+                                // Scale the height to fit the width of the frame so it doesn't overlap the text
+                                AsyncImage(url: URL(string: "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient.image)"))
+                                    .frame(width: 50)
+                                    .scaledToFit()
+                                
+                                Text(ingredient.name)
+                            }
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             
-            Divider()
-            
-            // Equipment for the step
-            HStack(spacing: 8) {
-                Text(Constants.Strings.equipment)
-                    .font(.headline.bold())
-                    .padding(.trailing)
+            if !step.equipment.isEmpty {
+                Divider()
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(step.equipment, id: \.id) { equipment in
-                        VStack {
-                            AsyncImage(url: URL(string: "https://spoonacular.com/cdn/equipment_100x100/\(equipment.image)"))
-                                .frame(width: 50)
-                                .scaledToFit()
-                            
-                            Text(equipment.name)
+                // Equipment for the step
+                HStack(spacing: 8) {
+                    Text(Constants.Strings.equipment)
+                        .font(.headline.bold())
+                        .padding(.trailing)
+                    
+                    LazyVGrid(columns: columns) {
+                        ForEach(step.equipment, id: \.id) { equipment in
+                            VStack {
+                                AsyncImage(url: URL(string: "https://spoonacular.com/cdn/equipment_100x100/\(equipment.image)"))
+                                    .frame(width: 50)
+                                    .scaledToFit()
+                                
+                                Text(equipment.name)
+                            }
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .card()
     }
@@ -83,7 +87,7 @@ struct StepCard: View {
 struct StepCard_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            StepCard(step: Constants.Mocks.blueberryYogurt.instructions[0].steps[0])
+            StepCard(step: .constant(Constants.Mocks.blueberryYogurt.instructions[0].steps[0]))
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }

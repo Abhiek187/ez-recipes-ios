@@ -16,11 +16,15 @@ struct RecipeView: View {
         ScrollView {
             VStack(spacing: 8) {
                 if let recipe = viewModel.recipe {
-                    RecipeHeader(recipe: recipe)
-                    NutritionLabel(recipe: recipe)
-                    SummaryBox(recipe: recipe)
-                    IngredientsList(recipe: recipe)
-                    InstructionsList(recipe: recipe)
+                    // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
+                    RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
+                        // When the show another recipe button is tapped, load a new recipe in the same view
+                        viewModel.getRandomRecipe()
+                    }
+                    NutritionLabel(recipe: .constant(recipe))
+                    SummaryBox(recipe: .constant(recipe))
+                    IngredientsList(recipe: .constant(recipe))
+                    InstructionsList(recipe: .constant(recipe))
                     
                     Divider()
                     

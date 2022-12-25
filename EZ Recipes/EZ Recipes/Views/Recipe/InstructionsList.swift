@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InstructionsList: View {
-    @State var recipe: Recipe
+    @Binding var recipe: Recipe
     
     var body: some View {
         VStack(spacing: 8) {
@@ -24,7 +24,7 @@ struct InstructionsList: View {
                 
                 // Steps per instruction
                 ForEach(instruction.steps, id: \.number) { step in
-                    StepCard(step: step)
+                    StepCard(step: .constant(step))
                 }
             }
         }
@@ -34,7 +34,7 @@ struct InstructionsList: View {
 struct InstructionsList_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            InstructionsList(recipe: Constants.Mocks.blueberryYogurt)
+            InstructionsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }

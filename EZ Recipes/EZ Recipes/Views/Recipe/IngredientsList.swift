@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IngredientsList: View {
-    @State var recipe: Recipe
+    @Binding var recipe: Recipe
     
     var body: some View {
         VStack(spacing: 12) {
@@ -32,7 +32,7 @@ struct IngredientsList: View {
 struct IngredientsList_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            IngredientsList(recipe: Constants.Mocks.blueberryYogurt)
+            IngredientsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }
