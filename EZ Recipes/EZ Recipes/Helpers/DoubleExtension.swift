@@ -10,7 +10,7 @@ import Foundation
 extension Double {
     /// Round to a specified number of decimal places, add commas, and remove trailing zeros
     ///
-    /// Uses the answer from https://stackoverflow.com/a/30664610 and https://stackoverflow.com/a/29560976 as a fallback
+    /// Uses the answer from https://stackoverflow.com/a/30664610, with https://stackoverflow.com/a/29560976 as a fallback
     /// - Parameter maxDigits: the number of decimal places to round to; if `0`, rounds to the nearest whole number
     /// - Returns: The rounded number as a String
     func round(to maxDigits: Int = 0) -> String {

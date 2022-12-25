@@ -33,20 +33,25 @@ class HomeViewModel: ViewModel, ObservableObject {
         self.repository = repository
     }
     
+    private func updateRecipeProps(from result: Result<Recipe, RecipeError>) {
+        // Set the recipe and recipeError properties based on whether the result was successful
+        switch result {
+        case .success(let recipe):
+            self.recipe = recipe
+            self.recipeError = nil
+        case .failure(let recipeError):
+            self.recipe = nil
+            self.recipeError = recipeError
+        }
+    }
+    
     func getRandomRecipe() {
         Task {
             isLoading = true
             let result = await repository.getRandomRecipe()
             isLoading = false
             
-            switch result {
-            case .success(let recipe):
-                self.recipe = recipe
-                self.recipeError = nil
-            case .failure(let recipeError):
-                self.recipe = nil
-                self.recipeError = recipeError
-            }
+            updateRecipeProps(from: result)
         }
     }
     
@@ -56,14 +61,7 @@ class HomeViewModel: ViewModel, ObservableObject {
             let result = await repository.getRecipe(byId: id)
             isLoading = false
             
-            switch result {
-            case .success(let recipe):
-                self.recipe = recipe
-                self.recipeError = nil
-            case .failure(let recipeError):
-                self.recipe = nil
-                self.recipeError = recipeError
-            }
+            updateRecipeProps(from: result)
         }
     }
 }
