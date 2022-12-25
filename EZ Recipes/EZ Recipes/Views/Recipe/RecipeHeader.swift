@@ -24,7 +24,9 @@ private extension Button {
 }
 
 struct RecipeHeader: View {
-    @State var recipe: Recipe
+    @Binding var recipe: Recipe
+    @Binding var isLoading: Bool
+    var onFindRecipeButtonTapped: () -> Void // callback to pass to the parent View
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -70,14 +72,19 @@ struct RecipeHeader: View {
                     .tint(.red)
                     
                     Button {
-                        print("Finding another recipe")
+                        onFindRecipeButtonTapped()
                     } label: {
                         Label(Constants.Strings.showRecipeButton, systemImage: "text.book.closed")
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.yellow)
                     .foregroundColor(colorScheme == .light ? .black : .yellow)
+                    .disabled(isLoading)
                 }
+            }
+            
+            if isLoading {
+                ProgressView()
             }
         }
     }
@@ -86,9 +93,13 @@ struct RecipeHeader: View {
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            RecipeHeader(recipe: Constants.Mocks.blueberryYogurt)
+            RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(false)) {}
                 .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
+                .previewDisplayName("\(device) (No Loading)")
+            
+            RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(true)) {}
+                .previewDevice(PreviewDevice(rawValue: device))
+                .previewDisplayName("\(device) (Loading)")
         }
     }
 }

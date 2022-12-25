@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SummaryBox: View {
-    @State var recipe: Recipe
+    @Binding var recipe: Recipe
     
     var body: some View {
         VStack(spacing: 8) {
@@ -38,7 +38,7 @@ struct SummaryBox: View {
 struct SummaryBox_Previews: PreviewProvider {
     static var previews: some View {
         ForEach(Device.all, id: \.self) { device in
-            SummaryBox(recipe: Constants.Mocks.blueberryYogurt)
+            SummaryBox(recipe: .constant(Constants.Mocks.blueberryYogurt))
                 .previewDevice(PreviewDevice(rawValue: device))
                 .previewDisplayName(device)
         }
