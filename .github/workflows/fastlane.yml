@@ -14,7 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        device: ["iPhone 8", "iPhone 14 Pro Max", "iPad Pro (9.7-inch)"]
+        # Escape spaces and parentheses in the device string
+        device: ["'iPhone 8'", "'iPhone 14 Pro Max'", "'iPad Pro (9.7-inch)'"]
 
     defaults:
       run:
