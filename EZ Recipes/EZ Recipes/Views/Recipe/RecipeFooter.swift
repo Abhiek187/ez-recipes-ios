@@ -12,6 +12,7 @@ struct RecipeFooter: View {
         // Attribution to spoonacular
         Text(Constants.Strings.attribution)
             .font(.footnote)
+            .padding(.bottom)
     }
 }
 
