@@ -31,68 +31,68 @@ class EZ_RecipesUITests: XCTestCase {
         //snapshot("01LoginScreen")
         // Check that the navigation title is Home
         let homeNavigationBar = app.navigationBars["Home"] // UI tests can't import modules from the app target
-        XCTAssert(homeNavigationBar.exists)
+        XCTAssert(homeNavigationBar.exists, "Error line \(#line): The home navigation bar couldn't be found")
         
         // When first launching the app, the find recipe button should be clickable and the ProgressView should be hidden
         let findRecipeButton = app.buttons["Find Me a Recipe!"]
         let progressView = app.activityIndicators.firstMatch
-        XCTAssert(findRecipeButton.isEnabled)
-        XCTAssertFalse(progressView.isHittable)
+        XCTAssert(findRecipeButton.isEnabled, "Error line \(#line): The find recipe button isn't enabled")
+        XCTAssertFalse(progressView.isHittable, "Error line \(#line): The ProgressView is visible")
         
         // After tapping the find recipe button, the button should be disabled and the ProgressView should be visible
         findRecipeButton.tap()
-        XCTAssertFalse(findRecipeButton.isEnabled)
-        XCTAssert(progressView.isHittable)
+        XCTAssertFalse(findRecipeButton.isEnabled, "Error line \(#line): The find recipe button should be disabled")
+        XCTAssert(progressView.isHittable, "Error line \(#line): The ProgressView isn't visible")
         
         // Wait up to 30 seconds for the recipe to load
         let recipeNavigationBar = app.navigationBars["Recipe"]
-        XCTAssert(recipeNavigationBar.waitForExistence(timeout: 30))
+        XCTAssert(recipeNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe page didn't load (the API request timed out after 30 seconds)")
         
         // Check that the favorite button toggles between filling and un-filling when tapped
         let favoriteButton = recipeNavigationBar.buttons["Favorite this recipe"]
         let unFavoriteButton = recipeNavigationBar.buttons["Un-favorite this recipe"]
-        XCTAssert(favoriteButton.exists)
-        XCTAssertFalse(unFavoriteButton.exists)
+        XCTAssert(favoriteButton.exists, "Error line \(#line): The favorite button couldn't be found")
+        XCTAssertFalse(unFavoriteButton.exists, "Error line \(#line): The favorite button shouldn't be filled")
         
         favoriteButton.tap()
-        XCTAssertFalse(favoriteButton.exists)
-        XCTAssert(unFavoriteButton.exists)
+        XCTAssertFalse(favoriteButton.exists, "Error line \(#line): The favorite button should be filled")
+        XCTAssert(unFavoriteButton.exists, "Error line \(#line): The un-favorite button couldn't be found")
         
         unFavoriteButton.tap()
-        XCTAssert(favoriteButton.exists)
-        XCTAssertFalse(unFavoriteButton.exists)
+        XCTAssert(favoriteButton.exists, "Error line \(#line): The favorite button couldn't be found")
+        XCTAssertFalse(unFavoriteButton.exists, "Error line \(#line): The favorite button shouldn't be filled")
         
         // Check that the share button is clickable (won't check the share sheet since it needs to be dismissed and requires waiting for the animation)
         let shareButton = recipeNavigationBar.buttons["Share"]
-        XCTAssert(shareButton.isHittable)
+        XCTAssert(shareButton.isHittable, "Error line \(#line): The share button isn't clickable")
         
         // Since the recipe loaded will be random, check all the elements that are guaranteed to be there for all recipes
         // Check that the two recipe buttons are clickable and the ProgressView is hidden
         let madeButton = app.buttons["I Made This!"]
-        XCTAssert(madeButton.isEnabled)
+        XCTAssert(madeButton.isEnabled, "Error line \(#line): The made button isn't clickable")
         let showAnotherRecipeButton = app.buttons["Show Me Another Recipe!"]
-        XCTAssert(showAnotherRecipeButton.isEnabled)
-        XCTAssertFalse(progressView.isHittable)
+        XCTAssert(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button isn't clickable")
+        XCTAssertFalse(progressView.isHittable, "Error line \(#line): The ProgressView should be hidden")
         
         // Check that the nutrition label contains all the required nutritional properties
         for label in ["Nutrition Facts", "Calories", "Fat", "Saturated Fat", "Carbohydrates", "Fiber", "Sugar", "Protein", "Cholesterol", "Sodium"] {
             let nutritionText = app.staticTexts[label]
-            XCTAssert(nutritionText.exists)
+            XCTAssert(nutritionText.exists, "Error line \(#line): \(label) is missing from the nutrition label")
         }
         
         // Check that the summary box, ingredients list, instructions list, and footer are present
         let summary = app.staticTexts["Summary"]
-        XCTAssert(summary.exists)
+        XCTAssert(summary.exists, "Error line \(#line): The summary box is missing")
         let ingredients = app.staticTexts["Ingredients"]
-        XCTAssert(ingredients.exists)
+        XCTAssert(ingredients.exists, "Error line \(#line): The ingredients list is missing")
         let steps = app.staticTexts["Steps"]
-        XCTAssert(steps.exists)
+        XCTAssert(steps.exists, "Error line \(#line): The instructions list is missing")
         let attribution = app.staticTexts["Powered by spoonacular"]
-        XCTAssert(attribution.exists)
+        XCTAssert(attribution.exists, "Error line \(#line): The attribution is missing")
         
         // Check that tapping the show another recipe button disables the button and shows a ProgressView
         showAnotherRecipeButton.tap()
-        XCTAssertFalse(showAnotherRecipeButton.isEnabled)
-        XCTAssert(progressView.exists)
+        XCTAssertFalse(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button should be disabled")
+        XCTAssert(progressView.exists, "Error line \(#line): The ProgressView isn't visible")
     }
 }
