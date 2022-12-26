@@ -93,6 +93,6 @@ class EZ_RecipesUITests: XCTestCase {
         // Check that tapping the show another recipe button disables the button and shows a ProgressView
         showAnotherRecipeButton.tap()
         XCTAssertFalse(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button should be disabled")
-        XCTAssert(progressView.exists, "Error line \(#line): The ProgressView isn't visible")
+        XCTAssert(progressView.isHittable, "Error line \(#line): The ProgressView isn't visible")
     }
 }
