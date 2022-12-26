@@ -15,13 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios tests
+### ios test
 
 ```sh
-[bundle exec] fastlane ios tests
+[bundle exec] fastlane ios test
 ```
 
-Run tests on multiple devices
+Run tests on a specified device
 
 ### ios release
 
