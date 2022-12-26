@@ -22,5 +22,8 @@ jobs:
       - name: Install Fastlane
         run: bundle install
     
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+    
       - name: Run Tests
         run: bundle exec fastlane ios tests
