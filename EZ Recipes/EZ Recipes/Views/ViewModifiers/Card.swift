@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct Card: ViewModifier {
+private struct Card: ViewModifier {
     var width: CGFloat?
     @Environment(\.colorScheme) var colorScheme
     
     func body(content: Content) -> some View {
         content
             .frame(width: width)
-            .padding()
+            .padding() // apply padding inside the card
             // Light the background in dark mode instead of showing a shadow
             .background(
                 colorScheme == .light ? AnyView(
@@ -26,7 +26,7 @@ struct Card: ViewModifier {
                         .fill(.secondary.opacity(0.3))
                 )
             )
-            .padding()
+            .padding() // apply padding outside the card
     }
 }
 

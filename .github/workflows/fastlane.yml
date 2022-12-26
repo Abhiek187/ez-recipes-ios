@@ -10,10 +10,16 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        # Escape spaces and parentheses in the device string
+        device: ["'iPhone 8'", "'iPhone 14 Pro Max'", "'iPad Pro (9.7-inch)'"]
 
     defaults:
       run:
-        working-directory: './EZ Recipes'
+        working-directory: "./EZ Recipes"
 
     steps:
       - name: Checkout
@@ -22,5 +28,8 @@ jobs:
       - name: Install Fastlane
         run: bundle install
     
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+    
       - name: Run Tests
-        run: bundle exec fastlane ios tests
+        run: bundle exec fastlane ios test device:${{ matrix.device }}

@@ -35,6 +35,7 @@ struct RecipeHeader: View {
             VStack {
                 Text(recipe.name.capitalized)
                     .font(.title)
+                    .padding([.leading, .trailing])
                 
                 if let url = URL(string: recipe.url) {
                     Link(destination: url) {

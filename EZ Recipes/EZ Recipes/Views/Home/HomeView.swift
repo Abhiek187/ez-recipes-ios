@@ -43,6 +43,8 @@ struct HomeView: View {
             }
             .navigationTitle(Constants.Strings.homeTitle)
         }
+        // Keep a consistent design on iPhone & iPad for all orientations
+        .navigationViewStyle(.stack) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
     }
 }
 
