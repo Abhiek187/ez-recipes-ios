@@ -12,5 +12,6 @@ Follow the [docs](https://docs.fastlane.tools/getting-started/ios/setup/) to set
 cd EZ\ Recipes
 bundle config set --local path 'vendor/bundle'
 bundle install
+brew install xcbeautify
 bundle exec fastlane ios test device:DEVICE
 ```
