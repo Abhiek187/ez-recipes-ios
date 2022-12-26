@@ -14,7 +14,6 @@
 		F12C1C2F2904951A00C3302B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F12C1C2E2904951A00C3302B /* Assets.xcassets */; };
 		F12C1C322904951A00C3302B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F12C1C312904951A00C3302B /* Preview Assets.xcassets */; };
 		F12C1C462904951B00C3302B /* EZ_RecipesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */; };
-		F12C1C482904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */; };
 		F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C5C2904CB3200C3302B /* Constants.swift */; };
 		F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C5E2904CB9800C3302B /* RecipeError.swift */; };
 		F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C602904CBEC00C3302B /* Recipe.swift */; };
@@ -76,7 +75,6 @@
 		F12C1C372904951B00C3302B /* EZ RecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C412904951B00C3302B /* EZ RecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EZ_RecipesUITests.swift; sourceTree = "<group>"; };
-		F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EZ_RecipesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F12C1C54290495A500C3302B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		F12C1C55290495A500C3302B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; name = .gitignore; path = ../.gitignore; sourceTree = "<group>"; };
 		F12C1C56290495A500C3302B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 			children = (
 				F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */,
 				F12C1C452904951B00C3302B /* EZ_RecipesUITests.swift */,
-				F12C1C472904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift */,
 			);
 			path = "EZ RecipesUITests";
 			sourceTree = "<group>";
@@ -517,7 +514,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F12C1C462904951B00C3302B /* EZ_RecipesUITests.swift in Sources */,
-				F12C1C482904951B00C3302B /* EZ_RecipesUITestsLaunchTests.swift in Sources */,
 				F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
