@@ -307,8 +307,8 @@
 			children = (
 				F1F38EC7290F58EB000FF99C /* Appfile */,
 				F1F38EC8290F58EB000FF99C /* Fastfile */,
-				F1F38ECB290F5FC4000FF99C /* README.md */,
 				F1F38ECE290F6923000FF99C /* Snapfile */,
+				F1F38ECB290F5FC4000FF99C /* README.md */,
 			);
 			path = fastlane;
 			sourceTree = "<group>";
