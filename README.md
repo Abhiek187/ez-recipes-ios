@@ -2,6 +2,14 @@
 
 [![Fastlane](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml)
 
+<div>
+  <img src="screenshots/iPhone 13 Pro Max-home-view_framed.png" alt="home screen">
+  <img src="screenshots/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label">
+  <img src="screenshots/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box">
+  <img src="screenshots/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list">
+  <img src="screenshots/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards">
+</div>
+
 ## Overview
 
 Cooking food at home is an essential skill for anyone looking to save money and eat healthily. However, learning how to cook can be daunting, since there are so many recipes to choose from. And even when meal prepping, knowing what ingredients to buy, what equipment is required, and the order of steps to make the meal can be hard to remember for many different recipes. Plus, during busy days, it's nice to be able to cook up something quick and tasty.
