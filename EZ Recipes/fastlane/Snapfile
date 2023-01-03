@@ -12,6 +12,14 @@
 #   "Apple Watch Series 6 - 44mm"
 # ])
 
+# 10 screenshots per locale, each with 3 required screen sizes:
+# - 6.5-inch iPhone screenshots with corresponding portrait and landscape sizes
+# - 5.5-inch iPhone screenshots with related portrait and landscape sizes
+# - 12.9-inch iPad screenshots for 2nd and 3rd generation with related portrait and landscape sizes
+# Supported devices: https://github.com/fastlane/fastlane/blob/master/snapshot/lib/snapshot/reports_generator.rb
+#                    https://github.com/fastlane/fastlane/blob/master/frameit/lib/frameit/device_types.rb
+devices(["iPhone 8", "iPhone 13 Pro Max", "iPad Pro (12.9-inch) (6th generation)"])
+
 # languages([
 #   "en-US",
 #   "de-DE",
@@ -26,13 +34,16 @@
 # output_directory("./screenshots")
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
-# clear_previous_screenshots(true)
+clear_previous_screenshots(true)
 
 # Remove the '#' to set the status bar to 9:41 AM, and show full battery and reception. See also override_status_bar_arguments for custom options.
-# override_status_bar(true)
+override_status_bar(true)
 
 # Arguments to pass to the app on launch. See https://docs.fastlane.tools/actions/snapshot/#launch-arguments
 # launch_arguments(["-favColor red"])
 
 # For more information about all available options run
 # fastlane action snapshot
+
+# Clean before building the project
+clean(true)
