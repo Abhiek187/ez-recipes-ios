@@ -47,17 +47,36 @@ The recipes will be fetched from the EZ Recipes server hosted on https://ez-reci
 
 ### Testing
 
-Unit and UI tests can be run directly from Xcode or through the command line using Fastlane. Follow the [docs](https://docs.fastlane.tools/getting-started/ios/setup/) to setup Fastlane on iOS. Then run the following, where `DEVICE` is the name of an iOS device (surround with quotes to include spaces):
+Unit and UI tests can be run directly from Xcode or through the command line using Fastlane. Follow the [docs](https://docs.fastlane.tools/getting-started/ios/setup/) to setup Fastlane on iOS. In addition, run the following to install all dependencies locally:
 
 ```bash
 cd EZ\ Recipes
 bundle config set --local path 'vendor/bundle'
 bundle install
 brew install xcbeautify
+```
+
+Then run the following command to run each test, where `DEVICE` is the name of an iOS device (surround with quotes to include spaces):
+
+```bash
 bundle exec fastlane ios test device:DEVICE
 ```
 
 Valid device names can be found by running `xcrun xctrace list devices`.
+
+### Screenshots
+
+Screenshots can be generated automatically using Fastlane. In addition to the Fastlane installation steps above, ImageMagick is required to add the device frames:
+
+```bash
+brew install libpng jpeg imagemagick
+```
+
+Then run the following command to generate screenshots at `ez-recipes-ios/EZ Recipes/fastlane/screenshots` (ignored by git):
+
+```bash
+bundle exec fastlane ios screenshots
+```
 
 ## Future Updates
 

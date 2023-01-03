@@ -28,7 +28,8 @@ class EZ_RecipesUITests: XCTestCase {
 
     func testFindMeARecipe() throws {
         // Tap the "Find Me A Recipe!" button and check that the recipe page loads properly (this will consume quota)
-        //snapshot("01LoginScreen")
+        // Take screenshots along the way
+        snapshot("home-view")
         // Check that the navigation title is Home
         let homeNavigationBar = app.navigationBars["Home"] // UI tests can't import modules from the app target
         XCTAssert(homeNavigationBar.exists, "Error line \(#line): The home navigation bar couldn't be found")
@@ -47,6 +48,9 @@ class EZ_RecipesUITests: XCTestCase {
         // Wait up to 30 seconds for the recipe to load
         let recipeNavigationBar = app.navigationBars["Recipe"]
         XCTAssert(recipeNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe page didn't load (the API request timed out after 30 seconds)")
+        var shotNum = 1
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
         
         // Check that the favorite button toggles between filling and un-filling when tapped
         let favoriteButton = recipeNavigationBar.buttons["Favorite this recipe"]
@@ -74,19 +78,41 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssert(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button isn't clickable")
         XCTAssertFalse(progressView.isHittable, "Error line \(#line): The ProgressView should be hidden")
         
+        // Scroll down and take screenshots of the recipe view
+        let scrollView = app.scrollViews.firstMatch
+        scrollView.swipeUp() // swipe up will scroll the whole screen
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
+        
         // Check that the nutrition label contains all the required nutritional properties
         for label in ["Nutrition Facts", "Calories", "Fat", "Saturated Fat", "Carbohydrates", "Fiber", "Sugar", "Protein", "Cholesterol", "Sodium"] {
             let nutritionText = app.staticTexts[label]
             XCTAssert(nutritionText.exists, "Error line \(#line): \(label) is missing from the nutrition label")
         }
         
+        scrollView.swipeUp()
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
+        
         // Check that the summary box, ingredients list, instructions list, and footer are present
         let summary = app.staticTexts["Summary"]
         XCTAssert(summary.exists, "Error line \(#line): The summary box is missing")
+        scrollView.swipeUp()
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
+        
         let ingredients = app.staticTexts["Ingredients"]
         XCTAssert(ingredients.exists, "Error line \(#line): The ingredients list is missing")
+        scrollView.swipeUp()
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
+        
         let steps = app.staticTexts["Steps"]
         XCTAssert(steps.exists, "Error line \(#line): The instructions list is missing")
+        scrollView.swipeUp()
+        snapshot("recipe-view-\(shotNum)")
+        shotNum += 1
+        
         let attribution = app.staticTexts["Powered by spoonacular"]
         XCTAssert(attribution.exists, "Error line \(#line): The attribution is missing")
         
