@@ -22,6 +22,7 @@ Introducing EZ Recipes, an app that lets chefs find low-effort recipes that can 
 - Responsive and accessible mobile design
 - REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api)
 - Automated testing and deployment using CI/CD pipelines in GitHub Actions and Fastlane
+- Mermaid to write diagrams as code
 
 ## Pipeline Diagrams
 
