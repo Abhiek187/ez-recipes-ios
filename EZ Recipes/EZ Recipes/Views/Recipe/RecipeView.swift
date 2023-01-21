@@ -12,19 +12,47 @@ struct RecipeView: View {
     @State var isFavorite = false
     @State var shareText: ShareText?
     
+    @Environment(\.horizontalSizeClass) var sizeClass
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
                 if let recipe = viewModel.recipe {
                     // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
                     RecipeTitle(recipe: .constant(recipe))
-                    RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
-                        // When the show another recipe button is tapped, load a new recipe in the same view
-                        viewModel.getRandomRecipe()
+                    
+                    // Show views side-by-side if the screen is wide enough
+                    if sizeClass == .compact {
+                        RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
+                            // When the show another recipe button is tapped, load a new recipe in the same view
+                            viewModel.getRandomRecipe()
+                        }
+                        NutritionLabel(recipe: .constant(recipe))
+                    } else {
+                        HStack {
+                            Spacer()
+                            RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
+                                viewModel.getRandomRecipe()
+                            }
+                            Spacer()
+                            NutritionLabel(recipe: .constant(recipe))
+                            Spacer()
+                        }
                     }
-                    NutritionLabel(recipe: .constant(recipe))
-                    SummaryBox(recipe: .constant(recipe))
-                    IngredientsList(recipe: .constant(recipe))
+                    
+                    if sizeClass == .compact {
+                        SummaryBox(recipe: .constant(recipe))
+                        IngredientsList(recipe: .constant(recipe))
+                    } else {
+                        HStack {
+                            Spacer()
+                            SummaryBox(recipe: .constant(recipe))
+                            Spacer()
+                            IngredientsList(recipe: .constant(recipe))
+                            Spacer()
+                        }
+                    }
+                    
                     InstructionsList(recipe: .constant(recipe))
                     
                     Divider()
@@ -74,12 +102,12 @@ struct RecipeView_Previews: PreviewProvider {
         
         // The preview device and display name don't work when wrapped in a NavigationView (might be a bug)
         return ForEach(Device.all, id: \.self) { device in
-            NavigationView {
+            //NavigationView {
                 RecipeView()
                     .previewDevice(PreviewDevice(rawValue: device))
                     .previewDisplayName(device)
                     .environmentObject(viewModel)
-            }
+            //}
         }
     }
 }
