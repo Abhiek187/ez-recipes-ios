@@ -29,6 +29,9 @@ struct Constants {
         static let unknownError = "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues"
         static let okButton = "OK"
         
+        // Secondary view
+        static let selectRecipe = "Select a recipe from the navigation menu."
+        
         // Recipe view
         static let recipeTitle = "Recipe"
         static let noRecipe = "No recipe loaded"
