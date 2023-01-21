@@ -17,6 +17,7 @@ struct RecipeView: View {
             VStack(spacing: 8) {
                 if let recipe = viewModel.recipe {
                     // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
+                    RecipeTitle(recipe: .constant(recipe))
                     RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
                         // When the show another recipe button is tapped, load a new recipe in the same view
                         viewModel.getRandomRecipe()
