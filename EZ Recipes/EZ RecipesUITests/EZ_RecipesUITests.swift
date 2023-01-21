@@ -29,7 +29,22 @@ class EZ_RecipesUITests: XCTestCase {
     func testFindMeARecipe() throws {
         // Tap the "Find Me A Recipe!" button and check that the recipe page loads properly (this will consume quota)
         // Take screenshots along the way
-        snapshot("home-view")
+        var shotNum = 1
+        snapshot("home-view-\(shotNum)")
+        shotNum += 1
+        
+        // If the sidebar button exists, check that the select recipe text is showing and tapping the sidebar button opens the home view
+        let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
+        
+        if sidebarButton.exists {
+            let selectRecipe = app.staticTexts["Select a recipe from the navigation menu."]
+            XCTAssert(selectRecipe.exists, "Error line \(#line): The secondary view text isn't showing")
+            
+            sidebarButton.tap()
+            snapshot("home-view-\(shotNum)")
+            shotNum += 1
+        }
+        
         // Check that the navigation title is Home
         let homeNavigationBar = app.navigationBars["Home"] // UI tests can't import modules from the app target
         XCTAssert(homeNavigationBar.exists, "Error line \(#line): The home navigation bar couldn't be found")
@@ -48,7 +63,7 @@ class EZ_RecipesUITests: XCTestCase {
         // Wait up to 30 seconds for the recipe to load
         let recipeNavigationBar = app.navigationBars["Recipe"]
         XCTAssert(recipeNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe page didn't load (the API request timed out after 30 seconds)")
-        var shotNum = 1
+        shotNum = 1
         snapshot("recipe-view-\(shotNum)")
         shotNum += 1
         
