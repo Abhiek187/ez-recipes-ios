@@ -12,7 +12,7 @@ struct InstructionsList: View {
     
     // Show step cards side-by-side if there's enough room
     let columns = [
-        GridItem(.adaptive(minimum: 350), alignment: .top)
+        GridItem(.adaptive(minimum: 400), alignment: .top)
     ]
     
     var body: some View {

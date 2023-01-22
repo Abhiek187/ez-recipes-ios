@@ -11,7 +11,7 @@ struct StepCard: View {
     @Binding var step: Step
     
     let columns = [
-        GridItem(.adaptive(minimum: 100))
+        GridItem(.adaptive(minimum: 100), alignment: .top)
     ]
     
     var body: some View {
@@ -40,20 +40,20 @@ struct StepCard: View {
                         .padding(.trailing)
                     
                     // Wrap items if they can't fit in one row
-                    LazyVGrid(columns: columns) {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                         ForEach(step.ingredients, id: \.id) { ingredient in
                             VStack {
                                 // Scale the height to fit the width of the frame so it doesn't overlap the text
                                 AsyncImage(url: Constants.Strings.ingredientUrl(ingredient.name))
-                                    .frame(width: 50)
+                                    .frame(width: 100, height: 100)
                                     .scaledToFit()
                                 
                                 Text(ingredient.name)
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
             
             if !step.equipment.isEmpty {
@@ -65,19 +65,19 @@ struct StepCard: View {
                         .font(.headline.bold())
                         .padding(.trailing)
                     
-                    LazyVGrid(columns: columns) {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                         ForEach(step.equipment, id: \.id) { equipment in
                             VStack {
                                 AsyncImage(url: Constants.Strings.equipmentUrl(equipment.name))
-                                    .frame(width: 50)
+                                    .frame(width: 100, height: 100)
                                     .scaledToFit()
                                 
                                 Text(equipment.name)
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .card()
