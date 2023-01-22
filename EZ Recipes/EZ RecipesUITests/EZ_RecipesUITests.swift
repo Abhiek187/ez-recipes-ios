@@ -83,7 +83,7 @@ class EZ_RecipesUITests: XCTestCase {
         
         // Check that the share button is clickable (won't check the share sheet since it needs to be dismissed and requires waiting for the animation)
         let shareButton = recipeNavigationBar.buttons["Share"]
-        XCTAssert(shareButton.isHittable, "Error line \(#line): The share button isn't clickable")
+        XCTAssert(shareButton.isEnabled, "Error line \(#line): The share button isn't clickable")
         
         // Since the recipe loaded will be random, check all the elements that are guaranteed to be there for all recipes
         // Check that the two recipe buttons are clickable and the ProgressView is hidden
