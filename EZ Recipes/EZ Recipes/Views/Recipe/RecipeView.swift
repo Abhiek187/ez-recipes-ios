@@ -69,20 +69,23 @@ struct RecipeView: View {
         .toolbar {
             // Buttons on the top right of the screen
             ToolbarItemGroup {
-                Button {
-                    isFavorite.toggle()
-                } label: {
-                    // Add alt text to the system image
-                    Label(isFavorite ? Constants.Strings.unFavoriteAlt : Constants.Strings.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
-                }
-                if #available(iOS 16.0, *) {
-                    ShareLink(Constants.Strings.shareAlt, item: Constants.Strings.shareBody)
-                } else {
-                    // Fallback on earlier versions
+                HStack {
                     Button {
-                        shareText = ShareText(text: Constants.Strings.shareBody)
+                        isFavorite.toggle()
                     } label: {
-                        Label(Constants.Strings.shareAlt, systemImage: "square.and.arrow.up")
+                        // Add alt text to the system image
+                        Label(isFavorite ? Constants.Strings.unFavoriteAlt : Constants.Strings.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
+                    }
+                    
+                    if #available(iOS 16.0, *) {
+                        ShareLink(Constants.Strings.shareAlt, item: Constants.Strings.shareBody)
+                    } else {
+                        // Fallback on earlier versions
+                        Button {
+                            shareText = ShareText(text: Constants.Strings.shareBody)
+                        } label: {
+                            Label(Constants.Strings.shareAlt, systemImage: "square.and.arrow.up")
+                        }
                     }
                 }
             }

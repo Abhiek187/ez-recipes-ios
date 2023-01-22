@@ -23,7 +23,8 @@ private struct Card: ViewModifier {
                         .shadow(radius: 5)
                 ) : AnyView(
                     Rectangle()
-                        .fill(.secondary.opacity(0.3))
+                        .fill(.secondary)
+                        .opacity(0.3)
                 )
             )
             .padding() // apply padding outside the card
