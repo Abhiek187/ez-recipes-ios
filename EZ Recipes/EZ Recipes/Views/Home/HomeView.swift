@@ -20,7 +20,7 @@ struct HomeView: View {
                         viewModel.getRandomRecipe()
                     } label: {
                         Text(Constants.Strings.findRecipeButton)
-                            .foregroundColor(.black)
+                            .foregroundColor(viewModel.isLoading ? .primary : .black)
                             .font(.system(size: 22))
                     }
                     .buttonStyle(.borderedProminent)
@@ -42,9 +42,11 @@ struct HomeView: View {
                     .opacity(viewModel.isLoading ? 1 : 0)
             }
             .navigationTitle(Constants.Strings.homeTitle)
+            
+            // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
+            SecondaryView()
         }
-        // Keep a consistent design on iPhone & iPad for all orientations
-        .navigationViewStyle(.stack) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
+        .navigationViewStyle(.automatic) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
     }
 }
 

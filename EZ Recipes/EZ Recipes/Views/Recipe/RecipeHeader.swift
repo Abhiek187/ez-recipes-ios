@@ -31,19 +31,6 @@ struct RecipeHeader: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            // Recipe name and link
-            VStack {
-                Text(recipe.name.capitalized)
-                    .font(.title)
-                    .padding([.leading, .trailing])
-                
-                if let url = URL(string: recipe.url) {
-                    Link(destination: url) {
-                        Label(Constants.Strings.recipeLinkAlt, systemImage: "link")
-                    }
-                }
-            }
-            
             // Recipe image and caption
             VStack {
                 AsyncImage(url: URL(string: recipe.image))

@@ -10,6 +10,11 @@ import SwiftUI
 struct InstructionsList: View {
     @Binding var recipe: Recipe
     
+    // Show step cards side-by-side if there's enough room
+    let columns = [
+        GridItem(.adaptive(minimum: 400), alignment: .top)
+    ]
+    
     var body: some View {
         VStack(spacing: 8) {
             Text(Constants.Strings.steps)
@@ -23,8 +28,10 @@ struct InstructionsList: View {
                 }
                 
                 // Steps per instruction
-                ForEach(instruction.steps, id: \.number) { step in
-                    StepCard(step: .constant(step))
+                LazyVGrid(columns: columns) {
+                    ForEach(instruction.steps, id: \.number) { step in
+                        StepCard(step: .constant(step))
+                    }
                 }
             }
         }
