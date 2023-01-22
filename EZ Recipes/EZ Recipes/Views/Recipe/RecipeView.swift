@@ -76,7 +76,7 @@ struct RecipeView: View {
                     Label(isFavorite ? Constants.Strings.unFavoriteAlt : Constants.Strings.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
                 if #available(iOS 16.0, *) {
-                    ShareLink(item: Constants.Strings.shareBody)
+                    ShareLink(Constants.Strings.shareAlt, item: Constants.Strings.shareBody)
                 } else {
                     // Fallback on earlier versions
                     Button {
