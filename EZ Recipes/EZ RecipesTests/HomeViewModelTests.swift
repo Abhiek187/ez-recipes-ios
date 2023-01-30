@@ -92,4 +92,74 @@ final class HomeViewModelTests: XCTestCase {
         viewModel.getRecipe(byId: 1)
         wait(for: [expectation], timeout: 1)
     }
+    
+    @MainActor func testHandleRecipeLinkSuccess() {
+        // Given a universal link from the web app
+        let recipeId = 644783
+        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)") else {
+            XCTFail("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        viewModel = HomeViewModel(repository: mockRepo)
+        // Then the getRecipe(byId:) method should be called with the recipe ID in the URL
+        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
+        
+        viewModel.$recipe.sink { recipe in
+            if recipe?.id == recipeId {
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellable)
+        
+        viewModel.handleRecipeLink(recipeUrl)
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    @MainActor func testHandleRecipeLinkFailEmptyPath() {
+        // Given a universal link from the web app with an empty path
+        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com") else {
+            XCTFail("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        viewModel = HomeViewModel(repository: mockRepo)
+        // Then the getRecipe(byId:) method shouldn't be called
+        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
+        
+        viewModel.$recipe.sink { recipe in
+            if recipe == nil {
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellable)
+        
+        viewModel.handleRecipeLink(recipeUrl)
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    @MainActor func testHandleRecipeLinkFailInvalidRecipePath() {
+        // Given a universal link from the web app with an invalid recipe path
+        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/-1") else {
+            XCTFail("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        viewModel = HomeViewModel(repository: mockRepo)
+        // Then the getRecipe(byId:) method shouldn't be called
+        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
+        
+        viewModel.$recipe.sink { recipe in
+            if recipe == nil {
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellable)
+        
+        viewModel.handleRecipeLink(recipeUrl)
+        wait(for: [expectation], timeout: 1)
+    }
 }
