@@ -87,7 +87,11 @@ struct RecipeView: View {
                     } else {
                         // Fallback on earlier versions
                         Button {
-                            shareText = ShareText(text: Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe))
+                            shareText = ShareText(
+                                url: Constants.Strings.shareUrl(viewModel.recipe?.id ?? 0),
+                                subject: viewModel.recipe?.name ?? Constants.Strings.unknownRecipe,
+                                message: Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe)
+                            )
                         } label: {
                             Label(Constants.Strings.shareAlt, systemImage: "square.and.arrow.up")
                         }
@@ -96,7 +100,7 @@ struct RecipeView: View {
             }
         }
         .sheet(item: $shareText) { shareText in
-            ActivityView(text: shareText.text)
+            ActivityView(url: shareText.url, subject: shareText.subject, message: shareText.message)
         }
     }
 }
