@@ -78,11 +78,16 @@ struct RecipeView: View {
                     }
                     
                     if #available(iOS 16.0, *) {
-                        ShareLink(Constants.Strings.shareAlt, item: Constants.Strings.shareBody)
+                        ShareLink(
+                            Constants.Strings.shareAlt,
+                            item: Constants.Strings.shareUrl(viewModel.recipe?.id ?? 0),
+                            subject: Text(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe),
+                            message: Text(Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe))
+                        )
                     } else {
                         // Fallback on earlier versions
                         Button {
-                            shareText = ShareText(text: Constants.Strings.shareBody)
+                            shareText = ShareText(text: Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe))
                         } label: {
                             Label(Constants.Strings.shareAlt, systemImage: "square.and.arrow.up")
                         }
@@ -105,12 +110,12 @@ struct RecipeView_Previews: PreviewProvider {
         
         // The preview device and display name don't work when wrapped in a NavigationView (might be a bug)
         return ForEach(Device.all, id: \.self) { device in
-            //NavigationView {
+            NavigationView {
                 RecipeView()
                     .previewDevice(PreviewDevice(rawValue: device))
                     .previewDisplayName(device)
                     .environmentObject(viewModel)
-            //}
+            }
         }
     }
 }
