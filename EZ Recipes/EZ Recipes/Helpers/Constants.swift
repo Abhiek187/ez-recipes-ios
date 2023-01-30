@@ -38,7 +38,13 @@ struct Constants {
         static let favoriteAlt = "Favorite this recipe"
         static let unFavoriteAlt = "Un-favorite this recipe"
         static let shareAlt = "Share this recipe"
-        static let shareBody = "Check out this low-effort recipe!"
+        static let shareBody: (String) -> String = { recipeName in
+            "Check out this low-effort recipe for \(recipeName)!"
+        }
+        static let shareUrl: (Int) -> URL = { recipeId in
+            URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)")!
+        }
+        static let unknownRecipe = "unknown recipe"
         
         static let recipeLinkAlt = "Open recipe source"
         // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html

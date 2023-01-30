@@ -9,10 +9,15 @@ import SwiftUI
 
 @main
 struct EZ_RecipesApp: App {
+    let viewModel = HomeViewModel(repository: NetworkManager.shared)
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environmentObject(HomeViewModel(repository: NetworkManager.shared))
+                .environmentObject(viewModel)
+                .onOpenURL { url in
+                    viewModel.handleRecipeLink(url)
+                }
         }
     }
 }
