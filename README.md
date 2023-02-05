@@ -21,6 +21,7 @@ Introducing EZ Recipes, an app that lets chefs find low-effort recipes that can 
 - iOS app created using SwiftUI and MVVM architecture
 - Responsive and accessible mobile design
 - REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api)
+- Universal Links to open recipes from the web app to the mobile app
 - Automated testing and deployment using CI/CD pipelines in GitHub Actions and Fastlane
 - Mermaid to write diagrams as code
 
@@ -90,3 +91,9 @@ bundle exec fastlane ios screenshots
 ## Future Updates
 
 Check the [EZ Recipes web repo](https://github.com/Abhiek187/ez-recipes-web#future-updates) for a list of future updates.
+
+## Related Repos
+
+- [Web app](https://github.com/Abhiek187/ez-recipes-web)
+- [Android app](https://github.com/Abhiek187/ez-recipes-android)
+- [Server](https://github.com/Abhiek187/ez-recipes-server)
