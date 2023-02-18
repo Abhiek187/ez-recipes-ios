@@ -44,6 +44,11 @@ platform :ios do
     frame_screenshots
   end
   
+  private_lane :update_version_number do
+    update_type = UI.select("What type of update is this? (major.minor.patch)", ["major", "minor", "patch"])
+    increment_version_number(bump_type: update_type)
+  end
+  
   desc "Upload a beta build to TestFlight"
   lane :beta do
     # Generate an App Store Connect API token (valid for 500 seconds by default)
@@ -53,9 +58,28 @@ platform :ios do
                               key_filepath: "../../AuthKey_D383SF739.p8",
                               in_house: false) # optional but may be required if using match/sigh
     
+    # If the current version and the App Store version are the same, increment the current version (and reset the build number to 1)
+    current_version = get_version_number
+    # version = SharedValues::LATEST_VERSION, build = SharedValues::LATEST_BUILD_NUMBER
+    app_store_build_number
+    
+    if current_version == lane_context[SharedValues::LATEST_VERSION]
+      update_version_number
+      increment_build_number(build_number: 1)
+    end
+    
+    # Check if release notes were written for the upcoming version
+    current_version = lane_context[SharedValues::VERSION_NUMBER]
+    changelog_path = "changelogs/#{current_version}.txt"
+    unless File.file?(changelog_path)
+      UI.user_error!("No release notes for version #{current_version} found in fastlane/#{changelog_path}")
+    end
+    
     # Get the distribution certificate, private key, and App Store provisioning profile from a private GitHub repo
     # Automatically renew any expired certs or profiles
     sync_code_signing
+    # Increment the build number
+    increment_build_number
     
     # Clear derived data from ~/Library/Developer/Xcode/DerivedData
     clear_derived_data
@@ -73,13 +97,21 @@ platform :ios do
               disable_package_automatic_updates: true)
 
     # Upload the IPA to TestFlight and distribute to testers
-    upload_to_testflight
+    changelog = File.read(changelog_path)
+    upload_to_testflight(changelog: changelog)
   end
   
   desc "Upload a new build to the App Store"
   lane :release do
-    sync_code_signing(type: "appstore")  # see code signing guide for more information
-    build_app(scheme: "EZ Recipes")
-    upload_to_app_store                  # upload your app to App Store Connect
+    sync_code_signing
+    increment_build_number(build_number: app_store_build_number + 1)
+    clear_derived_data
+    build_app(scheme: "EZ Recipes",
+              clean: true,
+              xcodebuild_formatter: "xcbeautify",
+              disable_package_automatic_updates: true)
+    
+    # Upload the IPA to App Store Connect
+    upload_to_app_store
   end
 end
