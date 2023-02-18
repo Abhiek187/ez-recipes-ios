@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F10BFB1229A1821800636841 /* 1.0.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = F10BFB1129A1821800636841 /* 1.0.0.txt */; };
 		F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A845293D85CE00C8E127 /* DoubleExtension.swift */; };
 		F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */; };
 		F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */; };
@@ -67,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F10BFB0F29A170FB00636841 /* Matchfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Matchfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F10BFB1129A1821800636841 /* 1.0.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 1.0.0.txt; sourceTree = "<group>"; };
 		F123A845293D85CE00C8E127 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +156,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F10BFB1029A181E500636841 /* changelogs */ = {
+			isa = PBXGroup;
+			children = (
+				F10BFB1129A1821800636841 /* 1.0.0.txt */,
+			);
+			path = changelogs;
+			sourceTree = "<group>";
+		};
 		F12C1C1E2904951600C3302B = {
 			isa = PBXGroup;
 			children = (
@@ -330,8 +341,10 @@
 		F1F38EC6290F58EB000FF99C /* fastlane */ = {
 			isa = PBXGroup;
 			children = (
+				F10BFB1029A181E500636841 /* changelogs */,
 				F1F38EC7290F58EB000FF99C /* Appfile */,
 				F1F38EC8290F58EB000FF99C /* Fastfile */,
+				F10BFB0F29A170FB00636841 /* Matchfile */,
 				F1F38ECE290F6923000FF99C /* Snapfile */,
 				F1F38ECB290F5FC4000FF99C /* README.md */,
 			);
@@ -465,6 +478,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F10BFB1229A1821800636841 /* 1.0.0.txt in Resources */,
 				F12C1C322904951A00C3302B /* Preview Assets.xcassets in Resources */,
 				F12C1C2F2904951A00C3302B /* Assets.xcassets in Resources */,
 				F13037B3293291AF003E562C /* Localizable.stringsdict in Resources */,

@@ -22,7 +22,7 @@ platform :ios do
     # Resolve package dependencies: xcodebuild -resolvePackageDependencies -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
     # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
     # Disable 'Slide to Type' on each simulator: /usr/libexec/PlistBuddy -c "Add :KeyboardContinuousPathEnabled bool false" ~/Library/Developer/CoreSimulator/Devices/84CA0B87-356F-4160-A3E7-5AC636BEF880/data/Library/Preferences/com.apple.keyboard.ContinuousPath.plist >/dev/null 2>&1
-    # Build project & run unit and UI tests on all simulators: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -derivedDataPath ~/Library/Developer/Xcode/DerivedData/EZ_Recipes-cuhmoxzpybdazjcsljkgfvxmyeud -destination 'platform=iOS Simulator,id=ACCE5FA5-142E-4DDB-89D5-18BD949644EC' -destination 'platform=iOS Simulator,id=AD55AFA8-4014-406B-996D-58BD6548F72A' -destination 'platform=iOS Simulator,id=DDD5015F-9C9F-434F-9454-3748C749A432' clean build test | tee '~/Library/Logs/scan/EZ Recipes-EZ Recipes.log' | xcbeautify
+    # Clean, build project, & run unit and UI tests on all simulators: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -derivedDataPath ~/Library/Developer/Xcode/DerivedData/EZ_Recipes-cuhmoxzpybdazjcsljkgfvxmyeud -destination 'platform=iOS Simulator,id=ACCE5FA5-142E-4DDB-89D5-18BD949644EC' -destination 'platform=iOS Simulator,id=AD55AFA8-4014-406B-996D-58BD6548F72A' -destination 'platform=iOS Simulator,id=DDD5015F-9C9F-434F-9454-3748C749A432' clean build test | tee '~/Library/Logs/scan/EZ Recipes-EZ Recipes.log' | xcbeautify
     run_tests(scheme: "EZ Recipes",
               device: options[:device],
               clean: true,
@@ -42,6 +42,38 @@ platform :ios do
     # Clear status bar override: xcrun simctl status_bar ACCE5FA5-142E-4DDB-89D5-18BD949644EC clear &> /dev/null
     capture_screenshots
     frame_screenshots
+  end
+  
+  desc "Upload a beta build to TestFlight"
+  lane :beta do
+    # Generate an App Store Connect API token (valid for 500 seconds by default)
+    # Other actions automatically retrieve this key from SharedValues::APP_STORE_CONNECT_API_KEY
+    app_store_connect_api_key(key_id: "D383SF739",
+                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
+                              key_filepath: "../../AuthKey_D383SF739.p8",
+                              in_house: false) # optional but may be required if using match/sigh
+    
+    # Get the distribution certificate, private key, and App Store provisioning profile from a private GitHub repo
+    # Automatically renew any expired certs or profiles
+    sync_code_signing
+    
+    # Clear derived data from ~/Library/Developer/Xcode/DerivedData
+    clear_derived_data
+    # Resolve package dependencies: xcodebuild -resolvePackageDependencies -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
+    # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
+    # Clean & build archive: set -o pipefail && xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution -destination 'generic/platform=iOS' -archivePath ~/Library/Developer/Xcode/Archives/2023-02-18/EZ\ Recipes\ 2023-02-18\ 15.18.20.xcarchive clean archive | tee ~/Library/Logs/gym/EZ\ Recipes-EZ\ Recipes.log | xcbeautify
+    # Sign the archive for the App Store & create an IPA: /usr/bin/xcrun ~/ez-recipes-ios/EZ\ Recipes/vendor/bundle/ruby/3.1.0/gems/fastlane-2.211.0/gym/lib/assets/wrap_xcodebuild/xcbuild-safe.sh -exportArchive -exportOptionsPlist '/var/folders/w4/jz5wfy_511g5r2q6t6qm3nc9hk7wqj/T/gym_config20230218-73351-cwpc1l.plist' -archivePath ~/Library/Developer/Xcode/Archives/2023-02-18/EZ\ Recipes\ 2023-02-18\ 15.18.20.xcarchive -exportPath '/var/folders/w4/jz5wfy_511g5r2q6t6qm3nc9hk7wqj/T/gym_output20230218-73351-r8kvy3'
+    # Export options plist:
+    # {
+    #   "method": "app-store"
+    # }
+    build_app(scheme: "EZ Recipes",
+              clean: true,
+              xcodebuild_formatter: "xcbeautify",
+              disable_package_automatic_updates: true)
+
+    # Upload the IPA to TestFlight and distribute to testers
+    upload_to_testflight
   end
   
   desc "Upload a new build to the App Store"

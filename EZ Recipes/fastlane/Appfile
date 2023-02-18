@@ -1,7 +1,7 @@
 app_identifier("com.abhiek.EZ-Recipes") # The bundle identifier of your app
 apple_id("achaudhuri2011@yahoo.com") # Your Apple Developer Portal username
 
-itc_team_id("118733178") # App Store Connect Team ID
+itc_team_id("UF6E5BVT98") # App Store Connect Team ID
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
