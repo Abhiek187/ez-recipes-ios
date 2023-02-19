@@ -102,6 +102,7 @@ platform :ios do
     # }
     build_app(scheme: APP_SCHEME,
               clean: true,
+              export_method: "app-store",
               xcodebuild_formatter: "xcbeautify",
               disable_package_automatic_updates: true)
 
