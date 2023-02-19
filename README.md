@@ -82,7 +82,8 @@ end
 subgraph D [Publish on the App Store]
 direction TB
 U(Upload IPA & test app in TestFlight) --> V(Promote changes to the App Store)
-V --> W(Await approval from Apple)
+V --> W(Pre-check metadata)
+W --> X(Await approval from Apple)
 end
 ```
 
