@@ -16,6 +16,8 @@
 default_platform(:ios)
 
 platform :ios do
+  APP_SCHEME = "EZ Recipes"
+  
   desc "Run tests on a specified device"
   lane :test do |options|
     # Swift package CI recommendations: https://developer.apple.com/documentation/xcode/building-swift-packages-or-apps-that-use-them-in-continuous-integration-workflows
@@ -23,7 +25,7 @@ platform :ios do
     # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
     # Disable 'Slide to Type' on each simulator: /usr/libexec/PlistBuddy -c "Add :KeyboardContinuousPathEnabled bool false" ~/Library/Developer/CoreSimulator/Devices/84CA0B87-356F-4160-A3E7-5AC636BEF880/data/Library/Preferences/com.apple.keyboard.ContinuousPath.plist >/dev/null 2>&1
     # Clean, build project, & run unit and UI tests on all simulators: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -derivedDataPath ~/Library/Developer/Xcode/DerivedData/EZ_Recipes-cuhmoxzpybdazjcsljkgfvxmyeud -destination 'platform=iOS Simulator,id=ACCE5FA5-142E-4DDB-89D5-18BD949644EC' -destination 'platform=iOS Simulator,id=AD55AFA8-4014-406B-996D-58BD6548F72A' -destination 'platform=iOS Simulator,id=DDD5015F-9C9F-434F-9454-3748C749A432' clean build test | tee '~/Library/Logs/scan/EZ Recipes-EZ Recipes.log' | xcbeautify
-    run_tests(scheme: "EZ Recipes",
+    run_tests(scheme: APP_SCHEME,
               device: options[:device],
               clean: true,
               xcodebuild_formatter: "xcbeautify",
@@ -46,7 +48,14 @@ platform :ios do
   
   private_lane :update_version_number do
     update_type = UI.select("What type of update is this? (major.minor.patch)", ["major", "minor", "patch"])
-    increment_version_number(bump_type: update_type)
+    # Fastlane's built-in action uses agvtool, which relies on hard-coding the version and build in both the xcodeproj and Info.plist file
+    # The versioning plugin only updates the version and build in the xcodeproj file,
+    # while leaving the $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION) variables in Info.plist as-is
+    # https://github.com/SiarheiFedartsou/fastlane-plugin-versioning
+    increment_version_number_in_xcodeproj(bump_type: update_type,
+                                          target: APP_SCHEME)
+    increment_build_number_in_xcodeproj(build_number: "1",
+                                        target: APP_SCHEME)
   end
   
   desc "Upload a beta build to TestFlight"
@@ -64,12 +73,12 @@ platform :ios do
     app_store_build_number
     
     if current_version == lane_context[SharedValues::LATEST_VERSION]
+      UI.important "No TestFlight builds for version #{current_version} found. Updating the version number..."
       update_version_number
-      increment_build_number(build_number: 1)
     end
     
     # Check if release notes were written for the upcoming version
-    current_version = lane_context[SharedValues::VERSION_NUMBER]
+    current_version = get_version_number
     changelog_path = "changelogs/#{current_version}.txt"
     unless File.file?(changelog_path)
       UI.user_error!("No release notes for version #{current_version} found in fastlane/#{changelog_path}")
@@ -79,7 +88,7 @@ platform :ios do
     # Automatically renew any expired certs or profiles
     sync_code_signing
     # Increment the build number
-    increment_build_number
+    increment_build_number_in_xcodeproj(target: APP_SCHEME)
     
     # Clear derived data from ~/Library/Developer/Xcode/DerivedData
     clear_derived_data
@@ -91,7 +100,7 @@ platform :ios do
     # {
     #   "method": "app-store"
     # }
-    build_app(scheme: "EZ Recipes",
+    build_app(scheme: APP_SCHEME,
               clean: true,
               xcodebuild_formatter: "xcbeautify",
               disable_package_automatic_updates: true)
@@ -106,7 +115,7 @@ platform :ios do
     sync_code_signing
     increment_build_number(build_number: app_store_build_number + 1)
     clear_derived_data
-    build_app(scheme: "EZ Recipes",
+    build_app(scheme: APP_SCHEME,
               clean: true,
               xcodebuild_formatter: "xcbeautify",
               disable_package_automatic_updates: true)
