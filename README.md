@@ -44,6 +44,48 @@ G --> H(Clean, build, and test project)
 end
 ```
 
+### Deployment
+
+```mermaid
+flowchart LR
+
+A --> C
+C --> D
+
+subgraph A [Prepare for Code Signing]
+direction TB
+E(Generate an App Store Connect API token) --> F(Sync local metadata from App Store)
+F --> G(Write release notes for the next version)
+G --> H(Check App Store version)
+H --> I{Same as local version?}
+I -->|Yes| B
+I -->|No| J(Get distribution certificate, private key, and App Store provisioning profile from a private GitHub repo)
+J --> K(Automatically renew any expired certificates or profiles)
+end
+
+subgraph B [Update Version Number]
+direction TB
+L{Major, minor, or patch update?} --> M(Update the version)
+M --> N(Reset the build number to 1)
+N --> J
+end
+
+subgraph C [Package App]
+direction TB
+O(Increment the build number) --> P("Clear derived data (cache)")
+P --> Q(Resolve package dependencies)
+Q --> R(Show build settings)
+R --> S(Clean and build archive)
+S --> T(Sign archive using the App Store provisioning profile)
+end
+
+subgraph D [Publish on the App Store]
+direction TB
+U(Upload IPA & test app in TestFlight) --> V(Promote changes to the App Store)
+V --> W(Await approval from Apple)
+end
+```
+
 ## Installing Locally
 
 A Mac and Xcode are required to run iOS apps locally.
@@ -87,6 +129,16 @@ Then run the following command to generate screenshots at `ez-recipes-ios/EZ Rec
 ```bash
 bundle exec fastlane ios screenshots
 ```
+
+### Deployment
+
+Follow the steps on [Fastlane's docs](https://docs.fastlane.tools/app-store-connect-api/) to generate an App Store Connect API key. Then follow these steps to create a new release for select testers in TestFlight:
+
+1. Make sure the `fastlane/metadata` directory is up-to-date by running `bundle exec fastlane deliver`
+2. Write the release notes for the next version code in `fastlane/changelogs`, where the filename is `VERSION.txt`.
+3. Run `bundle exec fastlane ios beta` to create an IPA and upload it to TestFlight. When first uploading a new update, select whether this is a major, minor, or patch update to update the version and reset the build number to 1. On subsequent uploads to the same version, the build number will be incremented.
+
+Once the TestFlight build is tested and ready for production, run `bundle exec fastlane ios release` to promote the TestFlight build to production. Send the changes for approval on App Store Connect and wait for Apple to approve the app (usually within 24-48 hours).
 
 ## Future Updates
 
