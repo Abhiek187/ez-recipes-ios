@@ -3,11 +3,11 @@
 [![Fastlane](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml)
 
 <div>
-  <img src="screenshots/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
 </div>
 
 ## Overview

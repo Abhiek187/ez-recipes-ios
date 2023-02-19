@@ -70,6 +70,7 @@
 		F10BFB0F29A170FB00636841 /* Matchfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Matchfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F10BFB1129A1821800636841 /* 1.0.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 1.0.0.txt; sourceTree = "<group>"; };
 		F10BFB1329A197D600636841 /* Pluginfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pluginfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F10BFB1529A1DEDA00636841 /* screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; name = screenshots; path = ../screenshots; sourceTree = "<group>"; };
 		F123A845293D85CE00C8E127 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,11 +93,6 @@
 		F13037B82932B6A7003E562C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		F1320CD9297C923B00070DC8 /* SecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryView.swift; sourceTree = "<group>"; };
 		F1320CDB297C9ADE00070DC8 /* RecipeTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitle.swift; sourceTree = "<group>"; };
-		F1392B0E2963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-2_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 13 Pro Max-recipe-view-2_framed.png"; sourceTree = "<group>"; };
-		F1392B0F2963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-1_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 13 Pro Max-recipe-view-1_framed.png"; sourceTree = "<group>"; };
-		F1392B102963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-4_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 13 Pro Max-recipe-view-4_framed.png"; sourceTree = "<group>"; };
-		F1392B112963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-3_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 13 Pro Max-recipe-view-3_framed.png"; sourceTree = "<group>"; };
-		F1392B122963CDEA005ADD50 /* iPhone 13 Pro Max-home-view_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 13 Pro Max-home-view_framed.png"; sourceTree = "<group>"; };
 		F1437C0129564511005408E5 /* IngredientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsList.swift; sourceTree = "<group>"; };
 		F1437C032956681C005408E5 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
 		F1437C0629566A49005408E5 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -169,7 +165,7 @@
 			children = (
 				F1F38ED2290F773E000FF99C /* .github */,
 				F1F38EC6290F58EB000FF99C /* fastlane */,
-				F1392B0D2963CDEA005ADD50 /* screenshots */,
+				F10BFB1529A1DEDA00636841 /* screenshots */,
 				F12C1C55290495A500C3302B /* .gitignore */,
 				F1F38EC9290F58EB000FF99C /* Gemfile */,
 				F1F38ECA290F58EB000FF99C /* Gemfile.lock */,
@@ -281,19 +277,6 @@
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		F1392B0D2963CDEA005ADD50 /* screenshots */ = {
-			isa = PBXGroup;
-			children = (
-				F1392B122963CDEA005ADD50 /* iPhone 13 Pro Max-home-view_framed.png */,
-				F1392B0F2963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-1_framed.png */,
-				F1392B0E2963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-2_framed.png */,
-				F1392B112963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-3_framed.png */,
-				F1392B102963CDEA005ADD50 /* iPhone 13 Pro Max-recipe-view-4_framed.png */,
-			);
-			name = screenshots;
-			path = ../screenshots;
 			sourceTree = "<group>";
 		};
 		F1437C0529566A2A005408E5 /* ViewModifiers */ = {
