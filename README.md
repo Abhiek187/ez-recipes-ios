@@ -3,11 +3,11 @@
 [![Fastlane](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml)
 
 <div>
-  <img src="screenshots/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
-  <img src="screenshots/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
+  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
 </div>
 
 ## Overview
@@ -21,6 +21,7 @@ Introducing EZ Recipes, an app that lets chefs find low-effort recipes that can 
 - iOS app created using SwiftUI and MVVM architecture
 - Responsive and accessible mobile design
 - REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api)
+- Universal Links to open recipes from the web app to the mobile app
 - Automated testing and deployment using CI/CD pipelines in GitHub Actions and Fastlane
 - Mermaid to write diagrams as code
 
@@ -40,6 +41,49 @@ direction TB
 E(Resolve package dependencies) --> F(Show build settings)
 F --> G(Disable 'Slide to Type' on the simulator)
 G --> H(Clean, build, and test project)
+end
+```
+
+### Deployment
+
+```mermaid
+flowchart LR
+
+A --> C
+C --> D
+
+subgraph A [Prepare for Code Signing]
+direction TB
+E(Generate an App Store Connect API token) --> F(Sync local metadata from App Store)
+F --> G(Write release notes for the next version)
+G --> H(Check App Store version)
+H --> I{Same as local version?}
+I -->|Yes| B
+I -->|No| J(Get distribution certificate, private key, and App Store provisioning profile from a private GitHub repo)
+J --> K(Automatically renew any expired certificates or profiles)
+end
+
+subgraph B [Update Version Number]
+direction TB
+L{Major, minor, or patch update?} --> M(Update the version)
+M --> N(Reset the build number to 1)
+N --> J
+end
+
+subgraph C [Package App]
+direction TB
+O(Increment the build number) --> P("Clear derived data (cache)")
+P --> Q(Resolve package dependencies)
+Q --> R(Show build settings)
+R --> S(Clean and build archive)
+S --> T(Sign archive using the App Store provisioning profile)
+end
+
+subgraph D [Publish on the App Store]
+direction TB
+U(Upload IPA & test app in TestFlight) --> V(Promote changes to the App Store)
+V --> W(Pre-check metadata)
+W --> X(Await approval from Apple)
 end
 ```
 
@@ -87,6 +131,22 @@ Then run the following command to generate screenshots at `ez-recipes-ios/EZ Rec
 bundle exec fastlane ios screenshots
 ```
 
+### Deployment
+
+Follow the steps on [Fastlane's docs](https://docs.fastlane.tools/app-store-connect-api/) to generate an App Store Connect API key. Then follow these steps to create a new release for select testers in TestFlight:
+
+1. Make sure the `fastlane/metadata` directory is up-to-date by running `bundle exec fastlane deliver`
+2. Write the release notes for the next version code in `fastlane/changelogs`, where the filename is `VERSION.txt`.
+3. Run `bundle exec fastlane ios beta` to create an IPA and upload it to TestFlight. When first uploading a new update, select whether this is a major, minor, or patch update to update the version and reset the build number to 1. On subsequent uploads to the same version, the build number will be incremented.
+
+Once the TestFlight build is tested and ready for production, run `bundle exec fastlane ios release` to promote the TestFlight build to production. Send the changes for approval on App Store Connect and wait for Apple to approve the app (usually within 24-48 hours).
+
 ## Future Updates
 
 Check the [EZ Recipes web repo](https://github.com/Abhiek187/ez-recipes-web#future-updates) for a list of future updates.
+
+## Related Repos
+
+- [Web app](https://github.com/Abhiek187/ez-recipes-web)
+- [Android app](https://github.com/Abhiek187/ez-recipes-android)
+- [Server](https://github.com/Abhiek187/ez-recipes-server)

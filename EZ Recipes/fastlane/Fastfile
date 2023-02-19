@@ -16,17 +16,21 @@
 default_platform(:ios)
 
 platform :ios do
+  APP_SCHEME = "EZ Recipes"
+  
   desc "Run tests on a specified device"
   lane :test do |options|
-    # Resolve package dependencies: xcodebuild -resolvePackageDependencies -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj
-    # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj
+    # Swift package CI recommendations: https://developer.apple.com/documentation/xcode/building-swift-packages-or-apps-that-use-them-in-continuous-integration-workflows
+    # Resolve package dependencies: xcodebuild -resolvePackageDependencies -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
+    # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
     # Disable 'Slide to Type' on each simulator: /usr/libexec/PlistBuddy -c "Add :KeyboardContinuousPathEnabled bool false" ~/Library/Developer/CoreSimulator/Devices/84CA0B87-356F-4160-A3E7-5AC636BEF880/data/Library/Preferences/com.apple.keyboard.ContinuousPath.plist >/dev/null 2>&1
-    # Build project & run unit and UI tests on all simulators: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -derivedDataPath ~/Library/Developer/Xcode/DerivedData/EZ_Recipes-cuhmoxzpybdazjcsljkgfvxmyeud -destination 'platform=iOS Simulator,id=ACCE5FA5-142E-4DDB-89D5-18BD949644EC' -destination 'platform=iOS Simulator,id=AD55AFA8-4014-406B-996D-58BD6548F72A' -destination 'platform=iOS Simulator,id=DDD5015F-9C9F-434F-9454-3748C749A432' clean build test | tee '~/Library/Logs/scan/EZ Recipes-EZ Recipes.log' | xcbeautify
-    run_tests(scheme: "EZ Recipes",
+    # Clean, build project, & run unit and UI tests on all simulators: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -derivedDataPath ~/Library/Developer/Xcode/DerivedData/EZ_Recipes-cuhmoxzpybdazjcsljkgfvxmyeud -destination 'platform=iOS Simulator,id=ACCE5FA5-142E-4DDB-89D5-18BD949644EC' -destination 'platform=iOS Simulator,id=AD55AFA8-4014-406B-996D-58BD6548F72A' -destination 'platform=iOS Simulator,id=DDD5015F-9C9F-434F-9454-3748C749A432' clean build test | tee '~/Library/Logs/scan/EZ Recipes-EZ Recipes.log' | xcbeautify
+    run_tests(scheme: APP_SCHEME,
               device: options[:device],
               clean: true,
               xcodebuild_formatter: "xcbeautify",
-              output_types: "junit")
+              output_types: "junit",
+              disable_package_automatic_updates: true)
   end
   
   desc "Generate screenshots for the App Store"
@@ -42,10 +46,88 @@ platform :ios do
     frame_screenshots
   end
   
+  private_lane :update_version_number do
+    update_type = UI.select("What type of update is this? (major.minor.patch)", ["major", "minor", "patch"])
+    # Fastlane's built-in action uses agvtool, which relies on hard-coding the version and build in both the xcodeproj and Info.plist file
+    # The versioning plugin only updates the version and build in the xcodeproj file,
+    # while leaving the $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION) variables in Info.plist as-is
+    # https://github.com/SiarheiFedartsou/fastlane-plugin-versioning
+    increment_version_number_in_xcodeproj(bump_type: update_type,
+                                          target: APP_SCHEME)
+    increment_build_number_in_xcodeproj(build_number: "1",
+                                        target: APP_SCHEME)
+  end
+  
+  desc "Upload a beta build to TestFlight"
+  lane :beta do
+    # Generate an App Store Connect API token (valid for 500 seconds by default)
+    # Other actions automatically retrieve this key from SharedValues::APP_STORE_CONNECT_API_KEY
+    app_store_connect_api_key(key_id: "D383SF739",
+                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
+                              key_filepath: "../../AuthKey_D383SF739.p8",
+                              in_house: false) # optional but may be required if using match/sigh
+    
+    # If the current version and the App Store version are the same, increment the current version (and reset the build number to 1)
+    current_version = get_version_number
+    # version = SharedValues::LATEST_VERSION, build = SharedValues::LATEST_BUILD_NUMBER
+    app_store_build_number
+    
+    if current_version == lane_context[SharedValues::LATEST_VERSION]
+      UI.important "No TestFlight builds for version #{current_version} found. Updating the version number..."
+      update_version_number
+    end
+    
+    # Check if release notes were written for the upcoming version
+    current_version = get_version_number
+    changelog_path = "changelogs/#{current_version}.txt"
+    unless File.file?(changelog_path)
+      UI.user_error!("No release notes for version #{current_version} found in fastlane/#{changelog_path}")
+    end
+    
+    # Get the distribution certificate, private key, and App Store provisioning profile from a private GitHub repo
+    # Automatically renew any expired certs or profiles
+    sync_code_signing
+    # Increment the build number
+    increment_build_number_in_xcodeproj(target: APP_SCHEME)
+    
+    # Clear derived data from ~/Library/Developer/Xcode/DerivedData
+    clear_derived_data
+    # Resolve package dependencies: xcodebuild -resolvePackageDependencies -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
+    # Show build settings: xcodebuild -showBuildSettings -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution
+    # Clean & build archive: set -o pipefail && xcodebuild -scheme EZ\ Recipes -project ./EZ\ Recipes.xcodeproj -disableAutomaticPackageResolution -destination 'generic/platform=iOS' -archivePath ~/Library/Developer/Xcode/Archives/2023-02-18/EZ\ Recipes\ 2023-02-18\ 15.18.20.xcarchive clean archive | tee ~/Library/Logs/gym/EZ\ Recipes-EZ\ Recipes.log | xcbeautify
+    # Sign the archive for the App Store & create an IPA: /usr/bin/xcrun ~/ez-recipes-ios/EZ\ Recipes/vendor/bundle/ruby/3.1.0/gems/fastlane-2.211.0/gym/lib/assets/wrap_xcodebuild/xcbuild-safe.sh -exportArchive -exportOptionsPlist '/var/folders/w4/jz5wfy_511g5r2q6t6qm3nc9hk7wqj/T/gym_config20230218-73351-cwpc1l.plist' -archivePath ~/Library/Developer/Xcode/Archives/2023-02-18/EZ\ Recipes\ 2023-02-18\ 15.18.20.xcarchive -exportPath '/var/folders/w4/jz5wfy_511g5r2q6t6qm3nc9hk7wqj/T/gym_output20230218-73351-r8kvy3'
+    # Export options plist:
+    # {
+    #   "method": "app-store"
+    # }
+    build_app(scheme: APP_SCHEME,
+              clean: true,
+              export_method: "app-store",
+              xcodebuild_formatter: "xcbeautify",
+              disable_package_automatic_updates: true)
+
+    # Upload the IPA to TestFlight and distribute to testers
+    changelog = File.read(changelog_path)
+    upload_to_testflight(changelog: changelog)
+  end
+  
   desc "Upload a new build to the App Store"
   lane :release do
-    sync_code_signing(type: "appstore")  # see code signing guide for more information
-    build_app(scheme: "EZ Recipes")
-    upload_to_app_store                  # upload your app to App Store Connect
+    # Promote the latest TestFlight build to production
+    app_store_connect_api_key(key_id: "D383SF739",
+                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
+                              key_filepath: "../../AuthKey_D383SF739.p8",
+                              in_house: false)
+    app_store_build_number(live: false)
+    
+    # Upload the IPA to App Store Connect
+    upload_to_app_store(app_version: lane_context[SharedValues::LATEST_VERSION],
+                        build_number: lane_context[SharedValues::LATEST_BUILD_NUMBER],
+                        # Change the skip_* parameters to false if updating the main store listing
+                        skip_binary_upload: true,
+                        skip_screenshots: true,
+                        skip_metadata: true,
+                        # Set to true to test the API without changing anything in the App Store
+                        verify_only: false)
   end
 end

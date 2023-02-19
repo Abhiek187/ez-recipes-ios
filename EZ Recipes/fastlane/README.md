@@ -31,6 +31,14 @@ Run tests on a specified device
 
 Generate screenshots for the App Store
 
+### ios beta
+
+```sh
+[bundle exec] fastlane ios beta
+```
+
+Upload a beta build to TestFlight
+
 ### ios release
 
 ```sh
