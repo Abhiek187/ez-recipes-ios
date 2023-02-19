@@ -112,15 +112,21 @@ platform :ios do
   
   desc "Upload a new build to the App Store"
   lane :release do
-    sync_code_signing
-    increment_build_number(build_number: app_store_build_number + 1)
-    clear_derived_data
-    build_app(scheme: APP_SCHEME,
-              clean: true,
-              xcodebuild_formatter: "xcbeautify",
-              disable_package_automatic_updates: true)
+    # Promote the latest TestFlight build to production
+    app_store_connect_api_key(key_id: "D383SF739",
+                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
+                              key_filepath: "../../AuthKey_D383SF739.p8",
+                              in_house: false)
+    app_store_build_number(live: false)
     
     # Upload the IPA to App Store Connect
-    upload_to_app_store
+    upload_to_app_store(app_version: lane_context[SharedValues::LATEST_VERSION],
+                        build_number: lane_context[SharedValues::LATEST_BUILD_NUMBER],
+                        # Change the skip_* parameters to false if updating the main store listing
+                        skip_binary_upload: true,
+                        skip_screenshots: true,
+                        skip_metadata: true,
+                        # Set to true to test the API without changing anything in the App Store
+                        verify_only: false)
   end
 end
