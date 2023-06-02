@@ -71,7 +71,7 @@ jobs:
       - if: matrix.language == 'swift'
         run: |
           echo "Run, Build Application using script"
-          xcodebuild build -project EZ Recipes/EZ Recipes.xcodeproj -scheme EZ Recipes CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          xcodebuild build -project EZ\ Recipes/EZ\ Recipes.xcodeproj -scheme EZ\ Recipes CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
