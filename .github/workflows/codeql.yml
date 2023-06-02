@@ -57,8 +57,9 @@ jobs:
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
-      # - name: Autobuild
-      #   uses: github/codeql-action/autobuild@v2
+      - if: matrix.language == 'ruby'
+        name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -67,7 +68,8 @@ jobs:
       #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
 
       # scheme > target
-      - run: |
+      - if: matrix.language == 'swift'
+        run: |
           echo "Run, Build Application using script"
           xcodebuild build -project EZ Recipes/EZ Recipes.xcodeproj -scheme EZ Recipes CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
