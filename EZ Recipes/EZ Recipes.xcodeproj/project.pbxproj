@@ -99,6 +99,8 @@
 		F1437C0829567211005408E5 /* InstructionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsList.swift; sourceTree = "<group>"; };
 		F1574DA4294FD85700539104 /* SummaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryBox.swift; sourceTree = "<group>"; };
 		F1574DA6294FDFA300539104 /* HTMLText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLText.swift; sourceTree = "<group>"; };
+		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
+		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 		F1F38ED2290F773E000FF99C /* .github */ = {
 			isa = PBXGroup;
 			children = (
+				F1C0C4B02A29A0370052D850 /* dependabot.yml */,
 				F1F38ED3290F773E000FF99C /* workflows */,
 			);
 			name = .github;
@@ -347,6 +350,7 @@
 		F1F38ED3290F773E000FF99C /* workflows */ = {
 			isa = PBXGroup;
 			children = (
+				F1C0C4AF2A29A02C0052D850 /* codeql.yml */,
 				F1F38ED4290F773E000FF99C /* fastlane.yml */,
 			);
 			path = workflows;
