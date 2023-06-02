@@ -1,6 +1,7 @@
 # EZ Recipes iOS App
 
 [![Fastlane](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/fastlane.yml)
+[![CodeQL](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/codeql.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/codeql.yml)
 
 <div>
   <img src="screenshots/6.5-inch/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
@@ -42,6 +43,16 @@ E(Resolve package dependencies) --> F(Show build settings)
 F --> G(Disable 'Slide to Type' on the simulator)
 G --> H(Clean, build, and test project)
 end
+```
+
+### CodeQL
+
+```mermaid
+flowchart LR
+
+A(Checkout repository) -->|Ruby, Swift| B(Initialize CodeQL)
+B --> C(Build code)
+C --> D(Perform CodeQL analysis)
 ```
 
 ### Deployment
