@@ -7,7 +7,7 @@ version: 2
 updates:
   # Check Gemfile
   - package-ecosystem: "bundler"
-    directory: "/EZ Recipes"
+    directory: "/EZ\ Recipes"
     schedule:
       interval: "monthly"
   - package-ecosystem: "github-actions"
