@@ -9,6 +9,8 @@ updates:
     directory: "/EZ Recipes"
     schedule:
       interval: "monthly"
+    # Disable version updates until Package.resolved files are supported
+    open-pull-requests-limit: 0
   # Check Gemfile
   - package-ecosystem: "bundler"
     directory: "/EZ Recipes"
