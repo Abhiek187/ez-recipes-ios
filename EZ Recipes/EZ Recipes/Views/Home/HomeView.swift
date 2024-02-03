@@ -47,6 +47,7 @@ struct HomeView: View {
                     .opacity(viewModel.isLoading ? 1 : 0)
                 Text(loadingMessage)
                     .opacity(viewModel.isLoading ? 1 : 0)
+                    // TODO: change to the 0 or 2-parameter variant if this deprecated modifier is removed
                     .onChange(of: viewModel.isLoading) { isLoading in
                         if isLoading {
                             loadingMessage = " "
