@@ -5,6 +5,10 @@
 
 version: 2
 updates:
+  - package-ecosystem: "swift"
+    directory: "/EZ Recipes"
+    schedule:
+      interval: "monthly"
   # Check Gemfile
   - package-ecosystem: "bundler"
     directory: "/EZ Recipes"
