@@ -31,10 +31,6 @@ struct IngredientsList: View {
 
 struct IngredientsList_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(Device.all, id: \.self) { device in
-            IngredientsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
-        }
+        IngredientsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
     }
 }

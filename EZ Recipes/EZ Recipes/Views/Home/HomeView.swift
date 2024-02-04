@@ -79,20 +79,15 @@ struct HomeView_Previews: PreviewProvider {
         viewModelWithLoading.isLoading = true
         repoFail.isSuccess = false
         
-        return ForEach(Device.all, id: \.self) { device in
+        return ForEach([1], id: \.self) {_ in
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (No Loading)")
+                .previewDisplayName("No Loading")
                 .environmentObject(viewModelWithoutLoading)
-            
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (Loading)")
+                .previewDisplayName("Loading")
                 .environmentObject(viewModelWithLoading)
-            
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (Alert)")
+                .previewDisplayName("Alert")
                 .environmentObject(viewModelWithAlert)
         }
     }

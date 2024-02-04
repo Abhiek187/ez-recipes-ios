@@ -48,10 +48,6 @@ struct NutritionLabel: View {
 
 struct NutritionLabel_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(Device.all, id: \.self) { device in
-            NutritionLabel(recipe: .constant(Constants.Mocks.blueberryYogurt))
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
-        }
+        NutritionLabel(recipe: .constant(Constants.Mocks.blueberryYogurt))
     }
 }

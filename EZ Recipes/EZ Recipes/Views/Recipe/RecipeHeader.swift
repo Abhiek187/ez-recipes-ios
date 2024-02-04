@@ -80,14 +80,10 @@ struct RecipeHeader: View {
 
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(Device.all, id: \.self) { device in
-            RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(false)) {}
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (No Loading)")
-            
-            RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(true)) {}
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (Loading)")
-        }
+        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(false)) {}
+            .previewDisplayName("No Loading")
+        
+        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(true)) {}
+            .previewDisplayName("Loading")
     }
 }
