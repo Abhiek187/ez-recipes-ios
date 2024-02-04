@@ -29,6 +29,9 @@
 		F1437C0929567211005408E5 /* InstructionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1437C0829567211005408E5 /* InstructionsList.swift */; };
 		F1574DA5294FD85700539104 /* SummaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1574DA4294FD85700539104 /* SummaryBox.swift */; };
 		F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1574DA6294FDFA300539104 /* HTMLText.swift */; };
+		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
+		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
+		F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */; };
 		F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD43293D24CF0007255F /* RecipeHeader.swift */; };
 		F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD47293D73B20007255F /* RecipeFooter.swift */; };
 		F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD49293D753C0007255F /* NutritionLabel.swift */; };
@@ -99,6 +102,9 @@
 		F1574DA6294FDFA300539104 /* HTMLText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLText.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
+		F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiceLevel.swift; sourceTree = "<group>"; };
+		F1C7DA082B6F386800D6E343 /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
+		F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilter.swift; sourceTree = "<group>"; };
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
@@ -232,12 +238,15 @@
 			isa = PBXGroup;
 			children = (
 				F12C1C602904CBEC00C3302B /* Recipe.swift */,
+				F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */,
 				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
+				F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */,
 				F1F38EBC290F5053000FF99C /* Nutrient.swift */,
 				F1F38EBE290F506F000FF99C /* Ingredient.swift */,
 				F1F38EC0290F5088000FF99C /* Instruction.swift */,
 				F1F38EC2290F509B000FF99C /* Step.swift */,
 				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
+				F1C7DA082B6F386800D6E343 /* Term.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -494,11 +503,13 @@
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
+				F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */,
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
 				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F1437C0229564511005408E5 /* IngredientsList.swift in Sources */,
 				F1EAC7F8292187330046B268 /* NetworkManagerMock.swift in Sources */,
 				F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */,
+				F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */,
 				F1574DA5294FD85700539104 /* SummaryBox.swift in Sources */,
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
 				F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */,
@@ -515,6 +526,7 @@
 				F1320CDC297C9ADE00070DC8 /* RecipeTitle.swift in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
 				F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */,
+				F1C7DA092B6F386800D6E343 /* Term.swift in Sources */,
 				F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */,
 				F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */,
 			);

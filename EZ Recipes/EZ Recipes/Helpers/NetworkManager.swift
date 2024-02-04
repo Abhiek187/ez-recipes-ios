@@ -17,11 +17,11 @@ struct NetworkManager: RecipeRepository {
     static let shared = NetworkManager()
     private let session = Session(eventMonitors: [AFLogger()])
     
-    private func parseResponse(fromRequest request: DataRequest, method: String) async -> Result<Recipe, RecipeError> {
+    private func parseResponse<T: Decodable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
         do {
             // If successful, the request can be decoded as a Recipe object
-            let recipe = try await request.serializingDecodable(Recipe.self).value
-            return .success(recipe)
+            let response = try await request.serializingDecodable(T.self).value
+            return .success(response)
         } catch {
             print("\(method) :: error: \(error.localizedDescription)")
             
@@ -36,13 +36,23 @@ struct NetworkManager: RecipeRepository {
         }
     }
     
+    func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError> {
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter)
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
     func getRandomRecipe() async -> Result<Recipe, RecipeError> {
-        let request = session.request("\(Constants.recipeBaseUrl)/random")
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)/random")
         return await parseResponse(fromRequest: request, method: #function)
     }
     
     func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError> {
-        let request = session.request("\(Constants.recipeBaseUrl)/\(id)")
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)/\(id)")
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func getTerms() async -> Result<[Term], RecipeError> {
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.termsPath)")
         return await parseResponse(fromRequest: request, method: #function)
     }
 }
