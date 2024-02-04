@@ -15,10 +15,6 @@ struct SecondaryView: View {
 
 struct SecondaryView_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(Device.all, id: \.self) { device in
-            SecondaryView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName(device)
-        }
+        SecondaryView()
     }
 }

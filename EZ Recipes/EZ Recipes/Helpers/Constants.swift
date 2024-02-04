@@ -28,6 +28,22 @@ struct Constants {
         static let errorTitle = "Error"
         static let unknownError = "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues"
         static let okButton = "OK"
+        static let loadingMessages = [
+            "Prepping the ingredients... 🍱",
+            "Preheating the oven... ⏲️",
+            "Going grocery shopping... 🛒",
+            "Drying the meat... 🥩",
+            "Chopping onions... 😭",
+            "Dicing fruit... 🍎",
+            "Steaming veggies... 🥗",
+            "Applying condiments... 🧂",
+            "Spicing things up... 🌶️",
+            "Melting the butter... 🧈",
+            "Mashing the potatoes... 🥔",
+            "Fluffing some rice... 🍚",
+            "Mixing things up... 🥘",
+            "Shaking things up... 🍲"
+        ]
         
         // Secondary view
         static let selectRecipe = "Select a recipe from the navigation menu."

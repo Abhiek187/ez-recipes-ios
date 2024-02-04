@@ -32,12 +32,10 @@
 		F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD43293D24CF0007255F /* RecipeHeader.swift */; };
 		F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD47293D73B20007255F /* RecipeFooter.swift */; };
 		F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD49293D753C0007255F /* NutritionLabel.swift */; };
-		F1EAC7E929216A240046B268 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7E829216A240046B268 /* Device.swift */; };
 		F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F029217E250046B268 /* RecipeView.swift */; };
 		F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F3292185B90046B268 /* RecipeRepository.swift */; };
 		F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F5292185D70046B268 /* ViewModel.swift */; };
 		F1EAC7F8292187330046B268 /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */; };
-		F1EAC7FC2921A2550046B268 /* DeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7FB2921A2550046B268 /* DeviceTests.swift */; };
 		F1F38EB7290F215C000FF99C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB6290F215C000FF99C /* HomeViewModel.swift */; };
 		F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EB8290F3020000FF99C /* AFLogger.swift */; };
 		F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */; };
@@ -104,12 +102,10 @@
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
-		F1EAC7E829216A240046B268 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		F1EAC7F3292185B90046B268 /* RecipeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRepository.swift; sourceTree = "<group>"; };
 		F1EAC7F5292185D70046B268 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		F1EAC7FB2921A2550046B268 /* DeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTests.swift; sourceTree = "<group>"; };
 		F1F38EB6290F215C000FF99C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F1F38EB8290F3020000FF99C /* AFLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFLogger.swift; sourceTree = "<group>"; };
 		F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
@@ -218,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
-				F1EAC7FB2921A2550046B268 /* DeviceTests.swift */,
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
 			);
 			path = "EZ RecipesTests";
@@ -275,7 +270,6 @@
 				F12C1C622904CED500C3302B /* NetworkManager.swift */,
 				F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */,
 				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
-				F1EAC7E829216A240046B268 /* Device.swift */,
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 			);
 			path = Helpers;
@@ -423,7 +417,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					F12C1C262904951600C3302B = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -500,7 +494,6 @@
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
-				F1EAC7E929216A240046B268 /* Device.swift in Sources */,
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
 				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F1437C0229564511005408E5 /* IngredientsList.swift in Sources */,
@@ -533,7 +526,6 @@
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
-				F1EAC7FC2921A2550046B268 /* DeviceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +570,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -610,6 +603,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -638,6 +632,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -670,6 +665,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

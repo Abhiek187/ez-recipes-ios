@@ -112,14 +112,9 @@ struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
         viewModel.getRandomRecipe()
         
-        // The preview device and display name don't work when wrapped in a NavigationView (might be a bug)
-        return ForEach(Device.all, id: \.self) { device in
-            NavigationView {
-                RecipeView()
-                    .previewDevice(PreviewDevice(rawValue: device))
-                    .previewDisplayName(device)
-                    .environmentObject(viewModel)
-            }
+        return NavigationView {
+            RecipeView()
+                .environmentObject(viewModel)
         }
     }
 }

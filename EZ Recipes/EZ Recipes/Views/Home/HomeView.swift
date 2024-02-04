@@ -11,6 +11,11 @@ struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
     @EnvironmentObject private var viewModel: HomeViewModel
     
+    // Don't show any messages initially if the recipe loads quickly
+    // " " will allocate space for the loading message so the UI doesn't dynamically shift
+    @State private var loadingMessage = " "
+    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -40,6 +45,17 @@ struct HomeView: View {
                 // Use opacity instead of an if statement so the button doesn't jump when pressed
                 ProgressView()
                     .opacity(viewModel.isLoading ? 1 : 0)
+                Text(loadingMessage)
+                    .opacity(viewModel.isLoading ? 1 : 0)
+                    // TODO: change to the 0 or 2-parameter variant if this deprecated modifier is removed
+                    .onChange(of: viewModel.isLoading) { isLoading in
+                        if isLoading {
+                            loadingMessage = " "
+                        }
+                    }
+                    .onReceive(timer) { _ in
+                        loadingMessage = Constants.Strings.loadingMessages.randomElement() ?? " "
+                    }
             }
             .navigationTitle(Constants.Strings.homeTitle)
             
@@ -63,20 +79,15 @@ struct HomeView_Previews: PreviewProvider {
         viewModelWithLoading.isLoading = true
         repoFail.isSuccess = false
         
-        return ForEach(Device.all, id: \.self) { device in
+        return ForEach([1], id: \.self) {_ in
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (No Loading)")
+                .previewDisplayName("No Loading")
                 .environmentObject(viewModelWithoutLoading)
-            
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (Loading)")
+                .previewDisplayName("Loading")
                 .environmentObject(viewModelWithLoading)
-            
             HomeView()
-                .previewDevice(PreviewDevice(rawValue: device))
-                .previewDisplayName("\(device) (Alert)")
+                .previewDisplayName("Alert")
                 .environmentObject(viewModelWithAlert)
         }
     }
