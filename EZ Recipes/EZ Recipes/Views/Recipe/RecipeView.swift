@@ -19,41 +19,41 @@ struct RecipeView: View {
             VStack(spacing: 8) {
                 if let recipe = viewModel.recipe {
                     // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
-                    RecipeTitle(recipe: .constant(recipe))
+                    RecipeTitle(recipe: recipe)
                     
                     // Show views side-by-side if the screen is wide enough
                     if sizeClass == .compact {
-                        RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
+                        RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
                             // When the show another recipe button is tapped, load a new recipe in the same view
                             viewModel.getRandomRecipe()
                         }
-                        NutritionLabel(recipe: .constant(recipe))
+                        NutritionLabel(recipe: recipe)
                     } else {
                         HStack {
                             Spacer()
-                            RecipeHeader(recipe: .constant(recipe), isLoading: $viewModel.isLoading) {
+                            RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
                                 viewModel.getRandomRecipe()
                             }
                             Spacer()
-                            NutritionLabel(recipe: .constant(recipe))
+                            NutritionLabel(recipe: recipe)
                             Spacer()
                         }
                     }
                     
                     if sizeClass == .compact {
-                        SummaryBox(recipe: .constant(recipe))
-                        IngredientsList(recipe: .constant(recipe))
+                        SummaryBox(summary: recipe.summary)
+                        IngredientsList(ingredients: recipe.ingredients)
                     } else {
                         HStack {
                             Spacer()
-                            SummaryBox(recipe: .constant(recipe))
+                            SummaryBox(summary: recipe.summary)
                             Spacer()
-                            IngredientsList(recipe: .constant(recipe))
+                            IngredientsList(ingredients: recipe.ingredients)
                             Spacer()
                         }
                     }
                     
-                    InstructionsList(recipe: .constant(recipe))
+                    InstructionsList(instructions: recipe.instructions)
                     
                     Divider()
                     

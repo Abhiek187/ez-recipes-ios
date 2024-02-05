@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeTitle: View {
-    @Binding var recipe: Recipe
+    var recipe: Recipe
     
     var body: some View {
         // Recipe name and link
@@ -29,6 +29,6 @@ struct RecipeTitle: View {
 
 struct RecipeTitle_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeTitle(recipe: .constant(Constants.Mocks.blueberryYogurt))
+        RecipeTitle(recipe: Constants.Mocks.blueberryYogurt)
     }
 }

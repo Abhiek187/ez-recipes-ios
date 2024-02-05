@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RecipePills: View {
-    @Binding var spiceLevel: SpiceLevel
-    @Binding var isVegetarian: Bool
-    @Binding var isVegan: Bool
-    @Binding var isGlutenFree: Bool
-    @Binding var isHealthy: Bool
-    @Binding var isCheap: Bool
-    @Binding var isSustainable: Bool
+    var spiceLevel: SpiceLevel
+    var isVegetarian: Bool
+    var isVegan: Bool
+    var isGlutenFree: Bool
+    var isHealthy: Bool
+    var isCheap: Bool
+    var isSustainable: Bool
     
     let columns = [
         GridItem(.adaptive(minimum: 100), alignment: .top)
@@ -62,13 +62,13 @@ struct RecipePills: View {
 }
 
 #Preview("Spicy") {
-    RecipePills(spiceLevel: .constant(.spicy), isVegetarian: .constant(true), isVegan: .constant(true), isGlutenFree: .constant(true), isHealthy: .constant(true), isCheap: .constant(true), isSustainable: .constant(true))
+    RecipePills(spiceLevel: .spicy, isVegetarian: true, isVegan: true, isGlutenFree: true, isHealthy: true, isCheap: true, isSustainable: true)
 }
 
 #Preview("Mild") {
-    RecipePills(spiceLevel: .constant(.mild), isVegetarian: .constant(true), isVegan: .constant(false), isGlutenFree: .constant(true), isHealthy: .constant(false), isCheap: .constant(false), isSustainable: .constant(false))
+    RecipePills(spiceLevel: .mild, isVegetarian: true, isVegan: false, isGlutenFree: true, isHealthy: false, isCheap: false, isSustainable: false)
 }
 
 #Preview("No Spice") {
-    RecipePills(spiceLevel: .constant(.unknown), isVegetarian: .constant(false), isVegan: .constant(false), isGlutenFree: .constant(false), isHealthy: .constant(false), isCheap: .constant(true), isSustainable: .constant(false))
+    RecipePills(spiceLevel: .unknown, isVegetarian: false, isVegan: false, isGlutenFree: false, isHealthy: false, isCheap: true, isSustainable: false)
 }

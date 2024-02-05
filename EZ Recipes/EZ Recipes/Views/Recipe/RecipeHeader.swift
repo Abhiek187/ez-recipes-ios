@@ -24,8 +24,8 @@ private extension Button {
 }
 
 struct RecipeHeader: View {
-    @Binding var recipe: Recipe
-    @Binding var isLoading: Bool
+    var recipe: Recipe
+    var isLoading: Bool
     var onFindRecipeButtonTapped: () -> Void // callback to pass to the parent View
     @Environment(\.colorScheme) var colorScheme
     
@@ -48,7 +48,7 @@ struct RecipeHeader: View {
             // Recipe info
             HStack {
                 Spacer()
-                RecipePills(spiceLevel: .constant(recipe.spiceLevel), isVegetarian: .constant(recipe.isVegetarian), isVegan: .constant(recipe.isVegan), isGlutenFree: .constant(recipe.isGlutenFree), isHealthy: .constant(recipe.isHealthy), isCheap: .constant(recipe.isCheap), isSustainable: .constant(recipe.isSustainable))
+                RecipePills(spiceLevel: recipe.spiceLevel, isVegetarian: recipe.isVegetarian, isVegan: recipe.isVegan, isGlutenFree: recipe.isGlutenFree, isHealthy: recipe.isHealthy, isCheap: recipe.isCheap, isSustainable: recipe.isSustainable)
                 Spacer()
             }
             
@@ -87,10 +87,10 @@ struct RecipeHeader: View {
 
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(false)) {}
+        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
             .previewDisplayName("No Loading")
         
-        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(true)) {}
+        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: true) {}
             .previewDisplayName("Loading")
     }
 }
