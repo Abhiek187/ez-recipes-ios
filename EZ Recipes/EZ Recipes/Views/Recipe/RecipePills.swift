@@ -61,14 +61,15 @@ struct RecipePills: View {
     }
 }
 
-#Preview("Spicy") {
-    RecipePills(spiceLevel: .spicy, isVegetarian: true, isVegan: true, isGlutenFree: true, isHealthy: true, isCheap: true, isSustainable: true)
-}
-
-#Preview("Mild") {
-    RecipePills(spiceLevel: .mild, isVegetarian: true, isVegan: false, isGlutenFree: true, isHealthy: false, isCheap: false, isSustainable: false)
-}
-
-#Preview("No Spice") {
-    RecipePills(spiceLevel: .unknown, isVegetarian: false, isVegan: false, isGlutenFree: false, isHealthy: false, isCheap: true, isSustainable: false)
+struct RecipePills_Previews: PreviewProvider {
+    static var previews: some View {
+        RecipePills(spiceLevel: .spicy, isVegetarian: true, isVegan: true, isGlutenFree: true, isHealthy: true, isCheap: true, isSustainable: true)
+            .previewDisplayName("Spicy")
+        
+        RecipePills(spiceLevel: .mild, isVegetarian: true, isVegan: false, isGlutenFree: true, isHealthy: false, isCheap: false, isSustainable: false)
+            .previewDisplayName("Mild")
+        
+        RecipePills(spiceLevel: .unknown, isVegetarian: false, isVegan: false, isGlutenFree: false, isHealthy: false, isCheap: true, isSustainable: false)
+            .previewDisplayName("No Spice")
+    }
 }
