@@ -27,7 +27,7 @@ struct SummaryBox: View {
             
         }
         .padding() // apply padding inside the box
-        .foregroundColor(.black)
+        .foregroundStyle(.black)
         .background(
             RoundedRectangle(cornerRadius: 5)
                 .fill(.yellow)

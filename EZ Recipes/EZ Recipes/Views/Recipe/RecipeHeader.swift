@@ -45,6 +45,13 @@ struct RecipeHeader: View {
                 }
             }
             
+            // Recipe info
+            HStack {
+                Spacer()
+                RecipePills(spiceLevel: .constant(recipe.spiceLevel), isVegetarian: .constant(recipe.isVegetarian), isVegan: .constant(recipe.isVegan), isGlutenFree: .constant(recipe.isGlutenFree), isHealthy: .constant(recipe.isHealthy), isCheap: .constant(recipe.isCheap), isSustainable: .constant(recipe.isSustainable))
+                Spacer()
+            }
+            
             // Recipe time and buttons
             VStack {
                 Text(Constants.Strings.recipeTime(recipe.time))
@@ -54,7 +61,7 @@ struct RecipeHeader: View {
                     Button {
                         print("Nice! Hope it was tasty!")
                     } label: {
-                        Label(Constants.Strings.madeButton, systemImage: "tuningfork") // TODO: find a food icon outside of SFSymbols
+                        Label(Constants.Strings.madeButton, systemImage: "fork.knife")
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.red)
@@ -66,7 +73,7 @@ struct RecipeHeader: View {
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.yellow)
-                    .foregroundColor(colorScheme == .light ? .black : .yellow)
+                    .foregroundStyle(colorScheme == .light ? .black : .yellow)
                     .disabled(isLoading)
                 }
             }
