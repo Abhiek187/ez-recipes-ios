@@ -15,7 +15,7 @@ private struct Pill: ViewModifier {
             .font(.caption)
             .padding()
             .background(background)
-            .clipShape(.capsule)
+            .clipShape(Capsule())
     }
 }
 
