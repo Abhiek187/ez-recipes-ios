@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NutritionLabel: View {
-    @Binding var recipe: Recipe
+    var recipe: Recipe
     
     // Nutrients that should be bolded in the nutrition label
     let nutrientHeadings = ["Calories", "Fat", "Carbohydrates", "Protein"]
@@ -48,6 +48,6 @@ struct NutritionLabel: View {
 
 struct NutritionLabel_Previews: PreviewProvider {
     static var previews: some View {
-        NutritionLabel(recipe: .constant(Constants.Mocks.blueberryYogurt))
+        NutritionLabel(recipe: Constants.Mocks.blueberryYogurt)
     }
 }

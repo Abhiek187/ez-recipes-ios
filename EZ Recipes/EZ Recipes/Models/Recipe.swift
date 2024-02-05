@@ -16,6 +16,15 @@ struct Recipe: Decodable, Equatable {
     let time: Int
     let servings: Int
     let summary: String
+    let types: [String]
+    let spiceLevel: SpiceLevel
+    let isVegetarian: Bool
+    let isVegan: Bool
+    let isGlutenFree: Bool
+    let isHealthy: Bool
+    let isCheap: Bool
+    let isSustainable: Bool
+    let culture: [String]
     let nutrients: [Nutrient]
     let ingredients: [Ingredient]
     let instructions: [Instruction]

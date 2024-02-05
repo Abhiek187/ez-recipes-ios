@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InstructionsList: View {
-    @Binding var recipe: Recipe
+    var instructions: [Instruction]
     
     // Show step cards side-by-side if there's enough room
     let columns = [
@@ -21,7 +21,7 @@ struct InstructionsList: View {
                 .font(.title2.bold())
             
             // Split each step by instruction (if applicable)
-            ForEach(recipe.instructions, id: \.name) { instruction in
+            ForEach(instructions, id: \.name) { instruction in
                 if !instruction.name.isEmpty {
                     Text(instruction.name)
                         .font(.title3)
@@ -30,7 +30,7 @@ struct InstructionsList: View {
                 // Steps per instruction
                 LazyVGrid(columns: columns) {
                     ForEach(instruction.steps, id: \.number) { step in
-                        StepCard(step: .constant(step))
+                        StepCard(step: step)
                     }
                 }
             }
@@ -40,6 +40,6 @@ struct InstructionsList: View {
 
 struct InstructionsList_Previews: PreviewProvider {
     static var previews: some View {
-        InstructionsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
+        InstructionsList(instructions: Constants.Mocks.blueberryYogurt.instructions)
     }
 }

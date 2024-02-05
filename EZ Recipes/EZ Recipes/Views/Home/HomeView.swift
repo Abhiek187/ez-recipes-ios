@@ -25,7 +25,7 @@ struct HomeView: View {
                         viewModel.getRandomRecipe()
                     } label: {
                         Text(Constants.Strings.findRecipeButton)
-                            .foregroundColor(viewModel.isLoading ? .primary : .black)
+                            .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
                             .font(.system(size: 22))
                     }
                     .buttonStyle(.borderedProminent)

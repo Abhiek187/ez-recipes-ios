@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SummaryBox: View {
-    @Binding var recipe: Recipe
+    var summary: String
     
     var body: some View {
         VStack(spacing: 8) {
@@ -23,11 +23,11 @@ struct SummaryBox: View {
             
             //HTMLText(recipe.summary)
             // Remove all HTML tags from the string
-            Text(recipe.summary.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil))
+            Text(summary.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil))
             
         }
         .padding() // apply padding inside the box
-        .foregroundColor(.black)
+        .foregroundStyle(.black)
         .background(
             RoundedRectangle(cornerRadius: 5)
                 .fill(.yellow)
@@ -38,6 +38,6 @@ struct SummaryBox: View {
 
 struct SummaryBox_Previews: PreviewProvider {
     static var previews: some View {
-        SummaryBox(recipe: .constant(Constants.Mocks.blueberryYogurt))
+        SummaryBox(summary: Constants.Mocks.blueberryYogurt.summary)
     }
 }

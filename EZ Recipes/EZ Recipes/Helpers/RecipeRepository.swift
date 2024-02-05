@@ -9,6 +9,8 @@
 protocol RecipeRepository {
     static var shared: Self { get } // singleton
     
+    func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError>
     func getRandomRecipe() async -> Result<Recipe, RecipeError>
     func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError>
+    func getTerms() async -> Result<[Term], RecipeError>
 }

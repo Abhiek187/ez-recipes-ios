@@ -24,8 +24,8 @@ private extension Button {
 }
 
 struct RecipeHeader: View {
-    @Binding var recipe: Recipe
-    @Binding var isLoading: Bool
+    var recipe: Recipe
+    var isLoading: Bool
     var onFindRecipeButtonTapped: () -> Void // callback to pass to the parent View
     @Environment(\.colorScheme) var colorScheme
     
@@ -45,16 +45,34 @@ struct RecipeHeader: View {
                 }
             }
             
+            // Recipe info
+            HStack {
+                Spacer()
+                RecipePills(spiceLevel: recipe.spiceLevel, isVegetarian: recipe.isVegetarian, isVegan: recipe.isVegan, isGlutenFree: recipe.isGlutenFree, isHealthy: recipe.isHealthy, isCheap: recipe.isCheap, isSustainable: recipe.isSustainable)
+                Spacer()
+            }
+            
             // Recipe time and buttons
             VStack {
                 Text(Constants.Strings.recipeTime(recipe.time))
                     .font(.system(size: 20))
                 
+                if !recipe.types.isEmpty {
+                    Text(Constants.Strings.mealTypes(recipe.types))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
+                if !recipe.culture.isEmpty {
+                    Text(Constants.Strings.cuisines(recipe.culture))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
+                
                 HStack {
                     Button {
                         print("Nice! Hope it was tasty!")
                     } label: {
-                        Label(Constants.Strings.madeButton, systemImage: "tuningfork") // TODO: find a food icon outside of SFSymbols
+                        Label(Constants.Strings.madeButton, systemImage: "fork.knife")
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.red)
@@ -66,7 +84,7 @@ struct RecipeHeader: View {
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.yellow)
-                    .foregroundColor(colorScheme == .light ? .black : .yellow)
+                    .foregroundStyle(colorScheme == .light ? .black : .yellow)
                     .disabled(isLoading)
                 }
             }
@@ -80,10 +98,10 @@ struct RecipeHeader: View {
 
 struct RecipeHeader_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(false)) {}
+        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
             .previewDisplayName("No Loading")
         
-        RecipeHeader(recipe: .constant(Constants.Mocks.blueberryYogurt), isLoading: .constant(true)) {}
+        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: true) {}
             .previewDisplayName("Loading")
     }
 }

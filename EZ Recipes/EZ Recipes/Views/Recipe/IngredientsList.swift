@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IngredientsList: View {
-    @Binding var recipe: Recipe
+    var ingredients: [Ingredient]
     
     var body: some View {
         VStack(spacing: 12) {
@@ -17,7 +17,7 @@ struct IngredientsList: View {
             
             Divider()
             
-            ForEach(recipe.ingredients, id: \.id) { ingredient in
+            ForEach(ingredients, id: \.id) { ingredient in
                 HStack {
                     Text("\(ingredient.amount.round(to: 2)) \(ingredient.unit)")
                     Spacer()
@@ -31,6 +31,6 @@ struct IngredientsList: View {
 
 struct IngredientsList_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientsList(recipe: .constant(Constants.Mocks.blueberryYogurt))
+        IngredientsList(ingredients: Constants.Mocks.blueberryYogurt.ingredients)
     }
 }

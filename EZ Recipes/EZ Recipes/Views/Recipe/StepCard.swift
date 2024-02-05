@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StepCard: View {
-    @Binding var step: Step
+    var step: Step
     
     let columns = [
         GridItem(.adaptive(minimum: 100), alignment: .top)
@@ -86,6 +86,6 @@ struct StepCard: View {
 
 struct StepCard_Previews: PreviewProvider {
     static var previews: some View {
-        StepCard(step: .constant(Constants.Mocks.blueberryYogurt.instructions[0].steps[0]))
+        StepCard(step: Constants.Mocks.blueberryYogurt.instructions[0].steps[0])
     }
 }
