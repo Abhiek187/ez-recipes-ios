@@ -80,6 +80,12 @@ struct Constants {
             // String(localized:) == NSLocalizedString
             LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
         }
+        static let mealTypes: ([String]) -> LocalizedStringKey = { types in
+            LocalizedStringKey(String(format: "**Great for:** %@", types.joined(separator: ", ")))
+        }
+        static let cuisines: ([String]) -> LocalizedStringKey = { cultures in
+            LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.joined(separator: ", ")))
+        }
         static let madeButton = "I Made This!"
         static let showRecipeButton = "Show Me Another Recipe!"
         

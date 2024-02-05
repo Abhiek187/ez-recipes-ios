@@ -57,6 +57,17 @@ struct RecipeHeader: View {
                 Text(Constants.Strings.recipeTime(recipe.time))
                     .font(.system(size: 20))
                 
+                if !recipe.types.isEmpty {
+                    Text(Constants.Strings.mealTypes(recipe.types))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
+                if !recipe.culture.isEmpty {
+                    Text(Constants.Strings.cuisines(recipe.culture))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                }
+                
                 HStack {
                     Button {
                         print("Nice! Hope it was tasty!")
