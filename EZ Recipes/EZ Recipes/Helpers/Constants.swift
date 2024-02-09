@@ -29,6 +29,12 @@ struct Constants {
     }
     
     struct Strings {
+        // Content View
+        struct Tabs {
+            static let home = "Home"
+            static let search = "Search"
+        }
+        
         // Home view
         static let homeTitle = "Home"
         static let findRecipeButton = "Find Me a Recipe!"
