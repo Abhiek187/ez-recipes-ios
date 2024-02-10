@@ -11,12 +11,15 @@ struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
     
     var body: some View {
-        VStack {
-            FilterForm(recipeFilter: $viewModel.recipeFilter) {
-                viewModel.searchRecipes()
+        NavigationView {
+            VStack {
+                FilterForm(recipeFilter: $viewModel.recipeFilter) {
+                    viewModel.searchRecipes()
+                }
+                
+                SearchResults(recipes: viewModel.recipes)
             }
-            
-            SearchResults(recipes: viewModel.recipes)
+            .navigationTitle("Search")
         }
     }
 }
