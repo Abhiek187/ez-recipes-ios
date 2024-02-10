@@ -14,7 +14,7 @@ struct ContentView: View {
                 .tabItem {
                     Label(Constants.Strings.Tabs.home, systemImage: "house")
                 }
-            SearchView()
+            SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
                 .tabItem {
                     Label(Constants.Strings.Tabs.search, systemImage: "magnifyingglass")
                 }

@@ -16,7 +16,7 @@ struct Recipe: Decodable, Equatable {
     let time: Int
     let servings: Int
     let summary: String
-    let types: [String]
+    let types: [MealType]
     let spiceLevel: SpiceLevel
     let isVegetarian: Bool
     let isVegan: Bool
@@ -24,7 +24,7 @@ struct Recipe: Decodable, Equatable {
     let isHealthy: Bool
     let isCheap: Bool
     let isSustainable: Bool
-    let culture: [String]
+    let culture: [Cuisine]
     let nutrients: [Nutrient]
     let ingredients: [Ingredient]
     let instructions: [Instruction]

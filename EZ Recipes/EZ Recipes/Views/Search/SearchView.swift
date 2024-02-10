@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct SearchView: View {
+    @StateObject var viewModel: SearchViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            FilterForm(recipeFilter: $viewModel.recipeFilter) {
+                viewModel.searchRecipes()
+            }
+            
+            SearchResults(recipes: viewModel.recipes)
+        }
     }
 }
 
-#Preview {
-    SearchView()
+struct SearchView_Previews: PreviewProvider {
+    static let mockNetworkManager = NetworkManagerMock.shared
+    static let viewModel = SearchViewModel(repository: mockNetworkManager)
+    
+    static var previews: some View {
+        SearchView(viewModel: viewModel)
+    }
 }
