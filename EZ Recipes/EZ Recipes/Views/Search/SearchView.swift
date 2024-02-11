@@ -21,6 +21,7 @@ struct SearchView: View {
             }
             .navigationTitle(Constants.SearchView.searchTitle)
         }
+        .navigationViewStyle(.automatic)
     }
 }
 

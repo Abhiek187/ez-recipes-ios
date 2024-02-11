@@ -38,6 +38,7 @@
 		F15CB9F22B770F610031F725 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9F12B770F610031F725 /* SearchResults.swift */; };
 		F15CB9F42B770F7F0031F725 /* RecipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9F32B770F7F0031F725 /* RecipeCard.swift */; };
 		F17A80A22B783C1500E811C8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A12B783C1500E811C8 /* FormError.swift */; };
+		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
 		F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */; };
@@ -157,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */,
 				F12C1C662904D16700C3302B /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +420,7 @@
 			name = "EZ Recipes";
 			packageProductDependencies = (
 				F12C1C652904D16700C3302B /* Alamofire */,
+				F17A80A42B78764300E811C8 /* MultiPicker */,
 			);
 			productName = "EZ Recipes";
 			productReference = F12C1C272904951600C3302B /* EZ Recipes.app */;
@@ -493,6 +496,7 @@
 			mainGroup = F12C1C1E2904951600C3302B;
 			packageReferences = (
 				F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */,
 			);
 			productRefGroup = F12C1C282904951600C3302B /* Products */;
 			projectDirPath = "";
@@ -932,6 +936,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/toastersocks/MultiPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -939,6 +951,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		F17A80A42B78764300E811C8 /* MultiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */;
+			productName = MultiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

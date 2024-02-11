@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class SearchViewModel: ViewModel, ObservableObject {
     @Published private(set) var isLoading = false
-    @Published var recipeFilter: RecipeFilter = RecipeFilter()
+    @Published var recipeFilter = RecipeFilter()
     @Published private(set) var recipes: [Recipe] = []
     @Published private(set) var recipeError: RecipeError? = nil
     
