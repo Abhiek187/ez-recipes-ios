@@ -33,6 +33,12 @@ struct Constants {
         static let search = "Search"
     }
     
+    struct KeyboardNavigation {
+        static let previous = "Previous"
+        static let next = "Next"
+        static let done = "Done"
+    }
+    
     struct HomeView {
         static let homeTitle = "Home"
         static let findRecipeButton = "Find Me a Recipe!"

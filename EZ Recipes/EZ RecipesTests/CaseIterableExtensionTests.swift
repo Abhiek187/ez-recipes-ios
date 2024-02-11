@@ -48,4 +48,40 @@ final class CaseIterableExtensionTests: XCTestCase {
             XCTAssertEqual(nextSuit, expectedSuit, "Expected \(suit)'s next value to be \(expectedSuit), but got \(nextSuit)")
         }
     }
+    
+    func testIsFirst() {
+        // Given enum values
+        let testCases: [(Suit, Bool)] = [
+            (.spade, true),
+            (.heart, false),
+            (.diamond, false),
+            (.club, false)
+        ]
+        
+        for (suit, expectedValue) in testCases {
+            // When calling .isFirst
+            let isFirst = suit.isFirst
+            
+            // Then it should return true for the enum with the smallest value
+            XCTAssertEqual(isFirst, expectedValue, "Expected \(suit).isFirst to be \(expectedValue), but got \(isFirst)")
+        }
+    }
+    
+    func testIsLast() {
+        // Given enum values
+        let testCases: [(Suit, Bool)] = [
+            (.spade, false),
+            (.heart, false),
+            (.diamond, false),
+            (.club, true)
+        ]
+        
+        for (suit, expectedValue) in testCases {
+            // When calling .isLast
+            let isLast = suit.isLast
+            
+            // Then it should return true for the enum with the largest value
+            XCTAssertEqual(isLast, expectedValue, "Expected \(suit).isLast to be \(expectedValue), but got \(isLast)")
+        }
+    }
 }

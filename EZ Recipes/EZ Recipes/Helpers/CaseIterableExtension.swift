@@ -23,4 +23,14 @@ extension CaseIterable where Self: Equatable {
         let nextIndex = all.index(after: currentIndex)
         return all[nextIndex == all.endIndex ? currentIndex : nextIndex]
     }
+    
+    /// Returns `true` if the enum is the first case
+    var isFirst: Bool {
+        self.previous() == self
+    }
+    
+    /// Returns `true` if the enum is the last case
+    var isLast: Bool {
+        self.next() == self
+    }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 import MultiPicker
 
 struct FilterForm: View {
+    // Focusable fields in form order
     enum Field: CaseIterable {
         case query
         case minCals
@@ -101,18 +102,19 @@ struct FilterForm: View {
             .disabled(caloriesExceedMax || caloriesInvalidRange)
         }
         .toolbar {
+            // Add buttons above the keyboard for ease of navigation
             ToolbarItem(placement: .keyboard) {
                 HStack {
-                    Button("Previous", systemImage: "chevron.up") {
+                    Button(Constants.KeyboardNavigation.previous, systemImage: "chevron.up") {
                         focusedField = focusedField?.previous()
                     }
-                    .disabled(focusedField == .query)
-                    Button("Next", systemImage: "chevron.down") {
+                    .disabled(focusedField?.isFirst != false)
+                    Button(Constants.KeyboardNavigation.next, systemImage: "chevron.down") {
                         focusedField = focusedField?.next()
                     }
-                    .disabled(focusedField == .maxCals)
+                    .disabled(focusedField?.isLast != false)
                     Spacer()
-                    Button("Done") {
+                    Button(Constants.KeyboardNavigation.done) {
                         focusedField = nil
                     }
                 }
