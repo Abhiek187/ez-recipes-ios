@@ -9,9 +9,16 @@ import SwiftUI
 import MultiPicker
 
 struct FilterForm: View {
+    enum Field: CaseIterable {
+        case query
+        case minCals
+        case maxCals
+    }
+    
     @Binding var recipeFilter: RecipeFilter
     var onSubmit: () -> Void
     
+    @FocusState private var focusedField: Field?
     @State private var caloriesExceedMax = false
     @State private var caloriesInvalidRange = false
     
@@ -24,6 +31,7 @@ struct FilterForm: View {
                 TextField(Constants.SearchView.queryPlaceholder, text: $recipeFilter.query)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
+                    .focused($focusedField, equals: .query)
             }
             Section(Constants.SearchView.filterSection) {
                 HStack {
@@ -31,6 +39,7 @@ struct FilterForm: View {
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .minCals)
                         .onChange(of: (recipeFilter.minCals ?? MIN_CALS)) { newValue in
                             withAnimation {
                                 caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.maxCals ?? MIN_CALS) > MAX_CALS
@@ -42,6 +51,7 @@ struct FilterForm: View {
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .maxCals)
                         .onChange(of: (recipeFilter.maxCals ?? MIN_CALS)) { newValue in
                             withAnimation {
                                 caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
@@ -89,6 +99,24 @@ struct FilterForm: View {
                 onSubmit()
             }
             .disabled(caloriesExceedMax || caloriesInvalidRange)
+        }
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                HStack {
+                    Button("Previous", systemImage: "chevron.up") {
+                        focusedField = focusedField?.previous()
+                    }
+                    .disabled(focusedField == .query)
+                    Button("Next", systemImage: "chevron.down") {
+                        focusedField = focusedField?.next()
+                    }
+                    .disabled(focusedField == .maxCals)
+                    Spacer()
+                    Button("Done") {
+                        focusedField = nil
+                    }
+                }
+            }
         }
     }
 }

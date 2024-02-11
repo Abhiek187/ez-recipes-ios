@@ -39,6 +39,8 @@
 		F15CB9F42B770F7F0031F725 /* RecipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9F32B770F7F0031F725 /* RecipeCard.swift */; };
 		F17A80A22B783C1500E811C8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A12B783C1500E811C8 /* FormError.swift */; };
 		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
+		F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */; };
+		F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
 		F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */; };
@@ -121,6 +123,8 @@
 		F15CB9F12B770F610031F725 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 		F15CB9F32B770F7F0031F725 /* RecipeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCard.swift; sourceTree = "<group>"; };
 		F17A80A12B783C1500E811C8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
+		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
+		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiceLevel.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 			children = (
 				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
+				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -309,6 +314,7 @@
 				F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */,
 				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
+				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -579,6 +585,7 @@
 				F15CB9E52B75A4EC0031F725 /* SearchView.swift in Sources */,
 				F1320CDC297C9ADE00070DC8 /* RecipeTitle.swift in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
+				F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */,
 				F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */,
 				F15CB9EC2B7704A10031F725 /* MealType.swift in Sources */,
 				F1C7DA092B6F386800D6E343 /* Term.swift in Sources */,
@@ -593,6 +600,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
+				F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
