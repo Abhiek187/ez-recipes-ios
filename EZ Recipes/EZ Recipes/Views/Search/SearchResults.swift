@@ -12,7 +12,7 @@ struct SearchResults: View {
     
     var body: some View {
         VStack {
-            Text("Results")
+            Text(Constants.SearchView.resultsTitle)
                 .font(.title)
             ForEach(recipes, id: \.id) { recipe in
                 RecipeCard(recipe: recipe)

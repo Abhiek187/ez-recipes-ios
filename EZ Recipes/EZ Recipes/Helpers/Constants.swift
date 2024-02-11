@@ -123,4 +123,35 @@ struct Constants {
         }
         static let attribution = "Powered by spoonacular"
     }
+    
+    struct SearchView {
+        static let searchTitle = "Search"
+        
+        // Filter form
+        static let querySection = "Query"
+        static let queryPlaceholder = "food"
+        
+        static let filterSection = "Filters"
+        static let minCals = 0
+        static let maxCals = 2000
+        static let calorieLabel = "≤ Calories ≤"
+        static let calorieUnit = "kcal"
+        static let calorieExceedMaxError = "Error: Calories must be ≤ 2000"
+        static let calorieInvalidRangeError = "Error: Max calories cannot exceed min calories"
+        
+        static let vegetarianLabel = "Vegetarian"
+        static let veganLabel = "Vegan"
+        static let glutenFreeLabel = "Gluten-Free"
+        static let healthyLabel = "Healthy"
+        static let cheapLabel = "Cheap"
+        static let sustainableLabel = "Sustainable"
+        
+        static let spiceLabel = "Spice Level"
+        static let typeLabel = "Meal Type"
+        static let cultureLabel = "Cuisine"
+        static let submitButton = "Apply"
+        
+        // Results
+        static let resultsTitle = "Results"
+    }
 }

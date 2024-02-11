@@ -19,7 +19,7 @@ struct SearchView: View {
                 
                 SearchResults(recipes: viewModel.recipes)
             }
-            .navigationTitle("Search")
+            .navigationTitle(Constants.SearchView.searchTitle)
         }
     }
 }

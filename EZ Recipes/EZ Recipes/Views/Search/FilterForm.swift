@@ -14,48 +14,52 @@ struct FilterForm: View {
     @State private var caloriesExceedMax = false
     @State private var caloriesInvalidRange = false
     
+    private let MIN_CALS = Constants.SearchView.minCals
+    private let MAX_CALS = Constants.SearchView.maxCals
+    
     var body: some View {
         Form {
-            Section("Query") {
-                TextField("food", text: $recipeFilter.query)
+            Section(Constants.SearchView.querySection) {
+                TextField(Constants.SearchView.queryPlaceholder, text: $recipeFilter.query)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
             }
-            Section("Filters") {
+            Section(Constants.SearchView.filterSection) {
                 HStack {
-                    TextField("0", value: $recipeFilter.minCals, format: .number)
+                    TextField(String(MIN_CALS), value: $recipeFilter.minCals, format: .number)
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
-                        .onChange(of: (recipeFilter.minCals ?? 0)) { newValue in
+                        .onChange(of: (recipeFilter.minCals ?? MIN_CALS)) { newValue in
                             withAnimation {
-                                caloriesExceedMax = newValue > 2000 || (recipeFilter.maxCals ?? 0) > 2000
+                                caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.maxCals ?? MIN_CALS) > MAX_CALS
                                 caloriesInvalidRange = newValue > (recipeFilter.maxCals ?? Int.max)
                             }
                         }
-                    Text("≤ Calories ≤")
-                    TextField("2000", value: $recipeFilter.maxCals, format: .number)
+                    Text(Constants.SearchView.calorieLabel)
+                    TextField(String(MAX_CALS), value: $recipeFilter.maxCals, format: .number)
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
-                        .onChange(of: (recipeFilter.maxCals ?? 0)) { newValue in
+                        .onChange(of: (recipeFilter.maxCals ?? MIN_CALS)) { newValue in
                             withAnimation {
-                                caloriesExceedMax = newValue > 2000 || (recipeFilter.minCals ?? 0) > 2000
-                                caloriesInvalidRange = newValue < (recipeFilter.minCals ?? 0)
+                                caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
+                                caloriesInvalidRange = newValue < (recipeFilter.minCals ?? MIN_CALS)
                             }
                         }
-                    Text("kcal")
+                    Text(Constants.SearchView.calorieUnit)
                 }
-                FormError(on: caloriesExceedMax, message: "Error: Calories must be ≤ 2000")
-                FormError(on: caloriesInvalidRange, message: "Error: Max calories cannot exceed min calories")
+                FormError(on: caloriesExceedMax, message: Constants.SearchView.calorieExceedMaxError)
+                FormError(on: caloriesInvalidRange, message: Constants.SearchView.calorieInvalidRangeError)
                 
-                Toggle("Vegetarian", isOn: $recipeFilter.vegetarian)
-                Toggle("Vegan", isOn: $recipeFilter.vegan)
-                Toggle("Gluten-Free", isOn: $recipeFilter.glutenFree)
-                Toggle("Healthy", isOn: $recipeFilter.healthy)
-                Toggle("Cheap", isOn: $recipeFilter.cheap)
-                Toggle("Sustainable", isOn: $recipeFilter.sustainable)
-                Picker("Spice Level", selection: $recipeFilter.spiceLevel) {
+                Toggle(Constants.SearchView.vegetarianLabel, isOn: $recipeFilter.vegetarian)
+                Toggle(Constants.SearchView.veganLabel, isOn: $recipeFilter.vegan)
+                Toggle(Constants.SearchView.glutenFreeLabel, isOn: $recipeFilter.glutenFree)
+                Toggle(Constants.SearchView.healthyLabel, isOn: $recipeFilter.healthy)
+                Toggle(Constants.SearchView.cheapLabel, isOn: $recipeFilter.cheap)
+                Toggle(Constants.SearchView.sustainableLabel, isOn: $recipeFilter.sustainable)
+                
+                Picker(Constants.SearchView.spiceLabel, selection: $recipeFilter.spiceLevel) {
                     ForEach(SpiceLevel.allCases, id: \.rawValue) { spiceLevel in
                         // Don't filter by unknown
                         if spiceLevel != .unknown {
@@ -63,18 +67,18 @@ struct FilterForm: View {
                         }
                     }
                 }
-                Picker("Meal Type", selection: $recipeFilter.type) {
+                Picker(Constants.SearchView.typeLabel, selection: $recipeFilter.type) {
                     ForEach(MealType.allCases, id: \.rawValue) { mealType in
                         Text(mealType.rawValue)
                     }
                 }
-                Picker("Cuisine", selection: $recipeFilter.culture) {
+                Picker(Constants.SearchView.cultureLabel, selection: $recipeFilter.culture) {
                     ForEach(Cuisine.allCases, id: \.rawValue) { cuisine in
                         Text(cuisine.rawValue)
                     }
                 }
             }
-            Button("Apply") {
+            Button(Constants.SearchView.submitButton) {
                 onSubmit()
             }
             .disabled(caloriesExceedMax || caloriesInvalidRange)
