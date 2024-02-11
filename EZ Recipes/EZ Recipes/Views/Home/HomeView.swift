@@ -24,7 +24,7 @@ struct HomeView: View {
                     Button {
                         viewModel.getRandomRecipe()
                     } label: {
-                        Text(Constants.Strings.findRecipeButton)
+                        Text(Constants.HomeView.findRecipeButton)
                             .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
                             .font(.system(size: 22))
                     }
@@ -33,11 +33,11 @@ struct HomeView: View {
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
-                    .alert(Constants.Strings.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                        Button(Constants.Strings.okButton, role: .cancel) {}
+                    .alert(Constants.HomeView.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                        Button(Constants.HomeView.okButton, role: .cancel) {}
                     } message: {
                         // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? Constants.Strings.unknownError)
+                        Text(viewModel.recipeError?.error ?? Constants.HomeView.unknownError)
                     }
                 }
                 
@@ -54,10 +54,10 @@ struct HomeView: View {
                         }
                     }
                     .onReceive(timer) { _ in
-                        loadingMessage = Constants.Strings.loadingMessages.randomElement() ?? " "
+                        loadingMessage = Constants.HomeView.loadingMessages.randomElement() ?? " "
                     }
             }
-            .navigationTitle(Constants.Strings.homeTitle)
+            .navigationTitle(Constants.HomeView.homeTitle)
             
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
             SecondaryView()

@@ -59,12 +59,12 @@ struct RecipeView: View {
                     
                     RecipeFooter()
                 } else {
-                    Text(Constants.Strings.noRecipe) // shouldn't be seen normally
+                    Text(Constants.RecipeView.noRecipe) // shouldn't be seen normally
                 }
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-        .navigationTitle(Constants.Strings.recipeTitle)
+        .navigationTitle(Constants.RecipeView.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // Buttons on the top right of the screen
@@ -74,26 +74,26 @@ struct RecipeView: View {
                         isFavorite.toggle()
                     } label: {
                         // Add alt text to the system image
-                        Label(isFavorite ? Constants.Strings.unFavoriteAlt : Constants.Strings.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
+                        Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                     }
                     
                     if #available(iOS 16.0, *) {
                         ShareLink(
-                            Constants.Strings.shareAlt,
-                            item: Constants.Strings.shareUrl(viewModel.recipe?.id ?? 0),
-                            subject: Text(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe),
-                            message: Text(Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe))
+                            Constants.RecipeView.shareAlt,
+                            item: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
+                            subject: Text(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe),
+                            message: Text(Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe))
                         )
                     } else {
                         // Fallback on earlier versions
                         Button {
                             shareText = ShareText(
-                                url: Constants.Strings.shareUrl(viewModel.recipe?.id ?? 0),
-                                subject: viewModel.recipe?.name ?? Constants.Strings.unknownRecipe,
-                                message: Constants.Strings.shareBody(viewModel.recipe?.name ?? Constants.Strings.unknownRecipe)
+                                url: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
+                                subject: viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe,
+                                message: Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe)
                             )
                         } label: {
-                            Label(Constants.Strings.shareAlt, systemImage: "square.and.arrow.up")
+                            Label(Constants.RecipeView.shareAlt, systemImage: "square.and.arrow.up")
                         }
                     }
                 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SecondaryView: View {
     var body: some View {
-        Text(Constants.Strings.selectRecipe)
+        Text(Constants.HomeView.selectRecipe)
     }
 }
 

@@ -39,7 +39,7 @@ struct RecipeHeader: View {
                 if let credit = recipe.credit {
                     // Add a clickable link to the image source
                     // Take up as many lines as needed
-                    Text(Constants.Strings.imageCopyright(credit, recipe.sourceUrl))
+                    Text(Constants.RecipeView.imageCopyright(credit, recipe.sourceUrl))
                         .font(.caption)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -54,16 +54,16 @@ struct RecipeHeader: View {
             
             // Recipe time and buttons
             VStack {
-                Text(Constants.Strings.recipeTime(recipe.time))
+                Text(Constants.RecipeView.recipeTime(recipe.time))
                     .font(.system(size: 20))
                 
                 if !recipe.types.isEmpty {
-                    Text(Constants.Strings.mealTypes(recipe.types))
+                    Text(Constants.RecipeView.mealTypes(recipe.types))
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
                 }
                 if !recipe.culture.isEmpty {
-                    Text(Constants.Strings.cuisines(recipe.culture))
+                    Text(Constants.RecipeView.cuisines(recipe.culture))
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
                 }
@@ -72,7 +72,7 @@ struct RecipeHeader: View {
                     Button {
                         print("Nice! Hope it was tasty!")
                     } label: {
-                        Label(Constants.Strings.madeButton, systemImage: "fork.knife")
+                        Label(Constants.RecipeView.madeButton, systemImage: "fork.knife")
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.red)
@@ -80,7 +80,7 @@ struct RecipeHeader: View {
                     Button {
                         onFindRecipeButtonTapped()
                     } label: {
-                        Label(Constants.Strings.showRecipeButton, systemImage: "text.book.closed")
+                        Label(Constants.RecipeView.showRecipeButton, systemImage: "text.book.closed")
                     }
                     .buttonStyle(for: colorScheme)
                     .tint(.yellow)

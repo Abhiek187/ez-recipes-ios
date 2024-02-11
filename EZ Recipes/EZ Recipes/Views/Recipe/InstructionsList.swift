@@ -17,7 +17,7 @@ struct InstructionsList: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            Text(Constants.Strings.steps)
+            Text(Constants.RecipeView.steps)
                 .font(.title2.bold())
             
             // Split each step by instruction (if applicable)

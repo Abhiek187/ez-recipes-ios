@@ -28,14 +28,12 @@ struct Constants {
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
     }
     
-    struct Strings {
-        // Content View
-        struct Tabs {
-            static let home = "Home"
-            static let search = "Search"
-        }
-        
-        // Home view
+    struct Tabs {
+        static let home = "Home"
+        static let search = "Search"
+    }
+    
+    struct HomeView {
         static let homeTitle = "Home"
         static let findRecipeButton = "Find Me a Recipe!"
         static let errorTitle = "Error"
@@ -60,8 +58,9 @@ struct Constants {
         
         // Secondary view
         static let selectRecipe = "Select a recipe from the navigation menu."
-        
-        // Recipe view
+    }
+    
+    struct RecipeView {
         static let recipeTitle = "Recipe"
         static let noRecipe = "No recipe loaded"
         static let favoriteAlt = "Favorite this recipe"

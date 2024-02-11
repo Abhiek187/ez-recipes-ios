@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeFooter: View {
     var body: some View {
         // Attribution to spoonacular
-        Text(Constants.Strings.attribution)
+        Text(Constants.RecipeView.attribution)
             .font(.footnote)
             .padding(.bottom)
     }

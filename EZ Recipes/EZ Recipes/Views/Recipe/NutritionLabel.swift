@@ -16,13 +16,13 @@ struct NutritionLabel: View {
     var body: some View {
         // Nutritional information
         VStack(spacing: 8) {
-            Text(Constants.Strings.nutritionFacts)
+            Text(Constants.RecipeView.nutritionFacts)
                 .font(.title2.bold())
             
             VStack(spacing: 4) {
-                Text(Constants.Strings.healthScore(recipe.healthScore))
+                Text(Constants.RecipeView.healthScore(recipe.healthScore))
                     .font(.subheadline)
-                Text(Constants.Strings.servings(recipe.servings))
+                Text(Constants.RecipeView.servings(recipe.servings))
                     .font(.subheadline)
             }
             

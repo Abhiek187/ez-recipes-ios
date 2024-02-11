@@ -12,7 +12,7 @@ struct IngredientsList: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text(Constants.Strings.ingredients)
+            Text(Constants.RecipeView.ingredients)
                 .font(.title2.bold())
             
             Divider()

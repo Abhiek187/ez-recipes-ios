@@ -27,12 +27,12 @@ struct RecipeCard: View {
                     isFavorite.toggle()
                 } label: {
                     // Add alt text to the system image
-                    Label(isFavorite ? Constants.Strings.unFavoriteAlt : Constants.Strings.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
+                    Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
             }
             
             HStack {
-                Text(Constants.Strings.recipeTime(recipe.time))
+                Text(Constants.RecipeView.recipeTime(recipe.time))
                 if let calories = getCalories() {
                     Text("\(calories.amount) \(calories.unit)")
                 }

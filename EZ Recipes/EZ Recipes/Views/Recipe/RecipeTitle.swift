@@ -19,7 +19,7 @@ struct RecipeTitle: View {
             
             if let url = URL(string: recipe.url) {
                 Link(destination: url) {
-                    Label(Constants.Strings.recipeLinkAlt, systemImage: "link")
+                    Label(Constants.RecipeView.recipeLinkAlt, systemImage: "link")
                 }
             }
         }
