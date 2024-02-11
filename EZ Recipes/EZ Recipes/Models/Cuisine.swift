@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 2/9/24.
 //
 
-enum Cuisine: String, Codable, CaseIterable {
+enum Cuisine: String, Codable, CaseIterable, Comparable {
     case African
     case Asian
     case American
@@ -33,4 +33,8 @@ enum Cuisine: String, Codable, CaseIterable {
     case Spanish
     case Thai
     case Vietnamese
+    
+    static func < (lhs: Cuisine, rhs: Cuisine) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }

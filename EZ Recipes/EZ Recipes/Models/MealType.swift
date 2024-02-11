@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 2/9/24.
 //
 
-enum MealType: String, Codable, CaseIterable {
+enum MealType: String, Codable, CaseIterable, Comparable {
     case mainCourse = "main course"
     case sideDish = "side dish"
     case dessert
@@ -32,4 +32,9 @@ enum MealType: String, Codable, CaseIterable {
     case condiment
     case dip
     case spread
+    
+    // Allow the meal types to be sorted for ease of reference
+    static func < (lhs: MealType, rhs: MealType) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
