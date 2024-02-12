@@ -37,7 +37,16 @@ struct NetworkManager: RecipeRepository {
     }
     
     func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError> {
-        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter)
+        let baseEncoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(
+            // Don't add brackets to array parameters
+            arrayEncoding: .noBrackets,
+            // Convert bool parameters to true/false so they can be processed later
+            boolEncoding: .literal,
+            // Convert camelCase to kebab-case (using dashes)
+            keyEncoding: .convertToKebabCase
+        ))
+        let encoder = RecipeFilterEncoder(encoder: baseEncoder)
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter, encoder: encoder)
         return await parseResponse(fromRequest: request, method: #function)
     }
     

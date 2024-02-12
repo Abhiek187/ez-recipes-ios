@@ -41,6 +41,7 @@
 		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
 		F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */; };
 		F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */; };
+		F17A80AF2B7978FD00E811C8 /* RecipeFilterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
 		F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */; };
@@ -125,6 +126,7 @@
 		F17A80A12B783C1500E811C8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
+		F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoder.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiceLevel.swift; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				F12C1C622904CED500C3302B /* NetworkManager.swift */,
 				F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */,
 				F1F38EB8290F3020000FF99C /* AFLogger.swift */,
+				F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */,
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
 			);
@@ -553,6 +556,7 @@
 				F1437C042956681C005408E5 /* StepCard.swift in Sources */,
 				F15CB9F22B770F610031F725 /* SearchResults.swift in Sources */,
 				F15CB9EA2B76F2990031F725 /* SearchViewModel.swift in Sources */,
+				F17A80AF2B7978FD00E811C8 /* RecipeFilterEncoder.swift in Sources */,
 				F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */,
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
