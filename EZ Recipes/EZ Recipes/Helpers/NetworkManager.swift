@@ -45,7 +45,7 @@ struct NetworkManager: RecipeRepository {
             // Convert camelCase to kebab-case (using dashes)
             keyEncoding: .convertToKebabCase
         ))
-        let encoder = RecipeFilterEncoder(encoder: baseEncoder)
+        let encoder = RecipeFilterEncoder(baseEncoder: baseEncoder)
         let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter, encoder: encoder)
         return await parseResponse(fromRequest: request, method: #function)
     }

@@ -27,7 +27,7 @@ enum Cuisine: String, Codable, CaseIterable, Comparable {
     case LatinAmerican = "Latin American"
     case Mediterranean
     case Mexican
-    case middleEastern = "Middle Eastern"
+    case MiddleEastern = "Middle Eastern"
     case Nordic
     case Southern
     case Spanish

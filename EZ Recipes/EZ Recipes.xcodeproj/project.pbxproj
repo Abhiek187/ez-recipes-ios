@@ -42,6 +42,7 @@
 		F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */; };
 		F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */; };
 		F17A80AF2B7978FD00E811C8 /* RecipeFilterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */; };
+		F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
 		F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */; };
@@ -127,6 +128,7 @@
 		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
 		F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoder.swift; sourceTree = "<group>"; };
+		F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoderTests.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpiceLevel.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
 				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
+				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
 				F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */,
+				F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

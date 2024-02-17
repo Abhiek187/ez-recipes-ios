@@ -18,6 +18,4 @@ struct RecipeFilter: Encodable {
     var spiceLevel: Set<String> = []
     var type: Set<String> = []
     var culture: Set<String> = []
-    
-    init() {}
 }
