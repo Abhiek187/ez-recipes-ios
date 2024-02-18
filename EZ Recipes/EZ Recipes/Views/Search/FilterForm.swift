@@ -53,9 +53,9 @@ struct FilterForm: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .maxCals)
-                        .onChange(of: (recipeFilter.maxCals ?? MIN_CALS)) { newValue in
+                        .onChange(of: (recipeFilter.maxCals ?? Int.max)) { newValue in
                             withAnimation {
-                                caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
+                                caloriesExceedMax = newValue != Int.max && newValue > MAX_CALS || (recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
                                 caloriesInvalidRange = newValue < (recipeFilter.minCals ?? MIN_CALS)
                             }
                         }
