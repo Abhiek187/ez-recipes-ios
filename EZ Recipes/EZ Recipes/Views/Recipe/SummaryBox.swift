@@ -14,7 +14,7 @@ struct SummaryBox: View {
         VStack(spacing: 8) {
             HStack {
                 Spacer()
-                Text(Constants.Strings.summary)
+                Text(Constants.RecipeView.summary)
                     .font(.title2.bold())
                 Spacer()
                 Image(systemName: "lightbulb")

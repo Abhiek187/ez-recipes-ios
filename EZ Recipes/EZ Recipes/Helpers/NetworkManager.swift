@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import OSLog
 
 /// Repository for making requests to the ez-recipes-server API using Alamofire
 ///
@@ -16,6 +17,7 @@ import Alamofire
 struct NetworkManager: RecipeRepository {
     static let shared = NetworkManager()
     private let session = Session(eventMonitors: [AFLogger()])
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "NetworkManager")
     
     private func parseResponse<T: Decodable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
         do {
@@ -23,7 +25,7 @@ struct NetworkManager: RecipeRepository {
             let response = try await request.serializingDecodable(T.self).value
             return .success(response)
         } catch {
-            print("\(method) :: error: \(error.localizedDescription)")
+            logger.error("\(method) :: error: \(error.localizedDescription)")
             
             do {
                 // If this is a client error, the request can be decoded directly as a RecipeError object
@@ -37,7 +39,14 @@ struct NetworkManager: RecipeRepository {
     }
     
     func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError> {
-        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter)
+        let baseEncoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(
+            // Don't add brackets to array parameters
+            arrayEncoding: .noBrackets,
+            // Convert camelCase to kebab-case (using dashes)
+            keyEncoding: .convertToKebabCase
+        ))
+        let encoder = RecipeFilterEncoder(baseEncoder: baseEncoder)
+        let request = session.request("\(Constants.serverBaseUrl)\(Constants.recipesPath)", parameters: filter, encoder: encoder)
         return await parseResponse(fromRequest: request, method: #function)
     }
     

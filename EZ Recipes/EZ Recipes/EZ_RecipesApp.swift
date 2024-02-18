@@ -13,7 +13,7 @@ struct EZ_RecipesApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            ContentView()
                 .environmentObject(viewModel)
                 .onOpenURL { url in
                     viewModel.handleRecipeLink(url)

@@ -19,7 +19,7 @@
 # - 12.9-inch iPad screenshots for 3rd generation
 # Supported devices: https://github.com/fastlane/fastlane/blob/master/snapshot/lib/snapshot/reports_generator.rb
 #                    https://github.com/fastlane/fastlane/blob/master/frameit/lib/frameit/device_types.rb
-devices(["iPhone 8", "iPhone 13 Pro Max", "iPad Pro (12.9-inch) (6th generation)", "iPad Pro (9.7-inch)"])
+devices(["iPhone 8", "iPhone 14 Pro Max", "iPad Pro (12.9-inch) (6th generation)", "iPad Pro (9.7-inch)"])
 
 # languages([
 #   "en-US",
