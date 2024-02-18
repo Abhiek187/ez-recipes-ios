@@ -40,8 +40,6 @@ struct NetworkManager: RecipeRepository {
         let baseEncoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(
             // Don't add brackets to array parameters
             arrayEncoding: .noBrackets,
-            // Convert bool parameters to true/false so they can be processed later
-            boolEncoding: .literal,
             // Convert camelCase to kebab-case (using dashes)
             keyEncoding: .convertToKebabCase
         ))

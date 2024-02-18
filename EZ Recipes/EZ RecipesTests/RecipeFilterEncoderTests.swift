@@ -13,7 +13,6 @@ import Alamofire
 final class RecipeFilterEncoderTests: XCTestCase {
     let baseEncoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(
         arrayEncoding: .noBrackets,
-        boolEncoding: .literal,
         keyEncoding: .convertToKebabCase
     ))
     let url = URL(string: Constants.serverBaseUrl)!
@@ -26,6 +25,14 @@ final class RecipeFilterEncoderTests: XCTestCase {
         urlRequest = URLRequest(url: url)
     }
     
+    func assertEquals(_ query1: String?, _ query2: String?) {
+        // Split each query param and compare the sorted array
+        let sortedQuery1 = query1?.split(separator: "&").sorted()
+        let sortedQuery2 = query2?.split(separator: "&").sorted()
+        
+        XCTAssertEqual(sortedQuery1, sortedQuery2)
+    }
+    
     func testEncodeWithNoFilters() throws {
         // Given no recipe filters
         let parameters = RecipeFilter()
@@ -34,7 +41,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then there shouldn't be any query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "")
+        assertEquals(encodedRequest.url?.query(), "")
     }
     
     func testEncodeWithQuery() throws {
@@ -45,7 +52,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the query should appear in the query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "query=fish")
+        assertEquals(encodedRequest.url?.query(), "query=fish")
     }
     
     func testEncodeWithComplexQuery() throws {
@@ -56,7 +63,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the query should be encoded in the query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "query=fish%20%26%20chips")
+        assertEquals(encodedRequest.url?.query(), "query=fish%20%26%20chips")
     }
     
     func testEncodeWithCalorieRange() throws {
@@ -67,7 +74,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the values should appear in the query parameters (with kebab casing)
-        XCTAssertEqual(encodedRequest.url?.query(), "min-cals=500&max-cals=1000")
+        assertEquals(encodedRequest.url?.query(), "min-cals=500&max-cals=1000")
     }
     
     func testEncodeWithBools() throws {
@@ -78,7 +85,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the true keys should appear in the query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "gluten-free&healthy&cheap")
+        assertEquals(encodedRequest.url?.query(), "gluten-free&healthy&cheap")
     }
     
     func testEncodeWithSingleArrays() throws {
@@ -89,7 +96,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the values should appear in the query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "spice-level=none&type=breakfast&culture=American")
+        assertEquals(encodedRequest.url?.query(), "spice-level=none&type=breakfast&culture=American")
     }
     
     func testEncodeWithMultipleArrays() throws {
@@ -100,7 +107,7 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then the values should appear in the query parameters with repeating keys
-        XCTAssertEqual(encodedRequest.url?.query(), "spice-level=mild&spice-level=spicy&type=brunch&type=lunch&type=dinner&culture=Mexican&culture=Indian&culture=Thai")
+        assertEquals(encodedRequest.url?.query(), "spice-level=mild&spice-level=spicy&type=brunch&type=lunch&type=dinner&culture=Mexican&culture=Indian&culture=Thai")
     }
     
     func testEncodeWithAllParams() throws {
@@ -111,6 +118,6 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then all the values should appear in the query parameters
-        XCTAssertEqual(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d%27oeuvre&culture=Eastern&20European&culture=Middle&Eastern")
+        assertEquals(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d\'oeuvre&culture=Eastern%20European&culture=Middle%20Eastern")
     }
 }
