@@ -36,6 +36,7 @@ struct FilterForm: View {
             }
             Section(Constants.SearchView.filterSection) {
                 HStack {
+                    Spacer()
                     TextField(String(MIN_CALS), value: $recipeFilter.minCals, format: .number)
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
@@ -60,6 +61,7 @@ struct FilterForm: View {
                             }
                         }
                     Text(Constants.SearchView.calorieUnit)
+                    Spacer()
                 }
                 FormError(on: caloriesExceedMax, message: Constants.SearchView.calorieExceedMaxError)
                 FormError(on: caloriesInvalidRange, message: Constants.SearchView.calorieInvalidRangeError)
