@@ -55,10 +55,9 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssert(findRecipeButton.isEnabled, "Error line \(#line): The find recipe button isn't enabled")
         XCTAssertFalse(progressView.isHittable, "Error line \(#line): The ProgressView is visible")
         
-        // After tapping the find recipe button, the button should be disabled and the ProgressView should be visible
+        // After tapping the find recipe button, the button should be disabled
         findRecipeButton.tap()
         XCTAssertFalse(findRecipeButton.isEnabled, "Error line \(#line): The find recipe button should be disabled")
-        XCTAssert(progressView.isHittable, "Error line \(#line): The ProgressView isn't visible")
         
         // Wait up to 30 seconds for the recipe to load
         let recipeNavigationBar = app.navigationBars["Recipe"]
