@@ -9,6 +9,7 @@ import Foundation
 
 @MainActor
 class SearchViewModel: ViewModel, ObservableObject {
+    @Published private(set) var task: Task<(), Never>? = nil
     @Published private(set) var isLoading = false
     @Published var recipeFilter = RecipeFilter()
     @Published private(set) var recipes: [Recipe] = []
@@ -21,7 +22,7 @@ class SearchViewModel: ViewModel, ObservableObject {
     }
     
     func searchRecipes() {
-        Task {
+        task = Task {
             isLoading = true
             let result = await repository.getRecipes(withFilter: recipeFilter)
             isLoading = false

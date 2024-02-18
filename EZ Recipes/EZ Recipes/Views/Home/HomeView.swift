@@ -63,6 +63,10 @@ struct HomeView: View {
             SecondaryView()
         }
         .navigationViewStyle(.automatic) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
+        .onDisappear {
+            // Stop any network calls when switching tabs
+            viewModel.task?.cancel()
+        }
     }
 }
 

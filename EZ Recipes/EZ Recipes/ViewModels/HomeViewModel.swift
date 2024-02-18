@@ -11,6 +11,7 @@ import Foundation
 @MainActor
 class HomeViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel, except for bindings
+    @Published private(set) var task: Task<(), Never>? = nil
     @Published var isLoading = false
     @Published var isRecipeLoaded = false
     @Published private(set) var recipe: Recipe? {
@@ -21,7 +22,8 @@ class HomeViewModel: ViewModel, ObservableObject {
     @Published var recipeFailedToLoad = false
     @Published var recipeError: RecipeError? {
         didSet {
-            recipeFailedToLoad = recipeError != nil
+            // Don't show an alert if the request was intentionally cancelled
+            recipeFailedToLoad = recipeError != nil && task?.isCancelled == false
         }
     }
     
@@ -46,7 +48,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     }
     
     func getRandomRecipe() {
-        Task {
+        task = Task {
             isLoading = true
             let result = await repository.getRandomRecipe()
             isLoading = false
@@ -56,7 +58,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     }
     
     func getRecipe(byId id: Int) {
-        Task {
+        task = Task {
             isLoading = true
             let result = await repository.getRecipe(byId: id)
             isLoading = false
