@@ -6,14 +6,17 @@
 //
 
 import Alamofire
+import OSLog
 
 // Logs the network requests & responses
 class AFLogger: EventMonitor {
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "AFLogger")
+    
     func requestDidResume(_ request: Request) {
-        print("Request: \(request)")
+        logger.debug("Request: \(request)")
     }
     
     func request<Value>(_ request: DataRequest, didParseResponse response: DataResponse<Value, AFError>) {
-        print("Response: \(response)")
+        logger.debug("Response: \(response)")
     }
 }

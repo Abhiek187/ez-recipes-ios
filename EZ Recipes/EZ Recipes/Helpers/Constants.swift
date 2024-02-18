@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Constants {
+    static let appName = "EZ Recipes"
     static let serverBaseUrl = "https://ez-recipes-server.onrender.com"
     static let recipesPath = "/api/recipes"
     static let termsPath = "/api/terms"
@@ -92,10 +93,10 @@ struct Constants {
             LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
         }
         static let mealTypes: ([MealType]) -> LocalizedStringKey = { types in
-            LocalizedStringKey(String(format: "**Great for:** %@", types.map { $0.rawValue }.joined(separator: ", ")))
+            LocalizedStringKey(String(format: "**Great for:** %@", types.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
         static let cuisines: ([Cuisine]) -> LocalizedStringKey = { cultures in
-            LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.map { $0.rawValue }.joined(separator: ", ")))
+            LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
         static let madeButton = "I Made This!"
         static let showRecipeButton = "Show Me Another Recipe!"

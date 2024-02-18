@@ -5,6 +5,8 @@
 //  Created by Abhishek Chaudhuri on 2/9/24.
 //
 
+import OSLog
+
 enum MealType: String, Codable, CaseIterable, Comparable {
     case mainCourse = "main course"
     case sideDish = "side dish"
@@ -32,9 +34,24 @@ enum MealType: String, Codable, CaseIterable, Comparable {
     case condiment
     case dip
     case spread
+    case unknown
     
     // Allow the meal types to be sorted for ease of reference
     static func < (lhs: MealType, rhs: MealType) -> Bool {
         lhs.rawValue < rhs.rawValue
+    }
+    
+    // Default to unknown if spoonacular returns a value that's undocumented
+    init(from decoder: Decoder) throws {
+        let decodedRawValue = try decoder.singleValueContainer().decode(RawValue.self)
+        
+        guard let _self = Self(rawValue: decodedRawValue) else {
+            let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "MealType")
+            logger.warning("Encountered an unknown meal type: \(decodedRawValue)")
+            self = .unknown
+            return
+        }
+        
+        self = _self
     }
 }

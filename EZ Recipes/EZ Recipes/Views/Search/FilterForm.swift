@@ -83,15 +83,19 @@ struct FilterForm: View {
                 .mpPickerStyle(.navigationLink)
                 MultiPicker(Constants.SearchView.typeLabel, selection: $recipeFilter.type) {
                     ForEach(MealType.allCases.sorted(), id: \.rawValue) { mealType in
-                        Text(mealType.rawValue)
-                            .mpTag(mealType.rawValue)
+                        if mealType != .unknown {
+                            Text(mealType.rawValue)
+                                .mpTag(mealType.rawValue)
+                        }
                     }
                 }
                 .mpPickerStyle(.navigationLink)
                 MultiPicker(Constants.SearchView.cultureLabel, selection: $recipeFilter.culture) {
                     ForEach(Cuisine.allCases.sorted(), id: \.rawValue) { cuisine in
-                        Text(cuisine.rawValue)
-                            .mpTag(cuisine.rawValue)
+                        if cuisine != .unknown {
+                            Text(cuisine.rawValue)
+                                .mpTag(cuisine.rawValue)
+                        }
                     }
                 }
                 .mpPickerStyle(.navigationLink)

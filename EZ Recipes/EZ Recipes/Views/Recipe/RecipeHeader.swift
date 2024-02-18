@@ -57,12 +57,12 @@ struct RecipeHeader: View {
                 Text(Constants.RecipeView.recipeTime(recipe.time))
                     .font(.system(size: 20))
                 
-                if !recipe.types.isEmpty {
+                if !recipe.types.isEmpty && recipe.types != [.unknown] {
                     Text(Constants.RecipeView.mealTypes(recipe.types))
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
                 }
-                if !recipe.culture.isEmpty {
+                if !recipe.culture.isEmpty && recipe.culture != [.unknown] {
                     Text(Constants.RecipeView.cuisines(recipe.culture))
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
