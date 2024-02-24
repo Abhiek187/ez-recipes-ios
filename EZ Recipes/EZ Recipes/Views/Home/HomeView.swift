@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @EnvironmentObject private var viewModel: HomeViewModel
+    @StateObject var viewModel: HomeViewModel
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
@@ -21,7 +21,7 @@ struct HomeView: View {
         NavigationView {
             VStack {
                 // Show the recipe view once the recipe loads in the ViewModel
-                NavigationLink(destination: RecipeView(), isActive: $viewModel.isRecipeLoaded) {
+                NavigationLink(destination: RecipeView(viewModel: viewModel), isActive: $viewModel.isRecipeLoaded) {
                     Button {
                         viewModel.getRandomRecipe()
                     } label: {
@@ -85,15 +85,12 @@ struct HomeView_Previews: PreviewProvider {
         repoFail.isSuccess = false
         
         return ForEach([1], id: \.self) {_ in
-            HomeView()
+            HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-                .environmentObject(viewModelWithoutLoading)
-            HomeView()
+            HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-                .environmentObject(viewModelWithLoading)
-            HomeView()
+            HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
-                .environmentObject(viewModelWithAlert)
         }
     }
 }

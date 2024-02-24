@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
                 .tabItem {
                     Label(Constants.Tabs.home, systemImage: "house")
                 }
@@ -23,10 +23,7 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static let viewModel = HomeViewModel(repository: NetworkManagerMock.shared)
-    
     static var previews: some View {
         ContentView()
-            .environmentObject(viewModel)
     }
 }

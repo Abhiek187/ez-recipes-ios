@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecipeView: View {
-    @EnvironmentObject private var viewModel: HomeViewModel
+    var viewModel: HomeViewModel
     @State var isFavorite = false
     @State var shareText: ShareText?
     
@@ -113,8 +113,7 @@ struct RecipeView_Previews: PreviewProvider {
         viewModel.getRandomRecipe()
         
         return NavigationView {
-            RecipeView()
-                .environmentObject(viewModel)
+            RecipeView(viewModel: viewModel)
         }
     }
 }

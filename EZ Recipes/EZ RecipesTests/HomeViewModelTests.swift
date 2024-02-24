@@ -14,6 +14,18 @@ final class HomeViewModelTests: XCTestCase {
     var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
     
+    @MainActor func testSetRecipe() {
+        // Given a recipe
+        let recipe = Constants.Mocks.thaiBasilChicken
+        
+        // When setRecipe() is called
+        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel.setRecipe(recipe)
+        
+        // Then the recipe property should match the given recipe
+        XCTAssertEqual(viewModel.recipe, recipe)
+    }
+    
     @MainActor func testGetRandomRecipeSuccess() {
         // Given a ViewModel
         viewModel = HomeViewModel(repository: mockRepo)

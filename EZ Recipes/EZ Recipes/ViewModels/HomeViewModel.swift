@@ -37,6 +37,10 @@ class HomeViewModel: ViewModel, ObservableObject {
         self.repository = repository
     }
     
+    func setRecipe(_ recipe: Recipe) {
+        self.recipe = recipe
+    }
+    
     private func updateRecipeProps(from result: Result<Recipe, RecipeError>) {
         // Set the recipe and recipeError properties based on whether the result was successful
         switch result {
