@@ -31,9 +31,17 @@ struct SubmitButton: View {
                 
                 ProgressView()
                     .opacity(viewModel.isLoading ? 1 : 0)
+                
+                // Prevent navigation unless the recipes are loaded
+                NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
+                    EmptyView()
+                }
+                .hidden()
             }
             if viewModel.isLoading {
                 Text(loadingMessage)
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, 1)
                     .onChange(of: viewModel.isLoading) { isLoading in
                         if isLoading {
                             loadingMessage = defaultLoadingMessage
@@ -43,11 +51,6 @@ struct SubmitButton: View {
                         loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                     }
             }
-            
-            NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
-                EmptyView()
-            }
-            .hidden()
         }
     }
 }
@@ -60,25 +63,16 @@ struct SubmitButton_Previews: PreviewProvider {
     static let viewModelWithLoading = SearchViewModel(repository: repoSuccess)
     static let viewModelWithAlert = SearchViewModel(repository: repoFail)
     
-    struct BindingTestHolder: View {
-        @State var viewModel: SearchViewModel
-        
-        var body: some View {
-            SubmitButton(viewModel: viewModel)
-                .border(.primary)
-        }
-    }
-    
     static var previews: some View {
         viewModelWithLoading.isLoading = true
         repoFail.isSuccess = false
         
         return ForEach([1], id: \.self) { _ in
-            BindingTestHolder(viewModel: viewModelWithoutLoading)
+            SubmitButton(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-            BindingTestHolder(viewModel: viewModelWithLoading)
+            SubmitButton(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-            BindingTestHolder(viewModel: viewModelWithAlert)
+            SubmitButton(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
         }
     }

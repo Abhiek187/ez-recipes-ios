@@ -134,32 +134,26 @@ struct FilterForm_Previews: PreviewProvider {
     static let emptyRecipeFilter = SearchViewModel(repository: mockRepo)
     static var recipeFilterWithMaxError = SearchViewModel(repository: mockRepo)
     static var recipeFilterWithRangeError = SearchViewModel(repository: mockRepo)
-    
-    // Allow the recipe filter to be mutated in the preview
-    struct BindingTestHolder: View {
-        @State var viewModel: SearchViewModel
-        
-        var body: some View {
-            NavigationView {
-                FilterForm(viewModel: viewModel)
-            }
-        }
-    }
+    static var viewModelLoading = SearchViewModel(repository: mockRepo)
     
     static var previews: some View {
         recipeFilterWithMaxError.recipeFilter.maxCals = 2001
         recipeFilterWithRangeError.recipeFilter.minCals = 200
         recipeFilterWithRangeError.recipeFilter.maxCals = 100
+        viewModelLoading.isLoading = true
         
         return ForEach([1], id: \.self) {_ in
-            BindingTestHolder(viewModel: emptyRecipeFilter)
+            FilterForm(viewModel: emptyRecipeFilter)
                 .previewDisplayName("Empty")
             
-            BindingTestHolder(viewModel: recipeFilterWithMaxError)
+            FilterForm(viewModel: recipeFilterWithMaxError)
                 .previewDisplayName("Max Error")
             
-            BindingTestHolder(viewModel: recipeFilterWithRangeError)
+            FilterForm(viewModel: recipeFilterWithRangeError)
                 .previewDisplayName("Range Error")
+            
+            FilterForm(viewModel: viewModelLoading)
+                .previewDisplayName("Loading")
         }
     }
 }
