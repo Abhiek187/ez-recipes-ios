@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F122BBC42B899C2000302FCA /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */; };
 		F122BBC62B8A7EE600302FCA /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC52B8A7EE600302FCA /* SubmitButton.swift */; };
+		F122BBC82B8AB6EF00302FCA /* SearchSecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC72B8AB6EF00302FCA /* SearchSecondaryView.swift */; };
 		F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A845293D85CE00C8E127 /* DoubleExtension.swift */; };
 		F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */; };
 		F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */; };
@@ -23,7 +24,7 @@
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
 		F13037B3293291AF003E562C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F13037B5293291AF003E562C /* Localizable.stringsdict */; };
 		F13037B92932B6A7003E562C /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13037B82932B6A7003E562C /* ActivityView.swift */; };
-		F1320CDA297C923B00070DC8 /* SecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1320CD9297C923B00070DC8 /* SecondaryView.swift */; };
+		F1320CDA297C923B00070DC8 /* HomeSecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1320CD9297C923B00070DC8 /* HomeSecondaryView.swift */; };
 		F1320CDC297C9ADE00070DC8 /* RecipeTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1320CDB297C9ADE00070DC8 /* RecipeTitle.swift */; };
 		F1437C0229564511005408E5 /* IngredientsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1437C0129564511005408E5 /* IngredientsList.swift */; };
 		F1437C042956681C005408E5 /* StepCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1437C032956681C005408E5 /* StepCard.swift */; };
@@ -92,6 +93,7 @@
 		F10BFB1529A1DEDA00636841 /* screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; name = screenshots; path = ../screenshots; sourceTree = "<group>"; };
 		F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		F122BBC52B8A7EE600302FCA /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
+		F122BBC72B8AB6EF00302FCA /* SearchSecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSecondaryView.swift; sourceTree = "<group>"; };
 		F123A845293D85CE00C8E127 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +114,7 @@
 		F12C1C622904CED500C3302B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F13037B4293291AF003E562C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		F13037B82932B6A7003E562C /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
-		F1320CD9297C923B00070DC8 /* SecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryView.swift; sourceTree = "<group>"; };
+		F1320CD9297C923B00070DC8 /* HomeSecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSecondaryView.swift; sourceTree = "<group>"; };
 		F1320CDB297C9ADE00070DC8 /* RecipeTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTitle.swift; sourceTree = "<group>"; };
 		F1437C0129564511005408E5 /* IngredientsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsList.swift; sourceTree = "<group>"; };
 		F1437C032956681C005408E5 /* StepCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCard.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				F15CB9E42B75A4EC0031F725 /* SearchView.swift */,
+				F122BBC72B8AB6EF00302FCA /* SearchSecondaryView.swift */,
 				F15CB9EF2B770F520031F725 /* FilterForm.swift */,
 				F17A80A12B783C1500E811C8 /* FormError.swift */,
 				F122BBC52B8A7EE600302FCA /* SubmitButton.swift */,
@@ -365,7 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				F12C1C2C2904951600C3302B /* HomeView.swift */,
-				F1320CD9297C923B00070DC8 /* SecondaryView.swift */,
+				F1320CD9297C923B00070DC8 /* HomeSecondaryView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
 				F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */,
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
+				F122BBC82B8AB6EF00302FCA /* SearchSecondaryView.swift in Sources */,
 				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F15CB9E82B75A6470031F725 /* ContentView.swift in Sources */,
 				F1437C0229564511005408E5 /* IngredientsList.swift in Sources */,
@@ -584,7 +588,7 @@
 				F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */,
 				F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */,
 				F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */,
-				F1320CDA297C923B00070DC8 /* SecondaryView.swift in Sources */,
+				F1320CDA297C923B00070DC8 /* HomeSecondaryView.swift in Sources */,
 				F13037B92932B6A7003E562C /* ActivityView.swift in Sources */,
 				F1F38EB7290F215C000FF99C /* HomeViewModel.swift in Sources */,
 				F15CB9F42B770F7F0031F725 /* RecipeCard.swift in Sources */,

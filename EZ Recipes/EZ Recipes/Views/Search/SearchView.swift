@@ -14,6 +14,8 @@ struct SearchView: View {
         NavigationView {
             FilterForm(viewModel: viewModel)
                 .navigationTitle(Constants.SearchView.searchTitle)
+            
+            SearchSecondaryView()
         }
         .navigationViewStyle(.automatic)
         .onDisappear {

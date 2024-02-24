@@ -61,7 +61,7 @@ struct HomeView: View {
             .navigationTitle(Constants.HomeView.homeTitle)
             
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
-            SecondaryView()
+            HomeSecondaryView()
         }
         .navigationViewStyle(.automatic) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
         .onDisappear {

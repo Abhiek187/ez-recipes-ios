@@ -137,6 +137,9 @@ struct Constants {
     struct SearchView {
         static let searchTitle = "Search"
         
+        // Secondary view
+        static let searchRecipes = "Search for recipes by applying filters from the navigation menu."
+        
         // Filter form
         static let querySection = "Query"
         static let queryPlaceholder = "food"
