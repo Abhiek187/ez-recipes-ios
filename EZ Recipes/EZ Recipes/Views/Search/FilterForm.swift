@@ -16,8 +16,7 @@ struct FilterForm: View {
         case maxCals
     }
     
-    @Binding var recipeFilter: RecipeFilter
-    var onSubmit: () -> Void
+    @ObservedObject var viewModel: SearchViewModel
     
     @FocusState private var focusedField: Field?
     @State private var caloriesExceedMax = false
@@ -29,7 +28,7 @@ struct FilterForm: View {
     var body: some View {
         Form {
             Section(Constants.SearchView.querySection) {
-                TextField(Constants.SearchView.queryPlaceholder, text: $recipeFilter.query)
+                TextField(Constants.SearchView.queryPlaceholder, text: $viewModel.recipeFilter.query)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
                     .focused($focusedField, equals: .query)
@@ -37,27 +36,27 @@ struct FilterForm: View {
             Section(Constants.SearchView.filterSection) {
                 HStack {
                     Spacer()
-                    TextField(String(MIN_CALS), value: $recipeFilter.minCals, format: .number)
+                    TextField(String(MIN_CALS), value: $viewModel.recipeFilter.minCals, format: .number)
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .minCals)
-                        .onChange(of: (recipeFilter.minCals ?? MIN_CALS)) { newValue in
+                        .onChange(of: (viewModel.recipeFilter.minCals ?? MIN_CALS)) { newValue in
                             withAnimation {
-                                caloriesExceedMax = newValue > MAX_CALS || (recipeFilter.maxCals ?? MIN_CALS) > MAX_CALS
-                                caloriesInvalidRange = newValue > (recipeFilter.maxCals ?? Int.max)
+                                caloriesExceedMax = newValue > MAX_CALS || (viewModel.recipeFilter.maxCals ?? MIN_CALS) > MAX_CALS
+                                caloriesInvalidRange = newValue > (viewModel.recipeFilter.maxCals ?? Int.max)
                             }
                         }
                     Text(Constants.SearchView.calorieLabel)
-                    TextField(String(MAX_CALS), value: $recipeFilter.maxCals, format: .number)
+                    TextField(String(MAX_CALS), value: $viewModel.recipeFilter.maxCals, format: .number)
                         .frame(width: 75)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .maxCals)
-                        .onChange(of: (recipeFilter.maxCals ?? Int.max)) { newValue in
+                        .onChange(of: (viewModel.recipeFilter.maxCals ?? Int.max)) { newValue in
                             withAnimation {
-                                caloriesExceedMax = newValue != Int.max && newValue > MAX_CALS || (recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
-                                caloriesInvalidRange = newValue < (recipeFilter.minCals ?? MIN_CALS)
+                                caloriesExceedMax = newValue != Int.max && newValue > MAX_CALS || (viewModel.recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
+                                caloriesInvalidRange = newValue < (viewModel.recipeFilter.minCals ?? MIN_CALS)
                             }
                         }
                     Text(Constants.SearchView.calorieUnit)
@@ -66,14 +65,14 @@ struct FilterForm: View {
                 FormError(on: caloriesExceedMax, message: Constants.SearchView.calorieExceedMaxError)
                 FormError(on: caloriesInvalidRange, message: Constants.SearchView.calorieInvalidRangeError)
                 
-                Toggle(Constants.SearchView.vegetarianLabel, isOn: $recipeFilter.vegetarian)
-                Toggle(Constants.SearchView.veganLabel, isOn: $recipeFilter.vegan)
-                Toggle(Constants.SearchView.glutenFreeLabel, isOn: $recipeFilter.glutenFree)
-                Toggle(Constants.SearchView.healthyLabel, isOn: $recipeFilter.healthy)
-                Toggle(Constants.SearchView.cheapLabel, isOn: $recipeFilter.cheap)
-                Toggle(Constants.SearchView.sustainableLabel, isOn: $recipeFilter.sustainable)
+                Toggle(Constants.SearchView.vegetarianLabel, isOn: $viewModel.recipeFilter.vegetarian)
+                Toggle(Constants.SearchView.veganLabel, isOn: $viewModel.recipeFilter.vegan)
+                Toggle(Constants.SearchView.glutenFreeLabel, isOn: $viewModel.recipeFilter.glutenFree)
+                Toggle(Constants.SearchView.healthyLabel, isOn: $viewModel.recipeFilter.healthy)
+                Toggle(Constants.SearchView.cheapLabel, isOn: $viewModel.recipeFilter.cheap)
+                Toggle(Constants.SearchView.sustainableLabel, isOn: $viewModel.recipeFilter.sustainable)
                 
-                MultiPicker(Constants.SearchView.spiceLabel, selection: $recipeFilter.spiceLevel) {
+                MultiPicker(Constants.SearchView.spiceLabel, selection: $viewModel.recipeFilter.spiceLevel) {
                     ForEach(SpiceLevel.allCases, id: \.rawValue) { spiceLevel in
                         // Don't filter by unknown
                         if spiceLevel != .unknown {
@@ -83,7 +82,7 @@ struct FilterForm: View {
                     }
                 }
                 .mpPickerStyle(.navigationLink)
-                MultiPicker(Constants.SearchView.typeLabel, selection: $recipeFilter.type) {
+                MultiPicker(Constants.SearchView.typeLabel, selection: $viewModel.recipeFilter.type) {
                     ForEach(MealType.allCases.sorted(), id: \.rawValue) { mealType in
                         if mealType != .unknown {
                             Text(mealType.rawValue)
@@ -92,7 +91,7 @@ struct FilterForm: View {
                     }
                 }
                 .mpPickerStyle(.navigationLink)
-                MultiPicker(Constants.SearchView.cultureLabel, selection: $recipeFilter.culture) {
+                MultiPicker(Constants.SearchView.cultureLabel, selection: $viewModel.recipeFilter.culture) {
                     ForEach(Cuisine.allCases.sorted(), id: \.rawValue) { cuisine in
                         if cuisine != .unknown {
                             Text(cuisine.rawValue)
@@ -102,10 +101,9 @@ struct FilterForm: View {
                 }
                 .mpPickerStyle(.navigationLink)
             }
-            Button(Constants.SearchView.submitButton) {
-                onSubmit()
+            NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
+                SubmitButton(viewModel: viewModel, isDisabled: caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
             }
-            .disabled(caloriesExceedMax || caloriesInvalidRange)
         }
         .toolbar {
             // Add buttons above the keyboard for ease of navigation
@@ -130,36 +128,35 @@ struct FilterForm: View {
 }
 
 struct FilterForm_Previews: PreviewProvider {
-    static let emptyRecipeFilter = RecipeFilter()
-    static var recipeFilterWithMaxError = RecipeFilter()
-    static var recipeFilterWithRangeError = RecipeFilter()
+    static let mockRepo = NetworkManagerMock.shared
+    static let emptyRecipeFilter = SearchViewModel(repository: mockRepo)
+    static var recipeFilterWithMaxError = SearchViewModel(repository: mockRepo)
+    static var recipeFilterWithRangeError = SearchViewModel(repository: mockRepo)
     
     // Allow the recipe filter to be mutated in the preview
     struct BindingTestHolder: View {
-        @State var recipeFilter: RecipeFilter
+        @State var viewModel: SearchViewModel
         
         var body: some View {
             NavigationView {
-                FilterForm(recipeFilter: $recipeFilter) {
-                    print("Recipe filter: \(recipeFilter)")
-                }
+                FilterForm(viewModel: viewModel)
             }
         }
     }
     
     static var previews: some View {
-        recipeFilterWithMaxError.maxCals = 2001
-        recipeFilterWithRangeError.minCals = 200
-        recipeFilterWithRangeError.maxCals = 100
+        recipeFilterWithMaxError.recipeFilter.maxCals = 2001
+        recipeFilterWithRangeError.recipeFilter.minCals = 200
+        recipeFilterWithRangeError.recipeFilter.maxCals = 100
         
         return ForEach([1], id: \.self) {_ in
-            BindingTestHolder(recipeFilter: emptyRecipeFilter)
+            BindingTestHolder(viewModel: emptyRecipeFilter)
                 .previewDisplayName("Empty")
             
-            BindingTestHolder(recipeFilter: recipeFilterWithMaxError)
+            BindingTestHolder(viewModel: recipeFilterWithMaxError)
                 .previewDisplayName("Max Error")
             
-            BindingTestHolder(recipeFilter: recipeFilterWithRangeError)
+            BindingTestHolder(viewModel: recipeFilterWithRangeError)
                 .previewDisplayName("Range Error")
         }
     }

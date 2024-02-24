@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F122BBC42B899C2000302FCA /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */; };
+		F122BBC62B8A7EE600302FCA /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC52B8A7EE600302FCA /* SubmitButton.swift */; };
 		F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A845293D85CE00C8E127 /* DoubleExtension.swift */; };
 		F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */; };
 		F12C1C2B2904951600C3302B /* EZ_RecipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C1C2A2904951600C3302B /* EZ_RecipesApp.swift */; };
@@ -90,6 +91,7 @@
 		F10BFB1329A197D600636841 /* Pluginfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pluginfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F10BFB1529A1DEDA00636841 /* screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; name = screenshots; path = ../screenshots; sourceTree = "<group>"; };
 		F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
+		F122BBC52B8A7EE600302FCA /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		F123A845293D85CE00C8E127 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -352,6 +354,7 @@
 				F15CB9E42B75A4EC0031F725 /* SearchView.swift */,
 				F15CB9EF2B770F520031F725 /* FilterForm.swift */,
 				F17A80A12B783C1500E811C8 /* FormError.swift */,
+				F122BBC52B8A7EE600302FCA /* SubmitButton.swift */,
 				F15CB9F12B770F610031F725 /* SearchResults.swift */,
 				F15CB9F32B770F7F0031F725 /* RecipeCard.swift */,
 			);
@@ -602,6 +605,7 @@
 				F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */,
 				F1C7DA112B703CB700D6E343 /* Pill.swift in Sources */,
 				F1F38EBD290F5053000FF99C /* Nutrient.swift in Sources */,
+				F122BBC62B8A7EE600302FCA /* SubmitButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

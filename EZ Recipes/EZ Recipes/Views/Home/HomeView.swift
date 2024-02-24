@@ -13,8 +13,9 @@ struct HomeView: View {
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
+    private let defaultLoadingMessage = " "
     @State private var loadingMessage = " "
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     var body: some View {
         NavigationView {
@@ -50,11 +51,11 @@ struct HomeView: View {
                     // TODO: change to the 0 or 2-parameter variant if this deprecated modifier is removed
                     .onChange(of: viewModel.isLoading) { isLoading in
                         if isLoading {
-                            loadingMessage = " "
+                            loadingMessage = defaultLoadingMessage
                         }
                     }
                     .onReceive(timer) { _ in
-                        loadingMessage = Constants.loadingMessages.randomElement() ?? " "
+                        loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                     }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
