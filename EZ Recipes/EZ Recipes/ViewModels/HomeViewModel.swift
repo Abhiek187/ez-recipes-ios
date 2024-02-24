@@ -13,12 +13,14 @@ class HomeViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel, except for bindings
     @Published private(set) var task: Task<(), Never>? = nil
     @Published var isLoading = false
+    
     @Published var isRecipeLoaded = false
     @Published private(set) var recipe: Recipe? {
         didSet {
             isRecipeLoaded = recipe != nil
         }
     }
+    
     @Published var recipeFailedToLoad = false
     @Published var recipeError: RecipeError? {
         didSet {

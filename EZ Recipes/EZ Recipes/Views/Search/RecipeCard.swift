@@ -30,11 +30,15 @@ struct RecipeCard: View {
                     Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
             }
+            .padding(.bottom, 8)
             
             HStack {
+                Spacer()
                 Text(Constants.RecipeView.recipeTime(recipe.time))
+                Spacer()
                 if let calories = getCalories() {
-                    Text("\(calories.amount) \(calories.unit)")
+                    Text("\(calories.amount.round()) \(calories.unit)")
+                    Spacer()
                 }
             }
         }

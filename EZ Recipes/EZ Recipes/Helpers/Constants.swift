@@ -9,7 +9,29 @@ import Foundation
 import SwiftUI
 
 struct Constants {
+    // Common strings
     static let appName = "EZ Recipes"
+    static let errorTitle = "Error"
+    static let unknownError = "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues"
+    static let okButton = "OK"
+    static let loadingMessages = [
+        "Prepping the ingredients... 🍱",
+        "Preheating the oven... ⏲️",
+        "Going grocery shopping... 🛒",
+        "Drying the meat... 🥩",
+        "Chopping onions... 😭",
+        "Dicing fruit... 🍎",
+        "Steaming veggies... 🥗",
+        "Applying condiments... 🧂",
+        "Spicing things up... 🌶️",
+        "Melting the butter... 🧈",
+        "Mashing the potatoes... 🥔",
+        "Fluffing some rice... 🍚",
+        "Mixing things up... 🥘",
+        "Shaking things up... 🍲"
+    ]
+    
+    // APIs
     static let serverBaseUrl = "https://ez-recipes-server.onrender.com"
     static let recipesPath = "/api/recipes"
     static let termsPath = "/api/terms"
@@ -43,25 +65,6 @@ struct Constants {
     struct HomeView {
         static let homeTitle = "Home"
         static let findRecipeButton = "Find Me a Recipe!"
-        static let errorTitle = "Error"
-        static let unknownError = "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues"
-        static let okButton = "OK"
-        static let loadingMessages = [
-            "Prepping the ingredients... 🍱",
-            "Preheating the oven... ⏲️",
-            "Going grocery shopping... 🛒",
-            "Drying the meat... 🥩",
-            "Chopping onions... 😭",
-            "Dicing fruit... 🍎",
-            "Steaming veggies... 🥗",
-            "Applying condiments... 🧂",
-            "Spicing things up... 🌶️",
-            "Melting the butter... 🧈",
-            "Mashing the potatoes... 🥔",
-            "Fluffing some rice... 🍚",
-            "Mixing things up... 🥘",
-            "Shaking things up... 🍲"
-        ]
         
         // Secondary view
         static let selectRecipe = "Select a recipe from the navigation menu."

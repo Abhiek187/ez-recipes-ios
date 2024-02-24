@@ -33,11 +33,11 @@ struct HomeView: View {
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
-                    .alert(Constants.HomeView.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                        Button(Constants.HomeView.okButton, role: .cancel) {}
+                    .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                        Button(Constants.okButton, role: .cancel) {}
                     } message: {
                         // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? Constants.HomeView.unknownError)
+                        Text(viewModel.recipeError?.error ?? Constants.unknownError)
                     }
                 }
                 
@@ -54,7 +54,7 @@ struct HomeView: View {
                         }
                     }
                     .onReceive(timer) { _ in
-                        loadingMessage = Constants.HomeView.loadingMessages.randomElement() ?? " "
+                        loadingMessage = Constants.loadingMessages.randomElement() ?? " "
                     }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
