@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SubmitButton: View {
     @ObservedObject var viewModel: SearchViewModel
-    var isDisabled: Bool
     
     // Don't take up additional space when hidden
     private let defaultLoadingMessage = ""
@@ -22,7 +21,7 @@ struct SubmitButton: View {
                 Button(Constants.SearchView.submitButton) {
                     viewModel.searchRecipes()
                 }
-                .disabled(isDisabled)
+                .disabled(viewModel.isLoading)
                 .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
                     Button(Constants.okButton, role: .cancel) {}
                 } message: {
@@ -44,6 +43,11 @@ struct SubmitButton: View {
                         loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                     }
             }
+            
+            NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
+                EmptyView()
+            }
+            .hidden()
         }
     }
 }
@@ -58,10 +62,9 @@ struct SubmitButton_Previews: PreviewProvider {
     
     struct BindingTestHolder: View {
         @State var viewModel: SearchViewModel
-        @State var isDisabled: Bool
         
         var body: some View {
-            SubmitButton(viewModel: viewModel, isDisabled: isDisabled)
+            SubmitButton(viewModel: viewModel)
                 .border(.primary)
         }
     }
@@ -71,11 +74,11 @@ struct SubmitButton_Previews: PreviewProvider {
         repoFail.isSuccess = false
         
         return ForEach([1], id: \.self) { _ in
-            BindingTestHolder(viewModel: viewModelWithoutLoading, isDisabled: false)
+            BindingTestHolder(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-            BindingTestHolder(viewModel: viewModelWithLoading, isDisabled: true)
+            BindingTestHolder(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-            BindingTestHolder(viewModel: viewModelWithAlert, isDisabled: false)
+            BindingTestHolder(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
         }
     }

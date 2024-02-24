@@ -35,6 +35,9 @@ struct FilterForm: View {
             }
             Section(Constants.SearchView.filterSection) {
                 HStack {
+                    // Extend the divider all the way to the left (it goes up to the first "text" element)
+                    // https://stackoverflow.com/a/77823150
+                    Text("")
                     Spacer()
                     TextField(String(MIN_CALS), value: $viewModel.recipeFilter.minCals, format: .number)
                         .frame(width: 75)
@@ -101,9 +104,8 @@ struct FilterForm: View {
                 }
                 .mpPickerStyle(.navigationLink)
             }
-            NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
-                SubmitButton(viewModel: viewModel, isDisabled: caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
-            }
+            SubmitButton(viewModel: viewModel)
+                .disabled(caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
         }
         .toolbar {
             // Add buttons above the keyboard for ease of navigation
