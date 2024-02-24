@@ -21,6 +21,7 @@ struct FilterForm: View {
     @FocusState private var focusedField: Field?
     @State private var caloriesExceedMax = false
     @State private var caloriesInvalidRange = false
+    @State private var noRecipesFound = false
     
     private let MIN_CALS = Constants.SearchView.minCals
     private let MAX_CALS = Constants.SearchView.maxCals
@@ -104,8 +105,17 @@ struct FilterForm: View {
                 }
                 .mpPickerStyle(.navigationLink)
             }
-            SubmitButton(viewModel: viewModel)
-                .disabled(caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
+            
+            Section {
+                SubmitButton(viewModel: viewModel)
+                    .disabled(caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
+                    .onChange(of: viewModel.noRecipesFound) { newValue in
+                        withAnimation {
+                            noRecipesFound = newValue
+                        }
+                    }
+                FormError(on: noRecipesFound, message: Constants.SearchView.noResults)
+            }
         }
         .toolbar {
             // Add buttons above the keyboard for ease of navigation
@@ -131,20 +141,26 @@ struct FilterForm: View {
 
 struct FilterForm_Previews: PreviewProvider {
     static let mockRepo = NetworkManagerMock.shared
+    static var repoNoResults = NetworkManagerMock.shared
+    
     static let emptyRecipeFilter = SearchViewModel(repository: mockRepo)
     static var recipeFilterWithMaxError = SearchViewModel(repository: mockRepo)
     static var recipeFilterWithRangeError = SearchViewModel(repository: mockRepo)
     static var viewModelLoading = SearchViewModel(repository: mockRepo)
+    static var viewModelNoResults = SearchViewModel(repository: repoNoResults)
     
     static var previews: some View {
         recipeFilterWithMaxError.recipeFilter.maxCals = 2001
         recipeFilterWithRangeError.recipeFilter.minCals = 200
         recipeFilterWithRangeError.recipeFilter.maxCals = 100
         viewModelLoading.isLoading = true
+        repoNoResults.noResults = true
         
         return ForEach([1], id: \.self) {_ in
-            FilterForm(viewModel: emptyRecipeFilter)
-                .previewDisplayName("Empty")
+            NavigationView {
+                FilterForm(viewModel: emptyRecipeFilter)
+            }
+            .previewDisplayName("Empty")
             
             FilterForm(viewModel: recipeFilterWithMaxError)
                 .previewDisplayName("Max Error")
@@ -154,6 +170,11 @@ struct FilterForm_Previews: PreviewProvider {
             
             FilterForm(viewModel: viewModelLoading)
                 .previewDisplayName("Loading")
+            
+            NavigationView {
+                FilterForm(viewModel: viewModelNoResults)
+            }
+            .previewDisplayName("No Results")
         }
     }
 }

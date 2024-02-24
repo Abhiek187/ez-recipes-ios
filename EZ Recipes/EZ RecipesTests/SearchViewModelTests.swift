@@ -33,6 +33,26 @@ final class SearchViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
+    @MainActor func testSearchRecipesNoResults() {
+        // Given a ViewModel
+        mockRepo.noResults = true
+        viewModel = SearchViewModel(repository: mockRepo)
+        
+        // When searchRecipes() is called with an empty response
+        // Then the recipes property should be empty
+        let expectation = XCTestExpectation(description: "Search recipes")
+        
+        viewModel.$recipes.sink { recipes in
+            if recipes.isEmpty {
+                expectation.fulfill()
+            }
+        }
+        .store(in: &cancellable)
+        
+        viewModel.searchRecipes()
+        wait(for: [expectation], timeout: 1)
+    }
+    
     @MainActor func testSearchRecipesFail() {
         // Given a ViewModel where API requests fail
         mockRepo.isSuccess = false

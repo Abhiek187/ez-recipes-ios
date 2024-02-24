@@ -160,6 +160,7 @@ struct Constants {
         static let typeLabel = "Meal Type"
         static let cultureLabel = "Cuisine"
         static let submitButton = "Apply"
+        static let noResults = "No recipes found"
         
         // Results
         static let resultsTitle = "Results"

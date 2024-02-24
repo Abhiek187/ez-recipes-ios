@@ -14,9 +14,11 @@ class SearchViewModel: ViewModel, ObservableObject {
     @Published var recipeFilter = RecipeFilter()
     
     @Published var isRecipeLoaded = false
+    @Published var noRecipesFound = false
     @Published private(set) var recipes: [Recipe] = [] {
         didSet {
             isRecipeLoaded = !recipes.isEmpty
+            noRecipesFound = recipes.isEmpty
         }
     }
     
@@ -35,6 +37,7 @@ class SearchViewModel: ViewModel, ObservableObject {
     
     func searchRecipes() {
         task = Task {
+            noRecipesFound = false
             isLoading = true
             let result = await repository.getRecipes(withFilter: recipeFilter)
             isLoading = false
