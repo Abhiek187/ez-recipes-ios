@@ -19,6 +19,7 @@ struct RecipeCard: View {
         VStack {
             AsyncImage(url: URL(string: recipe.image))
                 .frame(width: 312, height: 231)
+                .clipped() // prevent large images from overlapping the card
             Divider()
             
             HStack {
