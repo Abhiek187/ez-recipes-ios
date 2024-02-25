@@ -138,6 +138,9 @@ class EZ_RecipesUITests: XCTestCase {
     func testSearchRecipes() throws {
         // Go to the Search tab
         app.tabBars["Tab Bar"].buttons["Search"].tap()
+        var shotNum = 1
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
         
         // If the sidebar button exists, check that the search recipes text is shown and tapping the sidebar button opens the filter form
         let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
@@ -147,6 +150,8 @@ class EZ_RecipesUITests: XCTestCase {
             XCTAssert(searchRecipes.exists, "Error line \(#line): The secondary view text isn't showing")
             
             sidebarButton.tap()
+            snapshot("search-view-\(shotNum)")
+            shotNum += 1
         }
         
         // Interact with all the filter options
@@ -228,31 +233,53 @@ class EZ_RecipesUITests: XCTestCase {
         let sustainableSwitch = collectionViewsQuery.switches["Sustainable"].switches.firstMatch
         sustainableSwitch.tap()
         sustainableSwitch.tap()
-//        let app = XCUIApplication()
-//        let collectionViewsQuery = app.collectionViews
-//        let mealTypeButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["Meal Type"]/*[[".cells.buttons[\"Meal Type\"]",".buttons[\"Meal Type\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        mealTypeButton.tap()
-//        mealTypeButton.tap()
-//        
-//        let antipastiButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["antipasti"]/*[[".cells.buttons[\"antipasti\"]",".buttons[\"antipasti\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        antipastiButton.tap()
-//        
-//        let antipastoButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["antipasto"]/*[[".cells.buttons[\"antipasto\"]",".buttons[\"antipasto\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        antipastoButton.tap()
-//        
-//        let appetizerButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["appetizer"]/*[[".cells.buttons[\"appetizer\"]",".buttons[\"appetizer\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        appetizerButton.tap()
-//        
-//        let beverageButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["beverage"]/*[[".cells.buttons[\"beverage\"]",".buttons[\"beverage\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        beverageButton.tap()
-//        
-//        let breadButton = collectionViewsQuery/*@START_MENU_TOKEN@*/.buttons["bread"]/*[[".cells.buttons[\"bread\"]",".buttons[\"bread\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-//        breadButton.tap()
-//        beverageButton.tap()
-//        appetizerButton.tap()
-//        antipastoButton.tap()
-//        antipastiButton.tap()
-//        breadButton.tap()
         
+        let spiceLevelText = collectionViewsQuery.staticTexts["Spice Level"]
+        XCTAssert(spiceLevelText.exists, "Error line \(#line): The spice level picker couldn't be found")
+        let spiceLevelButton = collectionViewsQuery.buttons["Spice Level"]
+        spiceLevelButton.tap()
+        let noneButton = collectionViewsQuery.buttons["none"]
+        noneButton.tap()
+        let mildButton = collectionViewsQuery.buttons["mild"]
+        mildButton.tap()
+        let spicyButton = collectionViewsQuery.buttons["spicy"]
+        spicyButton.tap()
+        spicyButton.tap()
+        let backSearchButton = app.navigationBars.buttons["Search"]
+        backSearchButton.tap()
+        
+        let mealTypeText = collectionViewsQuery.staticTexts["Meal Type"]
+        XCTAssert(mealTypeText.exists, "Error line \(#line): The meal type picker couldn't be found")
+        let mealTypeButton = collectionViewsQuery.buttons["Meal Type"]
+        mealTypeButton.tap()
+        let dinnerButton = collectionViewsQuery.buttons["dinner"]
+        dinnerButton.tap()
+        let lunchButton = collectionViewsQuery.buttons["lunch"]
+        lunchButton.tap()
+        let mainCourseButton = collectionViewsQuery.buttons["main course"]
+        mainCourseButton.tap()
+        let mainDishButton = collectionViewsQuery.buttons["main dish"]
+        mainDishButton.tap()
+        backSearchButton.tap()
+        
+        let cuisineText = collectionViewsQuery.staticTexts["Cuisine"]
+        XCTAssert(cuisineText.exists, "Error line \(#line): The cuisine picker couldn't be found")
+        let cuisineButton = collectionViewsQuery.buttons["Cuisine"]
+        cuisineButton.tap()
+        let italianButton = collectionViewsQuery.buttons["Italian"]
+        italianButton.tap()
+        backSearchButton.tap()
+        let cuisines = collectionViewsQuery.staticTexts["Italian"]
+        XCTAssert(cuisines.exists, "Error line \(#line): The cuisines selected aren't shown")
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
+        
+        // Submit the form and wait for results
+        submitButton.tap()
+        XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        let resultsNavigationBar = app.navigationBars["Results"]
+        XCTAssert(resultsNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe results didn't load (the API request timed out after 30 seconds)")
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
     }
 }
