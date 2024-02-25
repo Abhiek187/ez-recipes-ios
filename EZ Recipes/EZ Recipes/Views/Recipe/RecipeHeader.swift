@@ -33,8 +33,14 @@ struct RecipeHeader: View {
         VStack(spacing: 16) {
             // Recipe image and caption
             VStack {
-                AsyncImage(url: URL(string: recipe.image))
-                    .frame(width: 312, height: 231)
+                AsyncImage(url: URL(string: recipe.image)) { image in
+                    // Shrink the image if too big while maintaining its aspect ratio
+                    image.resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 312, maxHeight: 231)
+                } placeholder: {
+                    ProgressView()
+                }
                 
                 if let credit = recipe.credit {
                     // Add a clickable link to the image source
