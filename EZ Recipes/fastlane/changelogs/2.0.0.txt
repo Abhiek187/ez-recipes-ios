@@ -1,0 +1,5 @@
+- Now you can search for recipes by name, calories, cuisines, and more with a dedicated search tab
+- Show messages while loading recipes
+- Show spice level, meal types, cuisines, and other facts for each recipe
+- Prevent recipe images from overlapping any content
+- Change the icon for the "I Made This!" button to match the other platforms

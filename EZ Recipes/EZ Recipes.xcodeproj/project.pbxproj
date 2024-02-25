@@ -145,6 +145,7 @@
 		F1E0FD43293D24CF0007255F /* RecipeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeHeader.swift; sourceTree = "<group>"; };
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
+		F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.0.0.txt; sourceTree = "<group>"; };
 		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		F1EAC7F3292185B90046B268 /* RecipeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRepository.swift; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				F10BFB1129A1821800636841 /* 1.0.0.txt */,
+				F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */,
 			);
 			path = changelogs;
 			sourceTree = "<group>";
@@ -800,7 +802,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -829,7 +831,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
