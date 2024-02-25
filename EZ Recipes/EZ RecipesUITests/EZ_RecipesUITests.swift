@@ -239,6 +239,10 @@ class EZ_RecipesUITests: XCTestCase {
         let spiceLevelButton = collectionViewsQuery.buttons["Spice Level"]
         spiceLevelButton.tap()
         let noneButton = collectionViewsQuery.buttons["none"]
+        // Tap twice on iPads to dismiss the sidebar
+        if !noneButton.isHittable {
+            noneButton.tap()
+        }
         noneButton.tap()
         let mildButton = collectionViewsQuery.buttons["mild"]
         mildButton.tap()
@@ -246,13 +250,21 @@ class EZ_RecipesUITests: XCTestCase {
         spicyButton.tap()
         spicyButton.tap()
         let backSearchButton = app.navigationBars.buttons["Search"]
-        backSearchButton.tap()
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
         
         let mealTypeText = collectionViewsQuery.staticTexts["Meal Type"]
         XCTAssert(mealTypeText.exists, "Error line \(#line): The meal type picker couldn't be found")
         let mealTypeButton = collectionViewsQuery.buttons["Meal Type"]
         mealTypeButton.tap()
         let dinnerButton = collectionViewsQuery.buttons["dinner"]
+        if !dinnerButton.isHittable {
+            dinnerButton.tap()
+        }
         dinnerButton.tap()
         let lunchButton = collectionViewsQuery.buttons["lunch"]
         lunchButton.tap()
@@ -260,15 +272,29 @@ class EZ_RecipesUITests: XCTestCase {
         mainCourseButton.tap()
         let mainDishButton = collectionViewsQuery.buttons["main dish"]
         mainDishButton.tap()
-        backSearchButton.tap()
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
         
         let cuisineText = collectionViewsQuery.staticTexts["Cuisine"]
         XCTAssert(cuisineText.exists, "Error line \(#line): The cuisine picker couldn't be found")
         let cuisineButton = collectionViewsQuery.buttons["Cuisine"]
         cuisineButton.tap()
         let italianButton = collectionViewsQuery.buttons["Italian"]
+        if !italianButton.isHittable {
+            italianButton.tap()
+        }
         italianButton.tap()
-        backSearchButton.tap()
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
+        
         let cuisines = collectionViewsQuery.staticTexts["Italian"]
         XCTAssert(cuisines.exists, "Error line \(#line): The cuisines selected aren't shown")
         snapshot("search-view-\(shotNum)")
