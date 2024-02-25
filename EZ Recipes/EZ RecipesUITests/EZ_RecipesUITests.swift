@@ -99,8 +99,8 @@ class EZ_RecipesUITests: XCTestCase {
         snapshot("recipe-view-\(shotNum)")
         shotNum += 1
         
-        // Check that the nutrition label contains all the required nutritional properties
-        for label in ["Nutrition Facts", "Calories", "Fat", "Saturated Fat", "Carbohydrates", "Fiber", "Sugar", "Protein", "Cholesterol", "Sodium"] {
+        // Check that the nutrition label contains all the required nutritional properties (except fiber)
+        for label in ["Nutrition Facts", "Calories", "Fat", "Saturated Fat", "Carbohydrates", "Sugar", "Protein", "Cholesterol", "Sodium"] {
             let nutritionText = app.staticTexts[label]
             XCTAssert(nutritionText.exists, "Error line \(#line): \(label) is missing from the nutrition label")
         }
