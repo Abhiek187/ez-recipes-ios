@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RecipeView: View {
-    var viewModel: HomeViewModel
+    // Mark as @ObservedObject when the ViewModel is mutable
+    @ObservedObject var viewModel: HomeViewModel
     @State var isFavorite = false
     @State var shareText: ShareText?
     
