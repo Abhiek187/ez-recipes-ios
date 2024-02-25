@@ -9,18 +9,19 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @EnvironmentObject private var viewModel: HomeViewModel
+    @StateObject var viewModel: HomeViewModel
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
+    private let defaultLoadingMessage = " "
     @State private var loadingMessage = " "
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     var body: some View {
         NavigationView {
             VStack {
                 // Show the recipe view once the recipe loads in the ViewModel
-                NavigationLink(destination: RecipeView(), isActive: $viewModel.isRecipeLoaded) {
+                NavigationLink(destination: RecipeView(viewModel: viewModel), isActive: $viewModel.isRecipeLoaded) {
                     Button {
                         viewModel.getRandomRecipe()
                     } label: {
@@ -33,11 +34,11 @@ struct HomeView: View {
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
-                    .alert(Constants.HomeView.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                        Button(Constants.HomeView.okButton, role: .cancel) {}
+                    .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                        Button(Constants.okButton, role: .cancel) {}
                     } message: {
                         // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? Constants.HomeView.unknownError)
+                        Text(viewModel.recipeError?.error ?? Constants.unknownError)
                     }
                 }
                 
@@ -50,17 +51,17 @@ struct HomeView: View {
                     // TODO: change to the 0 or 2-parameter variant if this deprecated modifier is removed
                     .onChange(of: viewModel.isLoading) { isLoading in
                         if isLoading {
-                            loadingMessage = " "
+                            loadingMessage = defaultLoadingMessage
                         }
                     }
                     .onReceive(timer) { _ in
-                        loadingMessage = Constants.HomeView.loadingMessages.randomElement() ?? " "
+                        loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                     }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
             
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
-            SecondaryView()
+            HomeSecondaryView()
         }
         .navigationViewStyle(.automatic) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
         .onDisappear {
@@ -84,15 +85,12 @@ struct HomeView_Previews: PreviewProvider {
         repoFail.isSuccess = false
         
         return ForEach([1], id: \.self) {_ in
-            HomeView()
+            HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-                .environmentObject(viewModelWithoutLoading)
-            HomeView()
+            HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-                .environmentObject(viewModelWithLoading)
-            HomeView()
+            HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
-                .environmentObject(viewModelWithAlert)
         }
     }
 }

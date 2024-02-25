@@ -33,7 +33,7 @@ class EZ_RecipesUITests: XCTestCase {
         snapshot("home-view-\(shotNum)")
         shotNum += 1
         
-        // If the sidebar button exists, check that the select recipe text is showing and tapping the sidebar button opens the home view
+        // If the sidebar button exists, check that the select recipe text is shown and tapping the sidebar button opens the home view
         let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
         
         if sidebarButton.exists {
@@ -133,5 +133,190 @@ class EZ_RecipesUITests: XCTestCase {
         // Check that tapping the show another recipe button disables the button (the ProgressView check doesn't work in the pipeline)
         showAnotherRecipeButton.tap()
         XCTAssertFalse(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button should be disabled")
+    }
+    
+    func testSearchRecipes() throws {
+        // Go to the Search tab
+        app.tabBars["Tab Bar"].buttons["Search"].tap()
+        var shotNum = 1
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
+        
+        // If the sidebar button exists, check that the search recipes text is shown and tapping the sidebar button opens the filter form
+        let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
+        
+        if sidebarButton.exists {
+            let searchRecipes = app.staticTexts["Search for recipes by applying filters from the navigation menu."]
+            XCTAssert(searchRecipes.exists, "Error line \(#line): The secondary view text isn't showing")
+            
+            sidebarButton.tap()
+            snapshot("search-view-\(shotNum)")
+            shotNum += 1
+        }
+        
+        // Interact with all the filter options
+        let collectionViewsQuery = app.collectionViews
+        let foodTextField = collectionViewsQuery.textFields["food"]
+        foodTextField.tap()
+        foodTextField.typeText("pasta")
+        
+        // Navigate using the toolbar above the keyboard
+        let toolbar = app.toolbars["Toolbar"]
+        let previousButton = toolbar.buttons["Previous"]
+        let nextButton = toolbar.buttons["Next"]
+        let doneButton = toolbar.buttons["Done"]
+        XCTAssertFalse(previousButton.isEnabled, "Error line \(#line): The previous button isn't disabled")
+        XCTAssert(nextButton.isEnabled, "Error line \(#line): The next button isn't enabled")
+        
+        let minCaloriesTextField = collectionViewsQuery.textFields["0"]
+        minCaloriesTextField.tap()
+        let calories = collectionViewsQuery.staticTexts["kcal"]
+        XCTAssert(calories.exists, "Error line \(#line): No calories label was found")
+        minCaloriesTextField.typeText("500")
+        XCTAssert(previousButton.isEnabled, "Error line \(#line): The previous button isn't enabled")
+        XCTAssert(nextButton.isEnabled, "Error line \(#line): The next button isn't enabled")
+        
+        let maxCaloriesTextField = collectionViewsQuery.textFields["2000"]
+        maxCaloriesTextField.tap()
+        maxCaloriesTextField.typeText("80")
+        XCTAssert(previousButton.isEnabled, "Error line \(#line): The previous button isn't enabled")
+        XCTAssertFalse(nextButton.isEnabled, "Error line \(#line): The next button isn't disabled")
+        doneButton.tap()
+        
+        let calorieRangeError = collectionViewsQuery.staticTexts["Error: Max calories cannot exceed min calories"]
+        XCTAssert(calorieRangeError.exists, "Error line \(#line): The calorie range error isn't shown")
+        let submitButton = collectionViewsQuery.buttons["Apply"]
+        collectionViewsQuery.element.swipeUp()
+        XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        collectionViewsQuery.element.swipeDown()
+        
+        maxCaloriesTextField.tap()
+        maxCaloriesTextField.typeText("00")
+        doneButton.tap()
+        let maxCaloriesError = collectionViewsQuery.staticTexts["Error: Calories must be ≤ 2000"]
+        XCTAssert(maxCaloriesError.exists, "Error line \(#line): The max calorie error isn't shown")
+        collectionViewsQuery.element.swipeUp()
+        XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        collectionViewsQuery.element.swipeDown()
+        
+        maxCaloriesTextField.tap()
+        maxCaloriesTextField.typeText(XCUIKeyboardKey.delete.rawValue)
+        doneButton.tap()
+        XCTAssertFalse(calorieRangeError.exists, "Error line \(#line): The calorie range error is still visible")
+        XCTAssertFalse(maxCaloriesError.exists, "Error line \(#line): The max calorie error is still visible")
+        collectionViewsQuery.element.swipeUp()
+        XCTAssert(submitButton.isEnabled, "Error line \(#line): The submit button should be enabled")
+        collectionViewsQuery.element.swipeDown()
+        
+        let vegetarianText = collectionViewsQuery.staticTexts["Vegetarian"]
+        XCTAssert(vegetarianText.exists, "Error line \(#line): The vegetarian switch couldn't be found")
+        let vegetarianSwitch = collectionViewsQuery.switches["Vegetarian"].switches.firstMatch
+        vegetarianSwitch.tap()
+        
+        let veganText = collectionViewsQuery.staticTexts["Vegan"]
+        XCTAssert(veganText.exists, "Error line \(#line): The vegan switch couldn't be found")
+        let veganSwitch = collectionViewsQuery.switches["Vegan"].switches.firstMatch
+        veganSwitch.tap()
+        veganSwitch.tap()
+        
+        let glutenFreeText = collectionViewsQuery.staticTexts["Gluten-Free"]
+        XCTAssert(glutenFreeText.exists, "Error line \(#line): The gluten-free switch couldn't be found")
+        let glutenFreeSwitch = collectionViewsQuery.switches["Gluten-Free"].switches.firstMatch
+        glutenFreeSwitch.tap()
+        
+        let healthyText = collectionViewsQuery.staticTexts["Healthy"]
+        XCTAssert(healthyText.exists, "Error line \(#line): The healthy switch couldn't be found")
+        let healthySwitch = collectionViewsQuery.switches["Healthy"].switches.firstMatch
+        healthySwitch.tap()
+        healthySwitch.tap()
+        
+        let cheapText = collectionViewsQuery.staticTexts["Cheap"]
+        XCTAssert(cheapText.exists, "Error line \(#line): The cheap switch couldn't be found")
+        let cheapSwitch = collectionViewsQuery.switches["Cheap"].switches.firstMatch
+        cheapSwitch.tap()
+        cheapSwitch.tap()
+        
+        let sustainableText = collectionViewsQuery.staticTexts["Sustainable"]
+        XCTAssert(sustainableText.exists, "Error line \(#line): The sustainable switch couldn't be found")
+        let sustainableSwitch = collectionViewsQuery.switches["Sustainable"].switches.firstMatch
+        sustainableSwitch.tap()
+        sustainableSwitch.tap()
+        
+        let spiceLevelText = collectionViewsQuery.staticTexts["Spice Level"]
+        XCTAssert(spiceLevelText.exists, "Error line \(#line): The spice level picker couldn't be found")
+        let spiceLevelButton = collectionViewsQuery.buttons["Spice Level"]
+        spiceLevelButton.tap()
+        let noneButton = collectionViewsQuery.buttons["none"]
+        // Tap twice on iPads to dismiss the sidebar
+        if !noneButton.isHittable {
+            noneButton.tap()
+        }
+        noneButton.tap()
+        let mildButton = collectionViewsQuery.buttons["mild"]
+        mildButton.tap()
+        let spicyButton = collectionViewsQuery.buttons["spicy"]
+        spicyButton.tap()
+        spicyButton.tap()
+        let backSearchButton = app.navigationBars.buttons["Search"]
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
+        
+        let mealTypeText = collectionViewsQuery.staticTexts["Meal Type"]
+        XCTAssert(mealTypeText.exists, "Error line \(#line): The meal type picker couldn't be found")
+        let mealTypeButton = collectionViewsQuery.buttons["Meal Type"]
+        mealTypeButton.tap()
+        let dinnerButton = collectionViewsQuery.buttons["dinner"]
+        if !dinnerButton.isHittable {
+            dinnerButton.tap()
+        }
+        dinnerButton.tap()
+        collectionViewsQuery.element.swipeUp()
+        let lunchButton = collectionViewsQuery.buttons["lunch"]
+        lunchButton.tap()
+        let mainCourseButton = collectionViewsQuery.buttons["main course"]
+        mainCourseButton.tap()
+        let mainDishButton = collectionViewsQuery.buttons["main dish"]
+        mainDishButton.tap()
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
+        
+        let cuisineText = collectionViewsQuery.staticTexts["Cuisine"]
+        XCTAssert(cuisineText.exists, "Error line \(#line): The cuisine picker couldn't be found")
+        let cuisineButton = collectionViewsQuery.buttons["Cuisine"]
+        cuisineButton.tap()
+        let italianButton = collectionViewsQuery.buttons["Italian"]
+        if !italianButton.exists {
+            collectionViewsQuery.element.swipeUp() // for small screens
+        } else if !italianButton.isHittable && cuisineButton.exists {
+            italianButton.tap() // for large screens
+        }
+        italianButton.tap()
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
+        
+        let cuisines = collectionViewsQuery.staticTexts["Italian"]
+        XCTAssert(cuisines.exists, "Error line \(#line): The cuisines selected aren't shown")
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
+        
+        // Submit the form and wait for results
+        submitButton.tap()
+        XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        let resultsNavigationBar = app.navigationBars["Results"]
+        XCTAssert(resultsNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe results didn't load (the API request timed out after 30 seconds)")
+        snapshot("search-view-\(shotNum)")
+        shotNum += 1
     }
 }

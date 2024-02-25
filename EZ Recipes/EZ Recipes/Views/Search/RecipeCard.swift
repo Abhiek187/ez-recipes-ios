@@ -17,8 +17,13 @@ struct RecipeCard: View {
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: recipe.image))
-                .frame(width: 312, height: 231)
+            AsyncImage(url: URL(string: recipe.image)) { image in
+                image.resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 312, maxHeight: 231)
+            } placeholder: {
+                ProgressView()
+            }
             Divider()
             
             HStack {
@@ -30,11 +35,15 @@ struct RecipeCard: View {
                     Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
             }
+            .padding(.bottom, 8)
             
             HStack {
+                Spacer()
                 Text(Constants.RecipeView.recipeTime(recipe.time))
+                Spacer()
                 if let calories = getCalories() {
-                    Text("\(calories.amount) \(calories.unit)")
+                    Text("\(calories.amount.round()) \(calories.unit)")
+                    Spacer()
                 }
             }
         }

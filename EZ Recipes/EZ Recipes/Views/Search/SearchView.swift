@@ -12,14 +12,10 @@ struct SearchView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                FilterForm(recipeFilter: $viewModel.recipeFilter) {
-                    viewModel.searchRecipes()
-                }
-                
-                SearchResults(recipes: viewModel.recipes)
-            }
-            .navigationTitle(Constants.SearchView.searchTitle)
+            FilterForm(viewModel: viewModel)
+                .navigationTitle(Constants.SearchView.searchTitle)
+            
+            SearchSecondaryView()
         }
         .navigationViewStyle(.automatic)
         .onDisappear {
@@ -29,8 +25,8 @@ struct SearchView: View {
 }
 
 struct SearchView_Previews: PreviewProvider {
-    static let mockNetworkManager = NetworkManagerMock.shared
-    static let viewModel = SearchViewModel(repository: mockNetworkManager)
+    static let mockRepo = NetworkManagerMock.shared
+    static let viewModel = SearchViewModel(repository: mockRepo)
     
     static var previews: some View {
         SearchView(viewModel: viewModel)

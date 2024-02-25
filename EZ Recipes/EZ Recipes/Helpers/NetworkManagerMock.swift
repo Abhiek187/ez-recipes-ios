@@ -9,9 +9,10 @@
 struct NetworkManagerMock: RecipeRepository {
     static let shared = NetworkManagerMock()
     var isSuccess = true // controls whether the mock API calls succeed or fail
+    var noResults = false
     
     func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError> {
-        return isSuccess ? .success([Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken]) : .failure(Constants.Mocks.recipeError)
+        return isSuccess ? .success(noResults ? [] : [Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken]) : .failure(Constants.Mocks.recipeError)
     }
     
     func getRandomRecipe() async -> Result<Recipe, RecipeError> {
