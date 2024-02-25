@@ -212,7 +212,7 @@ class EZ_RecipesUITests: XCTestCase {
         veganSwitch.tap()
         
         let glutenFreeText = collectionViewsQuery.staticTexts["Gluten-Free"]
-        XCTAssert(vegetarianText.exists, "Error line \(#line): The gluten-free switch couldn't be found")
+        XCTAssert(glutenFreeText.exists, "Error line \(#line): The gluten-free switch couldn't be found")
         let glutenFreeSwitch = collectionViewsQuery.switches["Gluten-Free"].switches.firstMatch
         glutenFreeSwitch.tap()
         
@@ -229,7 +229,7 @@ class EZ_RecipesUITests: XCTestCase {
         cheapSwitch.tap()
         
         let sustainableText = collectionViewsQuery.staticTexts["Sustainable"]
-        XCTAssert(vegetarianText.exists, "Error line \(#line): The sustainable switch couldn't be found")
+        XCTAssert(sustainableText.exists, "Error line \(#line): The sustainable switch couldn't be found")
         let sustainableSwitch = collectionViewsQuery.switches["Sustainable"].switches.firstMatch
         sustainableSwitch.tap()
         sustainableSwitch.tap()
