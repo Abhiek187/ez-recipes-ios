@@ -186,19 +186,27 @@ class EZ_RecipesUITests: XCTestCase {
         let calorieRangeError = collectionViewsQuery.staticTexts["Error: Max calories cannot exceed min calories"]
         XCTAssert(calorieRangeError.exists, "Error line \(#line): The calorie range error isn't shown")
         let submitButton = collectionViewsQuery.buttons["Apply"]
+        collectionViewsQuery.element.swipeUp()
         XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        collectionViewsQuery.element.swipeDown()
         
         maxCaloriesTextField.tap()
         maxCaloriesTextField.typeText("00")
+        doneButton.tap()
         let maxCaloriesError = collectionViewsQuery.staticTexts["Error: Calories must be ≤ 2000"]
         XCTAssert(maxCaloriesError.exists, "Error line \(#line): The max calorie error isn't shown")
+        collectionViewsQuery.element.swipeUp()
         XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
+        collectionViewsQuery.element.swipeDown()
         
+        maxCaloriesTextField.tap()
         maxCaloriesTextField.typeText(XCUIKeyboardKey.delete.rawValue)
         doneButton.tap()
         XCTAssertFalse(calorieRangeError.exists, "Error line \(#line): The calorie range error is still visible")
         XCTAssertFalse(maxCaloriesError.exists, "Error line \(#line): The max calorie error is still visible")
+        collectionViewsQuery.element.swipeUp()
         XCTAssert(submitButton.isEnabled, "Error line \(#line): The submit button should be enabled")
+        collectionViewsQuery.element.swipeDown()
         
         let vegetarianText = collectionViewsQuery.staticTexts["Vegetarian"]
         XCTAssert(vegetarianText.exists, "Error line \(#line): The vegetarian switch couldn't be found")
@@ -266,6 +274,7 @@ class EZ_RecipesUITests: XCTestCase {
             dinnerButton.tap()
         }
         dinnerButton.tap()
+        collectionViewsQuery.element.swipeUp()
         let lunchButton = collectionViewsQuery.buttons["lunch"]
         lunchButton.tap()
         let mainCourseButton = collectionViewsQuery.buttons["main course"]
@@ -284,8 +293,10 @@ class EZ_RecipesUITests: XCTestCase {
         let cuisineButton = collectionViewsQuery.buttons["Cuisine"]
         cuisineButton.tap()
         let italianButton = collectionViewsQuery.buttons["Italian"]
-        if !italianButton.isHittable {
-            italianButton.tap()
+        if !italianButton.exists {
+            collectionViewsQuery.element.swipeUp() // for small screens
+        } else if !italianButton.isHittable && cuisineButton.exists {
+            italianButton.tap() // for large screens
         }
         italianButton.tap()
         
