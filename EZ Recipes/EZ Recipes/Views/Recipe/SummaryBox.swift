@@ -21,7 +21,7 @@ struct SummaryBox: View {
                     .accessibilityHidden(true) // make the image decorative
             }
             
-            //HTMLText(recipe.summary)
+            //HTMLText(summary)
             // Remove all HTML tags from the string
             Text(summary.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil))
             

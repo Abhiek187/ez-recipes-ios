@@ -21,7 +21,7 @@ Introducing EZ Recipes, an app that lets chefs find low-effort recipes that can 
 
 - iOS app created using SwiftUI and MVVM architecture
 - Responsive and accessible mobile design
-- REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api)
+- REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api) and MongoDB
 - Universal Links to open recipes from the web app to the mobile app
 - Automated testing and deployment using CI/CD pipelines in GitHub Actions and Fastlane
 - Mermaid to write diagrams as code
@@ -107,7 +107,7 @@ A Mac and Xcode are required to run iOS apps locally.
 3. Go to File --> Packages --> Resolve Package Versions to fetch all the Swift Package Manager dependencies.
 4. Run the **EZ Recipes** scheme.
 
-The recipes will be fetched from the EZ Recipes server hosted on https://ez-recipes-server.onrender.com/api/recipes. To connect to the server locally, follow the directions in the [EZ Recipes server repo](https://github.com/Abhiek187/ez-recipes-server#installing-locally) and change `recipeBaseUrl` under `Constants.swift` to `http://localhost:5000/api/recipes`.
+The recipes will be fetched from the EZ Recipes server hosted on https://ez-recipes-server.onrender.com/api/recipes. To connect to the server locally, follow the directions in the [EZ Recipes server repo](https://github.com/Abhiek187/ez-recipes-server#installing-locally) and change `serverBaseUrl` under `Constants.swift` to `http://localhost:5000`.
 
 ### Testing
 
