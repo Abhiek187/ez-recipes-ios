@@ -7,6 +7,7 @@
 
 import XCTest
 
+@MainActor
 class EZ_RecipesUITests: XCTestCase {
     var app: XCUIApplication!
 
