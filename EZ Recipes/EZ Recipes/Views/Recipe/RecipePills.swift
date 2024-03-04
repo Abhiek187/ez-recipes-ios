@@ -23,37 +23,37 @@ struct RecipePills: View {
     var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
             if [.spicy, .mild].contains(spiceLevel) {
-                Text(spiceLevel == .spicy ? "Spicy" : "Mild")
+                Text(spiceLevel.rawValue.capitalized)
                     .pill(spiceLevel == .spicy ? .red : .orange)
-                    .foregroundStyle(spiceLevel == .spicy ? .white : .black)
+                    .foregroundStyle(.black)
             }
             if isVegetarian {
-                Text("Vegetarian")
+                Text(Constants.SearchView.vegetarianLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
             if isVegan {
-                Text("Vegan")
+                Text(Constants.SearchView.veganLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
             if isGlutenFree {
-                Text("Gluten-Free")
+                Text(Constants.SearchView.glutenFreeLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
             if isHealthy {
-                Text("Healthy")
+                Text(Constants.SearchView.healthyLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
             if isCheap {
-                Text("Cheap")
+                Text(Constants.SearchView.cheapLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
             if isSustainable {
-                Text("Sustainable")
+                Text(Constants.SearchView.sustainableLabel)
                     .pill(.cyan)
                     .foregroundStyle(.black)
             }
