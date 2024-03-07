@@ -32,8 +32,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     private var repository: RecipeRepository
     
     // Utilize dependency injection for happy little tests
-    // The initializer isn't isolated since the protocol doesn't require it to be in a main actor
-    nonisolated required init(repository: RecipeRepository) {
+    required init(repository: RecipeRepository) {
         self.repository = repository
     }
     

@@ -31,7 +31,7 @@ class SearchViewModel: ViewModel, ObservableObject {
     
     private var repository: RecipeRepository
     
-    nonisolated required init(repository: RecipeRepository) {
+    required init(repository: RecipeRepository) {
         self.repository = repository
     }
     

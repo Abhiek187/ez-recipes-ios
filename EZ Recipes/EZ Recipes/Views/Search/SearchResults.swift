@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchResults: View {
     var recipes: [Recipe]
-    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
     let columns = [
         GridItem(.adaptive(minimum: 350), alignment: .top)

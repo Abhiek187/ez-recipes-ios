@@ -7,10 +7,11 @@
 
 import XCTest
 
-@MainActor
 class EZ_RecipesUITests: XCTestCase {
     var app: XCUIApplication!
 
+    // Snapshot methods must be called on the main thread, but XCTestCase doesn't require isolation
+    @MainActor
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -27,6 +28,7 @@ class EZ_RecipesUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    @MainActor
     func testFindMeARecipe() throws {
         // Tap the "Find Me A Recipe!" button and check that the recipe page loads properly (this will consume quota)
         // Take screenshots along the way
@@ -136,6 +138,7 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssertFalse(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button should be disabled")
     }
     
+    @MainActor
     func testSearchRecipes() throws {
         // Go to the Search tab
         app.tabBars["Tab Bar"].buttons["Search"].tap()
