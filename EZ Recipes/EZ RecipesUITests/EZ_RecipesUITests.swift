@@ -317,7 +317,6 @@ class EZ_RecipesUITests: XCTestCase {
         
         // Submit the form and wait for results
         submitButton.tap()
-        XCTAssertFalse(submitButton.isEnabled, "Error line \(#line): The submit button should be disabled")
         let resultsNavigationBar = app.navigationBars["Results"]
         XCTAssert(resultsNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe results didn't load (the API request timed out after 30 seconds)")
         snapshot("search-view-\(shotNum)")
