@@ -10,7 +10,7 @@ struct Recipe: Decodable, Equatable {
     let name: String
     let url: String
     let image: String
-    let credit: String?
+    let credit: String
     let sourceUrl: String
     let healthScore: Int
     let time: Int

@@ -42,13 +42,11 @@ struct RecipeHeader: View {
                     ProgressView()
                 }
                 
-                if let credit = recipe.credit {
-                    // Add a clickable link to the image source
-                    // Take up as many lines as needed
-                    Text(Constants.RecipeView.imageCopyright(credit, recipe.sourceUrl))
-                        .font(.caption)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                // Add a clickable link to the image source
+                // Take up as many lines as needed
+                Text(Constants.RecipeView.imageCopyright(recipe.credit, recipe.sourceUrl))
+                    .font(.caption)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             
             // Recipe info

@@ -38,6 +38,7 @@ enum Cuisine: String, Codable, CaseIterable, Comparable {
     case English
     case Scottish
     case SouthAmerican = "South American"
+    case Creole
     case unknown
     
     static func < (lhs: Cuisine, rhs: Cuisine) -> Bool {
