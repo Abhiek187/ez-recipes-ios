@@ -4,11 +4,13 @@
 [![CodeQL](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/codeql.yml/badge.svg)](https://github.com/Abhiek187/ez-recipes-ios/actions/workflows/codeql.yml)
 
 <div>
-  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-home-view_framed.png" alt="home screen" width="300">
-  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
-  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
-  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
-  <img src="screenshots/6.5-inch/iPhone 13 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-home-view-1_framed.png" alt="home screen" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-6_framed.png" alt="step cards" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-search-view-2_framed.png" alt="filter form" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-search-view-3_framed.png" alt="search results" width="300">
 </div>
 
 ## Overview
@@ -140,6 +142,18 @@ Then run the following command to generate screenshots at `ez-recipes-ios/EZ Rec
 
 ```bash
 bundle exec fastlane ios screenshots
+```
+
+To download the latest `SnapshotHelper.swift`, run:
+
+```bash
+bundle exec fastlane snapshot update
+```
+
+To download the latest frames, run:
+
+```bash
+bundle exec fastlane frameit download_frames
 ```
 
 ### Deployment
