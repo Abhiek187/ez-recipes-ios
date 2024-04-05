@@ -30,6 +30,9 @@ jobs:
 
       - name: Install xcbeautify
         run: brew install xcbeautify
+    
+      - name: Install xcodes
+        run: brew install xcodesorg/made/xcodes
 
       - name: Run Tests
         run: bundle exec fastlane ios test device:${{ matrix.device }}

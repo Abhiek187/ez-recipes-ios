@@ -36,7 +36,7 @@ Introducing EZ Recipes, an app that lets chefs find low-effort recipes that can 
 flowchart LR
 
 A(Checkout repository) --> B(Install Fastlane)
-B --> C(Install xcbeautify)
+B --> C(Install xcbeautify & xcodes)
 C -->|"iPhone 8, iPhone 14 Pro Max, iPad Pro (9.7-inch)"| D
 
 subgraph D [Run unit & UI tests]

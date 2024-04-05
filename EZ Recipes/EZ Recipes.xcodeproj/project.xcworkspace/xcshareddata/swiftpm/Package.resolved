@@ -11,6 +11,15 @@
       }
     },
     {
+      "identity" : "flow",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/toastersocks/Flow.git",
+      "state" : {
+        "revision" : "5c1b99acf390ace87006e065b14f9bdcdd27fdbb",
+        "version" : "1.2.3"
+      }
+    },
+    {
       "identity" : "helpers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/toastersocks/Helpers.git",
@@ -24,10 +33,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/toastersocks/MultiPicker.git",
       "state" : {
-        "revision" : "fe4b14ca6556ee9f71d1a4475f2f229cc7d2f5d8",
-        "version" : "1.0.5"
+        "revision" : "4c625e168c4de1b3aead29fcefa91d1108094022",
+        "version" : "1.0.6"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
