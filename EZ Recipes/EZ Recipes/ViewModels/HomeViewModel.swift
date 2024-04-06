@@ -77,9 +77,8 @@ class HomeViewModel: ViewModel, ObservableObject {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
         let path = components.path
-        // TODO: replace with Swift's Regex class when targeting iOS 16+
-        let recipeUrlRegex = #"\/recipe\/\d+"# // raw string (no need to escape \)
-        guard path.range(of: recipeUrlRegex, options: .regularExpression) != nil else { return }
+        let recipeUrlRegex = /\/recipe\/\d+/
+        guard path.contains(recipeUrlRegex) else { return }
         
         let recipeIdString = path.components(separatedBy: "/")[2]
         guard let recipeId = Int(recipeIdString) else { return }

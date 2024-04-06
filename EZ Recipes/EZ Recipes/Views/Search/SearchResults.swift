@@ -38,7 +38,7 @@ struct SearchResults: View {
 
 struct SearchResults_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             SearchResults(recipes: [
                 Constants.Mocks.blueberryYogurt,
                 Constants.Mocks.chocolateCupcake,

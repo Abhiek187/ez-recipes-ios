@@ -28,15 +28,14 @@ struct SubmitButton: View {
                     Text(viewModel.recipeError?.error ?? Constants.unknownError)
                 }
                 .padding(.trailing)
+                // Prevent navigation unless the recipes are loaded
+                .navigationDestination(isPresented: $viewModel.isRecipeLoaded) {
+                    SearchResults(recipes: viewModel.recipes)
+                }
                 
                 ProgressView()
                     .opacity(viewModel.isLoading ? 1 : 0)
-                
-                // Prevent navigation unless the recipes are loaded
-                NavigationLink(destination: SearchResults(recipes: viewModel.recipes), isActive: $viewModel.isRecipeLoaded) {
-                    EmptyView()
-                }
-                .hidden()
+                Spacer()
             }
             if viewModel.isLoading {
                 Text(loadingMessage)
@@ -70,10 +69,13 @@ struct SubmitButton_Previews: PreviewProvider {
         return ForEach([1], id: \.self) { _ in
             SubmitButton(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
+                .padding()
             SubmitButton(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
+                .padding()
             SubmitButton(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
+                .padding()
         }
     }
 }

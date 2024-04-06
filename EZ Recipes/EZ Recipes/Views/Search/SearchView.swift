@@ -11,13 +11,14 @@ struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
     
     var body: some View {
-        NavigationView {
+        NavigationSplitView {
             FilterForm(viewModel: viewModel)
                 .navigationTitle(Constants.SearchView.searchTitle)
-            
-            SearchSecondaryView()
+        } detail: {
+            NavigationStack {
+                SearchSecondaryView()
+            }
         }
-        .navigationViewStyle(.automatic)
         .onDisappear {
             viewModel.task?.cancel()
         }
