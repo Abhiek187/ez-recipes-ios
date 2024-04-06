@@ -28,11 +28,16 @@ jobs:
       - name: Install Fastlane
         run: bundle install
 
-      - name: Install xcbeautify
-        run: brew install xcbeautify
+      - name: Install xcbeautify & xcodes
+        run: |
+          brew install xcbeautify
+          brew install xcodesorg/made/xcodes
     
-      - name: Install xcodes
-        run: brew install xcodesorg/made/xcodes
+       - name: Install yeetd for faster test performance
+         run: |
+           wget https://github.com/biscuitehh/yeetd/releases/download/1.0/yeetd-normal.pkg
+           sudo installer -pkg yeetd-normal.pkg -target /
+           yeetd &
 
       - name: Run Tests
         run: bundle exec fastlane ios test device:${{ matrix.device }}
