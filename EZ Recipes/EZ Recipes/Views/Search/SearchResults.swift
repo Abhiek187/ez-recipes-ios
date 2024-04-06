@@ -19,7 +19,7 @@ struct SearchResults: View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                 ForEach(recipes, id: \.id) { recipe in
-                    NavigationLink(destination: RecipeView(viewModel: homeViewModel)) {
+                    NavigationLink(value: recipe.id) {
                         RecipeCard(recipe: recipe)
                     }
                     // Don't make all the text the accent color
@@ -28,6 +28,12 @@ struct SearchResults: View {
                         // Populate the recipe directly without making an API call
                         homeViewModel.setRecipe(recipe)
                     })
+                }
+                /* When using the filter form in the sidebar with a recipe open, homeViewModel resets.
+                 * This will pop the navigation path when no recipe can be shown.
+                 */
+                .navigationDestination(isPresented: $homeViewModel.isRecipeLoaded) {
+                    RecipeView(viewModel: homeViewModel)
                 }
             }
         }

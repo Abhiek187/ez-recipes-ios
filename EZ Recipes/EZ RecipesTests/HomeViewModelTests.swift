@@ -24,6 +24,7 @@ final class HomeViewModelTests: XCTestCase {
         
         // Then the recipe property should match the given recipe
         XCTAssertEqual(viewModel.recipe, recipe)
+        XCTAssertEqual(viewModel.isRecipeLoaded, true)
     }
     
     @MainActor func testGetRandomRecipeSuccess() {
