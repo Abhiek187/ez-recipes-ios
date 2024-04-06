@@ -157,7 +157,7 @@ struct FilterForm_Previews: PreviewProvider {
         repoNoResults.noResults = true
         
         return ForEach([1], id: \.self) {_ in
-            NavigationView {
+            NavigationStack {
                 FilterForm(viewModel: emptyRecipeFilter)
             }
             .previewDisplayName("Empty")
@@ -171,7 +171,7 @@ struct FilterForm_Previews: PreviewProvider {
             FilterForm(viewModel: viewModelLoading)
                 .previewDisplayName("Loading")
             
-            NavigationView {
+            NavigationStack {
                 FilterForm(viewModel: viewModelNoResults)
             }
             .previewDisplayName("No Results")

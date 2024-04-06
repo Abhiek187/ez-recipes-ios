@@ -18,28 +18,29 @@ struct HomeView: View {
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        NavigationView {
+        NavigationSplitView {
             VStack {
+                Button {
+                    viewModel.getRandomRecipe()
+                } label: {
+                    Text(Constants.HomeView.findRecipeButton)
+                        .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
+                        .font(.system(size: 22))
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.yellow)
+                // Prevent users from spamming the button
+                .disabled(viewModel.isLoading)
+                // Show an alert if the request failed
+                .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                    Button(Constants.okButton, role: .cancel) {}
+                } message: {
+                    // recipeError shouldn't be nil if recipeFailedToLoad is true
+                    Text(viewModel.recipeError?.error ?? Constants.unknownError)
+                }
                 // Show the recipe view once the recipe loads in the ViewModel
-                NavigationLink(destination: RecipeView(viewModel: viewModel), isActive: $viewModel.isRecipeLoaded) {
-                    Button {
-                        viewModel.getRandomRecipe()
-                    } label: {
-                        Text(Constants.HomeView.findRecipeButton)
-                            .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
-                            .font(.system(size: 22))
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.yellow)
-                    // Prevent users from spamming the button
-                    .disabled(viewModel.isLoading)
-                    // Show an alert if the request failed
-                    .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                        Button(Constants.okButton, role: .cancel) {}
-                    } message: {
-                        // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? Constants.unknownError)
-                    }
+                .navigationDestination(isPresented: $viewModel.isRecipeLoaded) {
+                    RecipeView(viewModel: viewModel)
                 }
                 
                 // Show a spinner while the network request is loading
@@ -48,7 +49,7 @@ struct HomeView: View {
                     .opacity(viewModel.isLoading ? 1 : 0)
                 Text(loadingMessage)
                     .opacity(viewModel.isLoading ? 1 : 0)
-                    // TODO: change to the 0 or 2-parameter variant if this deprecated modifier is removed
+                // TODO: change to the 0-parameter variant if this deprecated modifier is removed (or targeting iOS 17)
                     .onChange(of: viewModel.isLoading) { isLoading in
                         if isLoading {
                             loadingMessage = defaultLoadingMessage
@@ -59,11 +60,10 @@ struct HomeView: View {
                     }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
-            
+        } detail: {
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
             HomeSecondaryView()
         }
-        .navigationViewStyle(.automatic) // TODO: when iOS 16 is the minimum deployment target, migrate to NavigationStack/NavigationSplitView: https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types
         .onDisappear {
             // Stop any network calls when switching tabs
             viewModel.task?.cancel()

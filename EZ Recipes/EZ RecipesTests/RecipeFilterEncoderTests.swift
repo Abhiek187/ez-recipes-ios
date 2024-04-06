@@ -9,7 +9,6 @@ import XCTest
 import Alamofire
 @testable import EZ_Recipes
 
-@available(iOS 16.0, *)
 final class RecipeFilterEncoderTests: XCTestCase {
     let baseEncoder = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(
         arrayEncoding: .noBrackets,

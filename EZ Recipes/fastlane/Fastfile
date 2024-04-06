@@ -18,6 +18,15 @@ default_platform(:ios)
 platform :ios do
   APP_SCHEME = "EZ Recipes"
   
+  before_all do
+    # Only run in GitHub Actions
+    if ENV["CI"]
+      # Set the Xcode version before running each lane: /usr/local/bin/xcodes installed VERSION
+      xcodes(version: "15.3", # required to support Package.resolved version 3
+             select_for_current_build_only: true)
+    end
+  end
+  
   desc "Run tests on a specified device"
   lane :test do |options|
     # Swift package CI recommendations: https://developer.apple.com/documentation/xcode/building-swift-packages-or-apps-that-use-them-in-continuous-integration-workflows

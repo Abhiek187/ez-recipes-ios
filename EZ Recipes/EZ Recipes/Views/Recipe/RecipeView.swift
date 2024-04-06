@@ -78,30 +78,14 @@ struct RecipeView: View {
                         Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                     }
                     
-                    if #available(iOS 16.0, *) {
-                        ShareLink(
-                            Constants.RecipeView.shareAlt,
-                            item: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
-                            subject: Text(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe),
-                            message: Text(Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe))
-                        )
-                    } else {
-                        // Fallback on earlier versions
-                        Button {
-                            shareText = ShareText(
-                                url: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
-                                subject: viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe,
-                                message: Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe)
-                            )
-                        } label: {
-                            Label(Constants.RecipeView.shareAlt, systemImage: "square.and.arrow.up")
-                        }
-                    }
+                    ShareLink(
+                        Constants.RecipeView.shareAlt,
+                        item: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
+                        subject: Text(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe),
+                        message: Text(Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe))
+                    )
                 }
             }
-        }
-        .sheet(item: $shareText) { shareText in
-            ActivityView(url: shareText.url, subject: shareText.subject, message: shareText.message)
         }
     }
 }
@@ -113,7 +97,7 @@ struct RecipeView_Previews: PreviewProvider {
     static var previews: some View {
         viewModel.getRandomRecipe()
         
-        return NavigationView {
+        return NavigationStack {
             RecipeView(viewModel: viewModel)
         }
     }
