@@ -37,7 +37,7 @@ flowchart LR
 
 A(Checkout repository) --> B(Install Fastlane)
 B --> C(Install xcbeautify & xcodes)
-C -->|"iPhone 8, iPhone 14 Pro Max, iPad Pro (9.7-inch)"| D
+C -->|"Small iPhone, Large iPhone, iPad"| D
 
 subgraph D [Run unit & UI tests]
 direction TB
