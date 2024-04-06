@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F11D3E952BC1A26F00BE5259 /* BoolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */; };
 		F122BBC42B899C2000302FCA /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */; };
 		F122BBC62B8A7EE600302FCA /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC52B8A7EE600302FCA /* SubmitButton.swift */; };
 		F122BBC82B8AB6EF00302FCA /* SearchSecondaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122BBC72B8AB6EF00302FCA /* SearchSecondaryView.swift */; };
@@ -91,6 +92,7 @@
 		F10BFB1129A1821800636841 /* 1.0.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 1.0.0.txt; sourceTree = "<group>"; };
 		F10BFB1329A197D600636841 /* Pluginfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pluginfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F10BFB1529A1DEDA00636841 /* screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; name = screenshots; path = ../screenshots; sourceTree = "<group>"; };
+		F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolExtension.swift; sourceTree = "<group>"; };
 		F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		F122BBC52B8A7EE600302FCA /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		F122BBC72B8AB6EF00302FCA /* SearchSecondaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSecondaryView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */,
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
+				F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
 				F15CB9F02B770F520031F725 /* FilterForm.swift in Sources */,
 				F1437C0729566A49005408E5 /* Card.swift in Sources */,
+				F11D3E952BC1A26F00BE5259 /* BoolExtension.swift in Sources */,
 				F15CB9E52B75A4EC0031F725 /* SearchView.swift in Sources */,
 				F1320CDC297C9ADE00070DC8 /* RecipeTitle.swift in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
