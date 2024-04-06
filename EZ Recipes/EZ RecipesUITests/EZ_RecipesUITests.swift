@@ -65,6 +65,12 @@ class EZ_RecipesUITests: XCTestCase {
         // Wait up to 30 seconds for the recipe to load
         let recipeNavigationBar = app.navigationBars["Recipe"]
         XCTAssert(recipeNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe page didn't load (the API request timed out after 30 seconds)")
+        
+        // Hide the sidebar so the recipe can be interacted with
+        let popoverDismissRegion = app.otherElements["PopoverDismissRegion"]
+        if popoverDismissRegion.exists {
+            popoverDismissRegion.tap()
+        }
         shotNum = 1
         snapshot("recipe-view-\(shotNum)")
         shotNum += 1
@@ -250,11 +256,13 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssert(spiceLevelText.exists, "Error line \(#line): The spice level picker couldn't be found")
         let spiceLevelButton = collectionViewsQuery.buttons["Spice Level"]
         spiceLevelButton.tap()
-        let noneButton = collectionViewsQuery.buttons["none"]
         // Tap twice on iPads to dismiss the sidebar
-        if !noneButton.isHittable {
-            noneButton.tap()
+        let popoverDismissRegion = app.otherElements["PopoverDismissRegion"]
+        if popoverDismissRegion.exists {
+            popoverDismissRegion.tap()
         }
+        
+        let noneButton = collectionViewsQuery.buttons["none"]
         noneButton.tap()
         let mildButton = collectionViewsQuery.buttons["mild"]
         mildButton.tap()
@@ -274,8 +282,8 @@ class EZ_RecipesUITests: XCTestCase {
         let mealTypeButton = collectionViewsQuery.buttons["Meal Type"]
         mealTypeButton.tap()
         let dinnerButton = collectionViewsQuery.buttons["dinner"]
-        if !dinnerButton.isHittable {
-            dinnerButton.tap()
+        if popoverDismissRegion.exists {
+            popoverDismissRegion.tap()
         }
         dinnerButton.tap()
         collectionViewsQuery.element.swipeUp()
@@ -299,8 +307,8 @@ class EZ_RecipesUITests: XCTestCase {
         let italianButton = collectionViewsQuery.buttons["Italian"]
         if !italianButton.exists {
             collectionViewsQuery.element.swipeUp() // for small screens
-        } else if !italianButton.isHittable && cuisineButton.exists {
-            italianButton.tap() // for large screens
+        } else if popoverDismissRegion.exists {
+            popoverDismissRegion.tap() // for large screens
         }
         italianButton.tap()
         
@@ -319,6 +327,10 @@ class EZ_RecipesUITests: XCTestCase {
         submitButton.tap()
         let resultsNavigationBar = app.navigationBars["Results"]
         XCTAssert(resultsNavigationBar.waitForExistence(timeout: 30), "Error line \(#line): The recipe results didn't load (the API request timed out after 30 seconds)")
+        
+        if popoverDismissRegion.exists {
+            popoverDismissRegion.tap()
+        }
         snapshot("search-view-\(shotNum)")
         shotNum += 1
     }
