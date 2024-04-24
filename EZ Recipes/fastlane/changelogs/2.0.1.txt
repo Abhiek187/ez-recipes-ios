@@ -1,0 +1,2 @@
+- The minimum iOS version is now 16.0
+- Slight adjustments to navigation

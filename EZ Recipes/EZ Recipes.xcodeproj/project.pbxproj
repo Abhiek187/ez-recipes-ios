@@ -136,6 +136,7 @@
 		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
 		F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoder.swift; sourceTree = "<group>"; };
+		F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.0.1.txt; sourceTree = "<group>"; };
 		F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoderTests.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 			children = (
 				F10BFB1129A1821800636841 /* 1.0.0.txt */,
 				F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */,
+				F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */,
 			);
 			path = changelogs;
 			sourceTree = "<group>";
@@ -806,7 +808,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -835,7 +837,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
