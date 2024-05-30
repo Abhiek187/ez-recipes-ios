@@ -12,11 +12,15 @@ struct ContentView: View {
         TabView {
             HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
                 .tabItem {
-                    Label(Constants.Tabs.home, systemImage: "house")
+                    Constants.Tabs.home
                 }
             SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
                 .tabItem {
-                    Label(Constants.Tabs.search, systemImage: "magnifyingglass")
+                    Constants.Tabs.search
+                }
+            GlossaryView()
+                .tabItem {
+                    Constants.Tabs.glossary
                 }
         }
     }

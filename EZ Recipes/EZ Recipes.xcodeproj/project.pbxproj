@@ -68,6 +68,10 @@
 		F1F38EC3290F509B000FF99C /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC2290F509B000FF99C /* Step.swift */; };
 		F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38EC4290F50A9000FF99C /* StepItem.swift */; };
 		F1F38ED0290F6962000FF99C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */; };
+		F1FB91592C08C13600DF3669 /* TermStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB91582C08C13600DF3669 /* TermStore.swift */; };
+		F1FB915B2C08C3E600DF3669 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */; };
+		F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */; };
+		F1FB91622C08FD5700DF3669 /* GlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB91612C08FD5700DF3669 /* GlossaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +173,10 @@
 		F1F38ECE290F6923000FF99C /* Snapfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snapfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F1F38ECF290F6962000FF99C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		F1F38ED4290F773E000FF99C /* fastlane.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = fastlane.yml; sourceTree = "<group>"; };
+		F1FB91582C08C13600DF3669 /* TermStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermStore.swift; sourceTree = "<group>"; };
+		F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagerTests.swift; sourceTree = "<group>"; };
+		F1FB91612C08FD5700DF3669 /* GlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +276,7 @@
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
 				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
 				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
+				F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -296,6 +305,7 @@
 				F1F38EC2290F509B000FF99C /* Step.swift */,
 				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
 				F1C7DA082B6F386800D6E343 /* Term.swift */,
+				F1FB91582C08C13600DF3669 /* TermStore.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -304,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				F15CB9E72B75A6470031F725 /* ContentView.swift */,
+				F1FB91602C08FD4100DF3669 /* Glossary */,
 				F1E0FD3F293D23600007255F /* Home */,
 				F1E0FD40293D236E0007255F /* Recipe */,
 				F15CB9E32B75A4D00031F725 /* Search */,
@@ -335,6 +346,7 @@
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
 				F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */,
+				F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -428,6 +440,14 @@
 				F1F38ED4290F773E000FF99C /* fastlane.yml */,
 			);
 			path = workflows;
+			sourceTree = "<group>";
+		};
+		F1FB91602C08FD4100DF3669 /* Glossary */ = {
+			isa = PBXGroup;
+			children = (
+				F1FB91612C08FD5700DF3669 /* GlossaryView.swift */,
+			);
+			path = Glossary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -571,6 +591,7 @@
 			files = (
 				F1C7DA0F2B70316400D6E343 /* RecipePills.swift in Sources */,
 				F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */,
+				F1FB915B2C08C3E600DF3669 /* UserDefaultsManager.swift in Sources */,
 				F12C1C632904CED500C3302B /* NetworkManager.swift in Sources */,
 				F1437C042956681C005408E5 /* StepCard.swift in Sources */,
 				F15CB9F22B770F610031F725 /* SearchResults.swift in Sources */,
@@ -580,8 +601,10 @@
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
+				F1FB91622C08FD5700DF3669 /* GlossaryView.swift in Sources */,
 				F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */,
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
+				F1FB91592C08C13600DF3669 /* TermStore.swift in Sources */,
 				F122BBC82B8AB6EF00302FCA /* SearchSecondaryView.swift in Sources */,
 				F1F38EC3290F509B000FF99C /* Step.swift in Sources */,
 				F15CB9E82B75A6470031F725 /* ContentView.swift in Sources */,
@@ -627,6 +650,7 @@
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
 				F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */,
+				F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */,
 				F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
 				F122BBC42B899C2000302FCA /* SearchViewModelTests.swift in Sources */,

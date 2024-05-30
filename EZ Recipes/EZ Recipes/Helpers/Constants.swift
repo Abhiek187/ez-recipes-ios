@@ -52,8 +52,9 @@ struct Constants {
     }
     
     struct Tabs {
-        static let home = "Home"
-        static let search = "Search"
+        static let home = Label("Home", systemImage: "house")
+        static let search = Label("Search", systemImage: "magnifyingglass")
+        static let glossary = Label("Glossary", systemImage: "book")
     }
     
     struct KeyboardNavigation {
@@ -167,5 +168,9 @@ struct Constants {
         
         // Results
         static let resultsTitle = "Results"
+    }
+    
+    struct GlossaryView {
+        static let glossaryTitle = "Glossary"
     }
 }
