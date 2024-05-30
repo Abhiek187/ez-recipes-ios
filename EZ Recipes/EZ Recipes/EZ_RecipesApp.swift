@@ -18,6 +18,9 @@ struct EZ_RecipesApp: App {
                 .onOpenURL { url in
                     homeViewModel.handleRecipeLink(url)
                 }
+                .onAppear {
+                    homeViewModel.checkCachedTerms()
+                }
         }
     }
 }

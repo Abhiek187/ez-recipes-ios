@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 // MainActor ensures UI changes happen on the main thread
 @MainActor
@@ -29,6 +30,7 @@ class HomeViewModel: ViewModel, ObservableObject {
         }
     }
     
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
     private var repository: RecipeRepository
     
     // Utilize dependency injection for happy little tests
@@ -85,5 +87,22 @@ class HomeViewModel: ViewModel, ObservableObject {
         
         // Open RecipeView with the specified recipe ID
         getRecipe(byId: recipeId)
+    }
+    
+    func checkCachedTerms() {
+        // Check if terms need to be cached
+        if UserDefaultsManager.getTerms() != nil { return }
+        
+        // The API can continue running in the background
+        Task {
+            let result = await repository.getTerms()
+            
+            switch result {
+            case .success(let terms):
+                UserDefaultsManager.saveTerms(terms: terms)
+            case .failure(let recipeError):
+                logger.warning("Failed to get terms :: error: \(recipeError.localizedDescription)")
+            }
+        }
     }
 }
