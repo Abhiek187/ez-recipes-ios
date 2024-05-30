@@ -8,17 +8,29 @@
 import SwiftUI
 
 struct GlossaryView: View {
+    @State var terms = UserDefaultsManager.getTerms()?.sorted(by: {
+        // Sort all the terms alphabetically for ease of reference
+        $0.word < $1.word
+    })
+    
     var body: some View {
         NavigationStack {
-            if let terms = UserDefaultsManager.getTerms()?.sorted(by: {
-                // Sort all the terms alphabetically for ease of reference
-                $0.word < $1.word
-            }) {
-                List(terms, id: \._id) { term in
-                    Text("**\(term.word)** — \(term.definition)")
+            Group {
+                if let terms {
+                    List(terms, id: \._id) { term in
+                        Text("**\(term.word)** — \(term.definition)")
+                    }
+                } else {
+                    // Show that the terms are loading
+                    ProgressView()
                 }
-                // Prevent the list from overlapping the status bar
-                .navigationTitle(Constants.GlossaryView.glossaryTitle)
+            }
+            .navigationTitle(Constants.GlossaryView.glossaryTitle)
+        }
+        .onAppear {
+            // Update the terms list when switching tabs
+            terms = UserDefaultsManager.getTerms()?.sorted {
+                $0.word < $1.word
             }
         }
     }

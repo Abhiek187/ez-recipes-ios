@@ -26,10 +26,9 @@ struct UserDefaultsManager {
             return nil
         }
         
-        // Delete the terms if they're expired
+        // Replace the terms if they're expired
         if Date().timeIntervalSince1970 >= termStore.expireAt {
             logger.debug("Cached terms have expired, retrieving a new set of terms...")
-            userDefaults.removeObject(forKey: Keys.terms)
             return nil
         }
         
