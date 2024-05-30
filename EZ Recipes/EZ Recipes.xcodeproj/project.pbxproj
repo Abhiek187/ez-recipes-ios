@@ -71,6 +71,7 @@
 		F1FB91592C08C13600DF3669 /* TermStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB91582C08C13600DF3669 /* TermStore.swift */; };
 		F1FB915B2C08C3E600DF3669 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */; };
 		F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */; };
+		F1FB91622C08FD5700DF3669 /* GlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FB91612C08FD5700DF3669 /* GlossaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +176,7 @@
 		F1FB91582C08C13600DF3669 /* TermStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermStore.swift; sourceTree = "<group>"; };
 		F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagerTests.swift; sourceTree = "<group>"; };
+		F1FB91612C08FD5700DF3669 /* GlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlossaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				F15CB9E72B75A6470031F725 /* ContentView.swift */,
+				F1FB91602C08FD4100DF3669 /* Glossary */,
 				F1E0FD3F293D23600007255F /* Home */,
 				F1E0FD40293D236E0007255F /* Recipe */,
 				F15CB9E32B75A4D00031F725 /* Search */,
@@ -437,6 +440,14 @@
 				F1F38ED4290F773E000FF99C /* fastlane.yml */,
 			);
 			path = workflows;
+			sourceTree = "<group>";
+		};
+		F1FB91602C08FD4100DF3669 /* Glossary */ = {
+			isa = PBXGroup;
+			children = (
+				F1FB91612C08FD5700DF3669 /* GlossaryView.swift */,
+			);
+			path = Glossary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,6 +601,7 @@
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
+				F1FB91622C08FD5700DF3669 /* GlossaryView.swift in Sources */,
 				F1C7DA0B2B6F3AC100D6E343 /* RecipeFilter.swift in Sources */,
 				F1F38EC1290F5088000FF99C /* Instruction.swift in Sources */,
 				F1FB91592C08C13600DF3669 /* TermStore.swift in Sources */,
