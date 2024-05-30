@@ -19,7 +19,12 @@ struct UserDefaultsManager {
     }
     
     static func getTerms() -> [Term]? {
-        guard let termStorePlist = userDefaults.value(forKey: Keys.terms) as? Data, let termStore = try? PropertyListDecoder().decode(TermStore.self, from: termStorePlist) else { return nil }
+        guard let termStorePlist = userDefaults.value(forKey: Keys.terms) as? Data else { return nil }
+        guard let termStore = try? PropertyListDecoder().decode(TermStore.self, from: termStorePlist) else {
+            logger.warning("Stored terms are corrupted, deleting them and retrieving a new set of terms...")
+            userDefaults.removeObject(forKey: Keys.terms)
+            return nil
+        }
         
         // Delete the terms if they're expired
         if Date().timeIntervalSince1970 >= termStore.expireAt {
