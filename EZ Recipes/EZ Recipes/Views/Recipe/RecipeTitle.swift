@@ -17,7 +17,7 @@ struct RecipeTitle: View {
                 .font(.title)
                 .padding([.leading, .trailing])
             
-            if let url = URL(string: recipe.url) {
+            if let recipeUrl = recipe.url, let url = URL(string: recipeUrl) {
                 Link(destination: url) {
                     Label(Constants.RecipeView.recipeLinkAlt, systemImage: "link")
                 }

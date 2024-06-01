@@ -6,9 +6,10 @@
 //
 
 struct Recipe: Decodable, Equatable {
+    let _id: String
     let id: Int // each recipe has a unique ID
     let name: String
-    let url: String
+    let url: String?
     let image: String
     let credit: String
     let sourceUrl: String
@@ -28,4 +29,5 @@ struct Recipe: Decodable, Equatable {
     let nutrients: [Nutrient]
     let ingredients: [Ingredient]
     let instructions: [Instruction]
+    var token: String? // searchSequenceToken for pagination
 }

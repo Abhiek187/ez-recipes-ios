@@ -18,4 +18,5 @@ struct RecipeFilter: Encodable {
     var spiceLevel: Set<String> = []
     var type: Set<String> = []
     var culture: Set<String> = []
+    var token: String? // either an ObjectId or searchSequenceToken for pagination
 }
