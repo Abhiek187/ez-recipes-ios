@@ -15,6 +15,7 @@ class SearchViewModel: ViewModel, ObservableObject {
     
     @Published var isRecipeLoaded = false
     @Published var noRecipesFound = false
+    @Published private(set) var lastToken: String? = nil
     @Published private(set) var recipes: [Recipe] = [] {
         didSet {
             isRecipeLoaded = !recipes.isEmpty
@@ -35,17 +36,27 @@ class SearchViewModel: ViewModel, ObservableObject {
         self.repository = repository
     }
     
-    func searchRecipes() {
+    func searchRecipes(withPagination paginate: Bool = false) {
         task = Task {
             noRecipesFound = false
+            recipeFilter.token = paginate ? lastToken : nil
+            
             isLoading = true
             let result = await repository.getRecipes(withFilter: recipeFilter)
             isLoading = false
             
             switch result {
             case .success(let recipes):
-                self.recipes = recipes
+                // Append results if paginating, replace otherwise
+                if paginate {
+                    self.recipes.append(contentsOf: recipes)
+                } else {
+                    self.recipes = recipes
+                }
+                
                 self.recipeError = nil
+                // Prevent subsequent calls if there are no more results
+                lastToken = recipes.last?.token ?? recipes.last?._id
             case .failure(let recipeError):
                 self.recipes = []
                 self.recipeError = recipeError

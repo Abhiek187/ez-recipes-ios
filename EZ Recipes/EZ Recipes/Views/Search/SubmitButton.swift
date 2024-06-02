@@ -30,7 +30,7 @@ struct SubmitButton: View {
                 .padding(.trailing)
                 // Prevent navigation unless the recipes are loaded
                 .navigationDestination(isPresented: (!viewModel.recipes.isEmpty).binding()) {
-                    SearchResults(recipes: viewModel.recipes)
+                    SearchResults(recipes: viewModel.recipes, searchViewModel: viewModel)
                 }
                 
                 ProgressView()
