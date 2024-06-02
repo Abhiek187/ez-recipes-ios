@@ -42,6 +42,10 @@ struct SearchResults: View {
                         }
                     }
             }
+            
+            if searchViewModel.isLoading {
+                ProgressView()
+            }
         }
         .navigationTitle(Constants.SearchView.resultsTitle)
         .navigationBarTitleDisplayMode(.inline)

@@ -20,7 +20,6 @@ class SearchViewModel: ViewModel, ObservableObject {
         didSet {
             isRecipeLoaded = !recipes.isEmpty
             noRecipesFound = recipes.isEmpty
-            lastToken = recipes.last?.token ?? recipes.last?._id
         }
     }
     
@@ -54,7 +53,10 @@ class SearchViewModel: ViewModel, ObservableObject {
                 } else {
                     self.recipes = recipes
                 }
+                
                 self.recipeError = nil
+                // Prevent subsequent calls if there are no more results
+                lastToken = recipes.last?.token ?? recipes.last?._id
             case .failure(let recipeError):
                 self.recipes = []
                 self.recipeError = recipeError
