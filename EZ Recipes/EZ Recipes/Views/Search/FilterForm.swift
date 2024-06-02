@@ -16,6 +16,7 @@ struct FilterForm: View {
         case maxCals
     }
     
+    @Environment(\.horizontalSizeClass) private var sizeClass
     @ObservedObject var viewModel: SearchViewModel
     
     @FocusState private var focusedField: Field?
@@ -118,8 +119,13 @@ struct FilterForm: View {
             }
         }
         // Prevent navigation unless the recipes are loaded
+        .onAppear {
+            if sizeClass == .compact {
+                viewModel.isRecipeLoaded = false
+            }
+        }
         // Must place navigationDestination outside lazy containers (Form is rendered as a List)
-        .navigationDestination(isPresented: (!viewModel.recipes.isEmpty).binding()) {
+        .navigationDestination(isPresented: viewModel.isRecipeLoaded.binding()) {
             SearchResults(recipes: viewModel.recipes, searchViewModel: viewModel)
         }
         .toolbar {

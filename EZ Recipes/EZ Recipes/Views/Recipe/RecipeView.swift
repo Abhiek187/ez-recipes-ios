@@ -13,7 +13,8 @@ struct RecipeView: View {
     @State var isFavorite = false
     @State var shareText: ShareText?
     
-    @Environment(\.horizontalSizeClass) var sizeClass
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ScrollView {
@@ -60,7 +61,12 @@ struct RecipeView: View {
                     
                     RecipeFooter()
                 } else {
-                    Text(Constants.RecipeView.noRecipe) // shouldn't be seen normally
+                    // Shouldn't be seen normally
+                    Text(Constants.RecipeView.noRecipe)
+                        .onAppear {
+                            // Pop to the search results if editing the filter form from the sidebar
+                            dismiss()
+                        }
                 }
             }
         }
