@@ -16,7 +16,6 @@ struct FilterForm: View {
         case maxCals
     }
     
-    @Environment(\.horizontalSizeClass) private var sizeClass
     @ObservedObject var viewModel: SearchViewModel
     
     @FocusState private var focusedField: Field?
@@ -120,7 +119,7 @@ struct FilterForm: View {
         }
         // Prevent navigation unless the recipes are loaded
         .onAppear {
-            if sizeClass == .compact {
+            if UIDevice.current.userInterfaceIdiom == .phone {
                 viewModel.isRecipeLoaded = false
             }
         }
