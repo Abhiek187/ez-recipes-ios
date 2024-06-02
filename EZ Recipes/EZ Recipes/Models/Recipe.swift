@@ -6,7 +6,7 @@
 //
 
 struct Recipe: Decodable, Equatable {
-    let _id: String
+    let _id: String?
     let id: Int // each recipe has a unique ID
     let name: String
     let url: String?

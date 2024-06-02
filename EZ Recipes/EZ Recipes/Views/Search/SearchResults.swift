@@ -30,14 +30,9 @@ struct SearchResults: View {
                         homeViewModel.setRecipe(recipe)
                     })
                 }
-                /* When using the filter form in the sidebar with a recipe open, homeViewModel resets.
-                 * This will pop the navigation path when no recipe can be shown.
-                 */
-                .navigationDestination(isPresented: $homeViewModel.isRecipeLoaded) {
-                    RecipeView(viewModel: homeViewModel)
-                }
                 
                 // Invisible detector when the user scrolls to the bottom of the list
+                // https://stackoverflow.com/a/68682309
                 Color.clear
                     .frame(width: 0, height: 0, alignment: .bottom)
                     .onAppear {
@@ -50,6 +45,9 @@ struct SearchResults: View {
         }
         .navigationTitle(Constants.SearchView.resultsTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(for: Int.self) { _ in
+            RecipeView(viewModel: homeViewModel)
+        }
     }
 }
 
