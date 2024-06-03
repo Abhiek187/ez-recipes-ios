@@ -28,10 +28,6 @@ struct SubmitButton: View {
                     Text(viewModel.recipeError?.error ?? Constants.unknownError)
                 }
                 .padding(.trailing)
-                // Prevent navigation unless the recipes are loaded
-                .navigationDestination(isPresented: (!viewModel.recipes.isEmpty).binding()) {
-                    SearchResults(recipes: viewModel.recipes, searchViewModel: viewModel)
-                }
                 
                 ProgressView()
                     .opacity(viewModel.isLoading ? 1 : 0)
