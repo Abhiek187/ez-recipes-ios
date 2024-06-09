@@ -14,6 +14,7 @@ class RecentRecipe: NSManagedObject {
     
     /// Initialize a new RecentRecipe object and insert it into Core Data
     convenience init(recipe: Recipe, insertInto context: NSManagedObjectContext) {
+        // Don't define an entity here, otherwise the previews will crash
         self.init(context: context)
         
         self.id = recipe.id
