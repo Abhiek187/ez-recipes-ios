@@ -41,7 +41,7 @@ struct CoreDataManager {
         container = NSPersistentContainer(name: Constants.appName)
         
         if inMemory, let storeDescription = container.persistentStoreDescriptions.first {
-            storeDescription.url = URL(fileURLWithPath: "/dev/null")
+            storeDescription.url = URL(filePath: "/dev/null")
         }
         
         container.loadPersistentStores { (storeDescription, error) in
@@ -55,6 +55,8 @@ struct CoreDataManager {
                  Check the error message to determine what the actual problem was.
                  */
                 CoreDataManager.logger.warning("Couldn't load persistent stores from Core Data :: error: \(error), \(error.userInfo)")
+            } else {
+                CoreDataManager.logger.debug("Core Data loaded successfully! :: store description: \(storeDescription)")
             }
         }
         
