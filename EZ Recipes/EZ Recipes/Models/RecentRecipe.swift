@@ -14,8 +14,7 @@ class RecentRecipe: NSManagedObject {
     
     /// Initialize a new RecentRecipe object and insert it into Core Data
     convenience init(recipe: Recipe, insertInto context: NSManagedObjectContext) {
-        let entity = NSEntityDescription.entity(forEntityName: "RecentRecipe", in: context) ?? NSEntityDescription()
-        self.init(entity: entity, insertInto: context)
+        self.init(context: context)
         
         self.id = recipe.id
         self.recipe = recipe.dictionary

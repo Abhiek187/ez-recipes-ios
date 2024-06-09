@@ -22,23 +22,9 @@ struct CoreDataManager {
         let viewContext = manager.container.viewContext
         
         // Populate Core Data with mock recipes
-        let recipe1 = RecentRecipe(context: viewContext)
-        recipe1.id = Constants.Mocks.blueberryYogurt.id
-        recipe1.recipe = Constants.Mocks.blueberryYogurt.dictionary
-        recipe1.timestamp = Date()
-        
-        let recipe2 = RecentRecipe(context: viewContext)
-        recipe2.id = Constants.Mocks.chocolateCupcake.id
-        recipe2.recipe = Constants.Mocks.chocolateCupcake.dictionary
-        recipe2.timestamp = Date()
-        
-        let recipe3 = RecentRecipe(context: viewContext)
-        recipe3.id = Constants.Mocks.thaiBasilChicken.id
-        recipe3.recipe = Constants.Mocks.thaiBasilChicken.dictionary
-        recipe3.timestamp = Date()
-//        _ = RecentRecipe(recipe: Constants.Mocks.blueberryYogurt, insertInto: viewContext)
-//        _ = RecentRecipe(recipe: Constants.Mocks.chocolateCupcake, insertInto: viewContext)
-//        _ = RecentRecipe(recipe: Constants.Mocks.thaiBasilChicken, insertInto: viewContext)
+        _ = RecentRecipe(recipe: Constants.Mocks.blueberryYogurt, insertInto: viewContext)
+        _ = RecentRecipe(recipe: Constants.Mocks.chocolateCupcake, insertInto: viewContext)
+        _ = RecentRecipe(recipe: Constants.Mocks.thaiBasilChicken, insertInto: viewContext)
         
         do {
             try viewContext.save()
