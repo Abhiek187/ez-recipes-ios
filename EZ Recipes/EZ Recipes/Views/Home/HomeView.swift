@@ -44,10 +44,6 @@ struct HomeView: View {
                     // recipeError shouldn't be nil if recipeFailedToLoad is true
                     Text(viewModel.recipeError?.error ?? Constants.unknownError)
                 }
-                // Show the recipe view once the recipe loads in the ViewModel
-                .navigationDestination(isPresented: $viewModel.isRecipeLoaded) {
-                    RecipeView(viewModel: viewModel)
-                }
                 
                 // Show a spinner while the network request is loading
                 // Use opacity instead of an if statement so the button doesn't jump when pressed
@@ -75,6 +71,13 @@ struct HomeView: View {
                             ForEach(recentRecipes, id: \.id) { recentRecipe in
                                 if let recipe: Recipe = recentRecipe.recipe.decode() {
                                     RecipeCard(recipe: recipe)
+                                        .frame(width: 350)
+                                        .simultaneousGesture(TapGesture().onEnded {
+                                            // Show the recipe cards animating to the right position after tapping them
+                                            withAnimation {
+                                                viewModel.setRecipe(recipe)
+                                            }
+                                        })
                                 }
                             }
                         }
@@ -82,6 +85,10 @@ struct HomeView: View {
                 }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
+            // Show the recipe view once the recipe loads in the ViewModel
+            .navigationDestination(isPresented: $viewModel.isRecipeLoaded) {
+                RecipeView(viewModel: viewModel)
+            }
         } detail: {
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
             HomeSecondaryView()
