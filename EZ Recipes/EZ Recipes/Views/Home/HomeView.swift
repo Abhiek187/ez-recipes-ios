@@ -103,6 +103,8 @@ struct HomeView_Previews: PreviewProvider {
     static let viewModelWithLoading = HomeViewModel(repository: repoSuccess)
     static let viewModelWithAlert = HomeViewModel(repository: repoFail)
     
+    static let managedObjectContext = CoreDataManager.preview.container.viewContext
+    
     static var previews: some View {
         viewModelWithLoading.isLoading = true
         repoFail.isSuccess = false
@@ -110,13 +112,13 @@ struct HomeView_Previews: PreviewProvider {
         return ForEach([1], id: \.self) {_ in
             HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
+                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
+                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
-                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
+                .environment(\.managedObjectContext, managedObjectContext)
         }
     }
 }

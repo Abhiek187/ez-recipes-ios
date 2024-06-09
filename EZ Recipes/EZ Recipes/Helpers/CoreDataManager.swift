@@ -18,7 +18,7 @@ struct CoreDataManager {
     
     /// Initialize Core Data in-memory for SwiftUI previews
     static var preview: CoreDataManager = {
-        let manager = CoreDataManager(inMemory: false)
+        let manager = CoreDataManager(inMemory: true)
         let viewContext = manager.container.viewContext
         
         // Populate Core Data with mock recipes
