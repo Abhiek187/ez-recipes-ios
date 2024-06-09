@@ -10,6 +10,13 @@ import SwiftUI
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
     @StateObject var viewModel: HomeViewModel
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    // Load all recent recipes from Core Data by timestamp
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \RecentRecipe.timestamp, ascending: false)],
+        animation: .default)
+    private var recentRecipes: FetchedResults<RecentRecipe>
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
@@ -58,6 +65,22 @@ struct HomeView: View {
                     .onReceive(timer) { _ in
                         loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                     }
+                
+                // Recently viewed recipes
+                if recentRecipes.count > 0 {
+                    Text(Constants.HomeView.recentlyViewed)
+                        .font(.title)
+                    Divider()
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(recentRecipes, id: \.id) { recentRecipe in
+                                if let recipe: Recipe = recentRecipe.recipe.decode() {
+                                    RecipeCard(recipe: recipe)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
         } detail: {
@@ -87,10 +110,13 @@ struct HomeView_Previews: PreviewProvider {
         return ForEach([1], id: \.self) {_ in
             HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
+                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
             HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
+                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
             HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
+                .environment(\.managedObjectContext, CoreDataManager.preview.container.viewContext)
         }
     }
 }

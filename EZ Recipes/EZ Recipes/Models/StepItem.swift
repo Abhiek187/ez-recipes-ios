@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 10/30/22.
 //
 
-struct StepItem: Decodable, Equatable {
+struct StepItem: Codable, Equatable {
     let id: Int
     let name: String
     let image: String

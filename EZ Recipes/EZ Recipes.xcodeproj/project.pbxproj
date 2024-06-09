@@ -46,6 +46,10 @@
 		F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */; };
 		F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */; };
 		F17A80AF2B7978FD00E811C8 /* RecipeFilterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */; };
+		F1BB7D342C14E28800E129AC /* EZ Recipes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D322C14E28800E129AC /* EZ Recipes.xcdatamodeld */; };
+		F1BB7D382C14F62C00E129AC /* RecentRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */; };
+		F1BB7D3A2C14F88600E129AC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D392C14F88600E129AC /* CoreDataManager.swift */; };
+		F1BB7D3C2C1505E700E129AC /* CodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */; };
 		F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
@@ -142,6 +146,10 @@
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
 		F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoder.swift; sourceTree = "<group>"; };
 		F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.0.1.txt; sourceTree = "<group>"; };
+		F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EZ Recipes.xcdatamodel"; sourceTree = "<group>"; };
+		F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipe.swift; sourceTree = "<group>"; };
+		F1BB7D392C14F88600E129AC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtension.swift; sourceTree = "<group>"; };
 		F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoderTests.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
@@ -308,6 +316,8 @@
 				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
 				F1C7DA082B6F386800D6E343 /* Term.swift */,
 				F1FB91582C08C13600DF3669 /* TermStore.swift */,
+				F1BB7D322C14E28800E129AC /* EZ Recipes.xcdatamodeld */,
+				F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -348,7 +358,9 @@
 				F123A845293D85CE00C8E127 /* DoubleExtension.swift */,
 				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
 				F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */,
+				F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */,
 				F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */,
+				F1BB7D392C14F88600E129AC /* CoreDataManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -591,6 +603,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1BB7D3C2C1505E700E129AC /* CodableExtension.swift in Sources */,
 				F1C7DA0F2B70316400D6E343 /* RecipePills.swift in Sources */,
 				F1F38EB9290F3020000FF99C /* AFLogger.swift in Sources */,
 				F1FB915B2C08C3E600DF3669 /* UserDefaultsManager.swift in Sources */,
@@ -601,6 +614,7 @@
 				F17A80AF2B7978FD00E811C8 /* RecipeFilterEncoder.swift in Sources */,
 				F1F38EBF290F506F000FF99C /* Ingredient.swift in Sources */,
 				F1437C0929567211005408E5 /* InstructionsList.swift in Sources */,
+				F1BB7D382C14F62C00E129AC /* RecentRecipe.swift in Sources */,
 				F1F38EC5290F50A9000FF99C /* StepItem.swift in Sources */,
 				F12C1C2D2904951600C3302B /* HomeView.swift in Sources */,
 				F1FB91622C08FD5700DF3669 /* GlossaryView.swift in Sources */,
@@ -633,7 +647,9 @@
 				F1437C0729566A49005408E5 /* Card.swift in Sources */,
 				F11D3E952BC1A26F00BE5259 /* BoolExtension.swift in Sources */,
 				F15CB9E52B75A4EC0031F725 /* SearchView.swift in Sources */,
+				F1BB7D3A2C14F88600E129AC /* CoreDataManager.swift in Sources */,
 				F1320CDC297C9ADE00070DC8 /* RecipeTitle.swift in Sources */,
+				F1BB7D342C14E28800E129AC /* EZ Recipes.xcdatamodeld in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
 				F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */,
 				F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */,
@@ -1020,6 +1036,20 @@
 			productName = MultiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		F1BB7D322C14E28800E129AC /* EZ Recipes.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */,
+			);
+			currentVersion = F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */;
+			name = "EZ Recipes.xcdatamodeld";
+			path = "/Users/x251617/ez-recipes-ios/EZ Recipes/EZ Recipes/Models/EZ Recipes.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F12C1C1F2904951600C3302B /* Project object */;
 }

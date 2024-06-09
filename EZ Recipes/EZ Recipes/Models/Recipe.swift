@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 10/22/22.
 //
 
-struct Recipe: Decodable, Equatable {
+struct Recipe: Codable, Equatable {
     let _id: String?
     let id: Int // each recipe has a unique ID
     let name: String

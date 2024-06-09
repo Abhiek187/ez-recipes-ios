@@ -11,6 +11,7 @@ import OSLog
 /// Helper methods for UserDefaults
 ///
 /// - Note: UserDefaults stored at ~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Containers/Data/Application/_App-UUID_/Library/Preferences
+/// (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
 struct UserDefaultsManager {
     private static let userDefaults = UserDefaults.standard
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "UserDefaultsManager")
