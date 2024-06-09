@@ -25,59 +25,61 @@ struct HomeView: View {
     
     var body: some View {
         NavigationSplitView {
-            VStack {
-                Button {
-                    viewModel.getRandomRecipe()
-                } label: {
-                    Text(Constants.HomeView.findRecipeButton)
-                        .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
-                        .font(.system(size: 22))
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.yellow)
-                // Prevent users from spamming the button
-                .disabled(viewModel.isLoading)
-                // Show an alert if the request failed
-                .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                    Button(Constants.okButton, role: .cancel) {}
-                } message: {
-                    // recipeError shouldn't be nil if recipeFailedToLoad is true
-                    Text(viewModel.recipeError?.error ?? Constants.unknownError)
-                }
-                
-                // Show a spinner while the network request is loading
-                // Use opacity instead of an if statement so the button doesn't jump when pressed
-                ProgressView()
-                    .opacity(viewModel.isLoading ? 1 : 0)
-                Text(loadingMessage)
-                    .opacity(viewModel.isLoading ? 1 : 0)
-                // TODO: change to the 0-parameter variant if this deprecated modifier is removed (or targeting iOS 17)
-                    .onChange(of: viewModel.isLoading) { isLoading in
-                        if isLoading {
-                            loadingMessage = defaultLoadingMessage
+            ScrollView {
+                VStack {
+                    Button {
+                        viewModel.getRandomRecipe()
+                    } label: {
+                        Text(Constants.HomeView.findRecipeButton)
+                            .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
+                            .font(.system(size: 22))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.yellow)
+                    // Prevent users from spamming the button
+                    .disabled(viewModel.isLoading)
+                    // Show an alert if the request failed
+                    .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
+                        Button(Constants.okButton, role: .cancel) {}
+                    } message: {
+                        // recipeError shouldn't be nil if recipeFailedToLoad is true
+                        Text(viewModel.recipeError?.error ?? Constants.unknownError)
+                    }
+                    
+                    // Show a spinner while the network request is loading
+                    // Use opacity instead of an if statement so the button doesn't jump when pressed
+                    ProgressView()
+                        .opacity(viewModel.isLoading ? 1 : 0)
+                    Text(loadingMessage)
+                        .opacity(viewModel.isLoading ? 1 : 0)
+                    // TODO: change to the 0-parameter variant if this deprecated modifier is removed (or targeting iOS 17)
+                        .onChange(of: viewModel.isLoading) { isLoading in
+                            if isLoading {
+                                loadingMessage = defaultLoadingMessage
+                            }
                         }
-                    }
-                    .onReceive(timer) { _ in
-                        loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
-                    }
-                
-                // Recently viewed recipes
-                if recentRecipes.count > 0 {
-                    Text(Constants.HomeView.recentlyViewed)
-                        .font(.title)
-                    Divider()
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(recentRecipes, id: \.id) { recentRecipe in
-                                if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                    RecipeCard(recipe: recipe)
-                                        .frame(width: 350)
-                                        .simultaneousGesture(TapGesture().onEnded {
-                                            // Show the recipe cards animating to the right position after tapping them
-                                            withAnimation {
-                                                viewModel.setRecipe(recipe)
-                                            }
-                                        })
+                        .onReceive(timer) { _ in
+                            loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
+                        }
+                    
+                    // Recently viewed recipes
+                    if recentRecipes.count > 0 {
+                        Text(Constants.HomeView.recentlyViewed)
+                            .font(.title)
+                        Divider()
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(recentRecipes, id: \.id) { recentRecipe in
+                                    if let recipe: Recipe = recentRecipe.recipe.decode() {
+                                        RecipeCard(recipe: recipe)
+                                            .frame(width: 350)
+                                            .simultaneousGesture(TapGesture().onEnded {
+                                                // Show the recipe cards animating to the right position after tapping them
+                                                withAnimation {
+                                                    viewModel.setRecipe(recipe)
+                                                }
+                                            })
+                                    }
                                 }
                             }
                         }
