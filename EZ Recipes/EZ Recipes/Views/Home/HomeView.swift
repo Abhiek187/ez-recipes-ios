@@ -109,17 +109,16 @@ struct HomeView_Previews: PreviewProvider {
         viewModelWithLoading.isLoading = true
         repoFail.isSuccess = false
         
-        // Previews bugged with @FetchRequest since entities aren't initialized in CoreDataManager
         return ForEach([1], id: \.self) {_ in
             HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-//                .environment(\.managedObjectContext, managedObjectContext)
+                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-//                .environment(\.managedObjectContext, managedObjectContext)
+                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
-//                .environment(\.managedObjectContext, managedObjectContext)
+                .environment(\.managedObjectContext, managedObjectContext)
         }
     }
 }
