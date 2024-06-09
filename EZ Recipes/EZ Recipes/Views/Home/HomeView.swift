@@ -10,7 +10,6 @@ import SwiftUI
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
     @StateObject var viewModel: HomeViewModel
-    @Environment(\.managedObjectContext) private var viewContext
     
     // Load all recent recipes from Core Data by timestamp
     @FetchRequest(
@@ -98,10 +97,11 @@ struct HomeView_Previews: PreviewProvider {
     // Show previews of the HomeView with and without the spinner or an alert box
     static let repoSuccess = NetworkManagerMock.shared
     static var repoFail = NetworkManagerMock.shared
+    static let coreData = CoreDataManager.preview
     
-    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess)
-    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess)
-    static let viewModelWithAlert = HomeViewModel(repository: repoFail)
+    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, coreData: coreData)
+    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess, coreData: coreData)
+    static let viewModelWithAlert = HomeViewModel(repository: repoFail, coreData: coreData)
     
     static let managedObjectContext = CoreDataManager.preview.container.viewContext
     

@@ -30,6 +30,7 @@ struct CoreDataManager {
             try viewContext.save()
         } catch {
             logger.warning("Couldn't save mock recipes in Core Data :: error: \(error.localizedDescription)")
+            viewContext.rollback()
         }
         
         return manager
@@ -64,5 +65,47 @@ struct CoreDataManager {
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    /// Save a recipe to the recents store in Core Data.
+    ///
+    /// If the recipe already exists, its timestamp will be updated to the current time. If the number of recipes exceeds the max, the oldest recipe will be removed.
+    /// - Note: This executes in the background and will log if an error occurred.
+    /// - Parameter recipe: the recipe to store in Core Data
+    func saveRecentRecipe(_ recipe: Recipe) {
+        guard let entityName = RecentRecipe.entity().name else { return }
+        let viewContext = container.viewContext
+        
+        // If the recipe already exists in the store, replace the timestamp with the current time
+        let existingRecipeFetchRequest = NSFetchRequest<RecentRecipe>(entityName: entityName)
+        existingRecipeFetchRequest.predicate = NSPredicate(format: "%K == %i", #keyPath(RecentRecipe.id), recipe.id)
+        existingRecipeFetchRequest.fetchLimit = 1
+        
+        do {
+            let existingRecipes = try viewContext.fetch(existingRecipeFetchRequest)
+            
+            if existingRecipes.count == 1 {
+                existingRecipes[0].timestamp = Date()
+                try viewContext.save()
+                return
+            }
+            
+            // If there are too many recipes, delete the oldest recipe
+            let allRecipesFetchRequest = NSFetchRequest<RecentRecipe>(entityName: entityName)
+            let timestampSortDescriptor = NSSortDescriptor(key: #keyPath(RecentRecipe.timestamp), ascending: true)
+            allRecipesFetchRequest.sortDescriptors = [timestampSortDescriptor]
+            let allRecipes = try viewContext.fetch(allRecipesFetchRequest)
+            
+            if allRecipes.count >= Constants.HomeView.maxRecentRecipes {
+                let oldestRecipe = allRecipes[0]
+                viewContext.delete(oldestRecipe)
+            }
+            
+            _ = RecentRecipe(recipe: recipe, insertInto: viewContext)
+            try viewContext.save()
+        } catch {
+            CoreDataManager.logger.warning("Failed to save recent recipe with ID \(recipe.id) :: error: \(error.localizedDescription)")
+            viewContext.rollback()
+        }
     }
 }

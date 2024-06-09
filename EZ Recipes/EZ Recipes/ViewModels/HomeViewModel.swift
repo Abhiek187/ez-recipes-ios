@@ -19,6 +19,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     @Published private(set) var recipe: Recipe? {
         didSet {
             isRecipeLoaded = recipe != nil
+            saveRecentRecipe()
         }
     }
     
@@ -32,10 +33,16 @@ class HomeViewModel: ViewModel, ObservableObject {
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
     private var repository: RecipeRepository
+    private var coreData = CoreDataManager.shared
     
     // Utilize dependency injection for happy little tests
     required init(repository: RecipeRepository) {
         self.repository = repository
+    }
+    
+    convenience init(repository: RecipeRepository, coreData: CoreDataManager) {
+        self.init(repository: repository)
+        self.coreData = coreData
     }
     
     func setRecipe(_ recipe: Recipe) {
@@ -103,6 +110,12 @@ class HomeViewModel: ViewModel, ObservableObject {
             case .failure(let recipeError):
                 logger.warning("Failed to get terms :: error: \(recipeError.localizedDescription)")
             }
+        }
+    }
+    
+    private func saveRecentRecipe() {
+        if let recipe {
+            coreData.saveRecentRecipe(recipe)
         }
     }
 }

@@ -98,7 +98,7 @@ struct RecipeView: View {
 
 struct RecipeView_Previews: PreviewProvider {
     static let mockNetworkManager = NetworkManagerMock.shared
-    static let viewModel = HomeViewModel(repository: mockNetworkManager)
+    static let viewModel = HomeViewModel(repository: mockNetworkManager, coreData: CoreDataManager.preview)
     
     static var previews: some View {
         viewModel.getRandomRecipe()
