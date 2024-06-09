@@ -41,7 +41,10 @@ struct CoreDataManager {
         container = NSPersistentContainer(name: Constants.appName)
         
         if inMemory, let storeDescription = container.persistentStoreDescriptions.first {
+            // Black hole method preferred over an in-memory store for speed & compatibility
             storeDescription.url = URL(filePath: "/dev/null")
+            //storeDescription.type = NSInMemoryStoreType
+            //storeDescription.url = nil
         }
         
         container.loadPersistentStores { (storeDescription, error) in
