@@ -7,6 +7,7 @@
 
 import XCTest
 import Combine
+import CoreData
 @testable import EZ_Recipes
 
 final class HomeViewModelTests: XCTestCase {
@@ -14,6 +15,29 @@ final class HomeViewModelTests: XCTestCase {
     var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
     private let coreData = CoreDataManager.preview
+    
+    private func testRecipeExistsInCoreData(_ recipe: Recipe?) {
+        // Check that the recipe is saved to the recents store
+        guard let recipe else {
+            XCTFail("Recipe can't be nil in Core Data")
+            return
+        }
+        let viewContext = coreData.container.viewContext
+        guard let entityName = RecentRecipe.entity().name else {
+            XCTFail("Couldn't get the entity name for RecentRecipe")
+            return
+        }
+        
+        let fetchRequest = NSFetchRequest<RecentRecipe>(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "%K == %i", #keyPath(RecentRecipe.id), recipe.id)
+        
+        do {
+            let recipeMatches = try viewContext.count(for: fetchRequest)
+            XCTAssert(recipeMatches == 1) // no duplicates allowed
+        } catch {
+            XCTFail("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
+        }
+    }
     
     @MainActor func testSetRecipe() {
         // Given a recipe
@@ -26,6 +50,7 @@ final class HomeViewModelTests: XCTestCase {
         // Then the recipe property should match the given recipe
         XCTAssertEqual(viewModel.recipe, recipe)
         XCTAssertEqual(viewModel.isRecipeLoaded, true)
+        testRecipeExistsInCoreData(viewModel.recipe)
     }
     
     @MainActor func testGetRandomRecipeSuccess() {
@@ -39,6 +64,7 @@ final class HomeViewModelTests: XCTestCase {
         // Observe when the recipe property changes and fulfill the expectation if it's set to the mock recipe
         viewModel.$recipe.sink { recipe in
             if recipe == Constants.Mocks.chocolateCupcake {
+                self.testRecipeExistsInCoreData(recipe)
                 expectation.fulfill()
             }
         }
@@ -78,6 +104,7 @@ final class HomeViewModelTests: XCTestCase {
         
         viewModel.$recipe.sink { recipe in
             if recipe == Constants.Mocks.chocolateCupcake {
+                self.testRecipeExistsInCoreData(recipe)
                 expectation.fulfill()
             }
         }
@@ -122,6 +149,7 @@ final class HomeViewModelTests: XCTestCase {
         
         viewModel.$recipe.sink { recipe in
             if recipe?.id == recipeId {
+                self.testRecipeExistsInCoreData(recipe)
                 expectation.fulfill()
             }
         }
