@@ -13,13 +13,14 @@ final class HomeViewModelTests: XCTestCase {
     var mockRepo = NetworkManagerMock.shared
     var viewModel: HomeViewModel!
     private var cancellable = Set<AnyCancellable>()
+    private let coreData = CoreDataManager.preview
     
     @MainActor func testSetRecipe() {
         // Given a recipe
         let recipe = Constants.Mocks.thaiBasilChicken
         
         // When setRecipe() is called
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         viewModel.setRecipe(recipe)
         
         // Then the recipe property should match the given recipe
@@ -29,7 +30,7 @@ final class HomeViewModelTests: XCTestCase {
     
     @MainActor func testGetRandomRecipeSuccess() {
         // Given a ViewModel
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         
         // When the getRandomRecipe() method is called
         // Then the recipe property should match the mock recipe
@@ -50,7 +51,7 @@ final class HomeViewModelTests: XCTestCase {
     @MainActor func testGetRandomRecipeFail() {
         // Given a ViewModel where API requests fail
         mockRepo.isSuccess = false
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         
         // When the getRandomRecipe() method is called
         // Then the recipeError property should match the mock recipe error and recipe should be nil
@@ -69,7 +70,7 @@ final class HomeViewModelTests: XCTestCase {
     
     @MainActor func testGetRecipeByIdSuccess() {
         // Given a ViewModel
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         
         // When the getRecipe(byId:) method is called
         // Then the recipe property should match the mock recipe and recipeError should be nil
@@ -89,7 +90,7 @@ final class HomeViewModelTests: XCTestCase {
     @MainActor func testGetRecipeByIdFail() {
         // Given a ViewModel where API requests fail
         mockRepo.isSuccess = false
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         
         // When the getRecipe(byId:) method is called
         // Then the recipeError property should match the mock recipe error and recipe should be nil
@@ -115,7 +116,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         // Then the getRecipe(byId:) method should be called with the recipe ID in the URL
         let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
         
@@ -138,7 +139,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         // Then the getRecipe(byId:) method shouldn't be called
         let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
         
@@ -161,7 +162,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo)
+        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         // Then the getRecipe(byId:) method shouldn't be called
         let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
         

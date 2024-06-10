@@ -50,6 +50,8 @@
 		F1BB7D382C14F62C00E129AC /* RecentRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */; };
 		F1BB7D3A2C14F88600E129AC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D392C14F88600E129AC /* CoreDataManager.swift */; };
 		F1BB7D3C2C1505E700E129AC /* CodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */; };
+		F1BB7D402C167F0A00E129AC /* CodableExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D3F2C167F0A00E129AC /* CodableExtensionTests.swift */; };
+		F1BB7D422C167F2200E129AC /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BB7D412C167F2200E129AC /* CoreDataManagerTests.swift */; };
 		F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */; };
 		F1C7DA072B6F373800D6E343 /* SpiceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */; };
 		F1C7DA092B6F386800D6E343 /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C7DA082B6F386800D6E343 /* Term.swift */; };
@@ -150,6 +152,8 @@
 		F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipe.swift; sourceTree = "<group>"; };
 		F1BB7D392C14F88600E129AC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtension.swift; sourceTree = "<group>"; };
+		F1BB7D3F2C167F0A00E129AC /* CodableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtensionTests.swift; sourceTree = "<group>"; };
+		F1BB7D412C167F2200E129AC /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
 		F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoderTests.swift; sourceTree = "<group>"; };
 		F1C0C4AF2A29A02C0052D850 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		F1C0C4B02A29A0370052D850 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
@@ -281,12 +285,8 @@
 		F12C1C3A2904951B00C3302B /* EZ RecipesTests */ = {
 			isa = PBXGroup;
 			children = (
-				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
-				F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */,
-				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
-				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
-				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
-				F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */,
+				F1BB7D432C167F5000E129AC /* Helpers */,
+				F1BB7D442C167F5500E129AC /* ViewModels */,
 			);
 			path = "EZ RecipesTests";
 			sourceTree = "<group>";
@@ -395,6 +395,28 @@
 				F15CB9F32B770F7F0031F725 /* RecipeCard.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		F1BB7D432C167F5000E129AC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
+				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
+				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
+				F1BB7D3F2C167F0A00E129AC /* CodableExtensionTests.swift */,
+				F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */,
+				F1BB7D412C167F2200E129AC /* CoreDataManagerTests.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F1BB7D442C167F5500E129AC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F1F38EBA290F3751000FF99C /* HomeViewModelTests.swift */,
+				F122BBC32B899C2000302FCA /* SearchViewModelTests.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		F1E0FD3F293D23600007255F /* Home */ = {
@@ -671,6 +693,8 @@
 				F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */,
 				F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
+				F1BB7D402C167F0A00E129AC /* CodableExtensionTests.swift in Sources */,
+				F1BB7D422C167F2200E129AC /* CoreDataManagerTests.swift in Sources */,
 				F122BBC42B899C2000302FCA /* SearchViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
