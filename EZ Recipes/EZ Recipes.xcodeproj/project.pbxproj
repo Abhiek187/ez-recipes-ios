@@ -1068,8 +1068,7 @@
 				F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */,
 			);
 			currentVersion = F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */;
-			name = "EZ Recipes.xcdatamodeld";
-			path = "/Users/x251617/ez-recipes-ios/EZ Recipes/EZ Recipes/Models/EZ Recipes.xcdatamodeld";
+			path = "EZ Recipes.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
