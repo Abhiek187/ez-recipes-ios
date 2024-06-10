@@ -16,7 +16,7 @@ struct CoreDataManager {
     static let shared = CoreDataManager()
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "CoreDataManager")
     
-    /// Initialize Core Data in-memory for SwiftUI previews
+    /// Initialize Core Data in-memory for SwiftUI previews & unit tests
     static var preview: CoreDataManager = {
         let manager = CoreDataManager(inMemory: true)
         let viewContext = manager.container.viewContext
