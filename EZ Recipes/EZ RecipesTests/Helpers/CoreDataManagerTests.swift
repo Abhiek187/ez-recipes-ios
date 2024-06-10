@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import EZ_Recipes
 
 final class CoreDataManagerTests: XCTestCase {
 
