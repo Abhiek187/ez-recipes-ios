@@ -67,6 +67,9 @@ struct Constants {
         static let homeTitle = "Home"
         static let findRecipeButton = "Find Me a Recipe!"
         
+        static let recentlyViewed = "Recently Viewed"
+        static let maxRecentRecipes = 10
+        
         // Secondary view
         static let selectRecipe = "Select a recipe from the navigation menu."
     }

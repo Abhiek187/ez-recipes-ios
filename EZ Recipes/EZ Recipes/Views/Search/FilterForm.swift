@@ -124,7 +124,7 @@ struct FilterForm: View {
             }
         }
         // Must place navigationDestination outside lazy containers (Form is rendered as a List)
-        .navigationDestination(isPresented: viewModel.isRecipeLoaded.binding()) {
+        .navigationDestination(isPresented: viewModel.isRecipeLoaded.binding) {
             SearchResults(recipes: viewModel.recipes, searchViewModel: viewModel)
         }
         .toolbar {

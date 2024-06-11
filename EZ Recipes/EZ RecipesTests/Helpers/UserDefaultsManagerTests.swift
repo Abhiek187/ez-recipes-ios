@@ -16,7 +16,7 @@ final class UserDefaultsManagerTests: XCTestCase {
         // When saved to UserDefaults
         UserDefaultsManager.saveTerms(terms: mockTerms)
         
-        // Then they should be able to be retrieved
+        // Then they should be retrievable
         let storedTerms = UserDefaultsManager.getTerms()?.sorted { $0._id < $1._id }
         XCTAssertNotNil(storedTerms)
         XCTAssert(storedTerms!.elementsEqual(mockTerms) {

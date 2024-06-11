@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 10/30/22.
 //
 
-struct Step: Decodable, Equatable {
+struct Step: Codable, Equatable {
     let number: Int
     let step: String
     let ingredients: [StepItem]

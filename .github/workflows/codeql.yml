@@ -71,7 +71,7 @@ jobs:
       - if: matrix.language == 'swift'
         run: |
           echo "Run, Build Application using script"
-          /Applications/Xcode_15.3.app/Contents/Developer/usr/bin/xcodebuild build -project "EZ Recipes/EZ Recipes.xcodeproj" -scheme "EZ Recipes" -disableAutomaticPackageResolution CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          set -o pipefail && env NSUnbufferedIO=YES /Applications/Xcode_15.3.app/Contents/Developer/usr/bin/xcodebuild build -project "EZ Recipes/EZ Recipes.xcodeproj" -scheme "EZ Recipes" -disableAutomaticPackageResolution CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO | xcbeautify --renderer github-actions
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
