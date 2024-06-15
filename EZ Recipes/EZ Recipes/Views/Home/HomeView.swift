@@ -5,6 +5,7 @@
 //  Created by Abhishek Chaudhuri on 10/22/22.
 //
 
+import StoreKit
 import SwiftUI
 
 struct HomeView: View {
@@ -22,6 +23,22 @@ struct HomeView: View {
     private let defaultLoadingMessage = " "
     @State private var loadingMessage = " "
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    
+    // Up to 3 review prompts can appear every 365 days
+    @Environment(\.requestReview) private var requestReview
+
+    // Stored in UserDefaults.standard by default
+    @AppStorage(UserDefaultsManager.Keys.recipesViewed) var recipesViewed = 0
+    @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
+    private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    
+    private func presentReview() {
+        Task {
+            // Delay for two seconds to avoid interrupting the person using the app
+            try await Task.sleep(for: .seconds(2))
+            requestReview()
+        }
+    }
     
     var body: some View {
         NavigationSplitView {
@@ -95,6 +112,15 @@ struct HomeView: View {
         } detail: {
             // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
             HomeSecondaryView()
+        }
+        .onAppear {
+            // If the user viewed enough recipes, ask for a review
+            // Only ask once per app version to avoid intimidating the user and quickly reaching the 3-prompt limit
+            if recipesViewed >= Constants.recipesToPresentReview && currentAppVersion != lastVersionPromptedForReview {
+                presentReview()
+                
+                lastVersionPromptedForReview = currentAppVersion
+            }
         }
         .onDisappear {
             // Stop any network calls when switching tabs

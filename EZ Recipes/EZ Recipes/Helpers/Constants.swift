@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct Constants {
+    static let recipesToPresentReview = 5
+    
     // Common strings
     static let appName = "EZ Recipes"
     static let errorTitle = "Error"
