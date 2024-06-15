@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            // TODO: Replace .tabItem with Tab() for iOS 18.0+
             HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
                 .tabItem {
                     Constants.Tabs.home
