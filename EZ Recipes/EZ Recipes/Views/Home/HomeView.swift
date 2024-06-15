@@ -33,10 +33,13 @@ struct HomeView: View {
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
     private func presentReview() {
-        Task {
-            // Delay for two seconds to avoid interrupting the person using the app
-            try await Task.sleep(for: .seconds(2))
-            requestReview()
+        // Don't show the alert in a UI test
+        if !ProcessInfo.processInfo.arguments.contains(Constants.isUITest) {
+            Task {
+                // Delay for two seconds to avoid interrupting the person using the app
+                try await Task.sleep(for: .seconds(2))
+                requestReview()
+            }
         }
     }
     

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Constants {
     static let recipesToPresentReview = 5
+    static let isUITest = "isUITest"
     
     // Common strings
     static let appName = "EZ Recipes"
