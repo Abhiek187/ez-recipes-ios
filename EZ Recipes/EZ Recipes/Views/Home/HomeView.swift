@@ -34,6 +34,7 @@ struct HomeView: View {
                             .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
                             .font(.system(size: 22))
                     }
+                    .padding(.top)
                     .buttonStyle(.borderedProminent)
                     .tint(.yellow)
                     // Prevent users from spamming the button
