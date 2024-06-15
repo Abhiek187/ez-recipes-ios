@@ -36,7 +36,7 @@ struct HomeView: View {
         Task {
             // Delay for two seconds to avoid interrupting the person using the app
             try await Task.sleep(for: .seconds(2))
-            requestReview()
+            //requestReview()
         }
     }
     
