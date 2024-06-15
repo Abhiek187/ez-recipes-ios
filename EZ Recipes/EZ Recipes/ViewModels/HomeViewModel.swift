@@ -20,6 +20,10 @@ class HomeViewModel: ViewModel, ObservableObject {
         didSet {
             isRecipeLoaded = recipe != nil
             saveRecentRecipe()
+            
+            if recipe != nil {
+                UserDefaultsManager.incrementRecipesViewed()
+            }
         }
     }
     
