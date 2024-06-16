@@ -8,9 +8,10 @@
   <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-1_framed.png" alt="recipe header and nutrition label" width="300">
   <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-2_framed.png" alt="summary box" width="300">
   <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-3_framed.png" alt="ingredients list" width="300">
-  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-6_framed.png" alt="step cards" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-recipe-view-4_framed.png" alt="step cards" width="300">
   <img src="screenshots/6.5-inch/iPhone 14 Pro Max-search-view-2_framed.png" alt="filter form" width="300">
   <img src="screenshots/6.5-inch/iPhone 14 Pro Max-search-view-3_framed.png" alt="search results" width="300">
+  <img src="screenshots/6.5-inch/iPhone 14 Pro Max-glossary-view_framed.png" alt="glossary screen" width="300">
 </div>
 
 ## Overview

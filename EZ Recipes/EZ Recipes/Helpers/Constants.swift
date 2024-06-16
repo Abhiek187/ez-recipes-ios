@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Constants {
     static let recipesToPresentReview = 5
-    static let isUITest = "isUITest"
+    static let isUITest = ProcessInfo.processInfo.arguments.contains("isUITest")
     
     // Common strings
     static let appName = "EZ Recipes"

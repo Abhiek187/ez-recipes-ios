@@ -335,4 +335,11 @@ class EZ_RecipesUITests: XCTestCase {
         snapshot("search-view-\(shotNum)")
         shotNum += 1
     }
+    
+    @MainActor
+    func testGlossaryScreen() throws {
+        // Take a screenshot of the glossary tab (no assertions)
+        app.tabBars["Tab Bar"].buttons["Glossary"].tap()
+        snapshot("glossary-view")
+    }
 }

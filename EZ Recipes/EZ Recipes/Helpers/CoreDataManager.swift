@@ -11,7 +11,7 @@ import OSLog
 /// Helper methods for Core Data
 ///
 /// - Note: Core Data stored at ~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Containers/Data/Application/_App-UUID_/Library/Application Support
-/// (/var/mobile/Containers/... on real devices) (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
+/// (/var/mobile/Containers/... on real devices) (~/Library/Developer/Xcode/UserData/Previews/Simulator Devices/... in previews) (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
 struct CoreDataManager {
     static let shared = CoreDataManager()
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "CoreDataManager")

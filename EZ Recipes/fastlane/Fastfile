@@ -17,6 +17,9 @@ default_platform(:ios)
 
 platform :ios do
   APP_SCHEME = "EZ Recipes"
+  KEY_ID = "D383SF739"
+  ISSUER_ID = "6053b7fe-68a8-4acb-89be-165aa6465141"
+  KEY_FILE_PATH = "../../AuthKey_D383SF739.p8"
   
   before_all do
     # Only run in GitHub Actions
@@ -71,9 +74,9 @@ platform :ios do
   lane :beta do
     # Generate an App Store Connect API token (valid for 500 seconds by default)
     # Other actions automatically retrieve this key from SharedValues::APP_STORE_CONNECT_API_KEY
-    app_store_connect_api_key(key_id: "D383SF739",
-                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
-                              key_filepath: "../../AuthKey_D383SF739.p8",
+    app_store_connect_api_key(key_id: KEY_ID,
+                              issuer_id: ISSUER_ID,
+                              key_filepath: KEY_FILE_PATH,
                               in_house: false) # optional but may be required if using match/sigh
     
     # If the current version and the App Store version are the same, increment the current version (and reset the build number to 1)
@@ -123,9 +126,9 @@ platform :ios do
   desc "Upload a new build to the App Store"
   lane :release do
     # Promote the latest TestFlight build to production
-    app_store_connect_api_key(key_id: "D383SF739",
-                              issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
-                              key_filepath: "../../AuthKey_D383SF739.p8",
+    app_store_connect_api_key(key_id: KEY_ID,
+                              issuer_id: ISSUER_ID,
+                              key_filepath: KEY_FILE_PATH,
                               in_house: false)
     app_store_build_number(live: false)
     
