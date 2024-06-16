@@ -148,6 +148,7 @@
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
 		F17A80AE2B7978FD00E811C8 /* RecipeFilterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterEncoder.swift; sourceTree = "<group>"; };
 		F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.0.1.txt; sourceTree = "<group>"; };
+		F1B6B4D12C1E6DB70058DCA7 /* 2.1.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.1.0.txt; sourceTree = "<group>"; };
 		F1BB7D332C14E28800E129AC /* EZ Recipes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EZ Recipes.xcdatamodel"; sourceTree = "<group>"; };
 		F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentRecipe.swift; sourceTree = "<group>"; };
 		F1BB7D392C14F88600E129AC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 				F10BFB1129A1821800636841 /* 1.0.0.txt */,
 				F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */,
 				F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */,
+				F1B6B4D12C1E6DB70058DCA7 /* 2.1.0.txt */,
 			);
 			path = changelogs;
 			sourceTree = "<group>";
@@ -874,7 +876,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -903,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
