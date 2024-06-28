@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SearchResults: View {
-    var recipes: [Recipe]
     @ObservedObject var searchViewModel: SearchViewModel
     @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
@@ -19,7 +18,7 @@ struct SearchResults: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
-                ForEach(recipes, id: \.id) { recipe in
+                ForEach(searchViewModel.recipes, id: \.id) { recipe in
                     NavigationLink(value: recipe.id) {
                         RecipeCard(recipe: recipe)
                     }
@@ -56,13 +55,13 @@ struct SearchResults: View {
 }
 
 struct SearchResults_Previews: PreviewProvider {
+    static let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
+    
     static var previews: some View {
-        NavigationStack {
-            SearchResults(recipes: [
-                Constants.Mocks.blueberryYogurt,
-                Constants.Mocks.chocolateCupcake,
-                Constants.Mocks.thaiBasilChicken
-            ], searchViewModel: SearchViewModel(repository: NetworkManagerMock.shared))
+        searchViewModel.searchRecipes()
+        
+        return NavigationStack {
+            SearchResults(searchViewModel: searchViewModel)
         }
     }
 }
