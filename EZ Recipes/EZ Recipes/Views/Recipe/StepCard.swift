@@ -44,7 +44,7 @@ struct StepCard: View {
                         ForEach(step.ingredients, id: \.id) { ingredient in
                             VStack {
                                 // Scale the height to fit the width of the frame so it doesn't overlap the text
-                                AsyncImage(url: Constants.RecipeView.ingredientUrl(ingredient.name))
+                                AsyncImage(url: Constants.RecipeView.ingredientUrl(ingredient.image))
                                     .frame(width: 100, height: 100)
                                     .scaledToFit()
                                 
@@ -68,7 +68,7 @@ struct StepCard: View {
                     LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                         ForEach(step.equipment, id: \.id) { equipment in
                             VStack {
-                                AsyncImage(url: Constants.RecipeView.equipmentUrl(equipment.name))
+                                AsyncImage(url: Constants.RecipeView.equipmentUrl(equipment.image))
                                     .frame(width: 100, height: 100)
                                     .scaledToFit()
                                 
