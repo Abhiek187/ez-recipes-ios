@@ -131,12 +131,12 @@ struct Constants {
         static let summary = "Summary"
         static let ingredients = "Ingredients"
         static let ingredientUrl: (String) -> URL? = { ingredient in
-            URL(string: "https://spoonacular.com/cdn/ingredients_100x100/\(ingredient)")
+            URL(string: "https://img.spoonacular.com/ingredients_100x100/\(ingredient)")
         }
         static let steps = "Steps"
         static let equipment = "Equipment"
         static let equipmentUrl: (String) -> URL? = { equipment in
-            URL(string: "https://spoonacular.com/cdn/equipment_100x100/\(equipment)")
+            URL(string: "https://img.spoonacular.com/equipment_100x100/\(equipment)")
         }
         static let attribution = "Powered by spoonacular"
     }
