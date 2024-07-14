@@ -117,6 +117,12 @@ struct HomeView: View {
             HomeSecondaryView()
         }
         .onAppear {
+            // Avoid presenting a review immediately on launch
+            if viewModel.isFirstPrompt {
+                viewModel.isFirstPrompt = false
+                return
+            }
+            
             // If the user viewed enough recipes, ask for a review
             // Only ask once per app version to avoid intimidating the user and quickly reaching the 3-prompt limit
             if recipesViewed >= Constants.recipesToPresentReview && currentAppVersion != lastVersionPromptedForReview {
