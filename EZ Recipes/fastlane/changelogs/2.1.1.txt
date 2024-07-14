@@ -1,0 +1,2 @@
+- Added smoothie, cocktail, and mocktail as meal types
+- Updated the URLs for ingredient and equipment images for improved performance

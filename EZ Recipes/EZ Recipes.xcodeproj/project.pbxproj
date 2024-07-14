@@ -143,6 +143,7 @@
 		F15CB9EF2B770F520031F725 /* FilterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterForm.swift; sourceTree = "<group>"; };
 		F15CB9F12B770F610031F725 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 		F15CB9F32B770F7F0031F725 /* RecipeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCard.swift; sourceTree = "<group>"; };
+		F16D5C022C444AF5006AA59B /* 2.1.1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.1.1.txt; sourceTree = "<group>"; };
 		F17A80A12B783C1500E811C8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
 		F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtensionTests.swift; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 				F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */,
 				F19C387E2BD9B7CF0075D7F2 /* 2.0.1.txt */,
 				F1B6B4D12C1E6DB70058DCA7 /* 2.1.0.txt */,
+				F16D5C022C444AF5006AA59B /* 2.1.1.txt */,
 			);
 			path = changelogs;
 			sourceTree = "<group>";
@@ -876,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -905,7 +907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.abhiek.EZ-Recipes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
