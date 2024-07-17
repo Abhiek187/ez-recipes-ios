@@ -1,0 +1,3 @@
+- Added smoothie, cocktail, and mocktail as meal types
+- Updated the URLs for ingredient and equipment images for improved performance
+- Adjusted the review prompts so they don't occur immediately on launch
