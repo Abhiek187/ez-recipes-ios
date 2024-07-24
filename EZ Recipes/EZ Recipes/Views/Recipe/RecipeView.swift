@@ -11,7 +11,6 @@ struct RecipeView: View {
     // Mark as @ObservedObject when the ViewModel is mutable
     @ObservedObject var viewModel: HomeViewModel
     @State var isFavorite = false
-    @State var shareText: ShareText?
     
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.dismiss) private var dismiss
