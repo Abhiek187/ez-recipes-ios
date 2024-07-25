@@ -5,8 +5,6 @@
 //  Created by Abhishek Chaudhuri on 7/24/24.
 //
 
-import RegexBuilder
-
 extension String {
     /// Convert an HTML string to Markdown
     ///
