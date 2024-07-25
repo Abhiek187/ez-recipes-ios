@@ -21,10 +21,8 @@ struct SummaryBox: View {
                     .accessibilityHidden(true) // make the image decorative
             }
             
-            //HTMLText(summary)
-            // Remove all HTML tags from the string
-            Text(summary.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil))
-            
+            Text(.init(summary.htmlToMarkdown))
+                .tint(.blue) // make links easier to see in dark mode
         }
         .padding() // apply padding inside the box
         .foregroundStyle(.black)

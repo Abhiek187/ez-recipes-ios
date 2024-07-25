@@ -31,7 +31,6 @@
 		F1437C0729566A49005408E5 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1437C0629566A49005408E5 /* Card.swift */; };
 		F1437C0929567211005408E5 /* InstructionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1437C0829567211005408E5 /* InstructionsList.swift */; };
 		F1574DA5294FD85700539104 /* SummaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1574DA4294FD85700539104 /* SummaryBox.swift */; };
-		F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1574DA6294FDFA300539104 /* HTMLText.swift */; };
 		F15CB9E52B75A4EC0031F725 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9E42B75A4EC0031F725 /* SearchView.swift */; };
 		F15CB9E82B75A6470031F725 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9E72B75A6470031F725 /* ContentView.swift */; };
 		F15CB9EA2B76F2990031F725 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9E92B76F2990031F725 /* SearchViewModel.swift */; };
@@ -40,6 +39,8 @@
 		F15CB9F02B770F520031F725 /* FilterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9EF2B770F520031F725 /* FilterForm.swift */; };
 		F15CB9F22B770F610031F725 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9F12B770F610031F725 /* SearchResults.swift */; };
 		F15CB9F42B770F7F0031F725 /* RecipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15CB9F32B770F7F0031F725 /* RecipeCard.swift */; };
+		F16A84202C51AE68000AED74 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16A841F2C51AE68000AED74 /* StringExtension.swift */; };
+		F16A84222C51BEEF000AED74 /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16A84212C51BEEE000AED74 /* StringExtensionTests.swift */; };
 		F17A80A22B783C1500E811C8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A12B783C1500E811C8 /* FormError.swift */; };
 		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
 		F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */; };
@@ -132,7 +133,6 @@
 		F1437C0629566A49005408E5 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		F1437C0829567211005408E5 /* InstructionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsList.swift; sourceTree = "<group>"; };
 		F1574DA4294FD85700539104 /* SummaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryBox.swift; sourceTree = "<group>"; };
-		F1574DA6294FDFA300539104 /* HTMLText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLText.swift; sourceTree = "<group>"; };
 		F15CB9E42B75A4EC0031F725 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		F15CB9E72B75A6470031F725 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F15CB9E92B76F2990031F725 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -141,6 +141,8 @@
 		F15CB9EF2B770F520031F725 /* FilterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterForm.swift; sourceTree = "<group>"; };
 		F15CB9F12B770F610031F725 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 		F15CB9F32B770F7F0031F725 /* RecipeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCard.swift; sourceTree = "<group>"; };
+		F16A841F2C51AE68000AED74 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		F16A84212C51BEEE000AED74 /* StringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
 		F16D5C022C444AF5006AA59B /* 2.1.1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.1.1.txt; sourceTree = "<group>"; };
 		F17A80A12B783C1500E811C8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterableExtension.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				F17A80A82B795F0A00E811C8 /* CaseIterableExtension.swift */,
 				F11D3E942BC1A26F00BE5259 /* BoolExtension.swift */,
 				F1BB7D3B2C1505E700E129AC /* CodableExtension.swift */,
+				F16A841F2C51AE68000AED74 /* StringExtension.swift */,
 				F1FB915A2C08C3E600DF3669 /* UserDefaultsManager.swift */,
 				F1BB7D392C14F88600E129AC /* CoreDataManager.swift */,
 			);
@@ -379,7 +382,6 @@
 		F1574DA82950164F00539104 /* UIViews */ = {
 			isa = PBXGroup;
 			children = (
-				F1574DA6294FDFA300539104 /* HTMLText.swift */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -404,6 +406,7 @@
 				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
 				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
+				F16A84212C51BEEE000AED74 /* StringExtensionTests.swift */,
 				F1BB7D3F2C167F0A00E129AC /* CodableExtensionTests.swift */,
 				F1FB915E2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift */,
 				F1BB7D412C167F2200E129AC /* CoreDataManagerTests.swift */,
@@ -662,6 +665,7 @@
 				F15CB9F42B770F7F0031F725 /* RecipeCard.swift in Sources */,
 				F12C1C5F2904CB9800C3302B /* RecipeError.swift in Sources */,
 				F123A846293D85CE00C8E127 /* DoubleExtension.swift in Sources */,
+				F16A84202C51AE68000AED74 /* StringExtension.swift in Sources */,
 				F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */,
 				F12C1C5D2904CB3200C3302B /* Constants.swift in Sources */,
 				F12C1C612904CBEC00C3302B /* Recipe.swift in Sources */,
@@ -674,7 +678,6 @@
 				F1BB7D342C14E28800E129AC /* EZ Recipes.xcdatamodeld in Sources */,
 				F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */,
 				F17A80A92B795F0A00E811C8 /* CaseIterableExtension.swift in Sources */,
-				F1574DA7294FDFA300539104 /* HTMLText.swift in Sources */,
 				F15CB9EC2B7704A10031F725 /* MealType.swift in Sources */,
 				F1C7DA092B6F386800D6E343 /* Term.swift in Sources */,
 				F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */,
@@ -690,6 +693,7 @@
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
 				F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */,
+				F16A84222C51BEEF000AED74 /* StringExtensionTests.swift in Sources */,
 				F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */,
 				F1BD63A52B81605800B704AD /* RecipeFilterEncoderTests.swift in Sources */,
 				F1F38EBB290F3751000FF99C /* HomeViewModelTests.swift in Sources */,
