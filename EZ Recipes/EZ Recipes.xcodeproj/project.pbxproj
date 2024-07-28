@@ -334,7 +334,6 @@
 				F1E0FD3F293D23600007255F /* Home */,
 				F1E0FD40293D236E0007255F /* Recipe */,
 				F15CB9E32B75A4D00031F725 /* Search */,
-				F1574DA82950164F00539104 /* UIViews */,
 				F1437C0529566A2A005408E5 /* ViewModifiers */,
 			);
 			path = Views;
@@ -377,13 +376,6 @@
 				F1C7DA102B703CB700D6E343 /* Pill.swift */,
 			);
 			path = ViewModifiers;
-			sourceTree = "<group>";
-		};
-		F1574DA82950164F00539104 /* UIViews */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIViews;
 			sourceTree = "<group>";
 		};
 		F15CB9E32B75A4D00031F725 /* Search */ = {
