@@ -9,20 +9,41 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        TabView {
-            // TODO: Replace .tabItem with Tab() for iOS 18.0+
-            HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
-                .tabItem {
+        if #available(iOS 18.0, *) {
+            TabView {
+                Tab {
+                    HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
+                } label: {
                     Constants.Tabs.home
                 }
-            SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
-                .tabItem {
+                
+                Tab {
+                    SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
+                } label: {
                     Constants.Tabs.search
                 }
-            GlossaryView()
-                .tabItem {
+                
+                Tab {
+                    GlossaryView()
+                } label: {
                     Constants.Tabs.glossary
                 }
+            }
+        } else {
+            TabView {
+                HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
+                    .tabItem {
+                        Constants.Tabs.home
+                    }
+                SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
+                    .tabItem {
+                        Constants.Tabs.search
+                    }
+                GlossaryView()
+                    .tabItem {
+                        Constants.Tabs.glossary
+                    }
+            }
         }
     }
 }
