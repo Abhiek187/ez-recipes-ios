@@ -61,6 +61,7 @@
 		F1E0FD44293D24CF0007255F /* RecipeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD43293D24CF0007255F /* RecipeHeader.swift */; };
 		F1E0FD48293D73B20007255F /* RecipeFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD47293D73B20007255F /* RecipeFooter.swift */; };
 		F1E0FD4A293D753C0007255F /* NutritionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E0FD49293D753C0007255F /* NutritionLabel.swift */; };
+		F1E5A0672C9E36D700594331 /* DoubleExtensionTests2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E5A0662C9E36D700594331 /* DoubleExtensionTests2.swift */; };
 		F1EAC7F129217E250046B268 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F029217E250046B268 /* RecipeView.swift */; };
 		F1EAC7F4292185B90046B268 /* RecipeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F3292185B90046B268 /* RecipeRepository.swift */; };
 		F1EAC7F6292185D70046B268 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAC7F5292185D70046B268 /* ViewModel.swift */; };
@@ -168,6 +169,7 @@
 		F1E0FD47293D73B20007255F /* RecipeFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFooter.swift; sourceTree = "<group>"; };
 		F1E0FD49293D753C0007255F /* NutritionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabel.swift; sourceTree = "<group>"; };
 		F1E48B0E2B8BCA4500A40169 /* 2.0.0.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2.0.0.txt; sourceTree = "<group>"; };
+		F1E5A0662C9E36D700594331 /* DoubleExtensionTests2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests2.swift; sourceTree = "<group>"; };
 		F1EAC7EA29216F350046B268 /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		F1EAC7F029217E250046B268 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		F1EAC7F3292185B90046B268 /* RecipeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRepository.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 			children = (
 				F1BD63A42B81605800B704AD /* RecipeFilterEncoderTests.swift */,
 				F123A847293D88A100C8E127 /* DoubleExtensionTests.swift */,
+				F1E5A0662C9E36D700594331 /* DoubleExtensionTests2.swift */,
 				F17A80AA2B7966B100E811C8 /* CaseIterableExtensionTests.swift */,
 				F16A84212C51BEEE000AED74 /* StringExtensionTests.swift */,
 				F1BB7D3F2C167F0A00E129AC /* CodableExtensionTests.swift */,
@@ -550,7 +553,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					F12C1C262904951600C3302B = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -684,6 +687,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F123A848293D88A100C8E127 /* DoubleExtensionTests.swift in Sources */,
+				F1E5A0672C9E36D700594331 /* DoubleExtensionTests2.swift in Sources */,
 				F17A80AB2B7966B100E811C8 /* CaseIterableExtensionTests.swift in Sources */,
 				F16A84222C51BEEF000AED74 /* StringExtensionTests.swift in Sources */,
 				F1FB915F2C08F7FF00DF3669 /* UserDefaultsManagerTests.swift in Sources */,
@@ -911,7 +915,6 @@
 		F12C1C4F2904951B00C3302B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -931,7 +934,6 @@
 		F12C1C502904951B00C3302B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -951,7 +953,6 @@
 		F12C1C522904951B00C3302B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UF6E5BVT98;
@@ -969,7 +970,6 @@
 		F12C1C532904951B00C3302B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UF6E5BVT98;

@@ -28,6 +28,17 @@ class EZ_RecipesUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    private func goTo(tab: String) {
+        // On iPadOS 18+, the tab bars are floating tab buttons
+        let tabBar = app.tabBars["Tab Bar"]
+        
+        if tabBar.exists {
+            tabBar.buttons[tab].tap()
+        } else {
+            app.buttons[tab].tap()
+        }
+    }
 
     @MainActor
     func testFindMeARecipe() throws {
@@ -148,7 +159,7 @@ class EZ_RecipesUITests: XCTestCase {
     @MainActor
     func testSearchRecipes() throws {
         // Go to the Search tab
-        app.tabBars["Tab Bar"].buttons["Search"].tap()
+        goTo(tab: "Search")
         var shotNum = 1
         snapshot("search-view-\(shotNum)")
         shotNum += 1
@@ -339,7 +350,7 @@ class EZ_RecipesUITests: XCTestCase {
     @MainActor
     func testGlossaryScreen() throws {
         // Take a screenshot of the glossary tab (no assertions)
-        app.tabBars["Tab Bar"].buttons["Glossary"].tap()
+        goTo(tab: "Glossary")
         snapshot("glossary-view")
     }
 }
