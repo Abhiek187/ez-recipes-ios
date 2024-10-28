@@ -45,8 +45,12 @@ private struct CustomBoolEncoder: ParameterEncoder {
                     queryItems.append(URLQueryItem(name: name, value: nil))
                 }
             default:
-                // Add all other query params by default
-                queryItems.append(URLQueryItem(name: name, value: value))
+                if name == "culture" && value == "BBQ" {
+                    queryItems.append(URLQueryItem(name: name, value: "bbq"))
+                } else {
+                    // Add all other query params by default
+                    queryItems.append(URLQueryItem(name: name, value: value))
+                }
             }
         }
         

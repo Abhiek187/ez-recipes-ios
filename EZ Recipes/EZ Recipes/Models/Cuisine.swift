@@ -40,6 +40,8 @@ enum Cuisine: String, Codable, CaseIterable, Comparable {
     case SouthAmerican = "South American"
     case Creole
     case CentralAmerican = "Central American"
+    case BBQ
+    case Barbecue
     case unknown
     
     static func < (lhs: Cuisine, rhs: Cuisine) -> Bool {
@@ -47,7 +49,11 @@ enum Cuisine: String, Codable, CaseIterable, Comparable {
     }
     
     init(from decoder: Decoder) throws {
-        let decodedRawValue = try decoder.singleValueContainer().decode(RawValue.self)
+        var decodedRawValue = try decoder.singleValueContainer().decode(RawValue.self)
+        // BBQ appears lowercase from spoonacular
+        if decodedRawValue == "bbq" {
+            decodedRawValue = "BBQ"
+        }
         
         guard let _self = Self(rawValue: decodedRawValue) else {
             let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "Cuisine")
