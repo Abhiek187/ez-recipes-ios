@@ -38,6 +38,7 @@ enum MealType: String, Codable, CaseIterable, Comparable {
     case cocktail
     case mocktail
     case seasoning
+    case batter
     case unknown
     
     // Allow the meal types to be sorted for ease of reference
