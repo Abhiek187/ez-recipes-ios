@@ -9,7 +9,7 @@ import Alamofire
 import OSLog
 
 // Logs the network requests & responses
-class AFLogger: EventMonitor {
+final class AFLogger: EventMonitor {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "AFLogger")
     
     func requestDidResume(_ request: Request) {
