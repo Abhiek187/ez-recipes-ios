@@ -117,6 +117,17 @@ final class RecipeFilterEncoderTests: XCTestCase {
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then all the values should appear in the query parameters
-        assertEquals(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d\'oeuvre&culture=Eastern%20European&culture=Middle%20Eastern")
+        assertEquals(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d%27oeuvre&culture=Eastern%20European&culture=Middle%20Eastern")
+    }
+    
+    func testEncodeSpecialCharacters() throws {
+        // Give a recipe filter with special characters
+        let parameters = RecipeFilter(query: "pizza with :#[]@", token: "!$&'()*+,;=")
+        
+        // When encoded
+        let encodedRequest = try encoder.encode(parameters, into: urlRequest)
+        
+        // Then all the characters should be URL-encoded
+        assertEquals(encodedRequest.url?.query(), "query=pizza%20with%20%3A%23%5B%5D%40&token=%21%24%26%27%28%29%2A%2B%2C%3B%3D")
     }
 }

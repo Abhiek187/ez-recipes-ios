@@ -55,7 +55,17 @@ private struct CustomBoolEncoder: ParameterEncoder {
         }
         
         var urlComponents = URLComponents(string: urlString)
-        urlComponents?.queryItems = queryItems
+        // Escape +'s if they appear in tokens
+        let queryString = queryItems
+            .map {
+                return if let value = $0.value {
+                    "\($0.name)=\(value.addingPercentEncoding(withAllowedCharacters: .afURLQueryAllowed) ?? "")"
+                } else {
+                    "\($0.name)"
+                }
+            }
+            .joined(separator: "&")
+        urlComponents?.percentEncodedQuery = queryString
         request.url = urlComponents?.url
         
         return request
