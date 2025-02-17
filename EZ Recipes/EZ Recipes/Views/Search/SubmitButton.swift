@@ -18,7 +18,7 @@ struct SubmitButton: View {
     var body: some View {
         VStack {
             HStack {
-                Button(Constants.SearchView.submitButton) {
+                Button(Constants.SearchView.applyButton) {
                     viewModel.searchRecipes()
                 }
                 .disabled(viewModel.isLoading)

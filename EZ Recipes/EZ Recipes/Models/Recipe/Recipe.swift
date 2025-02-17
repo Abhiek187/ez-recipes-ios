@@ -30,4 +30,7 @@ struct Recipe: Codable, Equatable {
     let ingredients: [Ingredient]
     let instructions: [Instruction]
     var token: String? // searchSequenceToken for pagination
+    var totalRatings: Int? = nil
+    var averageRating: Double? = nil
+    var views: Int? = nil
 }

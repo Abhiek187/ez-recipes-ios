@@ -34,5 +34,69 @@
 			<string>**Time:** %d minutes</string>
 		</dict>
 	</dict>
+	<key>Rate %d star(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@stars@</string>
+		<key>stars</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Rate %d star</string>
+			<key>other</key>
+			<string>Rate %d stars</string>
+		</dict>
+	</dict>
+	<key>%d rating(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@ratings@</string>
+		<key>ratings</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d rating</string>
+			<key>other</key>
+			<string>%d ratings</string>
+		</dict>
+	</dict>
+	<key>%d favorite(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@favorites@</string>
+		<key>favorites</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>favorite</string>
+			<key>other</key>
+			<string>favorites</string>
+		</dict>
+	</dict>
+	<key>%d recipe(s) viewed</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@recipes@</string>
+		<key>recipes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>recipe</string>
+			<key>other</key>
+			<string>recipes</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
