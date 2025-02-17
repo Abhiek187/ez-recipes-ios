@@ -10,6 +10,7 @@ import SwiftUI
 // Workaround since ternaries must be of the same type
 private extension Button {
     /// Make the backgrounds of buttons more opaque in light mode than in dark mode
+    @MainActor
     @ViewBuilder
     func buttonStyle(for colorScheme: ColorScheme) -> some View {
         switch colorScheme {

@@ -54,6 +54,7 @@ struct Constants {
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
     }
     
+    @MainActor
     struct Tabs {
         static let home = Label("Home", systemImage: "house")
         static let search = Label("Search", systemImage: "magnifyingglass")
@@ -83,39 +84,39 @@ struct Constants {
         static let favoriteAlt = "Favorite this recipe"
         static let unFavoriteAlt = "Un-favorite this recipe"
         static let shareAlt = "Share this recipe"
-        static let shareBody: (String) -> String = { recipeName in
+        static let shareBody: @Sendable (String) -> String = { recipeName in
             "Check out this low-effort recipe for \(recipeName)!"
         }
-        static let shareUrl: (Int) -> URL = { recipeId in
+        static let shareUrl: @Sendable (Int) -> URL = { recipeId in
             URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)")!
         }
         static let unknownRecipe = "unknown recipe"
         
         static let recipeLinkAlt = "Open recipe source"
         // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html
-        static let imageCopyright: (String, String) -> LocalizedStringKey = { credit, source in
+        static let imageCopyright: @Sendable (String, String) -> LocalizedStringKey = { credit, source in
             // Substitute the format variables, then convert to a LocalizedStringKey to parse the markdown
             LocalizedStringKey(String(format: "Image © [%@](%@)", credit, source))
         }
         // strings dict used for plurals
-        static let recipeTime: (Int) -> LocalizedStringKey = { minutes in
+        static let recipeTime: @Sendable (Int) -> LocalizedStringKey = { minutes in
             // String(localized:) == NSLocalizedString
             LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
         }
-        static let mealTypes: ([MealType]) -> LocalizedStringKey = { types in
+        static let mealTypes: @Sendable ([MealType]) -> LocalizedStringKey = { types in
             LocalizedStringKey(String(format: "**Great for:** %@", types.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
-        static let cuisines: ([Cuisine]) -> LocalizedStringKey = { cultures in
+        static let cuisines: @Sendable ([Cuisine]) -> LocalizedStringKey = { cultures in
             LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
         static let madeButton = "I Made This!"
         static let showRecipeButton = "Show Me Another Recipe!"
         
         static let nutritionFacts = "Nutrition Facts"
-        static let healthScore: (Int) -> String = { score in
+        static let healthScore: @Sendable (Int) -> String = { score in
             String(format: "Health Score: %d%%", score)
         }
-        static let servings: (Int) -> String = { servings in
+        static let servings: @Sendable (Int) -> String = { servings in
             String(format: String(localized: "%d serving(s)"), servings)
         }
         static let calories = "Calories"
@@ -130,12 +131,12 @@ struct Constants {
         
         static let summary = "Summary"
         static let ingredients = "Ingredients"
-        static let ingredientUrl: (String) -> URL? = { ingredient in
+        static let ingredientUrl: @Sendable (String) -> URL? = { ingredient in
             URL(string: "https://img.spoonacular.com/ingredients_100x100/\(ingredient)")
         }
         static let steps = "Steps"
         static let equipment = "Equipment"
-        static let equipmentUrl: (String) -> URL? = { equipment in
+        static let equipmentUrl: @Sendable (String) -> URL? = { equipment in
             URL(string: "https://img.spoonacular.com/equipment_100x100/\(equipment)")
         }
         static let attribution = "Powered by spoonacular"

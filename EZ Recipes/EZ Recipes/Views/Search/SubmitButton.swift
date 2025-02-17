@@ -37,8 +37,8 @@ struct SubmitButton: View {
                 Text(loadingMessage)
                     .multilineTextAlignment(.leading)
                     .padding(.top, 1)
-                    .onChange(of: viewModel.isLoading) { isLoading in
-                        if isLoading {
+                    .onChange(of: viewModel.isLoading) {
+                        if viewModel.isLoading {
                             loadingMessage = defaultLoadingMessage
                         }
                     }

@@ -7,12 +7,12 @@
 
 import XCTest
 
+@MainActor
 class EZ_RecipesUITests: XCTestCase {
     var app: XCUIApplication!
 
     // Snapshot methods must be called on the main thread, but XCTestCase doesn't require isolation
-    @MainActor
-    override func setUpWithError() throws {
+    override func setUp() async throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
@@ -25,7 +25,7 @@ class EZ_RecipesUITests: XCTestCase {
         app.launch()
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() async throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
@@ -40,7 +40,6 @@ class EZ_RecipesUITests: XCTestCase {
         }
     }
 
-    @MainActor
     func testFindMeARecipe() throws {
         // Tap the "Find Me A Recipe!" button and check that the recipe page loads properly (this will consume quota)
         // Take screenshots along the way
@@ -156,7 +155,6 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssertFalse(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button should be disabled")
     }
     
-    @MainActor
     func testSearchRecipes() throws {
         // Go to the Search tab
         goTo(tab: "Search")
@@ -347,7 +345,6 @@ class EZ_RecipesUITests: XCTestCase {
         shotNum += 1
     }
     
-    @MainActor
     func testGlossaryScreen() throws {
         // Take a screenshot of the glossary tab (no assertions)
         goTo(tab: "Glossary")

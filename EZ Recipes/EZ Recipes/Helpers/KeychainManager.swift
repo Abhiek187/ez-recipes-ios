@@ -17,7 +17,7 @@ enum SecureStoreError: Error {
 ///
 /// - Note: Keychain stored at `~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Library/Keychains`
 /// (`/var/Keychains` on real devices) (`~/Library/Developer/Xcode/UserData/Previews/Simulator Devices/...` in previews) (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
-class KeychainManager {
+final class KeychainManager: Sendable {
     static let shared = KeychainManager()
     
     private func setupQueryDictionary(forKey key: String) throws -> [CFString: Any] {
