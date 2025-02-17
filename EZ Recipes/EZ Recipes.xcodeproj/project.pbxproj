@@ -315,21 +315,10 @@
 		F12C1C582904CACD00C3302B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F12C1C602904CBEC00C3302B /* Recipe.swift */,
-				F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */,
-				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
-				F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */,
-				F15CB9EB2B7704A10031F725 /* MealType.swift */,
-				F15CB9ED2B7704A90031F725 /* Cuisine.swift */,
-				F1F38EBC290F5053000FF99C /* Nutrient.swift */,
-				F1F38EBE290F506F000FF99C /* Ingredient.swift */,
-				F1F38EC0290F5088000FF99C /* Instruction.swift */,
-				F1F38EC2290F509B000FF99C /* Step.swift */,
-				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
-				F1C7DA082B6F386800D6E343 /* Term.swift */,
-				F1FB91582C08C13600DF3669 /* TermStore.swift */,
-				F1BB7D322C14E28800E129AC /* EZ Recipes.xcdatamodeld */,
-				F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */,
+				F1BA18012D63757E005322DB /* Glossary */,
+				F1BA18042D637609005322DB /* Home */,
+				F1BA18022D6375B6005322DB /* Recipe */,
+				F1BA18032D6375D4005322DB /* Search */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -400,6 +389,49 @@
 				F15CB9F32B770F7F0031F725 /* RecipeCard.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		F1BA18012D63757E005322DB /* Glossary */ = {
+			isa = PBXGroup;
+			children = (
+				F1C7DA082B6F386800D6E343 /* Term.swift */,
+				F1FB91582C08C13600DF3669 /* TermStore.swift */,
+			);
+			path = Glossary;
+			sourceTree = "<group>";
+		};
+		F1BA18022D6375B6005322DB /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				F12C1C602904CBEC00C3302B /* Recipe.swift */,
+				F12C1C5E2904CB9800C3302B /* RecipeError.swift */,
+				F1C7DA062B6F373800D6E343 /* SpiceLevel.swift */,
+				F15CB9EB2B7704A10031F725 /* MealType.swift */,
+				F15CB9ED2B7704A90031F725 /* Cuisine.swift */,
+				F1F38EBC290F5053000FF99C /* Nutrient.swift */,
+				F1F38EBE290F506F000FF99C /* Ingredient.swift */,
+				F1F38EC0290F5088000FF99C /* Instruction.swift */,
+				F1F38EC2290F509B000FF99C /* Step.swift */,
+				F1F38EC4290F50A9000FF99C /* StepItem.swift */,
+			);
+			path = Recipe;
+			sourceTree = "<group>";
+		};
+		F1BA18032D6375D4005322DB /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				F1C7DA0A2B6F3AC100D6E343 /* RecipeFilter.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		F1BA18042D637609005322DB /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F1BB7D322C14E28800E129AC /* EZ Recipes.xcdatamodeld */,
+				F1BB7D372C14F62B00E129AC /* RecentRecipe.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		F1BB7D432C167F5000E129AC /* Helpers */ = {
