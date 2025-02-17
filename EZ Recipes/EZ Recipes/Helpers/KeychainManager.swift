@@ -18,13 +18,12 @@ enum SecureStoreError: Error {
 ///
 /// - Note: Keychain stored at `~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Library/Keychains`
 /// (`/var/Keychains` on real devices) (`~/Library/Developer/Xcode/UserData/Previews/Simulator Devices/...` in previews) (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
-final class KeychainManager: Sendable {
-    static let shared = KeychainManager()
+struct KeychainManager {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "KeychainManager")
     
-    private func setupQueryDictionary(forKey key: String) throws -> [CFString: Any] {
+    private static func setupQueryDictionary(forKey key: String) throws -> [CFString: Any] {
         guard let keyData = key.data(using: .utf8) else {
-            KeychainManager.logger.error("Could not convert the key \"\(key)\" to Data")
+            logger.error("Could not convert the key \"\(key)\" to Data")
             throw SecureStoreError.invalidContent
         }
         
@@ -37,7 +36,7 @@ final class KeychainManager: Sendable {
             .userPresence,
             &error
         ) else {
-            KeychainManager.logger.error("Could not create access control flags :: Error: \(String(describing: error))")
+            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
             throw SecureStoreError.invalidContent
         }
         
@@ -48,7 +47,7 @@ final class KeychainManager: Sendable {
         ]
     }
     
-    func save(entry: String, forKey key: String) throws {
+    static func save(entry: String, forKey key: String) throws {
         // Remove any existing entries for key to avoid errSecDuplicateItem
         try? delete(forKey: key)
         
@@ -60,10 +59,10 @@ final class KeychainManager: Sendable {
             throw SecureStoreError.failure(error: status.error)
         }
         
-        KeychainManager.logger.debug("Successfully added entry for key \"\(key)\" to the Keychain")
+        logger.debug("Successfully added entry for key \"\(key)\" to the Keychain")
     }
     
-    func retrieve(forKey key: String) throws -> String? {
+    static func retrieve(forKey key: String) throws -> String? {
         var queryDictionary = try setupQueryDictionary(forKey: key)
         queryDictionary[kSecReturnData] = kCFBooleanTrue // expecting result of type Data
         queryDictionary[kSecMatchLimit] = kSecMatchLimitOne // limit the number of search results to one
@@ -78,14 +77,14 @@ final class KeychainManager: Sendable {
         
         guard let itemData = data as? Data,
             let result = String(data: itemData, encoding: .utf8) else {
-            KeychainManager.logger.error("Could not convert the value of key \"\(key)\" to a String")
+            logger.error("Could not convert the value of key \"\(key)\" to a String")
             return nil
         }
         
         return result
     }
     
-    func delete(forKey key: String) throws {
+    static func delete(forKey key: String) throws {
         let queryDictionary = try setupQueryDictionary(forKey: key)
         
         let status = SecItemDelete(queryDictionary as CFDictionary)
@@ -93,6 +92,6 @@ final class KeychainManager: Sendable {
             throw SecureStoreError.failure(error: status.error)
         }
         
-        KeychainManager.logger.debug("Successfully deleted key \"\(key)\" from the Keychain")
+        logger.debug("Successfully deleted key \"\(key)\" from the Keychain")
     }
 }
