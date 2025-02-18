@@ -14,9 +14,9 @@ struct Constants {
     
     // Common strings
     static let appName = "EZ Recipes"
-    static let errorTitle = "Error"
-    static let unknownError = "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues"
-    static let okButton = "OK"
+    static let errorTitle = String(localized: "Error")
+    static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
+    static let okButton = String(localized: "OK")
     static let loadingMessages = [
         "Prepping the ingredients... 🍱",
         "Preheating the oven... ⏲️",
@@ -32,7 +32,9 @@ struct Constants {
         "Fluffing some rice... 🍚",
         "Mixing things up... 🥘",
         "Shaking things up... 🍲"
-    ]
+    ].map {
+        String(localized: $0)
+    }
     
     // APIs
     static let serverBaseUrl = "https://ez-recipes-server.onrender.com"
@@ -67,62 +69,62 @@ struct Constants {
     }
     
     struct KeyboardNavigation {
-        static let previous = "Previous"
-        static let next = "Next"
-        static let done = "Done"
+        static let previous = String(localized: "Previous")
+        static let next = String(localized: "Next")
+        static let done = String(localized: "Done")
     }
     
     struct HomeView {
-        static let homeTitle = "Home"
-        static let findRecipeButton = "Find Me a Recipe!"
+        // Using localized strings for automatic translation support
+        static let homeTitle = String(localized: "Home")
+        static let findRecipeButton = String(localized: "Find Me a Recipe!")
         
-        static let recentlyViewed = "Recently Viewed"
+        static let recentlyViewed = String(localized: "Recently Viewed")
         static let maxRecentRecipes = 10
         
-        static let profileFavorites = "💖 Favorites"
-        static let profileRecentlyViewed = "⌚ Recently Viewed"
-        static let profileRatings = "⭐ Ratings"
-        static let accordionExpand = "Expand"
-        static let accordionCollapse = "Collapse"
-        static let signInForRecipes = "Sign in to view your saved recipes"
+        static let profileFavorites = String(localized: "💖 Favorites")
+        static let profileRecentlyViewed = String(localized: "⌚ Recently Viewed")
+        static let profileRatings = String(localized: "⭐ Ratings")
+        static let accordionExpand = String(localized: "Expand")
+        static let accordionCollapse = String(localized: "Collapse")
+        static let signInForRecipes = String(localized: "Sign in to view your saved recipes")
         
         // Secondary view
-        static let selectRecipe = "Select a recipe from the navigation menu."
+        static let selectRecipe = String(localized: "Select a recipe from the navigation menu.")
     }
     
     struct RecipeView {
-        static let recipeTitle = "Recipe"
-        static let noRecipe = "No recipe loaded"
-        static let favoriteAlt = "Favorite this recipe"
-        static let unFavoriteAlt = "Un-favorite this recipe"
-        static let shareAlt = "Share this recipe"
+        static let recipeTitle = String(localized: "Recipe")
+        static let noRecipe = String(localized: "No recipe loaded")
+        static let favoriteAlt = String(localized: "Favorite this recipe")
+        static let unFavoriteAlt = String(localized: "Un-favorite this recipe")
+        static let shareAlt = String(localized: "Share this recipe")
         static let shareBody: @Sendable (String) -> String = { recipeName in
-            "Check out this low-effort recipe for \(recipeName)!"
+            String(localized: "Check out this low-effort recipe for \(recipeName)!")
         }
         static let shareUrl: @Sendable (Int) -> URL = { recipeId in
             URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)")!
         }
-        static let unknownRecipe = "unknown recipe"
+        static let unknownRecipe = String(localized: "unknown recipe")
         
-        static let recipeLinkAlt = "Open recipe source"
+        static let recipeLinkAlt = String(localized: "Open recipe source")
         // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html
         static let imageCopyright: @Sendable (String, String) -> LocalizedStringKey = { credit, source in
             // Substitute the format variables, then convert to a LocalizedStringKey to parse the markdown
             LocalizedStringKey(String(format: "Image © [%@](%@)", credit, source))
         }
-        // strings dict used for plurals
         static let recipeTime: @Sendable (Int) -> LocalizedStringKey = { minutes in
             // String(localized:) == NSLocalizedString
             LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
         }
-        static let viewsAlt = "views"
+        static let viewsAlt = String(localized: "views")
         
-        static let starRatingNone = "No ratings available"
+        static let starRatingNone = String(localized: "No ratings available")
         static let starRatingAverage: @Sendable (Double) -> String = { stars in
-            "Average rating: \(stars) out of 5 stars"
+            String(localized: "Average rating: \(stars) out of 5 stars")
         }
         static let starRatingUser: @Sendable (Int) -> String = { stars in
-            "Your rating: \(stars) out of 5 stars"
+            String(localized: "Your rating: \(stars) out of 5 stars")
         }
         static let starRatingInput: @Sendable (Int) -> String = { stars in
             String(format: String(localized: "Rate %d star(s)"), stars)
@@ -130,7 +132,7 @@ struct Constants {
         static let totalRatings: @Sendable (Int) -> String = { rating in
             String(format: String(localized: "%d rating(s)"), rating)
         }
-        static let ratingError = "You must be signed in to rate this recipe"
+        static let ratingError = String(localized: "You must be signed in to rate this recipe")
         
         static let mealTypes: @Sendable ([MealType]) -> LocalizedStringKey = { types in
             LocalizedStringKey(String(format: "**Great for:** %@", types.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
@@ -138,76 +140,76 @@ struct Constants {
         static let cuisines: @Sendable ([Cuisine]) -> LocalizedStringKey = { cultures in
             LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
-        static let madeButton = "I Made This!"
-        static let showRecipeButton = "Show Me Another Recipe!"
+        static let madeButton = String(localized: "I Made This!")
+        static let showRecipeButton = String(localized: "Show Me Another Recipe!")
         
-        static let nutritionFacts = "Nutrition Facts"
+        static let nutritionFacts = String(localized: "Nutrition Facts")
         static let healthScore: @Sendable (Int) -> String = { score in
-            "Health Score: \(score)%"
+            String(localized: "Health Score: \(score)%")
         }
         static let servings: @Sendable (Int) -> String = { servings in
             String(format: String(localized: "%d serving(s)"), servings)
         }
-        static let calories = "Calories"
-        static let fat = "Fat"
-        static let saturatedFat = "Saturated Fat"
-        static let carbohydrates = "Carbohydrates"
-        static let fiber = "Fiber"
-        static let sugar = "Sugar"
-        static let protein = "Protein"
-        static let cholesterol = "Cholesterol"
-        static let sodium = "Sodium"
+        static let calories = String(localized: "Calories")
+        static let fat = String(localized: "Fat")
+        static let saturatedFat = String(localized: "Saturated Fat")
+        static let carbohydrates = String(localized: "Carbohydrates")
+        static let fiber = String(localized: "Fiber")
+        static let sugar = String(localized: "Sugar")
+        static let protein = String(localized: "Protein")
+        static let cholesterol = String(localized: "Cholesterol")
+        static let sodium = String(localized: "Sodium")
         
-        static let summary = "Summary"
-        static let ingredients = "Ingredients"
+        static let summary = String(localized: "Summary")
+        static let ingredients = String(localized: "Ingredients")
         static let ingredientUrl: @Sendable (String) -> URL? = { ingredient in
             URL(string: "https://img.spoonacular.com/ingredients_100x100/\(ingredient)")
         }
-        static let steps = "Steps"
-        static let equipment = "Equipment"
+        static let steps = String(localized: "Steps")
+        static let equipment = String(localized: "Equipment")
         static let equipmentUrl: @Sendable (String) -> URL? = { equipment in
             URL(string: "https://img.spoonacular.com/equipment_100x100/\(equipment)")
         }
-        static let attribution = "Powered by spoonacular"
+        static let attribution = String(localized: "Powered by spoonacular")
     }
     
     struct SearchView {
-        static let searchTitle = "Search"
+        static let searchTitle = String(localized: "Search")
         
         // Secondary view
-        static let searchRecipes = "Search for recipes by applying filters from the navigation menu."
+        static let searchRecipes = String(localized: "Search for recipes by applying filters from the navigation menu.")
         
         // Filter form
-        static let querySection = "Query"
-        static let queryPlaceholder = "food"
+        static let querySection = String(localized: "Query")
+        static let queryPlaceholder = String(localized: "food")
         
-        static let filterSection = "Filters"
+        static let filterSection = String(localized: "Filters")
         static let minCals = 0
         static let maxCals = 2000
-        static let calorieLabel = "≤ Calories ≤"
-        static let calorieUnit = "kcal"
-        static let calorieExceedMaxError = "Error: Calories must be ≤ 2000"
-        static let calorieInvalidRangeError = "Error: Max calories cannot exceed min calories"
+        static let calorieLabel = String(localized: "≤ Calories ≤")
+        static let calorieUnit = String(localized: "kcal")
+        static let calorieExceedMaxError = String(localized: "Error: Calories must be ≤ 2000")
+        static let calorieInvalidRangeError = String(localized: "Error: Max calories cannot exceed min calories")
         
-        static let vegetarianLabel = "Vegetarian"
-        static let veganLabel = "Vegan"
-        static let glutenFreeLabel = "Gluten-Free"
-        static let healthyLabel = "Healthy"
-        static let cheapLabel = "Cheap"
-        static let sustainableLabel = "Sustainable"
+        static let vegetarianLabel = String(localized: "Vegetarian")
+        static let veganLabel = String(localized: "Vegan")
+        static let glutenFreeLabel = String(localized: "Gluten-Free")
+        static let healthyLabel = String(localized: "Healthy")
+        static let cheapLabel = String(localized: "Cheap")
+        static let sustainableLabel = String(localized: "Sustainable")
         
-        static let spiceLabel = "Spice Level"
-        static let typeLabel = "Meal Type"
-        static let cultureLabel = "Cuisine"
-        static let applyButton = "Apply"
-        static let noResults = "No recipes found"
+        static let spiceLabel = String(localized: "Spice Level")
+        static let typeLabel = String(localized: "Meal Type")
+        static let cultureLabel = String(localized: "Cuisine")
+        static let applyButton = String(localized: "Apply")
+        static let noResults = String(localized: "No recipes found")
         
         // Results
-        static let resultsTitle = "Results"
+        static let resultsTitle = String(localized: "Results")
     }
     
     struct GlossaryView {
-        static let glossaryTitle = "Glossary"
+        static let glossaryTitle = String(localized: "Glossary")
     }
     
     struct ProfileView {
@@ -215,9 +217,9 @@ struct Constants {
             case verifyEmail, changeEmail, resetPassword
         }
         
-        static let profileLoading = "Getting your profile ready… 🧑‍🍳"
+        static let profileLoading = String(localized: "Getting your profile ready… 🧑‍🍳")
         static let profileHeader: @Sendable (String) -> String = { name in
-            "Chef \(name)"
+            String(localized: "Chef \(name)")
         }
         static let favorites: @Sendable (Int) -> String = { recipes in
             String(format: String(localized: "%d favorite(s)"), recipes)
@@ -232,72 +234,69 @@ struct Constants {
         - Rating recipes
         - Syncing recipes across the web and mobile apps
         """)
-        static let login = "Login"
-        static let logout = "Logout"
-        static let changeEmail = "Change Email"
-        static let changePassword = "Change Password"
-        static let deleteAccount = "Delete Account"
+        static let login = String(localized: "Login")
+        static let logout = String(localized: "Logout")
+        static let changeEmail = String(localized: "Change Email")
+        static let changePassword = String(localized: "Change Password")
+        static let deleteAccount = String(localized: "Delete Account")
         
         // Login form
         static let passwordMinLength = 8
         
-        static let signInHeader = "Sign In"
-        static let signInSubHeader = "Don't have an account?"
-        static let usernameField = "Username"
-        static let passwordField = "Password"
-        static let passwordShow = "Show password"
-        static let passwordHide = "Hide password"
-        static let passwordForget = "Forgot password?"
-        static let signInSuccess = "Signed in successfully!"
-        static let signOutSuccess = "Signed out successfully!"
+        static let signInHeader = String(localized: "Sign In")
+        static let signInSubHeader = String(localized: "Don't have an account?")
+        static let usernameField = String(localized: "Username")
+        static let passwordField = String(localized: "Password")
+        static let passwordShow = String(localized: "Show password")
+        static let passwordHide = String(localized: "Hide password")
+        static let passwordForget = String(localized: "Forgot password?")
+        static let signInSuccess = String(localized: "Signed in successfully!")
+        static let signOutSuccess = String(localized: "Signed out successfully!")
         
-        static let signUpHeader = "Sign Up"
-        static let signUpSubHeader = "Already have an account?"
-        static let emailField = "Email"
-        static let passwordConfirmField = "Confirm Password"
+        static let signUpHeader = String(localized: "Sign Up")
+        static let signUpSubHeader = String(localized: "Already have an account?")
+        static let emailField = String(localized: "Email")
+        static let passwordConfirmField = String(localized: "Confirm Password")
         static let fieldRequired: @Sendable (String) -> String = { field in
-            "Error: \(field) is required"
+            String(localized: "Error: \(field) is required")
         }
-        static let emailInvalid = "Error: Invalid email"
-        static let passwordMinLengthErr = "Password must be at least 8 characters long"
-        static let passwordTooShort = "Error: Password must be at least 8 characters long"
-        static let passwordMatch = "Error: Passwords do not match"
+        static let emailInvalid = String(localized: "Error: Invalid email")
+        static let passwordMinLengthErr = String(localized: "Password must be at least 8 characters long")
+        static let passwordTooShort = String(localized: "Error: Password must be at least 8 characters long")
+        static let passwordMatch = String(localized: "Error: Passwords do not match")
 
-        static let emailVerifyHeader = "You're Almost There!"
+        static let emailVerifyHeader = String(localized: "You're Almost There!")
         static let emailVerifyBody: @Sendable (String) -> String = { email in
-        """
+            String(localized: """
         We just need to verify your email before you can put on the chef's hat.
         Check your email for a magic link sent to \(email)
         
         ⚠️ We will delete accounts from our system if they're not verified within 1 week.
-        """
-        }
-        static let emailVerifyRetryText = "Didn't receive an email?"
-        static let emailVerifyRetryLink = "Resend"
-        static let emailVerifySuccess = "Email verified successfully!"
-        static let forgetPasswordHeader = "No problem! Enter your email so we can reset your password."
-        static let submitButton = "Submit"
+        """)}
+        static let emailVerifyRetryText = String(localized: "Didn't receive an email?")
+        static let emailVerifyRetryLink = String(localized: "Resend")
+        static let emailVerifySuccess = String(localized: "Email verified successfully!")
+        static let forgetPasswordHeader = String(localized: "No problem! Enter your email so we can reset your password.")
+        static let submitButton = String(localized: "Submit")
         static let forgetPasswordConfirm: @Sendable (String) -> String = { email in
-        """
+            String(localized: """
         We sent an email to \(email). Follow the instructions to reset your password.
         
         If you didn't receive an email, you may not have created an account with this email.
-        """
-        }
+        """)}
         
-        static let changeEmailField = "New Email"
+        static let changeEmailField = String(localized: "New Email")
         static let changeEmailConfirm: @Sendable (String) -> String = { email in
-            "We sent an email to \(email). Follow the instructions to change your email."
+            String(localized: "We sent an email to \(email). Follow the instructions to change your email.")
         }
-        static let changeEmailSuccess = "Email updated successfully! Please sign in again."
-        static let changePasswordField = "New Password"
-        static let changePasswordSuccess = "Password updated successfully! Please sign in again."
-        static let deleteAccountHeader = "Are You Sure?"
-        static let deleteAccountSubHeader =
-        """
+        static let changeEmailSuccess = String(localized: "Email updated successfully! Please sign in again.")
+        static let changePasswordField = String(localized: "New Password")
+        static let changePasswordSuccess = String(localized: "Password updated successfully! Please sign in again.")
+        static let deleteAccountHeader = String(localized: "Are You Sure?")
+        static let deleteAccountSubHeader = String(localized: """
         You will lose access to your favorite recipes.
         Enter your username to confirm.
-        """
-        static let deleteAccountSuccess = "Your account has been deleted."
+        """)
+        static let deleteAccountSuccess = String(localized: "Your account has been deleted.")
     }
 }
