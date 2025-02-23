@@ -6,7 +6,7 @@
 //
 
 // A protocol allows mock repositories to be created for tests
-protocol RecipeRepository {
+protocol RecipeRepository: Sendable {
     static var shared: Self { get } // singleton
     
     func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError>

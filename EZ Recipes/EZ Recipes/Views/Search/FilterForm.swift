@@ -45,7 +45,7 @@ struct FilterForm: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .minCals)
-                        .onChange(of: (viewModel.recipeFilter.minCals ?? MIN_CALS)) { newValue in
+                        .onChange(of: (viewModel.recipeFilter.minCals ?? MIN_CALS)) { _, newValue in
                             withAnimation {
                                 caloriesExceedMax = newValue > MAX_CALS || (viewModel.recipeFilter.maxCals ?? MIN_CALS) > MAX_CALS
                                 caloriesInvalidRange = newValue > (viewModel.recipeFilter.maxCals ?? Int.max)
@@ -57,7 +57,7 @@ struct FilterForm: View {
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .maxCals)
-                        .onChange(of: (viewModel.recipeFilter.maxCals ?? Int.max)) { newValue in
+                        .onChange(of: (viewModel.recipeFilter.maxCals ?? Int.max)) { _, newValue in
                             withAnimation {
                                 caloriesExceedMax = newValue != Int.max && newValue > MAX_CALS || (viewModel.recipeFilter.minCals ?? MIN_CALS) > MAX_CALS
                                 caloriesInvalidRange = newValue < (viewModel.recipeFilter.minCals ?? MIN_CALS)
@@ -109,9 +109,9 @@ struct FilterForm: View {
             Section {
                 SubmitButton(viewModel: viewModel)
                     .disabled(caloriesExceedMax || caloriesInvalidRange || viewModel.isLoading)
-                    .onChange(of: viewModel.noRecipesFound) { newValue in
+                    .onChange(of: viewModel.noRecipesFound) {
                         withAnimation {
-                            noRecipesFound = newValue
+                            noRecipesFound = viewModel.noRecipesFound
                         }
                     }
                 FormError(on: noRecipesFound, message: Constants.SearchView.noResults)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 import Security
 
 enum SecureStoreError: Error {
@@ -17,12 +18,15 @@ enum SecureStoreError: Error {
 ///
 /// - Note: Keychain stored at `~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Library/Keychains`
 /// (`/var/Keychains` on real devices) (`~/Library/Developer/Xcode/UserData/Previews/Simulator Devices/...` in previews) (Device-UUID and App-UUID gotten from `xcrun simctl get_app_container booted BUNDLE-ID data`)
-class KeychainManager {
-    static let shared = KeychainManager()
+struct KeychainManager {
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "KeychainManager")
+    enum Key: String {
+        case token
+    }
     
-    private func setupQueryDictionary(forKey key: String) throws -> [CFString: Any] {
-        guard let keyData = key.data(using: .utf8) else {
-            print("Error! Could not convert the key to the expected format.")
+    private static func setupQueryDictionary(forKey key: Key) throws -> [CFString: Any] {
+        guard let keyData = key.rawValue.data(using: .utf8) else {
+            logger.error("Could not convert the key \"\(key.rawValue)\" to Data")
             throw SecureStoreError.invalidContent
         }
         
@@ -35,77 +39,62 @@ class KeychainManager {
             .userPresence,
             &error
         ) else {
-            print("Error! Could not create access control flags :: Error: \(String(describing: error))")
+            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
             throw SecureStoreError.invalidContent
         }
         
-        // kSecClass defines the class of the keychain item
-        // We store user credentials in the keychain, so I use kSecClassGenericPassword for the value
-        // The kSecAttrAccount - keyData pair uniquely identify the account who will be accessing the keychain
         return [
             kSecClass: kSecClassGenericPassword, // genp table
             kSecAttrAccount: keyData, // account == key
-//            kSecAttrAccessible: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
             kSecAttrAccessControl: accessControl
         ]
     }
     
-    func save(entry: String, forKey key: String) throws {
-        guard !entry.isEmpty && !key.isEmpty else {
-            print("Can't add an empty string to the keychain")
-            throw SecureStoreError.invalidContent
-        }
-        // remove old value if any
-//        try delete(forKey: key)
+    static func save(entry: String, forKey key: Key) throws {
+        // Remove any existing entries for key to avoid errSecDuplicateItem
+        try? delete(key: key)
         
         var queryDictionary = try setupQueryDictionary(forKey: key)
-        
-        // add the value
         queryDictionary[kSecValueData] = entry.data(using: .utf8)
         
         let status = SecItemAdd(queryDictionary as CFDictionary, nil)
         guard status == errSecSuccess else {
             throw SecureStoreError.failure(error: status.error)
         }
+        
+        logger.debug("Successfully added entry for key \"\(key.rawValue)\" to the Keychain")
     }
     
-    func retrieve(forKey key: String) throws -> String? {
-        guard !key.isEmpty else {
-            throw SecureStoreError.invalidContent
-        }
-        
+    static func retrieve(forKey key: Key) throws -> String? {
         var queryDictionary = try setupQueryDictionary(forKey: key)
-        // Set additional query attributes
         queryDictionary[kSecReturnData] = kCFBooleanTrue // expecting result of type Data
         queryDictionary[kSecMatchLimit] = kSecMatchLimitOne // limit the number of search results to one
         
         var data: AnyObject?
         
         // Returns one or more keychain items that match a search query, or copies attributes of specific keychain items
-        let status = SecItemCopyMatching(queryDictionary as CFDictionary, &data) // search query
+        let status = SecItemCopyMatching(queryDictionary as CFDictionary, &data)
         guard status == errSecSuccess else {
             throw SecureStoreError.failure(error: status.error)
         }
         
         guard let itemData = data as? Data,
             let result = String(data: itemData, encoding: .utf8) else {
+            logger.error("Could not convert the value of key \"\(key.rawValue)\" to a String")
             return nil
         }
         
         return result
     }
     
-    func delete(forKey key: String) throws {
-        guard !key.isEmpty else {
-            print("Key must be valid")
-            throw SecureStoreError.invalidContent
-        }
-        
+    static func delete(key: Key) throws {
         let queryDictionary = try setupQueryDictionary(forKey: key)
         
         let status = SecItemDelete(queryDictionary as CFDictionary)
         guard status == errSecSuccess else {
             throw SecureStoreError.failure(error: status.error)
         }
+        
+        logger.debug("Successfully deleted key \"\(key.rawValue)\" from the Keychain")
     }
 }

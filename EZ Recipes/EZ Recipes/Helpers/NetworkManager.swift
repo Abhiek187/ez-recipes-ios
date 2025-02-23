@@ -19,7 +19,7 @@ struct NetworkManager: RecipeRepository {
     private let session = Session(eventMonitors: [AFLogger()])
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "NetworkManager")
     
-    private func parseResponse<T: Decodable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
+    private func parseResponse<T: Decodable & Sendable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
         do {
             // If successful, the request can be decoded as a Recipe object
             let response = try await request.serializingDecodable(T.self).value

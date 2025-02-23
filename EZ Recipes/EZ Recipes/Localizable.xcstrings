@@ -1,0 +1,565 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+      "comment" : "Workaround for the divider in FilterForm"
+    },
+    "**%@** — %@" : {
+      "comment" : "Glossary word & definition",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**%1$@** — %2$@"
+          }
+        }
+      }
+    },
+    "**Time:** %d minute(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "**Time:** %d minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "**Time:** %d minutes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%@ %@" : {
+      "comment" : "Nutrient/ingredient amount & units",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%d favorite(s)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@favorites@"
+          },
+          "substitutions" : {
+            "favorites" : {
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%d favorite"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%d favorites"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%d rating(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d rating"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d ratings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%d recipe(s) viewed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@recipes@"
+          },
+          "substitutions" : {
+            "recipes" : {
+              "formatSpecifier" : "d",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%d recipe viewed"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%d recipes viewed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%d serving(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d serving"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d servings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "comment" : "Recipe step number"
+    },
+    "≤ Calories ≤" : {
+
+    },
+    "⌚ Recently Viewed" : {
+
+    },
+    "⭐ Ratings" : {
+
+    },
+    "💖 Favorites" : {
+
+    },
+    "Already have an account?" : {
+
+    },
+    "Apply" : {
+
+    },
+    "Applying condiments... 🧂" : {
+
+    },
+    "Are You Sure?" : {
+
+    },
+    "Average rating: %lf out of 5 stars" : {
+
+    },
+    "Calories" : {
+
+    },
+    "Carbohydrates" : {
+
+    },
+    "Change Email" : {
+
+    },
+    "Change Password" : {
+
+    },
+    "Cheap" : {
+
+    },
+    "Check out this low-effort recipe for %@!" : {
+
+    },
+    "Chef %@" : {
+
+    },
+    "Cholesterol" : {
+
+    },
+    "Chopping onions... 😭" : {
+
+    },
+    "Collapse" : {
+
+    },
+    "Confirm Password" : {
+
+    },
+    "Cuisine" : {
+
+    },
+    "Delete Account" : {
+
+    },
+    "Dicing fruit... 🍎" : {
+
+    },
+    "Didn't receive an email?" : {
+
+    },
+    "Don't have an account?" : {
+
+    },
+    "Done" : {
+
+    },
+    "Drying the meat... 🥩" : {
+
+    },
+    "Email" : {
+
+    },
+    "Email updated successfully! Please sign in again." : {
+
+    },
+    "Email verified successfully!" : {
+
+    },
+    "Equipment" : {
+
+    },
+    "Error" : {
+
+    },
+    "Error: %@ is required" : {
+
+    },
+    "Error: Calories must be ≤ 2000" : {
+
+    },
+    "Error: Invalid email" : {
+
+    },
+    "Error: Max calories cannot exceed min calories" : {
+
+    },
+    "Error: Password must be at least 8 characters long" : {
+
+    },
+    "Error: Passwords do not match" : {
+
+    },
+    "Expand" : {
+
+    },
+    "Fat" : {
+
+    },
+    "Favorite this recipe" : {
+
+    },
+    "Fiber" : {
+
+    },
+    "Filters" : {
+
+    },
+    "Find Me a Recipe!" : {
+
+    },
+    "Fluffing some rice... 🍚" : {
+
+    },
+    "food" : {
+
+    },
+    "Forgot password?" : {
+
+    },
+    "Getting your profile ready… 🧑‍🍳" : {
+
+    },
+    "Glossary" : {
+
+    },
+    "Gluten-Free" : {
+
+    },
+    "Going grocery shopping... 🛒" : {
+
+    },
+    "Health Score: %lld%%" : {
+
+    },
+    "Healthy" : {
+
+    },
+    "Hello, World!" : {
+
+    },
+    "Hide password" : {
+
+    },
+    "Home" : {
+
+    },
+    "I Made This!" : {
+
+    },
+    "Ingredients" : {
+
+    },
+    "kcal" : {
+
+    },
+    "Login" : {
+
+    },
+    "Logout" : {
+
+    },
+    "Mashing the potatoes... 🥔" : {
+
+    },
+    "Meal Type" : {
+
+    },
+    "Melting the butter... 🧈" : {
+
+    },
+    "Mixing things up... 🥘" : {
+
+    },
+    "New Email" : {
+
+    },
+    "New Password" : {
+
+    },
+    "Next" : {
+
+    },
+    "No problem! Enter your email so we can reset your password." : {
+
+    },
+    "No ratings available" : {
+
+    },
+    "No recipe loaded" : {
+
+    },
+    "No recipes found" : {
+
+    },
+    "Nutrition Facts" : {
+
+    },
+    "OK" : {
+
+    },
+    "Open recipe source" : {
+
+    },
+    "Password" : {
+
+    },
+    "Password must be at least 8 characters long" : {
+
+    },
+    "Password updated successfully! Please sign in again." : {
+
+    },
+    "Powered by spoonacular" : {
+
+    },
+    "Preheating the oven... ⏲️" : {
+
+    },
+    "Prepping the ingredients... 🍱" : {
+
+    },
+    "Previous" : {
+
+    },
+    "Profile" : {
+
+    },
+    "Protein" : {
+
+    },
+    "Query" : {
+
+    },
+    "Rate %d star(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Rate %d star"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Rate %d stars"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Recently Viewed" : {
+
+    },
+    "Recipe" : {
+
+    },
+    "Resend" : {
+
+    },
+    "Results" : {
+
+    },
+    "Saturated Fat" : {
+
+    },
+    "Search" : {
+
+    },
+    "Search for recipes by applying filters from the navigation menu." : {
+
+    },
+    "Select a recipe from the navigation menu." : {
+
+    },
+    "Shaking things up... 🍲" : {
+
+    },
+    "Share this recipe" : {
+
+    },
+    "Show Me Another Recipe!" : {
+
+    },
+    "Show password" : {
+
+    },
+    "Sign In" : {
+
+    },
+    "Sign in to view your saved recipes" : {
+
+    },
+    "Sign Up" : {
+
+    },
+    "Signed in successfully!" : {
+
+    },
+    "Signed out successfully!" : {
+
+    },
+    "Signing up for an account is free and gives you great perks, including:\n- Saving your favorite recipes\n- Saving more than 10 recently viewed recipes\n- Rating recipes\n- Syncing recipes across the web and mobile apps" : {
+
+    },
+    "Sodium" : {
+
+    },
+    "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues" : {
+
+    },
+    "Spice Level" : {
+
+    },
+    "Spicing things up... 🌶️" : {
+
+    },
+    "Steaming veggies... 🥗" : {
+
+    },
+    "Steps" : {
+
+    },
+    "Submit" : {
+
+    },
+    "Sugar" : {
+
+    },
+    "Summary" : {
+
+    },
+    "Sustainable" : {
+
+    },
+    "Un-favorite this recipe" : {
+
+    },
+    "unknown recipe" : {
+
+    },
+    "Username" : {
+
+    },
+    "Vegan" : {
+
+    },
+    "Vegetarian" : {
+
+    },
+    "views" : {
+
+    },
+    "We just need to verify your email before you can put on the chef's hat.\nCheck your email for a magic link sent to %@\n\n⚠️ We will delete accounts from our system if they're not verified within 1 week." : {
+
+    },
+    "We sent an email to %@. Follow the instructions to change your email." : {
+
+    },
+    "We sent an email to %@. Follow the instructions to reset your password.\n\nIf you didn't receive an email, you may not have created an account with this email." : {
+
+    },
+    "You must be signed in to rate this recipe" : {
+
+    },
+    "You will lose access to your favorite recipes.\nEnter your username to confirm." : {
+
+    },
+    "You're Almost There!" : {
+
+    },
+    "Your account has been deleted." : {
+
+    },
+    "Your rating: %lld out of 5 stars" : {
+
+    }
+  },
+  "version" : "1.0"
+}

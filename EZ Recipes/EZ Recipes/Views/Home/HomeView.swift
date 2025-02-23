@@ -73,9 +73,8 @@ struct HomeView: View {
                         .opacity(viewModel.isLoading ? 1 : 0)
                     Text(loadingMessage)
                         .opacity(viewModel.isLoading ? 1 : 0)
-                    // TODO: change to the 0-parameter variant if this deprecated modifier is removed (or targeting iOS 17)
-                        .onChange(of: viewModel.isLoading) { isLoading in
-                            if isLoading {
+                        .onChange(of: viewModel.isLoading) {
+                            if viewModel.isLoading {
                                 loadingMessage = defaultLoadingMessage
                             }
                         }

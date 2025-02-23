@@ -23,6 +23,10 @@ struct ContentView: View {
                 .tabItem {
                     Constants.Tabs.glossary
                 }
+            ProfileView()
+                .tabItem {
+                    Constants.Tabs.profile
+                }
         }
     }
 }

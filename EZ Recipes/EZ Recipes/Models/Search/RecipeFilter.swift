@@ -14,6 +14,7 @@ struct RecipeFilter: Encodable {
     var glutenFree: Bool = false
     var healthy: Bool = false
     var cheap: Bool = false
+    var rating: Int?
     var sustainable: Bool = false
     var spiceLevel: Set<String> = []
     var type: Set<String> = []
