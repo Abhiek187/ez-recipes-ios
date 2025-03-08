@@ -5,22 +5,22 @@
 //  Created by Abhishek Chaudhuri on 6/9/24.
 //
 
-import XCTest
+import Testing
 import CoreData
 @testable import EZ_Recipes
 
-final class CoreDataManagerTests: XCTestCase {
+@Suite struct CoreDataManagerTests {
     let coreData = CoreDataManager.preview
     var existingRecipes: [RecentRecipe]!
     
-    override func setUp() {
+    init() {
         existingRecipes = getAllRecentRecipes()
     }
     
     private func getAllRecentRecipes() -> [RecentRecipe] {
         // Get all the recipes that are currently stored in Core Data
         guard let entityName = RecentRecipe.entity().name else {
-            XCTFail("Couldn't get the entity name for RecentRecipe")
+            Issue.record("Couldn't get the entity name for RecentRecipe")
             return []
         }
         let viewContext = coreData.container.viewContext
@@ -29,7 +29,7 @@ final class CoreDataManagerTests: XCTestCase {
         do {
             return try viewContext.fetch(fetchRequest)
         } catch {
-            XCTFail("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
+            Issue.record("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
             return []
         }
     }
@@ -38,7 +38,7 @@ final class CoreDataManagerTests: XCTestCase {
         return Recipe(_id: nil, id: id, name: "", url: nil, image: "", credit: "", sourceUrl: "", healthScore: 0, time: 0, servings: 0, summary: "", types: [], spiceLevel: .none, isVegetarian: false, isVegan: false, isGlutenFree: false, isHealthy: false, isCheap: false, isSustainable: false, culture: [], nutrients: [], ingredients: [], instructions: [])
     }
     
-    func testAddRecentRecipe() {
+    @Test func addRecentRecipe() {
         // Given a new recipe
         let mockRecipe = createMockRecipe(withId: 0)
         
@@ -47,28 +47,26 @@ final class CoreDataManagerTests: XCTestCase {
         let newRecipes = getAllRecentRecipes()
         
         // Then a new entry is saved to the store
-        XCTAssertGreaterThan(newRecipes.count, existingRecipes.count)
-        XCTAssertNotNil(newRecipes.first { $0.id == mockRecipe.id })
+        #expect(newRecipes.count > existingRecipes.count)
+        #expect(newRecipes.first { $0.id == mockRecipe.id } != nil)
     }
     
-    func testTimestampUpdateWithExistingRecipe() {
+    @Test func timestampUpdateWithExistingRecipe() throws {
         // Given a recipe that already exists in Core Data
         let mockRecipe = Constants.Mocks.blueberryYogurt
-        let oldTimestamp = existingRecipes.first { $0.id == mockRecipe.id }?.timestamp
+        let oldTimestamp = try #require(existingRecipes.first { $0.id == mockRecipe.id }?.timestamp)
         
         // When added to the recents store
         coreData.saveRecentRecipe(mockRecipe)
         let newRecipes = getAllRecentRecipes()
         
         // Then only the timestamp is updated
-        XCTAssertEqual(newRecipes.count, existingRecipes.count)
-        let newTimestamp = newRecipes.first { $0.id == mockRecipe.id }?.timestamp
-        XCTAssertNotNil(oldTimestamp)
-        XCTAssertNotNil(newTimestamp)
-        XCTAssertGreaterThan(newTimestamp!, oldTimestamp!)
+        #expect(newRecipes.count == existingRecipes.count)
+        let newTimestamp = try #require(newRecipes.first { $0.id == mockRecipe.id }?.timestamp)
+        #expect(newTimestamp > oldTimestamp)
     }
     
-    func testRecentRecipesDoNotExceedMax() {
+    @Test func recentRecipesDoNotExceedMax() {
         // Given a recents store with the max number of recipes
         let maxRemainingRecipes = Constants.HomeView.maxRecentRecipes - existingRecipes.count
         for id in 0..<maxRemainingRecipes {
@@ -82,7 +80,7 @@ final class CoreDataManagerTests: XCTestCase {
         let newRecipes = getAllRecentRecipes()
         
         // Then the oldest recipe is deleted
-        XCTAssertEqual(newRecipes.count, Constants.HomeView.maxRecentRecipes)
-        XCTAssertNotNil(newRecipes.first { $0.id == mockRecipe.id })
+        #expect(newRecipes.count == Constants.HomeView.maxRecentRecipes)
+        #expect(newRecipes.first { $0.id == mockRecipe.id } != nil)
     }
 }
