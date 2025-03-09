@@ -10,13 +10,13 @@ import OSLog
 
 // MainActor ensures UI changes happen on the main thread
 @MainActor
-class HomeViewModel: ViewModel, ObservableObject {
+@Observable class HomeViewModel: ViewModel {
     // Don't allow the View to make changes to the ViewModel, except for bindings
-    @Published var isLoading = false
-    @Published var isFirstPrompt = true
+    var isLoading = false
+    var isFirstPrompt = true
     
-    @Published var isRecipeLoaded = false
-    @Published private(set) var recipe: Recipe? {
+    var isRecipeLoaded = false
+    private(set) var recipe: Recipe? {
         didSet {
             isRecipeLoaded = recipe != nil
             saveRecentRecipe()
@@ -26,10 +26,10 @@ class HomeViewModel: ViewModel, ObservableObject {
             }
         }
     }
-    @Published var recentRecipes: [RecentRecipe] = []
+    var recentRecipes: [RecentRecipe] = []
     
-    @Published var recipeFailedToLoad = false
-    @Published var recipeError: RecipeError? {
+    var recipeFailedToLoad = false
+    var recipeError: RecipeError? {
         didSet {
             recipeFailedToLoad = recipeError != nil
         }

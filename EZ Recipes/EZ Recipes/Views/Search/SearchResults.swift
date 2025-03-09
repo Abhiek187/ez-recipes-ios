@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchResults: View {
-    @ObservedObject var searchViewModel: SearchViewModel
-    @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    var searchViewModel: SearchViewModel
+    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
     let columns = [
         GridItem(.adaptive(minimum: 350), alignment: .top)

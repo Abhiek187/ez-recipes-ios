@@ -9,8 +9,7 @@ import SwiftUI
 
 @main
 struct EZ_RecipesApp: App {
-    // @ObservedObject/@StateObject/@EnvironmentObject is required to initialize ViewModels on the main thread
-    @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
     var body: some Scene {
         WindowGroup {

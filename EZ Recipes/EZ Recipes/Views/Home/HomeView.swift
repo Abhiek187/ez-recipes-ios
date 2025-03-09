@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @StateObject var viewModel: HomeViewModel
+    @State var viewModel: HomeViewModel
     @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly

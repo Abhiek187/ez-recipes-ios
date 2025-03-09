@@ -16,7 +16,7 @@ struct FilterForm: View {
         case maxCals
     }
     
-    @ObservedObject var viewModel: SearchViewModel
+    @Bindable var viewModel: SearchViewModel
     
     @FocusState private var focusedField: Field?
     @State private var caloriesExceedMax = false

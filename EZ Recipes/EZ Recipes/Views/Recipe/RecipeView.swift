@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct RecipeView: View {
-    // Mark as @ObservedObject when the ViewModel is mutable
-    @ObservedObject var viewModel: HomeViewModel
+    var viewModel: HomeViewModel
     @State var isFavorite = false
     
     @Environment(\.horizontalSizeClass) private var sizeClass

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SubmitButton: View {
-    @ObservedObject var viewModel: SearchViewModel
+    @Bindable var viewModel: SearchViewModel
     
     // Don't take up additional space when hidden
     private let defaultLoadingMessage = ""
