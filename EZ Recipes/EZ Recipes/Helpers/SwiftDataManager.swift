@@ -40,6 +40,10 @@ struct SwiftDataManager {
     var container: ModelContainer? = nil
     
     init(inMemory: Bool = false) {
+        // Part of workaround for RecentRecipe with SwiftData
+        let transformer = SecureValueTransformer()
+        ValueTransformer.setValueTransformer(transformer, forName: NSValueTransformerName("SecureValueTransformer"))
+        
         do {
             let modelConfiguration = inMemory ?
                 // Alternatively, set the URL to /dev/null

@@ -14,8 +14,9 @@ class RecentRecipe {
     @Attribute(.unique) var id: Int
     var timestamp: Date
     // Transformable types can only be arrays or dictionaries
-    // SwiftData automatically transforms attribute using NSSecureUnarchiveFromData
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData")) var recipe: [String: Any]
+    // @Attribute(.transformable(by: NSSecureUnarchiveFromDataTransformer.self)) var recipe: [String: Any]
+    // Temporary workaround to remove all the warnings about NSKeyedUnarchiveFromData
+    @Attribute(.transformable(by: SecureValueTransformer.self)) var recipe: [String: Any]
     
     public init(recipe: Recipe) {
         self.id = recipe.id
