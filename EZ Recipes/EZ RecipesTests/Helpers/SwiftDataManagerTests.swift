@@ -9,7 +9,7 @@ import Testing
 @testable import EZ_Recipes
 
 @MainActor
-@Suite struct SwiftDataManagerTests {
+@Suite(.serialized) struct SwiftDataManagerTests {
     let swiftData = SwiftDataManager.preview
     var existingRecipes: [RecentRecipe]
     
