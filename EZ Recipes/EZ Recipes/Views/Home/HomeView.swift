@@ -7,7 +7,6 @@
 
 import StoreKit
 import SwiftUI
-import SwiftData
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
