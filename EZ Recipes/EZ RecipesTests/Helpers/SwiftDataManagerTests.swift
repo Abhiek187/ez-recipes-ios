@@ -1,37 +1,20 @@
 //
-//  CoreDataManagerTests.swift
+//  SwiftDataManagerTests.swift
 //  EZ RecipesTests
 //
 //  Created by Abhishek Chaudhuri on 6/9/24.
 //
 
 import Testing
-import CoreData
 @testable import EZ_Recipes
 
-@Suite struct CoreDataManagerTests {
-    let coreData = CoreDataManager.preview
-    var existingRecipes: [RecentRecipe]!
+@MainActor
+@Suite struct SwiftDataManagerTests {
+    let swiftData = SwiftDataManager.preview
+    var existingRecipes: [RecentRecipe]
     
     init() {
-        existingRecipes = getAllRecentRecipes()
-    }
-    
-    private func getAllRecentRecipes() -> [RecentRecipe] {
-        // Get all the recipes that are currently stored in Core Data
-        guard let entityName = RecentRecipe.entity().name else {
-            Issue.record("Couldn't get the entity name for RecentRecipe")
-            return []
-        }
-        let viewContext = coreData.container.viewContext
-        let fetchRequest = NSFetchRequest<RecentRecipe>(entityName: entityName)
-        
-        do {
-            return try viewContext.fetch(fetchRequest)
-        } catch {
-            Issue.record("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
-            return []
-        }
+        existingRecipes = swiftData.getAllRecentRecipes()
     }
     
     private func createMockRecipe(withId id: Int) -> Recipe {
@@ -43,8 +26,8 @@ import CoreData
         let mockRecipe = createMockRecipe(withId: 0)
         
         // When added to the recents store
-        coreData.saveRecentRecipe(mockRecipe)
-        let newRecipes = getAllRecentRecipes()
+        swiftData.saveRecentRecipe(mockRecipe)
+        let newRecipes = swiftData.getAllRecentRecipes()
         
         // Then a new entry is saved to the store
         #expect(newRecipes.count > existingRecipes.count)
@@ -52,13 +35,13 @@ import CoreData
     }
     
     @Test func timestampUpdateWithExistingRecipe() throws {
-        // Given a recipe that already exists in Core Data
+        // Given a recipe that already exists in SwiftData
         let mockRecipe = Constants.Mocks.blueberryYogurt
         let oldTimestamp = try #require(existingRecipes.first { $0.id == mockRecipe.id }?.timestamp)
         
         // When added to the recents store
-        coreData.saveRecentRecipe(mockRecipe)
-        let newRecipes = getAllRecentRecipes()
+        swiftData.saveRecentRecipe(mockRecipe)
+        let newRecipes = swiftData.getAllRecentRecipes()
         
         // Then only the timestamp is updated
         #expect(newRecipes.count == existingRecipes.count)
@@ -71,13 +54,13 @@ import CoreData
         let maxRemainingRecipes = Constants.HomeView.maxRecentRecipes - existingRecipes.count
         for id in 0..<maxRemainingRecipes {
             let mockRecipe = createMockRecipe(withId: id)
-            coreData.saveRecentRecipe(mockRecipe)
+            swiftData.saveRecentRecipe(mockRecipe)
         }
         
         // When a new recipe is added to the store
         let mockRecipe = createMockRecipe(withId: maxRemainingRecipes)
-        coreData.saveRecentRecipe(mockRecipe)
-        let newRecipes = getAllRecentRecipes()
+        swiftData.saveRecentRecipe(mockRecipe)
+        let newRecipes = swiftData.getAllRecentRecipes()
         
         // Then the oldest recipe is deleted
         #expect(newRecipes.count == Constants.HomeView.maxRecentRecipes)

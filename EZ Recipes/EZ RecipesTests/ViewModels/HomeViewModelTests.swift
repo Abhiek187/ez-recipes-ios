@@ -6,63 +6,42 @@
 //
 
 import Testing
-import CoreData
+import Foundation
 @testable import EZ_Recipes
 
 private extension HomeViewModel {
-    convenience init(_ coreData: CoreDataManager, isSuccess: Bool = true) {
+    convenience init(_ swiftData: SwiftDataManager, isSuccess: Bool = true) {
         var mockRepo = NetworkManagerMock.shared
         mockRepo.isSuccess = isSuccess
         
-        self.init(repository: mockRepo, coreData: coreData)
+        self.init(repository: mockRepo, swiftData: swiftData)
     }
 }
 
 @MainActor
 @Suite struct HomeViewModelTests {
     private let mockRepo = NetworkManagerMock.shared
-    private let coreData = CoreDataManager.preview
-    
-    private func testRecipeExistsInCoreData(_ recipe: Recipe?) {
-        // Check that the recipe is saved to the recents store
-        guard let recipe else {
-            Issue.record("Recipe can't be nil in Core Data")
-            return
-        }
-        let viewContext = coreData.container.viewContext
-        guard let entityName = RecentRecipe.entity().name else {
-            Issue.record("Couldn't get the entity name for RecentRecipe")
-            return
-        }
-        
-        let fetchRequest = NSFetchRequest<RecentRecipe>(entityName: entityName)
-        fetchRequest.predicate = NSPredicate(format: "%K == %i", #keyPath(RecentRecipe.id), recipe.id)
-        
-        do {
-            let recipeMatches = try viewContext.count(for: fetchRequest)
-            #expect(recipeMatches == 1) // no duplicates allowed
-        } catch {
-            Issue.record("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
-        }
-    }
+    private let swiftData = SwiftDataManager.preview
     
     @Test func setRecipe() {
         // Given a recipe
         let recipe = Constants.Mocks.thaiBasilChicken
         
         // When setRecipe() is called
-        let viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
         viewModel.setRecipe(recipe)
         
         // Then the recipe property should match the given recipe
         #expect(viewModel.recipe == recipe)
         #expect(viewModel.isRecipeLoaded)
-        testRecipeExistsInCoreData(viewModel.recipe)
+        
+        let recentRecipes = viewModel.getAllRecentRecipes()
+        #expect(recentRecipes.map(\.id).contains(recipe.id))
     }
     
     @Test func getRandomRecipeSuccess() async {
         // Given a ViewModel
-        let viewModel = HomeViewModel(coreData)
+        let viewModel = HomeViewModel(swiftData)
         
         // When the getRandomRecipe() method is called
         await viewModel.getRandomRecipe()
@@ -76,7 +55,7 @@ private extension HomeViewModel {
     
     @Test func getRandomRecipeFail() async {
         // Given a ViewModel where API requests fail
-        let viewModel = HomeViewModel(coreData, isSuccess: false)
+        let viewModel = HomeViewModel(swiftData, isSuccess: false)
         
         // When the getRandomRecipe() method is called
         await viewModel.getRandomRecipe()
@@ -90,7 +69,7 @@ private extension HomeViewModel {
     
     @Test func getRecipeByIdSuccess() async {
         // Given a ViewModel
-        let viewModel = HomeViewModel(coreData)
+        let viewModel = HomeViewModel(swiftData)
         
         // When the getRecipe(byId:) method is called
         await viewModel.getRecipe(byId: 1)
@@ -104,7 +83,7 @@ private extension HomeViewModel {
     
     @Test func getRecipeByIdFail() async {
         // Given a ViewModel where API requests fail
-        let viewModel = HomeViewModel(coreData, isSuccess: false)
+        let viewModel = HomeViewModel(swiftData, isSuccess: false)
         
         // When the getRecipe(byId:) method is called
         await viewModel.getRecipe(byId: 1)
@@ -125,7 +104,7 @@ private extension HomeViewModel {
         }
         
         // When handling the URL
-        let viewModel = HomeViewModel(coreData)
+        let viewModel = HomeViewModel(swiftData)
         await viewModel.handleRecipeLink(recipeUrl)
         
         // Then the getRecipe(byId:) method should be called with the recipe ID in the URL
@@ -143,7 +122,7 @@ private extension HomeViewModel {
         }
         
         // When handling the URL
-        let viewModel = HomeViewModel(coreData)
+        let viewModel = HomeViewModel(swiftData)
         await viewModel.handleRecipeLink(recipeUrl)
         
         // Then the getRecipe(byId:) method shouldn't be called
@@ -158,7 +137,7 @@ private extension HomeViewModel {
         }
         
         // When handling the URL
-        let viewModel = HomeViewModel(coreData)
+        let viewModel = HomeViewModel(swiftData)
         await viewModel.handleRecipeLink(recipeUrl)
         
         // Then the getRecipe(byId:) method shouldn't be called

@@ -36,16 +36,16 @@ class HomeViewModel: ViewModel, ObservableObject {
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
     private var repository: RecipeRepository
-    private var coreData = CoreDataManager.shared
+    private var swiftData = SwiftDataManager.shared
     
     // Utilize dependency injection for happy little tests
     required init(repository: RecipeRepository) {
         self.repository = repository
     }
     
-    convenience init(repository: RecipeRepository, coreData: CoreDataManager) {
+    convenience init(repository: RecipeRepository, swiftData: SwiftDataManager) {
         self.init(repository: repository)
-        self.coreData = coreData
+        self.swiftData = swiftData
     }
     
     func setRecipe(_ recipe: Recipe) {
@@ -112,7 +112,11 @@ class HomeViewModel: ViewModel, ObservableObject {
     
     private func saveRecentRecipe() {
         if let recipe {
-            coreData.saveRecentRecipe(recipe)
+            swiftData.saveRecentRecipe(recipe)
         }
+    }
+    
+    func getAllRecentRecipes() -> [RecentRecipe] {
+        return swiftData.getAllRecentRecipes()
     }
 }

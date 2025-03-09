@@ -7,16 +7,12 @@
 
 import StoreKit
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
     @StateObject var viewModel: HomeViewModel
-    
-    // Load all recent recipes from Core Data by timestamp
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \RecentRecipe.timestamp, ascending: false)],
-        animation: .default)
-    private var recentRecipes: FetchedResults<RecentRecipe>
+    @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
@@ -118,6 +114,9 @@ struct HomeView: View {
             HomeSecondaryView()
         }
         .onAppear {
+            // Load all recent recipes from SwiftData by timestamp
+            recentRecipes = viewModel.getAllRecentRecipes()
+            
             // Avoid presenting a review immediately on launch
             if viewModel.isFirstPrompt {
                 viewModel.isFirstPrompt = false
@@ -139,13 +138,11 @@ struct HomeView_Previews: PreviewProvider {
     // Show previews of the HomeView with and without the spinner or an alert box
     static let repoSuccess = NetworkManagerMock.shared
     static var repoFail = NetworkManagerMock.shared
-    static let coreData = CoreDataManager.preview
+    static let swiftData = SwiftDataManager.preview
     
-    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, coreData: coreData)
-    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess, coreData: coreData)
-    static let viewModelWithAlert = HomeViewModel(repository: repoFail, coreData: coreData)
-    
-    static let managedObjectContext = CoreDataManager.preview.container.viewContext
+    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
+    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
+    static let viewModelWithAlert = HomeViewModel(repository: repoFail, swiftData: swiftData)
     
     static var previews: some View {
         viewModelWithLoading.isLoading = true
@@ -154,13 +151,10 @@ struct HomeView_Previews: PreviewProvider {
         return ForEach([1], id: \.self) {_ in
             HomeView(viewModel: viewModelWithoutLoading)
                 .previewDisplayName("No Loading")
-                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithLoading)
                 .previewDisplayName("Loading")
-                .environment(\.managedObjectContext, managedObjectContext)
             HomeView(viewModel: viewModelWithAlert)
                 .previewDisplayName("Alert")
-                .environment(\.managedObjectContext, managedObjectContext)
         }
     }
 }

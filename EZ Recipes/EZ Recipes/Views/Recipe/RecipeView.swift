@@ -97,7 +97,7 @@ struct RecipeView: View {
 
 struct RecipeView_Previews: PreviewProvider {
     static let mockNetworkManager = NetworkManagerMock.shared
-    static let viewModel = HomeViewModel(repository: mockNetworkManager, coreData: CoreDataManager.preview)
+    static let viewModel = HomeViewModel(repository: mockNetworkManager, swiftData: SwiftDataManager.preview)
     
     static var previews: some View {
         NavigationStack {
