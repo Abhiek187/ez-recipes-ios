@@ -26,14 +26,14 @@ struct RecipeView: View {
                     if sizeClass == .compact {
                         RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
                             // When the show another recipe button is tapped, load a new recipe in the same view
-                            viewModel.getRandomRecipe()
+                            await viewModel.getRandomRecipe()
                         }
                         NutritionLabel(recipe: recipe)
                     } else {
                         HStack {
                             Spacer()
                             RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
-                                viewModel.getRandomRecipe()
+                                await viewModel.getRandomRecipe()
                             }
                             Spacer()
                             NutritionLabel(recipe: recipe)
@@ -97,13 +97,14 @@ struct RecipeView: View {
 
 struct RecipeView_Previews: PreviewProvider {
     static let mockNetworkManager = NetworkManagerMock.shared
-    static let viewModel = HomeViewModel(repository: mockNetworkManager, coreData: CoreDataManager.preview)
+    static let viewModel = HomeViewModel(repository: mockNetworkManager, swiftData: SwiftDataManager.preview)
     
     static var previews: some View {
-        viewModel.getRandomRecipe()
-        
-        return NavigationStack {
+        NavigationStack {
             RecipeView(viewModel: viewModel)
+        }
+        .task {
+            await viewModel.getRandomRecipe()
         }
     }
 }

@@ -29,7 +29,7 @@ The app features a glossary to easily look up the meaning of common terms found 
 - iOS app created using SwiftUI and MVVM architecture
 - Responsive and accessible mobile design
 - REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api) and MongoDB
-- Offline data storage using UserDefaults and Core Data
+- Offline data storage using UserDefaults and SwiftData
 - Universal Links to open recipes from the web app to the mobile app
 - Automated testing and deployment using CI/CD pipelines in GitHub Actions and Fastlane
 - Mermaid to write diagrams as code

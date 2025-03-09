@@ -19,9 +19,6 @@ struct SearchView: View {
                 SearchSecondaryView()
             }
         }
-        .onDisappear {
-            viewModel.task?.cancel()
-        }
     }
 }
 

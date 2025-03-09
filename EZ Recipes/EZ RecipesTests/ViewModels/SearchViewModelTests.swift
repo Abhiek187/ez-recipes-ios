@@ -5,71 +5,77 @@
 //  Created by Abhishek Chaudhuri on 2/23/24.
 //
 
-import XCTest
-import Combine
+import Testing
 @testable import EZ_Recipes
 
-final class SearchViewModelTests: XCTestCase {
-    var mockRepo = NetworkManagerMock.shared
-    var viewModel: SearchViewModel!
-    private var cancellable = Set<AnyCancellable>()
+private extension SearchViewModel {
+    convenience init(isSuccess: Bool = true, noResults: Bool = false) {
+        var mockRepo = NetworkManagerMock.shared
+        mockRepo.isSuccess = isSuccess
+        mockRepo.noResults = noResults
+        
+        self.init(repository: mockRepo)
+    }
+}
+
+@MainActor
+@Suite struct SearchViewModelTests {
+    private let mockRepo = NetworkManagerMock.shared
     
-    @MainActor func testSearchRecipesSuccess() {
+    @Test func searchRecipesSuccess() async {
         // Given a ViewModel
-        viewModel = SearchViewModel(repository: mockRepo)
+        let viewModel = SearchViewModel()
         
         // When searchRecipes() is called
+        await viewModel.searchRecipes()
+        
         // Then the recipes property should match the mock response
-        let expectation = XCTestExpectation(description: "Search recipes")
-        
-        viewModel.$recipes.sink { recipes in
-            if recipes == [Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken] {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.searchRecipes()
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipes == mockRepo.mockRecipes)
+        #expect(viewModel.recipeError == nil)
+        #expect(viewModel.isRecipeLoaded)
+        #expect(!viewModel.noRecipesFound)
     }
     
-    @MainActor func testSearchRecipesNoResults() {
+    @Test func searchRecipesWithPagination() async {
         // Given a ViewModel
-        mockRepo.noResults = true
-        viewModel = SearchViewModel(repository: mockRepo)
+        let viewModel = SearchViewModel()
+        
+        // When searchRecipes() is called with pagination
+        await viewModel.searchRecipes()
+        await viewModel.searchRecipes(withPagination: true)
+        
+        // Then the recipes property should be appended to
+        #expect(viewModel.recipes == mockRepo.mockRecipes + mockRepo.mockRecipes)
+        #expect(viewModel.recipeError == nil)
+        #expect(viewModel.isRecipeLoaded)
+        #expect(!viewModel.noRecipesFound)
+    }
+    
+    @Test func searchRecipesNoResults() async {
+        // Given a ViewModel
+        let viewModel = SearchViewModel(noResults: true)
         
         // When searchRecipes() is called with an empty response
+        await viewModel.searchRecipes()
+        
         // Then the recipes property should be empty
-        let expectation = XCTestExpectation(description: "Search recipes")
-        
-        viewModel.$recipes.sink { recipes in
-            if recipes.isEmpty {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.searchRecipes()
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipes.isEmpty)
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.isRecipeLoaded)
+        #expect(viewModel.noRecipesFound)
     }
     
-    @MainActor func testSearchRecipesFail() {
+    @Test func searchRecipesFail() async {
         // Given a ViewModel where API requests fail
-        mockRepo.isSuccess = false
-        viewModel = SearchViewModel(repository: mockRepo)
+        let viewModel = SearchViewModel(isSuccess: false)
         
         // When searchRecipes() is called
+        await viewModel.searchRecipes()
+        
         // Then the recipeError property should match the mock recipe error
-        let expectation = XCTestExpectation(description: "Search recipes")
-        
-        viewModel.$recipeError.sink { recipeError in
-            if recipeError == Constants.Mocks.recipeError {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.searchRecipes()
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipes.isEmpty)
+        #expect(viewModel.recipeError == Constants.Mocks.recipeError)
+        #expect(!viewModel.isRecipeLoaded)
+        #expect(viewModel.noRecipesFound)
     }
 }

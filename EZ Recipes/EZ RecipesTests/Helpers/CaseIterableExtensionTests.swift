@@ -5,83 +5,68 @@
 //  Created by Abhishek Chaudhuri on 2/11/24.
 //
 
-import XCTest
+import Testing
 @testable import EZ_Recipes
 
-final class CaseIterableExtensionTests: XCTestCase {
+@Suite struct CaseIterableExtensionTests {
     enum Suit: CaseIterable {
         case spade, heart, diamond, club
     }
     
-    func testPrevious() {
+    @Test("Get previous value", arguments: [
+        // The first argument's types need to be explicit
+        (Suit.spade, Suit.spade),
+        (.heart, .spade),
+        (.diamond, .heart),
+        (.club, .diamond)
+    ]) func testPrevious(suit: Suit, expectedSuit: Suit) {
         // Given enum values
-        let testCases: [(Suit, Suit)] = [
-            (.spade, .spade),
-            (.heart, .spade),
-            (.diamond, .heart),
-            (.club, .diamond)
-        ]
+        // When calling .previous()
+        let previousSuit = suit.previous()
         
-        for (suit, expectedSuit) in testCases {
-            // When calling .previous()
-            let previousSuit = suit.previous()
-            
-            // Then it should return the previous value (or the same if at the beginning)
-            XCTAssertEqual(previousSuit, expectedSuit, "Expected \(suit)'s previous value to be \(expectedSuit), but got \(previousSuit)")
-        }
+        // Then it should return the previous value (or the same if at the beginning)
+        #expect(previousSuit == expectedSuit)
     }
     
-    func testNext() {
+    @Test("Get next value", arguments: [
+        (Suit.spade, Suit.heart),
+        (.heart, .diamond),
+        (.diamond, .club),
+        (.club, .club)
+    ]) func testNext(suit: Suit, expectedSuit: Suit) {
         // Given enum values
-        let testCases: [(Suit, Suit)] = [
-            (.spade, .heart),
-            (.heart, .diamond),
-            (.diamond, .club),
-            (.club, .club)
-        ]
+        // When calling .next()
+        let nextSuit = suit.next()
         
-        for (suit, expectedSuit) in testCases {
-            // When calling .next()
-            let nextSuit = suit.next()
-            
-            // Then it should return the next value (or the same if at the end)
-            XCTAssertEqual(nextSuit, expectedSuit, "Expected \(suit)'s next value to be \(expectedSuit), but got \(nextSuit)")
-        }
+        // Then it should return the next value (or the same if at the end)
+        #expect(nextSuit == expectedSuit)
     }
     
-    func testIsFirst() {
+    @Test("Is first", arguments: [
+        (Suit.spade, true),
+        (.heart, false),
+        (.diamond, false),
+        (.club, false)
+    ]) func testIsFirst(suit: Suit, expectedValue: Bool) {
         // Given enum values
-        let testCases: [(Suit, Bool)] = [
-            (.spade, true),
-            (.heart, false),
-            (.diamond, false),
-            (.club, false)
-        ]
+        // When calling .isFirst
+        let isFirst = suit.isFirst
         
-        for (suit, expectedValue) in testCases {
-            // When calling .isFirst
-            let isFirst = suit.isFirst
-            
-            // Then it should return true for the enum with the smallest value
-            XCTAssertEqual(isFirst, expectedValue, "Expected \(suit).isFirst to be \(expectedValue), but got \(isFirst)")
-        }
+        // Then it should return true for the enum with the smallest value
+        #expect(isFirst == expectedValue)
     }
     
-    func testIsLast() {
+    @Test("Is last", arguments: [
+        (Suit.spade, false),
+        (.heart, false),
+        (.diamond, false),
+        (.club, true)
+    ]) func testIsLast(suit: Suit, expectedValue: Bool) {
         // Given enum values
-        let testCases: [(Suit, Bool)] = [
-            (.spade, false),
-            (.heart, false),
-            (.diamond, false),
-            (.club, true)
-        ]
+        // When calling .isLast
+        let isLast = suit.isLast
         
-        for (suit, expectedValue) in testCases {
-            // When calling .isLast
-            let isLast = suit.isLast
-            
-            // Then it should return true for the enum with the largest value
-            XCTAssertEqual(isLast, expectedValue, "Expected \(suit).isLast to be \(expectedValue), but got \(isLast)")
-        }
+        // Then it should return true for the enum with the largest value
+        #expect(isLast == expectedValue)
     }
 }

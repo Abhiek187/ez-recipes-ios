@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 class SearchViewModel: ViewModel, ObservableObject {
-    @Published private(set) var task: Task<(), Never>? = nil
     @Published var isLoading = false
     @Published var recipeFilter = RecipeFilter()
     
@@ -26,7 +25,7 @@ class SearchViewModel: ViewModel, ObservableObject {
     @Published var recipeFailedToLoad = false
     @Published private(set) var recipeError: RecipeError? {
         didSet {
-            recipeFailedToLoad = recipeError != nil && task?.isCancelled == false
+            recipeFailedToLoad = recipeError != nil
         }
     }
     
@@ -36,31 +35,29 @@ class SearchViewModel: ViewModel, ObservableObject {
         self.repository = repository
     }
     
-    func searchRecipes(withPagination paginate: Bool = false) {
-        task = Task {
-            noRecipesFound = false
-            recipeFilter.token = paginate ? lastToken : nil
-            
-            isLoading = true
-            let result = await repository.getRecipes(withFilter: recipeFilter)
-            isLoading = false
-            
-            switch result {
-            case .success(let recipes):
-                // Append results if paginating, replace otherwise
-                if paginate {
-                    self.recipes.append(contentsOf: recipes)
-                } else {
-                    self.recipes = recipes
-                }
-                
-                self.recipeError = nil
-                // Prevent subsequent calls if there are no more results
-                lastToken = recipes.last?.token ?? recipes.last?._id
-            case .failure(let recipeError):
-                self.recipes = []
-                self.recipeError = recipeError
+    func searchRecipes(withPagination paginate: Bool = false) async {
+        noRecipesFound = false
+        recipeFilter.token = paginate ? lastToken : nil
+        
+        isLoading = true
+        let result = await repository.getRecipes(withFilter: recipeFilter)
+        isLoading = false
+        
+        switch result {
+        case .success(let recipes):
+            // Append results if paginating, replace otherwise
+            if paginate {
+                self.recipes.append(contentsOf: recipes)
+            } else {
+                self.recipes = recipes
             }
+            
+            self.recipeError = nil
+            // Prevent subsequent calls if there are no more results
+            lastToken = recipes.last?.token ?? recipes.last?._id
+        case .failure(let recipeError):
+            self.recipes = []
+            self.recipeError = recipeError
         }
     }
 }

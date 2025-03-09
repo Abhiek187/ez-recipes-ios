@@ -12,17 +12,16 @@ struct EZ_RecipesApp: App {
     // @ObservedObject/@StateObject/@EnvironmentObject is required to initialize ViewModels on the main thread
     @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
-    let coreData = CoreDataManager.shared
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, coreData.container.viewContext)
                 .onOpenURL { url in
-                    homeViewModel.handleRecipeLink(url)
+                    Task {
+                        await homeViewModel.handleRecipeLink(url)
+                    }
                 }
-                .onAppear {
-                    homeViewModel.checkCachedTerms()
+                .task {
+                    await homeViewModel.checkCachedTerms()
                 }
         }
     }
