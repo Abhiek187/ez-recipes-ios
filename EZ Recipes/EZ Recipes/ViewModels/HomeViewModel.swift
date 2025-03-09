@@ -26,6 +26,7 @@ class HomeViewModel: ViewModel, ObservableObject {
             }
         }
     }
+    @Published var recentRecipes: [RecentRecipe] = []
     
     @Published var recipeFailedToLoad = false
     @Published var recipeError: RecipeError? {
@@ -41,11 +42,13 @@ class HomeViewModel: ViewModel, ObservableObject {
     // Utilize dependency injection for happy little tests
     required init(repository: RecipeRepository) {
         self.repository = repository
+        self.recentRecipes = getAllRecentRecipes()
     }
     
     convenience init(repository: RecipeRepository, swiftData: SwiftDataManager) {
         self.init(repository: repository)
         self.swiftData = swiftData
+        self.recentRecipes = getAllRecentRecipes()
     }
     
     func setRecipe(_ recipe: Recipe) {
@@ -113,6 +116,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     private func saveRecentRecipe() {
         if let recipe {
             swiftData.saveRecentRecipe(recipe)
+            recentRecipes = getAllRecentRecipes()
         }
     }
     

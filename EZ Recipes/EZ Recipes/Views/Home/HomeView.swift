@@ -81,13 +81,13 @@ struct HomeView: View {
                         }
                     
                     // Recently viewed recipes
-                    if recentRecipes.count > 0 {
+                    if viewModel.recentRecipes.count > 0 {
                         Text(Constants.HomeView.recentlyViewed)
                             .font(.title)
                         Divider()
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach(recentRecipes, id: \.id) { recentRecipe in
+                                ForEach(viewModel.recentRecipes, id: \.id) { recentRecipe in
                                     if let recipe: Recipe = recentRecipe.recipe.decode() {
                                         RecipeCard(recipe: recipe)
                                             .frame(width: 350)
@@ -114,9 +114,6 @@ struct HomeView: View {
             HomeSecondaryView()
         }
         .onAppear {
-            // Load all recent recipes from SwiftData by timestamp
-            recentRecipes = viewModel.getAllRecentRecipes()
-            
             // Avoid presenting a review immediately on launch
             if viewModel.isFirstPrompt {
                 viewModel.isFirstPrompt = false
