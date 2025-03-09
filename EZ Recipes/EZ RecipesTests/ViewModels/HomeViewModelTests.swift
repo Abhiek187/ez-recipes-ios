@@ -5,26 +5,33 @@
 //  Created by Abhishek Chaudhuri on 10/30/22.
 //
 
-import XCTest
-import Combine
+import Testing
 import CoreData
 @testable import EZ_Recipes
 
-final class HomeViewModelTests: XCTestCase {
-    var mockRepo = NetworkManagerMock.shared
-    var viewModel: HomeViewModel!
-    private var cancellable = Set<AnyCancellable>()
+private extension HomeViewModel {
+    convenience init(_ coreData: CoreDataManager, isSuccess: Bool = true) {
+        var mockRepo = NetworkManagerMock.shared
+        mockRepo.isSuccess = isSuccess
+        
+        self.init(repository: mockRepo, coreData: coreData)
+    }
+}
+
+@MainActor
+@Suite struct HomeViewModelTests {
+    private let mockRepo = NetworkManagerMock.shared
     private let coreData = CoreDataManager.preview
     
     private func testRecipeExistsInCoreData(_ recipe: Recipe?) {
         // Check that the recipe is saved to the recents store
         guard let recipe else {
-            XCTFail("Recipe can't be nil in Core Data")
+            Issue.record("Recipe can't be nil in Core Data")
             return
         }
         let viewContext = coreData.container.viewContext
         guard let entityName = RecentRecipe.entity().name else {
-            XCTFail("Couldn't get the entity name for RecentRecipe")
+            Issue.record("Couldn't get the entity name for RecentRecipe")
             return
         }
         
@@ -33,175 +40,128 @@ final class HomeViewModelTests: XCTestCase {
         
         do {
             let recipeMatches = try viewContext.count(for: fetchRequest)
-            XCTAssert(recipeMatches == 1) // no duplicates allowed
+            #expect(recipeMatches == 1) // no duplicates allowed
         } catch {
-            XCTFail("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
+            Issue.record("Couldn't fetch recipe from Core Data :: error: \(error.localizedDescription)")
         }
     }
     
-    @MainActor func testSetRecipe() {
+    @Test func setRecipe() {
         // Given a recipe
         let recipe = Constants.Mocks.thaiBasilChicken
         
         // When setRecipe() is called
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
         viewModel.setRecipe(recipe)
         
         // Then the recipe property should match the given recipe
-        XCTAssertEqual(viewModel.recipe, recipe)
-        XCTAssertEqual(viewModel.isRecipeLoaded, true)
+        #expect(viewModel.recipe == recipe)
+        #expect(viewModel.isRecipeLoaded)
         testRecipeExistsInCoreData(viewModel.recipe)
     }
     
-    @MainActor func testGetRandomRecipeSuccess() {
+    @Test func getRandomRecipeSuccess() async {
         // Given a ViewModel
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData)
         
         // When the getRandomRecipe() method is called
+        await viewModel.getRandomRecipe()
+        
         // Then the recipe property should match the mock recipe
-        let expectation = XCTestExpectation(description: "Fetch a random recipe")
-        
-        // Observe when the recipe property changes and fulfill the expectation if it's set to the mock recipe
-        viewModel.$recipe.sink { recipe in
-            if recipe == Constants.Mocks.chocolateCupcake {
-                self.testRecipeExistsInCoreData(recipe)
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable) // automatically deallocate the subscription once the sink finishes
-        
-        viewModel.getRandomRecipe()
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == mockRepo.mockRecipes[1])
+        #expect(viewModel.recipeError == nil)
+        #expect(viewModel.isRecipeLoaded)
+        #expect(!viewModel.recipeFailedToLoad)
     }
     
-    @MainActor func testGetRandomRecipeFail() {
+    @Test func getRandomRecipeFail() async {
         // Given a ViewModel where API requests fail
-        mockRepo.isSuccess = false
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData, isSuccess: false)
         
         // When the getRandomRecipe() method is called
+        await viewModel.getRandomRecipe()
+        
         // Then the recipeError property should match the mock recipe error and recipe should be nil
-        let expectation = XCTestExpectation(description: "Fetch a random recipe")
-        
-        viewModel.$recipeError.sink { recipeError in
-            if recipeError == Constants.Mocks.recipeError {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable) // automatically deallocate the subscription once the sink finishes
-        
-        viewModel.getRandomRecipe()
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == nil)
+        #expect(viewModel.recipeError == Constants.Mocks.recipeError)
+        #expect(!viewModel.isRecipeLoaded)
+        #expect(viewModel.recipeFailedToLoad)
     }
     
-    @MainActor func testGetRecipeByIdSuccess() {
+    @Test func getRecipeByIdSuccess() async {
         // Given a ViewModel
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData)
         
         // When the getRecipe(byId:) method is called
+        await viewModel.getRecipe(byId: 1)
+        
         // Then the recipe property should match the mock recipe and recipeError should be nil
-        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
-        
-        viewModel.$recipe.sink { recipe in
-            if recipe == Constants.Mocks.chocolateCupcake {
-                self.testRecipeExistsInCoreData(recipe)
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.getRecipe(byId: 1)
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == mockRepo.mockRecipes[1])
+        #expect(viewModel.recipeError == nil)
+        #expect(viewModel.isRecipeLoaded)
+        #expect(!viewModel.recipeFailedToLoad)
     }
     
-    @MainActor func testGetRecipeByIdFail() {
+    @Test func getRecipeByIdFail() async {
         // Given a ViewModel where API requests fail
-        mockRepo.isSuccess = false
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData, isSuccess: false)
         
         // When the getRecipe(byId:) method is called
+        await viewModel.getRecipe(byId: 1)
+        
         // Then the recipeError property should match the mock recipe error and recipe should be nil
-        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
-        
-        viewModel.$recipeError.sink { recipeError in
-            if recipeError == Constants.Mocks.recipeError {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable) // automatically deallocate the subscription once the sink finishes
-        
-        viewModel.getRecipe(byId: 1)
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == nil)
+        #expect(viewModel.recipeError == Constants.Mocks.recipeError)
+        #expect(!viewModel.isRecipeLoaded)
+        #expect(viewModel.recipeFailedToLoad)
     }
     
-    @MainActor func testHandleRecipeLinkSuccess() {
+    @Test func handleRecipeLinkSuccess() async {
         // Given a universal link from the web app
         let recipeId = 644783
         guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)") else {
-            XCTFail("The test URL is invalid")
+            Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData)
+        await viewModel.handleRecipeLink(recipeUrl)
+        
         // Then the getRecipe(byId:) method should be called with the recipe ID in the URL
-        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
-        
-        viewModel.$recipe.sink { recipe in
-            if recipe?.id == recipeId {
-                self.testRecipeExistsInCoreData(recipe)
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.handleRecipeLink(recipeUrl)
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe?.id == recipeId)
+        #expect(viewModel.recipeError == nil)
+        #expect(viewModel.isRecipeLoaded)
+        #expect(!viewModel.recipeFailedToLoad)
     }
     
-    @MainActor func testHandleRecipeLinkFailEmptyPath() {
+    @Test func handleRecipeLinkFailEmptyPath() async {
         // Given a universal link from the web app with an empty path
         guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com") else {
-            XCTFail("The test URL is invalid")
+            Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData)
+        await viewModel.handleRecipeLink(recipeUrl)
+        
         // Then the getRecipe(byId:) method shouldn't be called
-        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
-        
-        viewModel.$recipe.sink { recipe in
-            if recipe == nil {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.handleRecipeLink(recipeUrl)
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == nil)
     }
     
-    @MainActor func testHandleRecipeLinkFailInvalidRecipePath() {
+    @Test func handleRecipeLinkFailInvalidRecipePath() async {
         // Given a universal link from the web app with an invalid recipe path
         guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/-1") else {
-            XCTFail("The test URL is invalid")
+            Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
-        viewModel = HomeViewModel(repository: mockRepo, coreData: coreData)
+        let viewModel = HomeViewModel(coreData)
+        await viewModel.handleRecipeLink(recipeUrl)
+        
         // Then the getRecipe(byId:) method shouldn't be called
-        let expectation = XCTestExpectation(description: "Fetch a recipe by its ID")
-        
-        viewModel.$recipe.sink { recipe in
-            if recipe == nil {
-                expectation.fulfill()
-            }
-        }
-        .store(in: &cancellable)
-        
-        viewModel.handleRecipeLink(recipeUrl)
-        wait(for: [expectation], timeout: 1)
+        #expect(viewModel.recipe == nil)
     }
 }

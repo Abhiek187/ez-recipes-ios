@@ -27,7 +27,7 @@ private extension Button {
 struct RecipeHeader: View {
     var recipe: Recipe
     var isLoading: Bool
-    var onFindRecipeButtonTapped: () -> Void // callback to pass to the parent View
+    var onFindRecipeButtonTapped: () async -> Void // callback to pass to the parent View
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -83,7 +83,9 @@ struct RecipeHeader: View {
                     .tint(.red)
                     
                     Button {
-                        onFindRecipeButtonTapped()
+                        Task {
+                            await onFindRecipeButtonTapped()
+                        }
                     } label: {
                         Label(Constants.RecipeView.showRecipeButton, systemImage: "text.book.closed")
                     }

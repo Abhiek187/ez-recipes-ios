@@ -19,10 +19,12 @@ struct EZ_RecipesApp: App {
             ContentView()
                 .environment(\.managedObjectContext, coreData.container.viewContext)
                 .onOpenURL { url in
-                    homeViewModel.handleRecipeLink(url)
+                    Task {
+                        await homeViewModel.handleRecipeLink(url)
+                    }
                 }
-                .onAppear {
-                    homeViewModel.checkCachedTerms()
+                .task {
+                    await homeViewModel.checkCachedTerms()
                 }
         }
     }

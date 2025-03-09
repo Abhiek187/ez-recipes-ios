@@ -12,7 +12,6 @@ import OSLog
 @MainActor
 class HomeViewModel: ViewModel, ObservableObject {
     // Don't allow the View to make changes to the ViewModel, except for bindings
-    @Published private(set) var task: Task<(), Never>? = nil
     @Published var isLoading = false
     @Published var isFirstPrompt = true
     
@@ -31,8 +30,7 @@ class HomeViewModel: ViewModel, ObservableObject {
     @Published var recipeFailedToLoad = false
     @Published var recipeError: RecipeError? {
         didSet {
-            // Don't show an alert if the request was intentionally cancelled
-            recipeFailedToLoad = recipeError != nil && task?.isCancelled == false
+            recipeFailedToLoad = recipeError != nil
         }
     }
     
@@ -66,27 +64,23 @@ class HomeViewModel: ViewModel, ObservableObject {
         }
     }
     
-    func getRandomRecipe() {
-        task = Task {
-            isLoading = true
-            let result = await repository.getRandomRecipe()
-            isLoading = false
-            
-            updateRecipeProps(from: result)
-        }
+    func getRandomRecipe() async {
+        isLoading = true
+        let result = await repository.getRandomRecipe()
+        isLoading = false
+        
+        updateRecipeProps(from: result)
     }
     
-    func getRecipe(byId id: Int) {
-        task = Task {
-            isLoading = true
-            let result = await repository.getRecipe(byId: id)
-            isLoading = false
-            
-            updateRecipeProps(from: result)
-        }
+    func getRecipe(byId id: Int) async {
+        isLoading = true
+        let result = await repository.getRecipe(byId: id)
+        isLoading = false
+        
+        updateRecipeProps(from: result)
     }
     
-    func handleRecipeLink(_ url: URL) {
+    func handleRecipeLink(_ url: URL) async {
         // Check if the universal link is in the format: /recipe/RECIPE_ID
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
@@ -98,23 +92,21 @@ class HomeViewModel: ViewModel, ObservableObject {
         guard let recipeId = Int(recipeIdString) else { return }
         
         // Open RecipeView with the specified recipe ID
-        getRecipe(byId: recipeId)
+        await getRecipe(byId: recipeId)
     }
     
-    func checkCachedTerms() {
+    func checkCachedTerms() async {
         // Check if terms need to be cached
         if UserDefaultsManager.getTerms() != nil { return }
         
         // The API can continue running in the background
-        Task {
-            let result = await repository.getTerms()
-            
-            switch result {
-            case .success(let terms):
-                UserDefaultsManager.saveTerms(terms: terms)
-            case .failure(let recipeError):
-                logger.warning("Failed to get terms :: error: \(recipeError.localizedDescription)")
-            }
+        let result = await repository.getTerms()
+        
+        switch result {
+        case .success(let terms):
+            UserDefaultsManager.saveTerms(terms: terms)
+        case .failure(let recipeError):
+            logger.warning("Failed to get terms :: error: \(recipeError.localizedDescription)")
         }
     }
     

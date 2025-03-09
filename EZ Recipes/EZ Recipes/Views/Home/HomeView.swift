@@ -48,7 +48,9 @@ struct HomeView: View {
             ScrollView {
                 VStack {
                     Button {
-                        viewModel.getRandomRecipe()
+                        Task {
+                            await viewModel.getRandomRecipe()
+                        }
                     } label: {
                         Text(Constants.HomeView.findRecipeButton)
                             .foregroundStyle(viewModel.isLoading ? Color.primary : .black)
@@ -129,10 +131,6 @@ struct HomeView: View {
                 
                 lastVersionPromptedForReview = currentAppVersion
             }
-        }
-        .onDisappear {
-            // Stop any network calls when switching tabs
-            viewModel.task?.cancel()
         }
     }
 }

@@ -19,7 +19,9 @@ struct SubmitButton: View {
         VStack {
             HStack {
                 Button(Constants.SearchView.applyButton) {
-                    viewModel.searchRecipes()
+                    Task {
+                        await viewModel.searchRecipes()
+                    }
                 }
                 .disabled(viewModel.isLoading)
                 .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {

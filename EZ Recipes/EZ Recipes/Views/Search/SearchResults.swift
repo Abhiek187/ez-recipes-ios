@@ -34,10 +34,10 @@ struct SearchResults: View {
                 // https://stackoverflow.com/a/68682309
                 Color.clear
                     .frame(width: 0, height: 0, alignment: .bottom)
-                    .onAppear {
+                    .task {
                         // Prevent multiple requests from running at once
                         if searchViewModel.lastToken != nil && !searchViewModel.isLoading {
-                            searchViewModel.searchRecipes(withPagination: true)
+                            await searchViewModel.searchRecipes(withPagination: true)
                         }
                     }
             }
@@ -58,10 +58,11 @@ struct SearchResults_Previews: PreviewProvider {
     static let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
     
     static var previews: some View {
-        searchViewModel.searchRecipes()
-        
-        return NavigationStack {
+        NavigationStack {
             SearchResults(searchViewModel: searchViewModel)
+        }
+        .task {
+            await searchViewModel.searchRecipes()
         }
     }
 }
