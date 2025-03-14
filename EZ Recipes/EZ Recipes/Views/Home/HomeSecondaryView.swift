@@ -13,8 +13,6 @@ struct HomeSecondaryView: View {
     }
 }
 
-struct HomeSecondaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeSecondaryView()
-    }
+#Preview {
+    HomeSecondaryView()
 }

@@ -38,8 +38,6 @@ struct InstructionsList: View {
     }
 }
 
-struct InstructionsList_Previews: PreviewProvider {
-    static var previews: some View {
-        InstructionsList(instructions: Constants.Mocks.blueberryYogurt.instructions)
-    }
+#Preview {
+    InstructionsList(instructions: Constants.Mocks.blueberryYogurt.instructions)
 }

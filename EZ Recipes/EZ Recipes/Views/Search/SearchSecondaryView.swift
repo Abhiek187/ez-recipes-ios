@@ -13,8 +13,6 @@ struct SearchSecondaryView: View {
     }
 }
 
-struct SearchSecondaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchSecondaryView()
-    }
+#Preview {
+    SearchSecondaryView()
 }

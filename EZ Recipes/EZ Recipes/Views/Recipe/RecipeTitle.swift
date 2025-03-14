@@ -27,8 +27,6 @@ struct RecipeTitle: View {
     }
 }
 
-struct RecipeTitle_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeTitle(recipe: Constants.Mocks.blueberryYogurt)
-    }
+#Preview {
+    RecipeTitle(recipe: Constants.Mocks.blueberryYogurt)
 }

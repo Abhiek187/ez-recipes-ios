@@ -103,12 +103,10 @@ struct RecipeHeader: View {
     }
 }
 
-struct RecipeHeader_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
-            .previewDisplayName("No Loading")
-        
-        RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: true) {}
-            .previewDisplayName("Loading")
-    }
+#Preview("No Loading") {
+    RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
+}
+
+#Preview("Loading") {
+    RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: true) {}
 }

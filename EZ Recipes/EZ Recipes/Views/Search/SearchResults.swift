@@ -54,15 +54,13 @@ struct SearchResults: View {
     }
 }
 
-struct SearchResults_Previews: PreviewProvider {
-    static let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
+#Preview {
+    let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
     
-    static var previews: some View {
-        NavigationStack {
-            SearchResults(searchViewModel: searchViewModel)
-        }
-        .task {
-            await searchViewModel.searchRecipes()
-        }
+    return NavigationStack {
+        SearchResults(searchViewModel: searchViewModel)
+    }
+    .task {
+        await searchViewModel.searchRecipes()
     }
 }

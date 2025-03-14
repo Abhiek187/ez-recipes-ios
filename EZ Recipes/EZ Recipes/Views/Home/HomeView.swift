@@ -130,27 +130,29 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    // Show previews of the HomeView with and without the spinner or an alert box
-    static let repoSuccess = NetworkManagerMock.shared
-    static var repoFail = NetworkManagerMock.shared
-    static let swiftData = SwiftDataManager.preview
+// Show previews of the HomeView with and without the spinner or an alert box
+#Preview("No Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
     
-    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    static let viewModelWithAlert = HomeViewModel(repository: repoFail, swiftData: swiftData)
+    return HomeView(viewModel: viewModelWithoutLoading)
+}
+
+#Preview("Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
+    viewModelWithLoading.isLoading = true
     
-    static var previews: some View {
-        viewModelWithLoading.isLoading = true
-        repoFail.isSuccess = false
-        
-        return ForEach([1], id: \.self) {_ in
-            HomeView(viewModel: viewModelWithoutLoading)
-                .previewDisplayName("No Loading")
-            HomeView(viewModel: viewModelWithLoading)
-                .previewDisplayName("Loading")
-            HomeView(viewModel: viewModelWithAlert)
-                .previewDisplayName("Alert")
-        }
-    }
+    return HomeView(viewModel: viewModelWithLoading)
+}
+
+#Preview("Alert") {
+    var repoFail = NetworkManagerMock.shared
+    repoFail.isSuccess = false
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithAlert = HomeViewModel(repository: repoFail, swiftData: swiftData)
+    
+    return HomeView(viewModel: viewModelWithAlert)
 }

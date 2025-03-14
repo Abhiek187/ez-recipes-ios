@@ -45,8 +45,6 @@ struct NutritionLabel: View {
     }
 }
 
-struct NutritionLabel_Previews: PreviewProvider {
-    static var previews: some View {
-        NutritionLabel(recipe: Constants.Mocks.blueberryYogurt)
-    }
+#Preview {
+    NutritionLabel(recipe: Constants.Mocks.blueberryYogurt)
 }

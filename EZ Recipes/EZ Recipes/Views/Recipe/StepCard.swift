@@ -84,8 +84,6 @@ struct StepCard: View {
     }
 }
 
-struct StepCard_Previews: PreviewProvider {
-    static var previews: some View {
-        StepCard(step: Constants.Mocks.blueberryYogurt.instructions[0].steps[0])
-    }
+#Preview {
+    StepCard(step: Constants.Mocks.blueberryYogurt.instructions[0].steps[0])
 }
