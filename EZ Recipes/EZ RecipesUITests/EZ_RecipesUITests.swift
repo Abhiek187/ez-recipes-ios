@@ -201,6 +201,13 @@ class EZ_RecipesUITests: XCTestCase {
         maxCaloriesTextField.typeText("80")
         XCTAssert(previousButton.isEnabled, "Error line \(#line): The previous button isn't enabled")
         XCTAssertFalse(nextButton.isEnabled, "Error line \(#line): The next button isn't disabled")
+        
+        // The keyboard settings button can get in the way of the done button on iPads
+        let keyboardButton = app.buttons["Keyboard"] // aka: SystemInputAssistantView
+        if !doneButton.isHittable && keyboardButton.exists {
+            keyboardButton.tap()
+            collectionViewsQuery.buttons["Show Keyboard"].tap()
+        }
         doneButton.tap()
         
         let calorieRangeError = collectionViewsQuery.staticTexts["Error: Max calories cannot exceed min calories"]
