@@ -12,5 +12,5 @@ protocol RecipeRepository: Sendable {
     func getRecipes(withFilter filter: RecipeFilter) async -> Result<[Recipe], RecipeError>
     func getRandomRecipe() async -> Result<Recipe, RecipeError>
     func getRecipe(byId id: Int) async -> Result<Recipe, RecipeError>
-    func getTerms() async -> Result<[Term], RecipeError>
+    func updateRecipe(withId id: Int, fields: RecipeUpdate, token: String?) async -> Result<Token, RecipeError>
 }

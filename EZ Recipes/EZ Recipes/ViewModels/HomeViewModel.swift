@@ -36,16 +36,16 @@ import OSLog
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
-    private var repository: RecipeRepository
+    private var repository: RecipeRepository & TermRepository
     private var swiftData = SwiftDataManager.shared
     
     // Utilize dependency injection for happy little tests
-    required init(repository: RecipeRepository) {
+    required init(repository: RecipeRepository & TermRepository) {
         self.repository = repository
         self.recentRecipes = getAllRecentRecipes()
     }
     
-    convenience init(repository: RecipeRepository, swiftData: SwiftDataManager) {
+    convenience init(repository: RecipeRepository & TermRepository, swiftData: SwiftDataManager) {
         self.init(repository: repository)
         self.swiftData = swiftData
         self.recentRecipes = getAllRecentRecipes()
