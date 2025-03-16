@@ -219,6 +219,7 @@ struct Constants {
         }
         
         static let profileLoading = String(localized: "Getting your profile ready… 🧑‍🍳")
+        static let profileTitle = String(localized: "Profile")
         static let profileHeader: @Sendable (String) -> String = { name in
             String(localized: "Chef \(name)")
         }
@@ -230,10 +231,11 @@ struct Constants {
         }
         @MainActor static let loginMessage = LocalizedStringKey("""
         Signing up for an account is free and gives you great perks, including:
-        - Saving your favorite recipes
-        - Saving more than 10 recently viewed recipes
-        - Rating recipes
-        - Syncing recipes across the web and mobile apps
+        
+        • Saving your favorite recipes
+        • Saving more than 10 recently viewed recipes
+        • Rating recipes
+        • Syncing recipes across the web and mobile apps
         """)
         static let login = String(localized: "Login")
         static let logout = String(localized: "Logout")
