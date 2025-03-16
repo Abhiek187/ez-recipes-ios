@@ -83,19 +83,37 @@ import OSLog
         updateRecipeProps(from: result)
     }
     
-    func handleRecipeLink(_ url: URL) async {
-        // Check if the universal link is in the format: /recipe/RECIPE_ID
+    func handleDeepLink(_ url: URL) async {
+        // Check if the universal link is in the format: /recipe/RECIPE_ID or /profile
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
         let path = components.path
         let recipeUrlRegex = /\/recipe\/\d+/
-        guard path.contains(recipeUrlRegex) else { return }
+        let profileUrlRegex = /\/profile/
         
-        let recipeIdString = path.components(separatedBy: "/")[2]
-        guard let recipeId = Int(recipeIdString) else { return }
-        
-        // Open RecipeView with the specified recipe ID
-        await getRecipe(byId: recipeId)
+        if path.contains(recipeUrlRegex) {
+            let recipeIdString = path.components(separatedBy: "/")[2]
+            guard let recipeId = Int(recipeIdString) else { return }
+            
+            // Open RecipeView with the specified recipe ID
+            await getRecipe(byId: recipeId)
+        } else if path.contains(profileUrlRegex) {
+            guard let action = components.queryItems?.first(where: { $0.name == "action" })?.value,
+                  let profileAction = Constants.ProfileView.Actions(rawValue: action) else {
+                logger.warning("Invalid universal profile link: \(path)")
+                return
+            }
+            
+            // Open ProfileView with the appropriate confirmation message
+            switch profileAction {
+            case .verifyEmail:
+                logger.info("\(Constants.ProfileView.emailVerifySuccess)")
+            case .changeEmail:
+                logger.info("\(Constants.ProfileView.changeEmailSuccess)")
+            case .resetPassword:
+                logger.info("\(Constants.ProfileView.changePasswordSuccess)")
+            }
+        }
     }
     
     func checkCachedTerms() async {

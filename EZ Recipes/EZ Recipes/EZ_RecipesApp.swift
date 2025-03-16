@@ -17,7 +17,7 @@ struct EZ_RecipesApp: App {
                 .onOpenURL { url in
                     // Verify Universal Links configuration: https://app-site-association.cdn-apple.com/a/v1/ez-recipes-web.onrender.com
                     Task {
-                        await homeViewModel.handleRecipeLink(url)
+                        await homeViewModel.handleDeepLink(url)
                     }
                 }
                 .task {
