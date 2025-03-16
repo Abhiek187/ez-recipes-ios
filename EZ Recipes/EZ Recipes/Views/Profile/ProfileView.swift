@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State var authState: AuthState = .unauthenticated
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            Group {
+                switch authState {
+                case .authenticated:
+                    ProfileLoggedIn()
+                case .unauthenticated:
+                    ProfileLoggedOut()
+                case .loading:
+                    VStack {
+                        ProgressView()
+                        Text(Constants.ProfileView.profileLoading)
+                    }
+                }
+            }
+            .navigationTitle(Constants.ProfileView.profileTitle)
+        }
     }
 }
 
-#Preview {
-    ProfileView()
+#Preview("Logged Out") {
+    ProfileView(authState: .unauthenticated)
+}
+
+#Preview("Logged In") {
+    ProfileView(authState: .authenticated)
+}
+
+#Preview("Loading") {
+    ProfileView(authState: .loading)
 }

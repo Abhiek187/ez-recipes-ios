@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SubmitButton: View {
-    @ObservedObject var viewModel: SearchViewModel
+    @Bindable var viewModel: SearchViewModel
     
     // Don't take up additional space when hidden
     private let defaultLoadingMessage = ""
@@ -52,28 +52,28 @@ struct SubmitButton: View {
     }
 }
 
-struct SubmitButton_Previews: PreviewProvider {
-    static let repoSuccess = NetworkManagerMock.shared
-    static var repoFail = NetworkManagerMock.shared
+#Preview("No Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let viewModelWithoutLoading = SearchViewModel(repository: repoSuccess)
     
-    static let viewModelWithoutLoading = SearchViewModel(repository: repoSuccess)
-    static let viewModelWithLoading = SearchViewModel(repository: repoSuccess)
-    static let viewModelWithAlert = SearchViewModel(repository: repoFail)
+    return SubmitButton(viewModel: viewModelWithoutLoading)
+        .padding()
+}
+
+#Preview("Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let viewModelWithLoading = SearchViewModel(repository: repoSuccess)
+    viewModelWithLoading.isLoading = true
     
-    static var previews: some View {
-        viewModelWithLoading.isLoading = true
-        repoFail.isSuccess = false
-        
-        return ForEach([1], id: \.self) { _ in
-            SubmitButton(viewModel: viewModelWithoutLoading)
-                .previewDisplayName("No Loading")
-                .padding()
-            SubmitButton(viewModel: viewModelWithLoading)
-                .previewDisplayName("Loading")
-                .padding()
-            SubmitButton(viewModel: viewModelWithAlert)
-                .previewDisplayName("Alert")
-                .padding()
-        }
-    }
+    return SubmitButton(viewModel: viewModelWithLoading)
+        .padding()
+}
+
+#Preview("Alert") {
+    var repoFail = NetworkManagerMock.shared
+    repoFail.isSuccess = false
+    let viewModelWithAlert = SearchViewModel(repository: repoFail)
+    
+    return SubmitButton(viewModel: viewModelWithAlert)
+        .padding()
 }

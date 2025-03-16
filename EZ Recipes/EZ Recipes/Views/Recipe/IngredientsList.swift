@@ -29,8 +29,6 @@ struct IngredientsList: View {
     }
 }
 
-struct IngredientsList_Previews: PreviewProvider {
-    static var previews: some View {
-        IngredientsList(ingredients: Constants.Mocks.blueberryYogurt.ingredients)
-    }
+#Preview {
+    IngredientsList(ingredients: Constants.Mocks.blueberryYogurt.ingredients)
 }

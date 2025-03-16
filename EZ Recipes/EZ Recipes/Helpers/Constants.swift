@@ -38,10 +38,12 @@ struct Constants {
     
     // APIs
     static let serverBaseUrl = "https://ez-recipes-server.onrender.com"
-    static let recipesPath = "/api/recipes"
-    static let termsPath = "/api/terms"
-    static let chefsPath = "/api/chefs"
+    static let baseRecipesPath = serverBaseUrl + "/api/recipes"
+    static let baseTermsPath = serverBaseUrl + "/api/terms"
+    static let baseChefsPath = serverBaseUrl + "/api/chefs"
     static let emailCooldownSeconds = 30
+    
+    static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
     
     struct Mocks {
         // Normal, no culture
@@ -54,6 +56,7 @@ struct Constants {
         static let thaiBasilChicken = Recipe(_id: "65bb6a8de939d8f4eba23cf0", id: 663074, name: "Thai Basil Chicken With Green Curry", url: "https://spoonacular.com/thai-basil-chicken-with-green-curry-663074", image: "https://spoonacular.com/recipeImages/663074-312x231.jpg", credit: "Foodista.com – The Cooking Encyclopedia Everyone Can Edit", sourceUrl: "https://www.foodista.com/recipe/7LQHVHF2/thai-basil-chicken-with-green-curry", healthScore: 20, time: 45, servings: 4, summary: "Thai Basil Chicken With Green Curry might be just the main course you are searching for. This gluten free and dairy free recipe serves 4 and costs <b>$2.5 per serving</b>. One portion of this dish contains around <b>28g of protein</b>, <b>34g of fat</b>, and a total of <b>491 calories</b>. Only a few people made this recipe, and 1 would say it hit the spot. A mixture of chicken stock, fish sauce, curry paste, and a handful of other ingredients are all it takes to make this recipe so scrumptious. From preparation to the plate, this recipe takes roughly <b>45 minutes</b>. It is an <b>affordable</b> recipe for fans of Indian food. It is brought to you by Foodista. Taking all factors into account, this recipe <b>earns a spoonacular score of 60%</b>, which is good. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/thai-basil-chicken-with-green-curry-1522541\">Thai Basil Chicken With Green Curry</a>, <a href=\"https://spoonacular.com/recipes/thai-basil-chicken-with-green-curry-1531093\">Thai Basil Chicken With Green Curry</a>, and <a href=\"https://spoonacular.com/recipes/homemade-thai-green-curry-paste-and-an-easy-thai-green-curry-909057\">Homemade Thai Green Curry Paste (And An Easy Thai Green Curry)</a>.", types: [.lunch, .mainCourse, .mainDish, .dinner], spiceLevel: .spicy, isVegetarian: false, isVegan: false, isGlutenFree: true, isHealthy: false, isCheap: false, isSustainable: false, culture: [.Indian, .Asian], nutrients: [Nutrient(name: "Calories", amount: 513.83, unit: "kcal"), Nutrient(name: "Fat", amount: 34.05, unit: "g"), Nutrient(name: "Saturated Fat", amount: 22.94, unit: "g"), Nutrient(name: "Carbohydrates", amount: 25.12, unit: "g"), Nutrient(name: "Fiber", amount: 3.85, unit: "g"), Nutrient(name: "Sugar", amount: 19.19, unit: "g"), Nutrient(name: "Protein", amount: 27.88, unit: "g"), Nutrient(name: "Cholesterol", amount: 72.57, unit: "mg"), Nutrient(name: "Sodium", amount: 702.45, unit: "mg")], ingredients: [Ingredient(id: 4669, name: "vegetable oil", amount: 0.5, unit: "tablespoons"), Ingredient(id: 11282, name: "onion", amount: 0.25, unit: "medium"), Ingredient(id: 11281, name: "bell pepper", amount: 0.25, unit: ""), Ingredient(id: 11215, name: "garlic", amount: 0.5, unit: "cloves"), Ingredient(id: 1055062, name: "chicken breasts", amount: 0.25, unit: "pound"), Ingredient(id: 14106, name: "chicken stock", amount: 0.06, unit: "cup"), Ingredient(id: 12117, name: "coconut milk", amount: 0.25, unit: "can"), Ingredient(id: 6179, name: "fish sauce", amount: 0.25, unit: "tablespoon"), Ingredient(id: 19334, name: "brown sugar", amount: 0.5, unit: "tablespoons"), Ingredient(id: 10093605, name: "curry paste", amount: 0.25, unit: "tablespoon"), Ingredient(id: 1102047, name: "salt and pepper", amount: 1, unit: "servings"), Ingredient(id: 2044, name: "thai basil leaves", amount: 0.06, unit: "cup"), Ingredient(id: 10511819, name: "chilies", amount: 0.5, unit: "")], instructions: [Instruction(name: "", steps: [Step(number: 1, step: "Heat oil in a wok or large saut pan over medium high heat and stir fry the onion and pepper until slightly soft.", ingredients: [StepItem(id: 1002030, name: "pepper", image: "pepper.jpg"), StepItem(id: 11282, name: "onion", image: "brown-onion.png"), StepItem(id: 4582, name: "cooking oil", image: "vegetable-oil.jpg")], equipment: [StepItem(id: 404645, name: "frying pan", image: "pan.png"), StepItem(id: 404666, name: "wok", image: "wok.png")]), Step(number: 2, step: "Add the garlic and cook for 30 more seconds.", ingredients: [StepItem(id: 11215, name: "garlic", image: "garlic.png")], equipment: []), Step(number: 3, step: "Season chicken with salt and pepper, then add to pan and cook over medium high heat, stirring occasionally and adding some oil if needed, until chicken is lightly browned.", ingredients: [StepItem(id: 1102047, name: "salt and pepper", image: "salt-and-pepper.jpg"), StepItem(id: 0, name: "chicken", image: "whole-chicken.jpg"), StepItem(id: 4582, name: "cooking oil", image: "vegetable-oil.jpg")], equipment: [StepItem(id: 404645, name: "frying pan", image: "pan.png")]), Step(number: 4, step: "Deglaze the pan with wine, then add coconut milk, fish sauce, brown sugar, green curry paste, and salt and pepper to taste.", ingredients: [StepItem(id: 10093605, name: "green curry paste", image: "green-curry-paste.png"), StepItem(id: 1102047, name: "salt and pepper", image: "salt-and-pepper.jpg"), StepItem(id: 12118, name: "coconut milk", image: "coconut-milk.png"), StepItem(id: 19334, name: "brown sugar", image: "dark-brown-sugar.png"), StepItem(id: 6179, name: "fish sauce", image: "asian-fish-sauce.jpg"), StepItem(id: 14084, name: "wine", image: "red-wine.jpg")], equipment: [StepItem(id: 404645, name: "frying pan", image: "pan.png")]), Step(number: 5, step: "Simmer, uncovered, until sauce thickens slightly and chicken is completely cooked through, about 5 minutes.", ingredients: [StepItem(id: 0, name: "chicken", image: "whole-chicken-jpg"), StepItem(id: 0, name: "sauce", image: "")], equipment: []), Step(number: 6, step: "Stir in the Thai basil leaves, then spoon into a serving bowl.", ingredients: [StepItem(id: 2044, name: "fresh basil", image: "fresh-basil.jpg")], equipment: [StepItem(id: 404783, name: "bowl", image: "bowl.jpg")]), Step(number: 7, step: "Garnish with red chilies if desired and serve with jasmine rice.", ingredients: [StepItem(id: 10120444, name: "jasmine rice", image: "rice-jasmine-cooked.jpg"), StepItem(id: 10511819, name: "red chili pepper", image: "red-chili.jpg")], equipment: [])])], totalRatings: 538, averageRating: 4.714, views: 1804)
         
         static let recipeError = RecipeError(error: "You are not authorized. Please read https://spoonacular.com/food-api/docs#Authentication")
+        static let tokenError = RecipeError(error: "Invalid Firebase token provided: Error: Decoding Firebase ID token failed. Make sure you passed the entire string JWT which represents an ID token. See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.")
         
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
         
@@ -78,8 +81,6 @@ struct Constants {
         // Using localized strings for automatic translation support
         static let homeTitle = String(localized: "Home")
         static let findRecipeButton = String(localized: "Find Me a Recipe!")
-        
-        static let recentlyViewed = String(localized: "Recently Viewed")
         static let maxRecentRecipes = 10
         
         static let profileFavorites = String(localized: "💖 Favorites")
@@ -103,7 +104,7 @@ struct Constants {
             String(localized: "Check out this low-effort recipe for \(recipeName)!")
         }
         static let shareUrl: @Sendable (Int) -> URL = { recipeId in
-            URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)")!
+            URL(string: "\(recipeWebOrigin)/recipe/\(recipeId)")!
         }
         static let unknownRecipe = String(localized: "unknown recipe")
         
@@ -218,6 +219,7 @@ struct Constants {
         }
         
         static let profileLoading = String(localized: "Getting your profile ready… 🧑‍🍳")
+        static let profileTitle = String(localized: "Profile")
         static let profileHeader: @Sendable (String) -> String = { name in
             String(localized: "Chef \(name)")
         }
@@ -229,10 +231,11 @@ struct Constants {
         }
         @MainActor static let loginMessage = LocalizedStringKey("""
         Signing up for an account is free and gives you great perks, including:
-        - Saving your favorite recipes
-        - Saving more than 10 recently viewed recipes
-        - Rating recipes
-        - Syncing recipes across the web and mobile apps
+        
+        • Saving your favorite recipes
+        • Saving more than 10 recently viewed recipes
+        • Rating recipes
+        • Syncing recipes across the web and mobile apps
         """)
         static let login = String(localized: "Login")
         static let logout = String(localized: "Logout")

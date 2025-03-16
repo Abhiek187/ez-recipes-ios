@@ -10,13 +10,13 @@ import OSLog
 
 // MainActor ensures UI changes happen on the main thread
 @MainActor
-class HomeViewModel: ViewModel, ObservableObject {
+@Observable class HomeViewModel: ViewModel {
     // Don't allow the View to make changes to the ViewModel, except for bindings
-    @Published var isLoading = false
-    @Published var isFirstPrompt = true
+    var isLoading = false
+    var isFirstPrompt = true
     
-    @Published var isRecipeLoaded = false
-    @Published private(set) var recipe: Recipe? {
+    var isRecipeLoaded = false
+    private(set) var recipe: Recipe? {
         didSet {
             isRecipeLoaded = recipe != nil
             saveRecentRecipe()
@@ -26,26 +26,26 @@ class HomeViewModel: ViewModel, ObservableObject {
             }
         }
     }
-    @Published var recentRecipes: [RecentRecipe] = []
+    var recentRecipes: [RecentRecipe] = []
     
-    @Published var recipeFailedToLoad = false
-    @Published var recipeError: RecipeError? {
+    var recipeFailedToLoad = false
+    var recipeError: RecipeError? {
         didSet {
             recipeFailedToLoad = recipeError != nil
         }
     }
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
-    private var repository: RecipeRepository
+    private var repository: RecipeRepository & TermRepository
     private var swiftData = SwiftDataManager.shared
     
     // Utilize dependency injection for happy little tests
-    required init(repository: RecipeRepository) {
+    required init(repository: RecipeRepository & TermRepository) {
         self.repository = repository
         self.recentRecipes = getAllRecentRecipes()
     }
     
-    convenience init(repository: RecipeRepository, swiftData: SwiftDataManager) {
+    convenience init(repository: RecipeRepository & TermRepository, swiftData: SwiftDataManager) {
         self.init(repository: repository)
         self.swiftData = swiftData
         self.recentRecipes = getAllRecentRecipes()
@@ -83,19 +83,37 @@ class HomeViewModel: ViewModel, ObservableObject {
         updateRecipeProps(from: result)
     }
     
-    func handleRecipeLink(_ url: URL) async {
-        // Check if the universal link is in the format: /recipe/RECIPE_ID
+    func handleDeepLink(_ url: URL) async {
+        // Check if the universal link is in the format: /recipe/RECIPE_ID or /profile
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
         let path = components.path
         let recipeUrlRegex = /\/recipe\/\d+/
-        guard path.contains(recipeUrlRegex) else { return }
+        let profileUrlRegex = /\/profile/
         
-        let recipeIdString = path.components(separatedBy: "/")[2]
-        guard let recipeId = Int(recipeIdString) else { return }
-        
-        // Open RecipeView with the specified recipe ID
-        await getRecipe(byId: recipeId)
+        if path.contains(recipeUrlRegex) {
+            let recipeIdString = path.components(separatedBy: "/")[2]
+            guard let recipeId = Int(recipeIdString) else { return }
+            
+            // Open RecipeView with the specified recipe ID
+            await getRecipe(byId: recipeId)
+        } else if path.contains(profileUrlRegex) {
+            guard let action = components.queryItems?.first(where: { $0.name == "action" })?.value,
+                  let profileAction = Constants.ProfileView.Actions(rawValue: action) else {
+                logger.warning("Invalid universal profile link: \(path)")
+                return
+            }
+            
+            // Open ProfileView with the appropriate confirmation message
+            switch profileAction {
+            case .verifyEmail:
+                logger.info("\(Constants.ProfileView.emailVerifySuccess)")
+            case .changeEmail:
+                logger.info("\(Constants.ProfileView.changeEmailSuccess)")
+            case .resetPassword:
+                logger.info("\(Constants.ProfileView.changePasswordSuccess)")
+            }
+        }
     }
     
     func checkCachedTerms() async {

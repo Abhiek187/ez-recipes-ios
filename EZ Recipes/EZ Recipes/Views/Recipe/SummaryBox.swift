@@ -34,8 +34,6 @@ struct SummaryBox: View {
     }
 }
 
-struct SummaryBox_Previews: PreviewProvider {
-    static var previews: some View {
-        SummaryBox(summary: Constants.Mocks.blueberryYogurt.summary)
-    }
+#Preview {
+    SummaryBox(summary: Constants.Mocks.blueberryYogurt.summary)
 }

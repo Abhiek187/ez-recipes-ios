@@ -16,7 +16,7 @@ struct FilterForm: View {
         case maxCals
     }
     
-    @ObservedObject var viewModel: SearchViewModel
+    @Bindable var viewModel: SearchViewModel
     
     @FocusState private var focusedField: Field?
     @State private var caloriesExceedMax = false
@@ -129,62 +129,64 @@ struct FilterForm: View {
         }
         .toolbar {
             // Add buttons above the keyboard for ease of navigation
-            ToolbarItem(placement: .keyboard) {
-                HStack {
-                    Button(Constants.KeyboardNavigation.previous, systemImage: "chevron.up") {
-                        focusedField = focusedField?.previous()
-                    }
-                    .disabled(focusedField?.isFirst != false)
-                    Button(Constants.KeyboardNavigation.next, systemImage: "chevron.down") {
-                        focusedField = focusedField?.next()
-                    }
-                    .disabled(focusedField?.isLast != false)
-                    Spacer()
-                    Button(Constants.KeyboardNavigation.done) {
-                        focusedField = nil
-                    }
+            ToolbarItemGroup(placement: .keyboard) {
+                Button(Constants.KeyboardNavigation.previous, systemImage: "chevron.up") {
+                    focusedField = focusedField?.previous()
+                }
+                .disabled(focusedField?.isFirst != false)
+                Button(Constants.KeyboardNavigation.next, systemImage: "chevron.down") {
+                    focusedField = focusedField?.next()
+                }
+                .disabled(focusedField?.isLast != false)
+                Spacer()
+                Button(Constants.KeyboardNavigation.done) {
+                    focusedField = nil
                 }
             }
         }
     }
 }
 
-struct FilterForm_Previews: PreviewProvider {
-    static let mockRepo = NetworkManagerMock.shared
-    static var repoNoResults = NetworkManagerMock.shared
+#Preview("Empty") {
+    let mockRepo = NetworkManagerMock.shared
+    let emptyRecipeFilter = SearchViewModel(repository: mockRepo)
     
-    static let emptyRecipeFilter = SearchViewModel(repository: mockRepo)
-    static var recipeFilterWithMaxError = SearchViewModel(repository: mockRepo)
-    static var recipeFilterWithRangeError = SearchViewModel(repository: mockRepo)
-    static var viewModelLoading = SearchViewModel(repository: mockRepo)
-    static var viewModelNoResults = SearchViewModel(repository: repoNoResults)
+    return NavigationStack {
+        FilterForm(viewModel: emptyRecipeFilter)
+    }
+}
+
+#Preview("Max Error") {
+    let mockRepo = NetworkManagerMock.shared
+    let recipeFilterWithMaxError = SearchViewModel(repository: mockRepo)
+    recipeFilterWithMaxError.recipeFilter.maxCals = 2001
     
-    static var previews: some View {
-        recipeFilterWithMaxError.recipeFilter.maxCals = 2001
-        recipeFilterWithRangeError.recipeFilter.minCals = 200
-        recipeFilterWithRangeError.recipeFilter.maxCals = 100
-        viewModelLoading.isLoading = true
-        repoNoResults.noResults = true
-        
-        return ForEach([1], id: \.self) {_ in
-            NavigationStack {
-                FilterForm(viewModel: emptyRecipeFilter)
-            }
-            .previewDisplayName("Empty")
-            
-            FilterForm(viewModel: recipeFilterWithMaxError)
-                .previewDisplayName("Max Error")
-            
-            FilterForm(viewModel: recipeFilterWithRangeError)
-                .previewDisplayName("Range Error")
-            
-            FilterForm(viewModel: viewModelLoading)
-                .previewDisplayName("Loading")
-            
-            NavigationStack {
-                FilterForm(viewModel: viewModelNoResults)
-            }
-            .previewDisplayName("No Results")
-        }
+    return FilterForm(viewModel: recipeFilterWithMaxError)
+}
+
+#Preview("Range Error") {
+    let mockRepo = NetworkManagerMock.shared
+    let recipeFilterWithRangeError = SearchViewModel(repository: mockRepo)
+    recipeFilterWithRangeError.recipeFilter.minCals = 200
+    recipeFilterWithRangeError.recipeFilter.maxCals = 100
+    
+    return FilterForm(viewModel: recipeFilterWithRangeError)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModelLoading = SearchViewModel(repository: mockRepo)
+    viewModelLoading.isLoading = true
+    
+    return FilterForm(viewModel: viewModelLoading)
+}
+
+#Preview("No Results") {
+    var repoNoResults = NetworkManagerMock.shared
+    repoNoResults.noResults = true
+    let viewModelNoResults = SearchViewModel(repository: repoNoResults)
+    
+    return NavigationStack {
+        FilterForm(viewModel: viewModelNoResults)
     }
 }

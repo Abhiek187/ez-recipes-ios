@@ -316,9 +316,6 @@
     "Healthy" : {
 
     },
-    "Hello, World!" : {
-
-    },
     "Hide password" : {
 
     },
@@ -434,9 +431,6 @@
         }
       }
     },
-    "Recently Viewed" : {
-
-    },
     "Recipe" : {
 
     },
@@ -485,7 +479,7 @@
     "Signed out successfully!" : {
 
     },
-    "Signing up for an account is free and gives you great perks, including:\n- Saving your favorite recipes\n- Saving more than 10 recently viewed recipes\n- Rating recipes\n- Syncing recipes across the web and mobile apps" : {
+    "Signing up for an account is free and gives you great perks, including:\n\n• Saving your favorite recipes\n• Saving more than 10 recently viewed recipes\n• Rating recipes\n• Syncing recipes across the web and mobile apps" : {
 
     },
     "Sodium" : {

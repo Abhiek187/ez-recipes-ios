@@ -51,8 +51,6 @@ struct RecipeCard: View {
     }
 }
 
-struct RecipeCard_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
-    }
+#Preview {
+    RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
 }

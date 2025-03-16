@@ -98,14 +98,14 @@ private extension HomeViewModel {
     @Test func handleRecipeLinkSuccess() async {
         // Given a universal link from the web app
         let recipeId = 644783
-        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/\(recipeId)") else {
+        guard let recipeUrl = URL(string: "\(Constants.recipeWebOrigin)/recipe/\(recipeId)") else {
             Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
         let viewModel = HomeViewModel(swiftData)
-        await viewModel.handleRecipeLink(recipeUrl)
+        await viewModel.handleDeepLink(recipeUrl)
         
         // Then the getRecipe(byId:) method should be called with the recipe ID in the URL
         #expect(viewModel.recipe?.id == recipeId)
@@ -116,14 +116,14 @@ private extension HomeViewModel {
     
     @Test func handleRecipeLinkFailEmptyPath() async {
         // Given a universal link from the web app with an empty path
-        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com") else {
+        guard let recipeUrl = URL(string: Constants.recipeWebOrigin) else {
             Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
         let viewModel = HomeViewModel(swiftData)
-        await viewModel.handleRecipeLink(recipeUrl)
+        await viewModel.handleDeepLink(recipeUrl)
         
         // Then the getRecipe(byId:) method shouldn't be called
         #expect(viewModel.recipe == nil)
@@ -131,14 +131,14 @@ private extension HomeViewModel {
     
     @Test func handleRecipeLinkFailInvalidRecipePath() async {
         // Given a universal link from the web app with an invalid recipe path
-        guard let recipeUrl = URL(string: "https://ez-recipes-web.onrender.com/recipe/-1") else {
+        guard let recipeUrl = URL(string: "\(Constants.recipeWebOrigin)/recipe/-1") else {
             Issue.record("The test URL is invalid")
             return
         }
         
         // When handling the URL
         let viewModel = HomeViewModel(swiftData)
-        await viewModel.handleRecipeLink(recipeUrl)
+        await viewModel.handleDeepLink(recipeUrl)
         
         // Then the getRecipe(byId:) method shouldn't be called
         #expect(viewModel.recipe == nil)

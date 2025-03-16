@@ -9,15 +9,15 @@ import SwiftUI
 
 @main
 struct EZ_RecipesApp: App {
-    // @ObservedObject/@StateObject/@EnvironmentObject is required to initialize ViewModels on the main thread
-    @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onOpenURL { url in
+                    // Verify Universal Links configuration: https://app-site-association.cdn-apple.com/a/v1/ez-recipes-web.onrender.com
                     Task {
-                        await homeViewModel.handleRecipeLink(url)
+                        await homeViewModel.handleDeepLink(url)
                     }
                 }
                 .task {

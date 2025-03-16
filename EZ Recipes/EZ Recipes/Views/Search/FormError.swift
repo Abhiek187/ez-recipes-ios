@@ -22,9 +22,7 @@ struct FormError: View {
     }
 }
 
-struct FormError_Previews: PreviewProvider {
-    static var previews: some View {
-        FormError(on: false, message: "You shouldn't see this")
-        FormError(on: true, message: "Error message")
-    }
+#Preview {
+    FormError(on: false, message: "You shouldn't see this")
+    FormError(on: true, message: "Error message")
 }

@@ -16,8 +16,6 @@ struct RecipeFooter: View {
     }
 }
 
-struct RecipeFooter_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeFooter()
-    }
+#Preview {
+    RecipeFooter()
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @StateObject var viewModel: HomeViewModel
+    @State var viewModel: HomeViewModel
     @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly
@@ -26,6 +26,13 @@ struct HomeView: View {
     @AppStorage(UserDefaultsManager.Keys.recipesViewed) var recipesViewed = 0
     @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    
+    struct ToggleStates {
+        var expandFavorites = false
+        var expandRecents = false
+        var expandRatings = false
+    }
+    @State private var toggleStates = ToggleStates()
     
     private func presentReview() {
         // Don't show the alert in a UI test
@@ -79,28 +86,39 @@ struct HomeView: View {
                             loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                         }
                     
-                    // Recently viewed recipes
-                    if viewModel.recentRecipes.count > 0 {
-                        Text(Constants.HomeView.recentlyViewed)
-                            .font(.title)
+                    // Saved recipes
+                    VStack {
+                        DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
+                            Text(Constants.HomeView.signInForRecipes)
+                        }
                         Divider()
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(viewModel.recentRecipes, id: \.id) { recentRecipe in
-                                    if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                        RecipeCard(recipe: recipe)
-                                            .frame(width: 350)
-                                            .simultaneousGesture(TapGesture().onEnded {
-                                                // Show the recipe cards animating to the right position after tapping them
-                                                withAnimation {
-                                                    viewModel.setRecipe(recipe)
-                                                }
-                                            })
+                        DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    ForEach(viewModel.recentRecipes, id: \.id) { recentRecipe in
+                                        if let recipe: Recipe = recentRecipe.recipe.decode() {
+                                            RecipeCard(recipe: recipe)
+                                                .frame(width: 350)
+                                                .simultaneousGesture(TapGesture().onEnded {
+                                                    // Show the recipe cards animating to the right position after tapping them
+                                                    withAnimation {
+                                                        viewModel.setRecipe(recipe)
+                                                    }
+                                                })
+                                        }
                                     }
                                 }
                             }
                         }
+                        Divider()
+                        DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
+                            RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
+                                .frame(width: 350)
+                                .redacted(reason: .placeholder)
+                                .disabled(true)
+                        }
                     }
+                    .padding()
                 }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
@@ -130,27 +148,29 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    // Show previews of the HomeView with and without the spinner or an alert box
-    static let repoSuccess = NetworkManagerMock.shared
-    static var repoFail = NetworkManagerMock.shared
-    static let swiftData = SwiftDataManager.preview
+// Show previews of the HomeView with and without the spinner or an alert box
+#Preview("No Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
     
-    static let viewModelWithoutLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    static let viewModelWithLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    static let viewModelWithAlert = HomeViewModel(repository: repoFail, swiftData: swiftData)
+    return HomeView(viewModel: viewModelWithoutLoading)
+}
+
+#Preview("Loading") {
+    let repoSuccess = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithLoading = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
+    viewModelWithLoading.isLoading = true
     
-    static var previews: some View {
-        viewModelWithLoading.isLoading = true
-        repoFail.isSuccess = false
-        
-        return ForEach([1], id: \.self) {_ in
-            HomeView(viewModel: viewModelWithoutLoading)
-                .previewDisplayName("No Loading")
-            HomeView(viewModel: viewModelWithLoading)
-                .previewDisplayName("Loading")
-            HomeView(viewModel: viewModelWithAlert)
-                .previewDisplayName("Alert")
-        }
-    }
+    return HomeView(viewModel: viewModelWithLoading)
+}
+
+#Preview("Alert") {
+    var repoFail = NetworkManagerMock.shared
+    repoFail.isSuccess = false
+    let swiftData = SwiftDataManager.preview
+    let viewModelWithAlert = HomeViewModel(repository: repoFail, swiftData: swiftData)
+    
+    return HomeView(viewModel: viewModelWithAlert)
 }

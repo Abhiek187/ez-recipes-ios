@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct RecipeView: View {
-    // Mark as @ObservedObject when the ViewModel is mutable
-    @ObservedObject var viewModel: HomeViewModel
+    var viewModel: HomeViewModel
     @State var isFavorite = false
     
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -95,16 +94,13 @@ struct RecipeView: View {
     }
 }
 
-struct RecipeView_Previews: PreviewProvider {
-    static let mockNetworkManager = NetworkManagerMock.shared
-    static let viewModel = HomeViewModel(repository: mockNetworkManager, swiftData: SwiftDataManager.preview)
+#Preview {
+    let viewModel = HomeViewModel(repository: NetworkManagerMock.shared, swiftData: SwiftDataManager.preview)
     
-    static var previews: some View {
-        NavigationStack {
-            RecipeView(viewModel: viewModel)
-        }
-        .task {
-            await viewModel.getRandomRecipe()
-        }
+    return NavigationStack {
+        RecipeView(viewModel: viewModel)
+    }
+    .task {
+        await viewModel.getRandomRecipe()
     }
 }

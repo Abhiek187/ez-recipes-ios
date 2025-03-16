@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchResults: View {
-    @ObservedObject var searchViewModel: SearchViewModel
-    @ObservedObject var homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    var searchViewModel: SearchViewModel
+    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
     
     let columns = [
         GridItem(.adaptive(minimum: 350), alignment: .top)
@@ -54,15 +54,13 @@ struct SearchResults: View {
     }
 }
 
-struct SearchResults_Previews: PreviewProvider {
-    static let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
+#Preview {
+    let searchViewModel = SearchViewModel(repository: NetworkManagerMock.shared)
     
-    static var previews: some View {
-        NavigationStack {
-            SearchResults(searchViewModel: searchViewModel)
-        }
-        .task {
-            await searchViewModel.searchRecipes()
-        }
+    return NavigationStack {
+        SearchResults(searchViewModel: searchViewModel)
+    }
+    .task {
+        await searchViewModel.searchRecipes()
     }
 }

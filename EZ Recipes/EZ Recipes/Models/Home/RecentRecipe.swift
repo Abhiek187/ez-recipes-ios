@@ -17,6 +17,7 @@ class RecentRecipe {
     // @Attribute(.transformable(by: NSSecureUnarchiveFromDataTransformer.self)) var recipe: [String: Any]
     // Temporary workaround to remove all the warnings about NSKeyedUnarchiveFromData
     @Attribute(.transformable(by: SecureValueTransformer.self)) var recipe: [String: Any]
+    @Attribute var isFavorite: Bool = false // v2 (lightweight migration)
     
     public init(recipe: Recipe) {
         self.id = recipe.id

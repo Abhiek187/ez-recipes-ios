@@ -8,22 +8,22 @@
 import Foundation
 
 @MainActor
-class SearchViewModel: ViewModel, ObservableObject {
-    @Published var isLoading = false
-    @Published var recipeFilter = RecipeFilter()
+@Observable class SearchViewModel: ViewModel {
+    var isLoading = false
+    var recipeFilter = RecipeFilter()
     
-    @Published var isRecipeLoaded = false
-    @Published var noRecipesFound = false
-    @Published private(set) var lastToken: String? = nil
-    @Published private(set) var recipes: [Recipe] = [] {
+    var isRecipeLoaded = false
+    var noRecipesFound = false
+    private(set) var lastToken: String? = nil
+    private(set) var recipes: [Recipe] = [] {
         didSet {
             isRecipeLoaded = !recipes.isEmpty
             noRecipesFound = recipes.isEmpty
         }
     }
     
-    @Published var recipeFailedToLoad = false
-    @Published private(set) var recipeError: RecipeError? {
+    var recipeFailedToLoad = false
+    private(set) var recipeError: RecipeError? {
         didSet {
             recipeFailedToLoad = recipeError != nil
         }

@@ -36,10 +36,8 @@ struct GlossaryView: View {
     }
 }
 
-struct GlossaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserDefaultsManager.saveTerms(terms: Constants.Mocks.terms)
-        
-        return GlossaryView()
-    }
+#Preview {
+    UserDefaultsManager.saveTerms(terms: Constants.Mocks.terms)
+    
+    return GlossaryView()
 }
