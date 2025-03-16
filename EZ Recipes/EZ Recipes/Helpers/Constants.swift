@@ -81,8 +81,6 @@ struct Constants {
         // Using localized strings for automatic translation support
         static let homeTitle = String(localized: "Home")
         static let findRecipeButton = String(localized: "Find Me a Recipe!")
-        
-        static let recentlyViewed = String(localized: "Recently Viewed")
         static let maxRecentRecipes = 10
         
         static let profileFavorites = String(localized: "💖 Favorites")

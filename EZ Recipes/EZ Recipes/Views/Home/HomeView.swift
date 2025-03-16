@@ -27,6 +27,13 @@ struct HomeView: View {
     @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
+    struct ToggleStates {
+        var expandFavorites = false
+        var expandRecents = false
+        var expandRatings = false
+    }
+    @State private var toggleStates = ToggleStates()
+    
     private func presentReview() {
         // Don't show the alert in a UI test
         if !Constants.isUITest {
@@ -79,28 +86,37 @@ struct HomeView: View {
                             loadingMessage = Constants.loadingMessages.randomElement() ?? defaultLoadingMessage
                         }
                     
-                    // Recently viewed recipes
-                    if viewModel.recentRecipes.count > 0 {
-                        Text(Constants.HomeView.recentlyViewed)
-                            .font(.title)
-                        Divider()
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(viewModel.recentRecipes, id: \.id) { recentRecipe in
-                                    if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                        RecipeCard(recipe: recipe)
-                                            .frame(width: 350)
-                                            .simultaneousGesture(TapGesture().onEnded {
-                                                // Show the recipe cards animating to the right position after tapping them
-                                                withAnimation {
-                                                    viewModel.setRecipe(recipe)
-                                                }
-                                            })
+                    // Saved recipes
+                    VStack {
+                        DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
+                            Text(Constants.HomeView.signInForRecipes)
+                        }
+                        DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    ForEach(viewModel.recentRecipes, id: \.id) { recentRecipe in
+                                        if let recipe: Recipe = recentRecipe.recipe.decode() {
+                                            RecipeCard(recipe: recipe)
+                                                .frame(width: 350)
+                                                .simultaneousGesture(TapGesture().onEnded {
+                                                    // Show the recipe cards animating to the right position after tapping them
+                                                    withAnimation {
+                                                        viewModel.setRecipe(recipe)
+                                                    }
+                                                })
+                                        }
                                     }
                                 }
                             }
                         }
+                        DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
+                            RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
+                                .frame(width: 350)
+                                .redacted(reason: .placeholder)
+                                .disabled(true)
+                        }
                     }
+                    .padding()
                 }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
