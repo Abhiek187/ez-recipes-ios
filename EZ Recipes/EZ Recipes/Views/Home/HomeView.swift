@@ -91,6 +91,7 @@ struct HomeView: View {
                         DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
                             Text(Constants.HomeView.signInForRecipes)
                         }
+                        Divider()
                         DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
                             ScrollView(.horizontal) {
                                 HStack {
@@ -109,6 +110,7 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        Divider()
                         DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
                             RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
                                 .frame(width: 350)
