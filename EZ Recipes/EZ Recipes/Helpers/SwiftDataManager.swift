@@ -84,6 +84,8 @@ struct SwiftDataManager {
             
             if existingRecipes.count == 1 {
                 existingRecipes[0].timestamp = Date()
+                // Also make sure all recipe stats are up-to-date
+                existingRecipes[0].recipe = recipe.dictionary
                 try modelContext.save()
                 return
             }
@@ -119,6 +121,27 @@ struct SwiftDataManager {
         } catch {
             SwiftDataManager.logger.warning("Failed to get recent recipes :: error: \(error.localizedDescription)")
             return []
+        }
+    }
+    
+    /// Toggle the `isFavorite` attribute for a recent recipe, if it exists
+    func toggleFavoriteRecentRecipe(forId id: Int) {
+        guard let modelContext = container?.mainContext else { return }
+        
+        let existingRecipePredicate = #Predicate<RecentRecipe> { $0.id == id }
+        var existingRecipeFetchDescriptor = FetchDescriptor<RecentRecipe>(predicate: existingRecipePredicate)
+        existingRecipeFetchDescriptor.fetchLimit = 1
+        
+        do {
+            let existingRecipes = try modelContext.fetch(existingRecipeFetchDescriptor)
+            // If the recipe doesn't exist, return early
+            guard existingRecipes.count == 1 else { return }
+            
+            existingRecipes[0].isFavorite.toggle()
+            try modelContext.save()
+        } catch {
+            SwiftDataManager.logger.warning("Failed to toggle isFavorite for recent recipe with ID \(id) :: error: \(error.localizedDescription)")
+            modelContext.rollback()
         }
     }
 }
