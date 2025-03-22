@@ -41,9 +41,10 @@ struct Constants {
     static let baseRecipesPath = serverBaseUrl + "/api/recipes"
     static let baseTermsPath = serverBaseUrl + "/api/terms"
     static let baseChefsPath = serverBaseUrl + "/api/chefs"
-    static let emailCooldownSeconds = 30
-    
     static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
+    
+    static let emailCooldownSeconds = 30
+    static let passwordMinLength = 8
     
     struct Mocks {
         // Normal, no culture
@@ -229,7 +230,7 @@ struct Constants {
         static let recipesViewed: @Sendable (Int) -> String = { views in
             String(format: String(localized: "%d recipe(s) viewed"), views)
         }
-        @MainActor static let loginMessage = LocalizedStringKey("""
+        static let loginMessage = String(localized: """
         Signing up for an account is free and gives you great perks, including:
         
         • Saving your favorite recipes
@@ -244,8 +245,6 @@ struct Constants {
         static let deleteAccount = String(localized: "Delete Account")
         
         // Login form
-        static let passwordMinLength = 8
-        
         static let signInHeader = String(localized: "Sign In")
         static let signInSubHeader = String(localized: "Don't have an account?")
         static let usernameField = String(localized: "Username")
@@ -272,7 +271,7 @@ struct Constants {
         static let emailVerifyBody: @Sendable (String) -> String = { email in
             String(localized: """
         We just need to verify your email before you can put on the chef's hat.
-        Check your email for a magic link sent to \(email)
+        Check your email for a magic link sent to **\(email)**
         
         ⚠️ We will delete accounts from our system if they're not verified within 1 week.
         """)}

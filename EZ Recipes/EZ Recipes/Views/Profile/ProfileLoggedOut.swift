@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct ProfileLoggedOut: View {
+    @State private var showLoginSheet = false
+    
     var body: some View {
         VStack {
             Text(Constants.ProfileView.loginMessage)
             
             Button {
-                print("Open login modal")
+                showLoginSheet.toggle()
             } label: {
                 Text(Constants.ProfileView.login)
+            }
+            .sheet(isPresented: $showLoginSheet) {
+                LoginSheet()
             }
             
             Spacer()
