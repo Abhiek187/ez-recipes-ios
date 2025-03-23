@@ -42,6 +42,7 @@ struct LoginForm: View {
             
             TextField(Constants.ProfileView.usernameField, text: $username)
                 .textContentType(.username)
+                .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .textFieldStyle(.roundedBorder)
