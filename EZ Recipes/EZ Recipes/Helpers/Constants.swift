@@ -268,24 +268,24 @@ struct Constants {
         static let passwordMatch = String(localized: "Error: Passwords do not match")
 
         static let emailVerifyHeader = String(localized: "You're Almost There!")
-        static let emailVerifyBody: @Sendable (String) -> String = { email in
-            String(localized: """
+        static let emailVerifyBody: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: """
         We just need to verify your email before you can put on the chef's hat.
         Check your email for a magic link sent to **\(email)**
         
         ⚠️ We will delete accounts from our system if they're not verified within 1 week.
-        """)}
+        """))}
         static let emailVerifyRetryText = String(localized: "Didn't receive an email?")
         static let emailVerifyRetryLink = String(localized: "Resend")
         static let emailVerifySuccess = String(localized: "Email verified successfully!")
         static let forgetPasswordHeader = String(localized: "No problem! Enter your email so we can reset your password.")
         static let submitButton = String(localized: "Submit")
-        static let forgetPasswordConfirm: @Sendable (String) -> String = { email in
-            String(localized: """
-        We sent an email to \(email). Follow the instructions to reset your password.
+        static let forgetPasswordConfirm: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: """
+        We sent an email to **\(email)**. Follow the instructions to reset your password.
         
         If you didn't receive an email, you may not have created an account with this email.
-        """)}
+        """))}
         
         static let changeEmailField = String(localized: "New Email")
         static let changeEmailConfirm: @Sendable (String) -> String = { email in

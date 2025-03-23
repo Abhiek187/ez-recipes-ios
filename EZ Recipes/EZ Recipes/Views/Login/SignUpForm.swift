@@ -26,16 +26,8 @@ struct SignUpForm: View {
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .textFieldStyle(.roundedBorder)
-        TextField(Constants.ProfileView.passwordField, text: $password)
-            .textContentType(.newPassword)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-            .textFieldStyle(.roundedBorder)
-        TextField(Constants.ProfileView.passwordConfirmField, text: $passwordConfirm)
-            .textContentType(.newPassword)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-            .textFieldStyle(.roundedBorder)
+        SecureTextField(label: Constants.ProfileView.passwordField, text: $password, isNewPassword: true)
+        SecureTextField(label: Constants.ProfileView.passwordConfirmField, text: $passwordConfirm, isNewPassword: true)
         
         HStack {
             Spacer()
@@ -51,5 +43,7 @@ struct SignUpForm: View {
 }
 
 #Preview {
-    SignUpForm()
+    NavigationStack {
+        SignUpForm()
+    }
 }

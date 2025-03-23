@@ -10,7 +10,7 @@ import MultiPicker
 
 struct FilterForm: View {
     // Focusable fields in form order
-    enum Field: CaseIterable {
+    private enum Field: CaseIterable {
         case query
         case minCals
         case maxCals

@@ -25,11 +25,7 @@ struct LoginForm: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .textFieldStyle(.roundedBorder)
-            TextField(Constants.ProfileView.passwordField, text: $password)
-                .textContentType(.password)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .textFieldStyle(.roundedBorder)
+            SecureTextField(label: Constants.ProfileView.passwordField, text: $password)
             
             NavigationLink(Constants.ProfileView.passwordForget, value: LoginRoute.forgotPassword)
             HStack {
@@ -47,5 +43,7 @@ struct LoginForm: View {
 }
 
 #Preview {
-    LoginForm()
+    NavigationStack {
+        LoginForm()
+    }
 }
