@@ -9,11 +9,9 @@ import SwiftUI
 
 struct LoginSheet: View {
     @Bindable var router = LoginRouter()
-    // Open the login form initially
-    @State private var routes: [LoginRoute] = [.login]
     
     var body: some View {
-        NavigationStack(path: $routes) {
+        NavigationStack(path: $router.path) {
             Text("Login Sheet")
                 .navigationDestination(for: LoginRoute.self) { route in
                     switch route {
@@ -21,13 +19,18 @@ struct LoginSheet: View {
                         ForgotPasswordForm()
                     case .login:
                         LoginForm()
+                            .navigationTitle(Constants.ProfileView.signInHeader)
+                            .navigationBarTitleDisplayMode(.inline)
                     case .signUp:
                         SignUpForm()
+                            .navigationTitle(Constants.ProfileView.signUpHeader)
+                            .navigationBarTitleDisplayMode(.inline)
                     case .verifyEmail(let email):
                         VerifyEmail(email: email)
                     }
                 }
         }
+        .environment(router)
     }
 }
 

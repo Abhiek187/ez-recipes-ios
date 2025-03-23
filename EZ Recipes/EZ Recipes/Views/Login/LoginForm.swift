@@ -13,10 +13,12 @@ struct LoginForm: View {
         case password
     }
     
+    @Environment(LoginRouter.self) private var router
+    @FocusState private var focusedField: Field?
+    
     @State private var username = ""
     @State private var password = ""
     @State private var isLoading = false
-    @FocusState private var focusedField: Field?
     
     // Form errors
     @State private var usernameEmpty = false
@@ -24,11 +26,13 @@ struct LoginForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(Constants.ProfileView.signInHeader)
-                .font(.title)
             HStack {
                 Text(Constants.ProfileView.signInSubHeader)
-                NavigationLink(Constants.ProfileView.signUpHeader, value: LoginRoute.signUp)
+                Button {
+                    router.navigate(to: .signUp)
+                } label: {
+                    Text(Constants.ProfileView.signUpHeader)
+                }
             }
             .font(.title2)
             
@@ -54,14 +58,18 @@ struct LoginForm: View {
                 }
             FormError(on: passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
             
-            NavigationLink(Constants.ProfileView.passwordForget, value: LoginRoute.forgotPassword)
-                .font(.title3)
+            Button {
+                router.navigate(to: .forgotPassword)
+            } label: {
+                Text(Constants.ProfileView.passwordForget)
+            }
+            .font(.title3)
             HStack {
                 Spacer()
                 ProgressView()
                     .opacity(isLoading ? 1 : 0)
                 Button {
-                    print("Login")
+                    router.navigate(to: .verifyEmail(email: username))
                 } label: {
                     Text(Constants.ProfileView.login)
                 }
@@ -75,7 +83,6 @@ struct LoginForm: View {
 }
 
 #Preview {
-    NavigationStack {
-        LoginForm()
-    }
+    LoginForm()
+        .environment(LoginRouter())
 }

@@ -14,11 +14,13 @@ struct SignUpForm: View {
         case passwordConfirm
     }
     
+    @Environment(LoginRouter.self) private var router
+    @FocusState private var focusedField: Field?
+    
     @State private var email = ""
     @State private var password = ""
     @State private var passwordConfirm = ""
     @State private var isLoading = false
-    @FocusState private var focusedField: Field?
     
     @State private var emailEmpty = false
     @State private var emailInvalid = false
@@ -28,11 +30,13 @@ struct SignUpForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(Constants.ProfileView.signUpHeader)
-                .font(.title)
             HStack {
                 Text(Constants.ProfileView.signUpSubHeader)
-                NavigationLink(Constants.ProfileView.signInHeader, value: LoginRoute.login)
+                Button {
+                    router.navigate(to: .login)
+                } label: {
+                    Text(Constants.ProfileView.signInHeader)
+                }
             }
             .font(.title2)
             
@@ -82,7 +86,7 @@ struct SignUpForm: View {
                 ProgressView()
                     .opacity(isLoading ? 1 : 0)
                 Button {
-                    print("Sign Up")
+                    router.navigate(to: .verifyEmail(email: email))
                 } label: {
                     Text(Constants.ProfileView.signUpHeader)
                 }
@@ -96,7 +100,6 @@ struct SignUpForm: View {
 }
 
 #Preview {
-    NavigationStack {
-        SignUpForm()
-    }
+    SignUpForm()
+        .environment(LoginRouter())
 }
