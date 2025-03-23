@@ -9,14 +9,13 @@ import SwiftUI
 
 enum LoginRoute: Hashable {
     case forgotPassword
-    case login
     case signUp
     case verifyEmail(email: String)
 }
 
 @Observable class LoginRouter {
     // Open the login form initially
-    var path: [LoginRoute] = [.login]
+    var path: [LoginRoute] = []
     
     func navigate(to route: LoginRoute) {
         // If the route already exists in the path, pop to the route
@@ -28,6 +27,9 @@ enum LoginRoute: Hashable {
     }
     
     func goBack() {
-        path.removeLast()
+        // Do nothing if we're at the root
+        if !path.isEmpty {
+            path.removeLast()
+        }
     }
 }

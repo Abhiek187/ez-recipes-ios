@@ -33,7 +33,7 @@ struct SignUpForm: View {
             HStack {
                 Text(Constants.ProfileView.signUpSubHeader)
                 Button {
-                    router.navigate(to: .login)
+                    router.goBack()
                 } label: {
                     Text(Constants.ProfileView.signInHeader)
                 }

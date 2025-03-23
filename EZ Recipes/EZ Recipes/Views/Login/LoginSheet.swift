@@ -12,15 +12,13 @@ struct LoginSheet: View {
     
     var body: some View {
         NavigationStack(path: $router.path) {
-            Text("Login Sheet")
+            LoginForm()
+                .navigationTitle(Constants.ProfileView.signInHeader)
+                .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(for: LoginRoute.self) { route in
                     switch route {
                     case .forgotPassword:
                         ForgotPasswordForm()
-                    case .login:
-                        LoginForm()
-                            .navigationTitle(Constants.ProfileView.signInHeader)
-                            .navigationBarTitleDisplayMode(.inline)
                     case .signUp:
                         SignUpForm()
                             .navigationTitle(Constants.ProfileView.signUpHeader)
