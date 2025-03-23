@@ -12,8 +12,10 @@ struct ForgotPasswordForm: View {
     @State private var isLoading = false
     @State private var emailSent = false
     
-    @State private var emailEmpty = false
-    @State private var emailInvalid = false
+    @State private var emailTouched = false
+    
+    @State private var emailEmpty = true
+    @State private var emailInvalid = true
     
     var body: some View {
         VStack(spacing: 16) {
@@ -29,12 +31,13 @@ struct ForgotPasswordForm: View {
                     .textFieldStyle(.roundedBorder)
                     .onChange(of: email) {
                         withAnimation {
+                            emailTouched = true
                             emailEmpty = email.isEmpty
                             emailInvalid = email.wholeMatch(of: Constants.emailRegex) == nil
                         }
                     }
-                FormError(on: emailEmpty, message: Constants.ProfileView.fieldRequired("Email"))
-                FormError(on: emailInvalid, message: Constants.ProfileView.emailInvalid)
+                FormError(on: emailTouched && emailEmpty, message: Constants.ProfileView.fieldRequired("Email"))
+                FormError(on: emailTouched && emailInvalid, message: Constants.ProfileView.emailInvalid)
                 
                 HStack {
                     Spacer()

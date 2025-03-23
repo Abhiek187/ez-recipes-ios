@@ -22,10 +22,14 @@ struct SignUpForm: View {
     @State private var passwordConfirm = ""
     @State private var isLoading = false
     
-    @State private var emailEmpty = false
-    @State private var emailInvalid = false
-    @State private var passwordEmpty = false
-    @State private var passwordTooShort = false
+    @State private var emailTouched = false
+    @State private var passwordTouched = false
+    @State private var passwordConfirmTouched = false
+    
+    @State private var emailEmpty = true
+    @State private var emailInvalid = true
+    @State private var passwordEmpty = true
+    @State private var passwordTooShort = true
     @State private var passwordsDoNotMatch = false
     
     var body: some View {
@@ -53,8 +57,8 @@ struct SignUpForm: View {
                         emailInvalid = email.wholeMatch(of: Constants.emailRegex) == nil
                     }
                 }
-            FormError(on: emailEmpty, message: Constants.ProfileView.fieldRequired("Email"))
-            FormError(on: emailInvalid, message: Constants.ProfileView.emailInvalid)
+            FormError(on: emailTouched && emailEmpty, message: Constants.ProfileView.fieldRequired("Email"))
+            FormError(on: emailTouched && emailInvalid, message: Constants.ProfileView.emailInvalid)
             
             SecureTextField(label: Constants.ProfileView.passwordField, text: $password, isNewPassword: true)
                 .focused($focusedField, equals: .password)
@@ -69,8 +73,8 @@ struct SignUpForm: View {
                         passwordsDoNotMatch = password != passwordConfirm
                     }
                 }
-            FormError(on: passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
-            FormError(on: passwordTooShort, message: Constants.ProfileView.passwordMinLengthError)
+            FormError(on: passwordTouched && passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
+            FormError(on: passwordTouched && passwordTooShort, message: Constants.ProfileView.passwordMinLengthError)
             
             SecureTextField(label: Constants.ProfileView.passwordConfirmField, text: $passwordConfirm, isNewPassword: true)
                 .focused($focusedField, equals: .passwordConfirm)
@@ -79,7 +83,7 @@ struct SignUpForm: View {
                 Text(Constants.ProfileView.passwordMinLengthInfo)
                     .font(.subheadline)
             }
-            FormError(on: passwordsDoNotMatch, message: Constants.ProfileView.passwordMatch)
+            FormError(on: passwordConfirmTouched && passwordsDoNotMatch, message: Constants.ProfileView.passwordMatch)
             
             HStack {
                 Spacer()
@@ -96,6 +100,17 @@ struct SignUpForm: View {
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
+        .onChange(of: focusedField) {
+            withAnimation {
+                if focusedField == .email {
+                    emailTouched = true
+                } else if focusedField == .password {
+                    passwordTouched = true
+                } else if focusedField == .passwordConfirm {
+                    passwordConfirmTouched = true
+                }
+            }
+        }
     }
 }
 

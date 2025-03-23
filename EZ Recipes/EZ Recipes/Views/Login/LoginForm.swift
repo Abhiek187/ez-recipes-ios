@@ -20,9 +20,13 @@ struct LoginForm: View {
     @State private var password = ""
     @State private var isLoading = false
     
-    // Form errors
-    @State private var usernameEmpty = false
-    @State private var passwordEmpty = false
+    // Focus
+    @State private var usernameTouched = false
+    @State private var passwordTouched = false
+    
+    // Errors
+    @State private var usernameEmpty = true
+    @State private var passwordEmpty = true
     
     var body: some View {
         VStack(spacing: 16) {
@@ -47,7 +51,7 @@ struct LoginForm: View {
                         usernameEmpty = username.isEmpty
                     }
                 }
-            FormError(on: usernameEmpty, message: Constants.ProfileView.fieldRequired("Username"))
+            FormError(on: usernameTouched && usernameEmpty, message: Constants.ProfileView.fieldRequired("Username"))
             
             SecureTextField(label: Constants.ProfileView.passwordField, text: $password)
                 .focused($focusedField, equals: .password)
@@ -56,7 +60,7 @@ struct LoginForm: View {
                         passwordEmpty = password.isEmpty
                     }
                 }
-            FormError(on: passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
+            FormError(on: passwordTouched && passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
             
             Button {
                 router.navigate(to: .forgotPassword)
@@ -79,6 +83,15 @@ struct LoginForm: View {
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
+        .onChange(of: focusedField) {
+            withAnimation {
+                if focusedField == .username {
+                    usernameTouched = true
+                } else if focusedField == .password {
+                    passwordTouched = true
+                }
+            }
+        }
     }
 }
 
