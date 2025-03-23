@@ -64,16 +64,16 @@ struct SignUpForm: View {
                         passwordTooShort = password.count < Constants.passwordMinLength
                     }
                 }
+                .onChange(of: [password, passwordConfirm]) {
+                    withAnimation {
+                        passwordsDoNotMatch = password != passwordConfirm
+                    }
+                }
             FormError(on: passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
             FormError(on: passwordTooShort, message: Constants.ProfileView.passwordMinLengthError)
             
             SecureTextField(label: Constants.ProfileView.passwordConfirmField, text: $passwordConfirm, isNewPassword: true)
                 .focused($focusedField, equals: .passwordConfirm)
-                .onChange(of: passwordConfirm) {
-                    withAnimation {
-                        passwordsDoNotMatch = password != passwordConfirm
-                    }
-                }
             // Supporting text
             if !passwordsDoNotMatch {
                 Text(Constants.ProfileView.passwordMinLengthInfo)
