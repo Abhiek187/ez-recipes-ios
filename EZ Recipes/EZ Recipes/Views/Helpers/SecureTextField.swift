@@ -39,6 +39,7 @@ struct SecureTextField: View {
                 } label: {
                     Image(systemName: showPassword ? "eye.slash.fill" : "eye.fill")
                         .padding()
+                        .accessibilityLabel(showPassword ? Constants.ProfileView.passwordHide : Constants.ProfileView.passwordShow)
                 }
             }
         }

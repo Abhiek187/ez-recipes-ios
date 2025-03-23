@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RegexBuilder
 import SwiftUI
 
 struct Constants {
@@ -43,6 +44,52 @@ struct Constants {
     static let baseChefsPath = serverBaseUrl + "/api/chefs"
     static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
     
+    // Using the Android email regex since Swift doesn't allow escaping certain literals in the RFC 5322 regex: https://android.googlesource.com/platform/frameworks/base/+/cd92588/core/java/android/util/Patterns.java
+    // A more readable version of: /[a-zA-Z0-9\+\.\_\%\-\+]{1,256}\@[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}(\.[a-zA-Z0-9][a-zA-Z0-9\-]{0,25})+/
+    @MainActor static let emailRegex = Regex {
+        Repeat(1...256) {
+            CharacterClass(
+                .anyOf("+._%-+"),
+                ("a"..."z"),
+                ("A"..."Z"),
+                ("0"..."9")
+            )
+        }
+        "@"
+        CharacterClass(
+            ("a"..."z"),
+            ("A"..."Z"),
+            ("0"..."9")
+        )
+        Repeat(0...64) {
+            CharacterClass(
+                .anyOf("-"),
+                ("a"..."z"),
+                ("A"..."Z"),
+                ("0"..."9")
+            )
+        }
+        OneOrMore {
+            Capture {
+                Regex {
+                    "."
+                    CharacterClass(
+                        ("a"..."z"),
+                        ("A"..."Z"),
+                        ("0"..."9")
+                    )
+                    Repeat(0...25) {
+                        CharacterClass(
+                            .anyOf("-"),
+                            ("a"..."z"),
+                            ("A"..."Z"),
+                            ("0"..."9")
+                        )
+                    }
+                }
+            }
+        }
+    }
     static let emailCooldownSeconds = 30
     static let passwordMinLength = 8
     
@@ -263,8 +310,8 @@ struct Constants {
             String(localized: "Error: \(field) is required")
         }
         static let emailInvalid = String(localized: "Error: Invalid email")
-        static let passwordMinLengthErr = String(localized: "Password must be at least 8 characters long")
-        static let passwordTooShort = String(localized: "Error: Password must be at least 8 characters long")
+        static let passwordMinLengthInfo = String(localized: "Password must be at least 8 characters long")
+        static let passwordMinLengthError = String(localized: "Error: Password must be at least 8 characters long")
         static let passwordMatch = String(localized: "Error: Passwords do not match")
 
         static let emailVerifyHeader = String(localized: "You're Almost There!")
