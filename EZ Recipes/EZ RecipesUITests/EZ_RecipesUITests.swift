@@ -9,7 +9,8 @@ import XCTest
 
 @MainActor
 class EZ_RecipesUITests: XCTestCase {
-    var app: XCUIApplication!
+    private var app: XCUIApplication!
+    private let isLocal = ProcessInfo.processInfo.environment["CI"] != "true"
 
     // Snapshot methods must be called on the main thread, but XCTestCase doesn't require isolation
     override func setUp() async throws {
@@ -21,7 +22,10 @@ class EZ_RecipesUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
         app = XCUIApplication()
         app.launchArguments.append("isUITest")
-        setupSnapshot(app)
+        if isLocal {
+            // Screenshots can time out on GitHub Actions
+            setupSnapshot(app)
+        }
         app.launch()
     }
 
@@ -39,12 +43,23 @@ class EZ_RecipesUITests: XCTestCase {
             app.buttons[tab].tap()
         }
     }
+    
+    private func takeScreenshot(withName name: String, shotNum: Int? = nil) {
+        if isLocal {
+            var screenshotName = name
+            if let shotNum {
+                screenshotName += "-\(shotNum)"
+            }
+            snapshot(screenshotName)
+        }
+    }
 
     func testFindMeARecipe() throws {
         // Tap the "Find Me A Recipe!" button and check that the recipe page loads properly (this will consume quota)
         // Take screenshots along the way
+        var screenshotName = "home-view"
         var shotNum = 1
-        snapshot("home-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // If the sidebar button exists, check that the select recipe text is shown and tapping the sidebar button opens the home view
@@ -55,7 +70,7 @@ class EZ_RecipesUITests: XCTestCase {
             XCTAssert(selectRecipe.exists, "Error line \(#line): The secondary view text isn't showing")
             
             sidebarButton.tap()
-            snapshot("home-view-\(shotNum)")
+            takeScreenshot(withName: screenshotName, shotNum: shotNum)
             shotNum += 1
         }
         
@@ -82,8 +97,9 @@ class EZ_RecipesUITests: XCTestCase {
         if popoverDismissRegion.exists {
             popoverDismissRegion.tap()
         }
+        screenshotName = "recipe-view"
         shotNum = 1
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // Check that the favorite button toggles between filling and un-filling when tapped
@@ -115,7 +131,7 @@ class EZ_RecipesUITests: XCTestCase {
         // Scroll down and take screenshots of the recipe view
         let scrollView = app.scrollViews.firstMatch
         scrollView.swipeUp() // swipe up will scroll the whole screen
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // Check that the nutrition label contains all the required nutritional properties (except fiber)
@@ -125,26 +141,26 @@ class EZ_RecipesUITests: XCTestCase {
         }
         
         scrollView.swipeUp()
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // Check that the summary box, ingredients list, instructions list, and footer are present
         let summary = app.staticTexts["Summary"]
         XCTAssert(summary.exists, "Error line \(#line): The summary box is missing")
         scrollView.swipeUp()
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         let ingredients = app.staticTexts["Ingredients"]
         XCTAssert(ingredients.exists, "Error line \(#line): The ingredients list is missing")
         scrollView.swipeUp()
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         let steps = app.staticTexts["Steps"]
         XCTAssert(steps.exists, "Error line \(#line): The instructions list is missing")
         scrollView.swipeUp()
-        snapshot("recipe-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         let attribution = app.staticTexts["Powered by spoonacular"]
@@ -158,8 +174,9 @@ class EZ_RecipesUITests: XCTestCase {
     func testSearchRecipes() throws {
         // Go to the Search tab
         goTo(tab: "Search")
+        let screenshotName = "search-view"
         var shotNum = 1
-        snapshot("search-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // If the sidebar button exists, check that the search recipes text is shown and tapping the sidebar button opens the filter form
@@ -170,7 +187,7 @@ class EZ_RecipesUITests: XCTestCase {
             XCTAssert(searchRecipes.exists, "Error line \(#line): The secondary view text isn't showing")
             
             sidebarButton.tap()
-            snapshot("search-view-\(shotNum)")
+            takeScreenshot(withName: screenshotName, shotNum: shotNum)
             shotNum += 1
         }
         
@@ -337,7 +354,7 @@ class EZ_RecipesUITests: XCTestCase {
         
         let cuisines = collectionViewsQuery.staticTexts["Italian"]
         XCTAssert(cuisines.exists, "Error line \(#line): The cuisines selected aren't shown")
-        snapshot("search-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
         
         // Submit the form and wait for results
@@ -348,13 +365,13 @@ class EZ_RecipesUITests: XCTestCase {
         if popoverDismissRegion.exists {
             popoverDismissRegion.tap()
         }
-        snapshot("search-view-\(shotNum)")
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
     }
     
     func testGlossaryScreen() throws {
         // Take a screenshot of the glossary tab (no assertions)
         goTo(tab: "Glossary")
-        snapshot("glossary-view")
+        takeScreenshot(withName: "glossary-view")
     }
 }
