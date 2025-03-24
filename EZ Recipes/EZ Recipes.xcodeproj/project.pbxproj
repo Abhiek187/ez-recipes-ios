@@ -60,7 +60,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5E5AD98C2D7CD1B8001D415C /* .github */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = .github; path = ../.github; sourceTree = "<group>"; };
 		5E5AD9B62D7CD24B001D415C /* screenshots */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = screenshots; path = ../screenshots; sourceTree = "<group>"; };
-		5E5AD9CB2D7CD295001D415C /* fastlane */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5E5ADA942D7CD62A001D415C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = fastlane; sourceTree = "<group>"; };
+		5E5AD9CB2D7CD295001D415C /* fastlane */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5E5ADA942D7CD62A001D415C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {Appfile = text.script.ruby; Fastfile = text.script.ruby; Matchfile = text.script.ruby; Pluginfile = text.script.ruby; Snapfile = text.script.ruby; }; explicitFolders = (); path = fastlane; sourceTree = "<group>"; };
 		5E5AD9CD2D7CD366001D415C /* EZ RecipesUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "EZ RecipesUITests"; sourceTree = "<group>"; };
 		5E5AD9E12D7CD36B001D415C /* EZ RecipesTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "EZ RecipesTests"; sourceTree = "<group>"; };
 		5E5ADA482D7CD3B1001D415C /* EZ Recipes */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5E5ADA922D7CD3B1001D415C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "EZ Recipes"; sourceTree = "<group>"; };
@@ -437,6 +437,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EZ-Recipes-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -464,6 +465,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "EZ-Recipes-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
