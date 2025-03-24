@@ -38,7 +38,7 @@ struct SecureTextField: View {
                     showPassword.toggle()
                 } label: {
                     Image(systemName: showPassword ? "eye.slash.fill" : "eye.fill")
-                        .padding()
+                        .padding(.trailing, 8)
                         .accessibilityLabel(showPassword ? Constants.ProfileView.passwordHide : Constants.ProfileView.passwordShow)
                 }
             }
@@ -51,10 +51,7 @@ private struct PasswordModifier: ViewModifier {
         content
             .autocorrectionDisabled()
             .textInputAutocapitalization(.never)
-            .padding()
-            .overlay {
-                RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-            }
+            .textFieldStyle(.roundedBorder)
     }
 }
 
