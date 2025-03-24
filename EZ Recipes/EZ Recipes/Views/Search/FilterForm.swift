@@ -10,7 +10,7 @@ import MultiPicker
 
 struct FilterForm: View {
     // Focusable fields in form order
-    enum Field: CaseIterable {
+    private enum Field: CaseIterable {
         case query
         case minCals
         case maxCals
@@ -127,23 +127,7 @@ struct FilterForm: View {
         .navigationDestination(isPresented: viewModel.isRecipeLoaded.binding) {
             SearchResults(searchViewModel: viewModel)
         }
-        .toolbar {
-            // Add buttons above the keyboard for ease of navigation
-            ToolbarItemGroup(placement: .keyboard) {
-                Button(Constants.KeyboardNavigation.previous, systemImage: "chevron.up") {
-                    focusedField = focusedField?.previous()
-                }
-                .disabled(focusedField?.isFirst != false)
-                Button(Constants.KeyboardNavigation.next, systemImage: "chevron.down") {
-                    focusedField = focusedField?.next()
-                }
-                .disabled(focusedField?.isLast != false)
-                Spacer()
-                Button(Constants.KeyboardNavigation.done) {
-                    focusedField = nil
-                }
-            }
-        }
+        .keyboardNavigation(focusedField: $focusedField)
     }
 }
 

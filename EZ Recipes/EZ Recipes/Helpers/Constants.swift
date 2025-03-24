@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RegexBuilder
 import SwiftUI
 
 struct Constants {
@@ -41,9 +42,56 @@ struct Constants {
     static let baseRecipesPath = serverBaseUrl + "/api/recipes"
     static let baseTermsPath = serverBaseUrl + "/api/terms"
     static let baseChefsPath = serverBaseUrl + "/api/chefs"
-    static let emailCooldownSeconds = 30
-    
     static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
+    
+    // Using the Android email regex since Swift doesn't allow escaping certain literals in the RFC 5322 regex: https://android.googlesource.com/platform/frameworks/base/+/cd92588/core/java/android/util/Patterns.java
+    // A more readable version of: /[a-zA-Z0-9\+\.\_\%\-\+]{1,256}\@[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}(\.[a-zA-Z0-9][a-zA-Z0-9\-]{0,25})+/
+    @MainActor static let emailRegex = Regex {
+        Repeat(1...256) {
+            CharacterClass(
+                .anyOf("+._%-+"),
+                ("a"..."z"),
+                ("A"..."Z"),
+                ("0"..."9")
+            )
+        }
+        "@"
+        CharacterClass(
+            ("a"..."z"),
+            ("A"..."Z"),
+            ("0"..."9")
+        )
+        Repeat(0...64) {
+            CharacterClass(
+                .anyOf("-"),
+                ("a"..."z"),
+                ("A"..."Z"),
+                ("0"..."9")
+            )
+        }
+        OneOrMore {
+            Capture {
+                Regex {
+                    "."
+                    CharacterClass(
+                        ("a"..."z"),
+                        ("A"..."Z"),
+                        ("0"..."9")
+                    )
+                    Repeat(0...25) {
+                        CharacterClass(
+                            .anyOf("-"),
+                            ("a"..."z"),
+                            ("A"..."Z"),
+                            ("0"..."9")
+                        )
+                    }
+                }
+            }
+        }
+    }
+    static let emailCooldownSeconds = 30
+    static let passwordMinLength = 8
     
     struct Mocks {
         // Normal, no culture
@@ -229,7 +277,7 @@ struct Constants {
         static let recipesViewed: @Sendable (Int) -> String = { views in
             String(format: String(localized: "%d recipe(s) viewed"), views)
         }
-        @MainActor static let loginMessage = LocalizedStringKey("""
+        static let loginMessage = String(localized: """
         Signing up for an account is free and gives you great perks, including:
         
         • Saving your favorite recipes
@@ -244,8 +292,6 @@ struct Constants {
         static let deleteAccount = String(localized: "Delete Account")
         
         // Login form
-        static let passwordMinLength = 8
-        
         static let signInHeader = String(localized: "Sign In")
         static let signInSubHeader = String(localized: "Don't have an account?")
         static let usernameField = String(localized: "Username")
@@ -264,29 +310,29 @@ struct Constants {
             String(localized: "Error: \(field) is required")
         }
         static let emailInvalid = String(localized: "Error: Invalid email")
-        static let passwordMinLengthErr = String(localized: "Password must be at least 8 characters long")
-        static let passwordTooShort = String(localized: "Error: Password must be at least 8 characters long")
+        static let passwordMinLengthInfo = String(localized: "Password must be at least 8 characters long")
+        static let passwordMinLengthError = String(localized: "Error: Password must be at least 8 characters long")
         static let passwordMatch = String(localized: "Error: Passwords do not match")
 
         static let emailVerifyHeader = String(localized: "You're Almost There!")
-        static let emailVerifyBody: @Sendable (String) -> String = { email in
-            String(localized: """
+        static let emailVerifyBody: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: """
         We just need to verify your email before you can put on the chef's hat.
-        Check your email for a magic link sent to \(email)
+        Check your email for a magic link sent to **\(email)**
         
         ⚠️ We will delete accounts from our system if they're not verified within 1 week.
-        """)}
+        """))}
         static let emailVerifyRetryText = String(localized: "Didn't receive an email?")
         static let emailVerifyRetryLink = String(localized: "Resend")
         static let emailVerifySuccess = String(localized: "Email verified successfully!")
         static let forgetPasswordHeader = String(localized: "No problem! Enter your email so we can reset your password.")
         static let submitButton = String(localized: "Submit")
-        static let forgetPasswordConfirm: @Sendable (String) -> String = { email in
-            String(localized: """
-        We sent an email to \(email). Follow the instructions to reset your password.
+        static let forgetPasswordConfirm: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: """
+        We sent an email to **\(email)**. Follow the instructions to reset your password.
         
         If you didn't receive an email, you may not have created an account with this email.
-        """)}
+        """))}
         
         static let changeEmailField = String(localized: "New Email")
         static let changeEmailConfirm: @Sendable (String) -> String = { email in
