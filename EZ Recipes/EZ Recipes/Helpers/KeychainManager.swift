@@ -14,6 +14,17 @@ enum SecureStoreError: Error {
     case failure(error: NSError)
 }
 
+extension SecureStoreError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidContent:
+            return "The data provided is invalid."
+        case .failure(let error):
+            return error.localizedDescription // converts Error.localizedDescription to NSError.localizedDescription
+        }
+    }
+}
+
 /// Helper methods for the Keychain
 ///
 /// - Note: Keychain stored at `~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Library/Keychains`
