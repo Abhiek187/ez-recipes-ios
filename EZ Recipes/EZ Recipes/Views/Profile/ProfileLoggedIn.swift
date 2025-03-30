@@ -23,6 +23,7 @@ struct ProfileLoggedIn: View {
         VStack {
             Text(Constants.ProfileView.profileHeader(chef.email))
                 .font(.title)
+                .padding(.horizontal)
             
             HStack {
                 Text(Constants.ProfileView.favorites(chef.favoriteRecipes.count))
@@ -31,7 +32,8 @@ struct ProfileLoggedIn: View {
                 Divider()
                 Text(Constants.RecipeView.totalRatings(chef.ratings.count))
             }
-            .fixedSize() // prevent the dividers from taking up the full height
+            .padding(.horizontal)
+            .fixedSize(horizontal: false, vertical: true) // prevent the dividers from taking up the full height
             
             List {
                 Button {
