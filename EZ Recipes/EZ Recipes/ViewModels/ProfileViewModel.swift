@@ -10,16 +10,16 @@ import OSLog
 
 @MainActor
 @Observable class ProfileViewModel: ViewModel {
-    private(set) var isLoading = false
-    private(set) var authState: AuthState = .loading
-    private(set) var chef: Chef?
-    private(set) var openLoginSheet = false
+    var isLoading = false
+    var authState: AuthState = .loading
+    var chef: Chef?
+    var openLoginSheet = false
     private(set) var emailSent = false
-    private(set) var passwordUpdated = false
-    private(set) var accountDeleted = false
+    var passwordUpdated = false
+    var accountDeleted = false
     
     private(set) var recipeError: RecipeError?
-    private(set) var showAlert = false
+    var showAlert = false
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "ProfileViewModel")
     private var repository: ChefRepository & RecipeRepository

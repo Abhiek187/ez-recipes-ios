@@ -23,7 +23,7 @@ struct ContentView: View {
                 .tabItem {
                     Constants.Tabs.glossary
                 }
-            ProfileView()
+            ProfileView(viewModel: ProfileViewModel(repository: NetworkManager.shared))
                 .tabItem {
                     Constants.Tabs.profile
                 }

@@ -8,42 +8,60 @@
 import SwiftUI
 
 struct ProfileLoggedIn: View {
+    private enum ProfileForm {
+        case updateEmail, updatePassword, deleteAccount
+    }
+    
+    var chef: Chef
+    @Bindable var viewModel: ProfileViewModel
+    
+    @State private var formToShow: ProfileForm? = nil
+    
     var body: some View {
         VStack {
-            Text(Constants.ProfileView.profileHeader("test@example.com"))
+            Text(Constants.ProfileView.profileHeader(chef.email))
                 .font(.title)
             
             HStack {
-                Text(Constants.ProfileView.favorites(1))
+                Text(Constants.ProfileView.favorites(chef.favoriteRecipes.count))
                 Divider()
-                Text(Constants.ProfileView.recipesViewed(2))
+                Text(Constants.ProfileView.recipesViewed(chef.recentRecipes.count))
                 Divider()
-                Text(Constants.RecipeView.totalRatings(3))
+                Text(Constants.RecipeView.totalRatings(chef.ratings.count))
             }
             .fixedSize() // prevent the dividers from taking up the full height
             
             List {
                 Button {
-                    print("Logout")
+                    Task {
+                        await viewModel.logout()
+                    }
                 } label: {
-                    Text(Constants.ProfileView.logout)
-                        .font(.title3)
+                    HStack(spacing: 8) {
+                        Text(Constants.ProfileView.logout)
+                            .font(.title3)
+                        
+                        if viewModel.isLoading {
+                            ProgressView()
+                        }
+                    }
                 }
+                .disabled(viewModel.isLoading)
                 .clipShape(Capsule())
                 Button {
-                    print("Change Email")
+                    formToShow = .updateEmail
                 } label: {
                     Text(Constants.ProfileView.changeEmail)
                         .font(.title3)
                 }
                 Button {
-                    print("Change Password")
+                    formToShow = .updatePassword
                 } label: {
                     Text(Constants.ProfileView.changePassword)
                         .font(.title3)
                 }
                 Button {
-                    print("Delete Account")
+                    formToShow = .deleteAccount
                 } label: {
                     Text(Constants.ProfileView.deleteAccount)
                         .font(.title3)
@@ -51,9 +69,39 @@ struct ProfileLoggedIn: View {
                 }
             }
         }
+        .alert(Constants.errorTitle, isPresented: $viewModel.showAlert) {
+            Button(Constants.okButton, role: .cancel) {}
+        } message: {
+            Text(viewModel.recipeError?.error ?? Constants.unknownError)
+        }
+        .sheet(isPresented: .constant(formToShow != nil), onDismiss: {
+            formToShow = nil
+        }) {
+            Group {
+                if formToShow == .updateEmail {
+                    UpdateEmailForm()
+                } else if formToShow == .updatePassword {
+                    UpdatePasswordForm()
+                } else if formToShow == .deleteAccount {
+                    DeleteAccountForm()
+                }
+            }
+            .presentationDetents([.medium]) // half-screen modal
+        }
     }
 }
 
-#Preview {
-    ProfileLoggedIn()
+#Preview("No Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
+    ProfileLoggedIn(chef: mockRepo.mockChef, viewModel: viewModel)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.isLoading = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef, viewModel: viewModel)
 }

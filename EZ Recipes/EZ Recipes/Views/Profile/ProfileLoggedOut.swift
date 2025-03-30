@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct ProfileLoggedOut: View {
-    @State private var showLoginSheet = false
+    @Bindable var viewModel: ProfileViewModel
     
     var body: some View {
         VStack {
             Text(Constants.ProfileView.loginMessage)
             
             Button {
-                showLoginSheet.toggle()
+                viewModel.openLoginSheet = true
             } label: {
                 Text(Constants.ProfileView.login)
             }
-            .sheet(isPresented: $showLoginSheet) {
+            .sheet(isPresented: $viewModel.openLoginSheet) {
                 LoginSheet()
             }
             
@@ -27,9 +27,22 @@ struct ProfileLoggedOut: View {
         }
         .padding()
         .font(.title2)
+        .onChange(of: [viewModel.passwordUpdated, viewModel.accountDeleted]) {
+            // Show messages after actions that force the user to be signed out
+            if viewModel.passwordUpdated {
+                print(Constants.ProfileView.changePasswordSuccess)
+                viewModel.passwordUpdated = false
+            } else if viewModel.accountDeleted {
+                print(Constants.ProfileView.deleteAccountSuccess)
+                viewModel.accountDeleted = false
+            }
+        }
     }
 }
 
 #Preview {
-    ProfileLoggedOut()
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
+    ProfileLoggedOut(viewModel: viewModel)
 }
