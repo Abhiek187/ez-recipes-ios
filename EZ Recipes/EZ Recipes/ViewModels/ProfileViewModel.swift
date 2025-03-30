@@ -32,7 +32,7 @@ import OSLog
         do {
             try KeychainManager.save(entry: token, forKey: .token)
         } catch {
-            logger.error("Error saving token: \(error.localizedDescription)")
+            logger.error("Error saving token: \(error)")
         }
     }
     
@@ -42,7 +42,7 @@ import OSLog
             logger.debug("Retrieved ID token from the Keychain")
             return token
         } catch {
-            logger.error("Error getting token: \(error.localizedDescription)")
+            logger.error("Error getting token: \(error)")
             return nil
         }
     }
@@ -51,7 +51,7 @@ import OSLog
         do {
             try KeychainManager.delete(key: .token)
         } catch {
-            logger.error("Error clearing token: \(error.localizedDescription)")
+            logger.error("Error clearing token: \(error)")
         }
     }
     

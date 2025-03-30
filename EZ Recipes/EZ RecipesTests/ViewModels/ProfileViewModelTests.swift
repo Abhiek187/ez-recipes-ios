@@ -23,6 +23,11 @@ private extension ProfileViewModel {
     private let mockRepo = NetworkManagerMock.shared
     
     init() {
+        // By default, add a token to the Keychain
+        try? KeychainManager.save(entry: mockRepo.mockChef.token, forKey: .token)
+    }
+    
+    private func clearToken() {
         try? KeychainManager.delete(key: .token)
     }
     
@@ -82,6 +87,8 @@ private extension ProfileViewModel {
 
     @Test func sendVerificationEmailNoToken() async {
         // Given no token
+        clearToken()
+        
         // When sending a verification email
         let viewModel = ProfileViewModel()
         await viewModel.sendVerificationEmail()
@@ -151,6 +158,8 @@ private extension ProfileViewModel {
 
     @Test func getChefNoToken() async {
         // Given no token
+        clearToken()
+        
         // When getting the chef's profile
         let viewModel = ProfileViewModel()
         await viewModel.getChef()
@@ -247,6 +256,8 @@ private extension ProfileViewModel {
 
     @Test func logoutNoToken() async {
         // Given no token
+        clearToken()
+        
         // When logging out
         let viewModel = ProfileViewModel()
         await viewModel.logout()
@@ -294,6 +305,7 @@ private extension ProfileViewModel {
 
     @Test func updateEmailNoToken() async {
         // Given no token
+        clearToken()
         let newEmail = "mock@example.com"
 
         // When updating the chef's email
@@ -340,6 +352,7 @@ private extension ProfileViewModel {
 
     @Test func updatePasswordNoToken() async {
         // Given no token
+        clearToken()
         let newPassword = "mockPassword"
         
         // When updating the chef's password
@@ -383,6 +396,8 @@ private extension ProfileViewModel {
 
     @Test func deleteAccountNoToken() async {
         // Given no token
+        clearToken()
+        
         // When deleting the chef's account
         let viewModel = ProfileViewModel()
         await viewModel.deleteAccount()
