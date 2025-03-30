@@ -24,11 +24,7 @@ struct SubmitButton: View {
                     }
                 }
                 .disabled(viewModel.isLoading)
-                .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                    Button(Constants.okButton, role: .cancel) {}
-                } message: {
-                    Text(viewModel.recipeError?.error ?? Constants.unknownError)
-                }
+                .errorAlert(isPresented: $viewModel.recipeFailedToLoad, message: viewModel.recipeError?.error)
                 .padding(.trailing)
                 
                 ProgressView()

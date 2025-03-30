@@ -13,11 +13,13 @@ struct ProfileLoggedIn: View {
     }
     
     var chef: Chef
-    @Bindable var viewModel: ProfileViewModel
+    @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         VStack {
             Text(Constants.ProfileView.profileHeader(chef.email))
                 .font(.title)
@@ -47,7 +49,6 @@ struct ProfileLoggedIn: View {
                     }
                 }
                 .disabled(viewModel.isLoading)
-                .clipShape(Capsule())
                 Button {
                     formToShow = .updateEmail
                 } label: {
@@ -69,11 +70,7 @@ struct ProfileLoggedIn: View {
                 }
             }
         }
-        .alert(Constants.errorTitle, isPresented: $viewModel.showAlert) {
-            Button(Constants.okButton, role: .cancel) {}
-        } message: {
-            Text(viewModel.recipeError?.error ?? Constants.unknownError)
-        }
+        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .sheet(isPresented: .constant(formToShow != nil), onDismiss: {
             formToShow = nil
         }) {
@@ -95,7 +92,8 @@ struct ProfileLoggedIn: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
-    ProfileLoggedIn(chef: mockRepo.mockChef, viewModel: viewModel)
+    ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
 }
 
 #Preview("Loading") {
@@ -103,5 +101,6 @@ struct ProfileLoggedIn: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
     
-    return ProfileLoggedIn(chef: mockRepo.mockChef, viewModel: viewModel)
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
 }

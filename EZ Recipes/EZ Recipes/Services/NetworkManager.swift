@@ -81,7 +81,7 @@ extension NetworkManager: RecipeRepository {
     }
     
     func updateRecipe(withId id: Int, fields: RecipeUpdate, token: String? = nil) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseRecipesPath)/\(id)", method: .patch, parameters: fields) { urlRequest in
+        let request = session.request("\(Constants.baseRecipesPath)/\(id)", method: .patch, parameters: fields, encoder: JSONParameterEncoder.default) { urlRequest in
             if let token {
                 urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -107,12 +107,12 @@ extension NetworkManager: ChefRepository {
     }
     
     func createChef(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        let request = session.request(Constants.baseChefsPath, method: .post, parameters: credentials)
+        let request = session.request(Constants.baseChefsPath, method: .post, parameters: credentials, encoder: JSONParameterEncoder.default)
         return await parseResponse(fromRequest: request, method: #function)
     }
     
     func updateChef(fields: ChefUpdate, token: String? = nil) async -> Result<ChefEmailResponse, RecipeError> {
-        let request = session.request(Constants.baseChefsPath, method: .patch, parameters: fields) { urlRequest in
+        let request = session.request(Constants.baseChefsPath, method: .patch, parameters: fields, encoder: JSONParameterEncoder.default) { urlRequest in
             if let token {
                 urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -132,7 +132,7 @@ extension NetworkManager: ChefRepository {
     }
     
     func login(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/login", method: .post, parameters: credentials)
+        let request = session.request("\(Constants.baseChefsPath)/login", method: .post, parameters: credentials, encoder: JSONParameterEncoder.default)
         return await parseResponse(fromRequest: request, method: #function)
     }
     

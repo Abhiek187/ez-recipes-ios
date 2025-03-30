@@ -15,9 +15,9 @@ struct ProfileView: View {
         NavigationStack {
             Group {
                 if viewModel.authState == .authenticated, let chef = viewModel.chef {
-                    ProfileLoggedIn(chef: chef, viewModel: viewModel)
+                    ProfileLoggedIn(chef: chef)
                 } else if viewModel.authState == .unauthenticated {
-                    ProfileLoggedOut(viewModel: viewModel)
+                    ProfileLoggedOut()
                 } else {
                     VStack {
                         ProgressView()
@@ -27,6 +27,7 @@ struct ProfileView: View {
             }
             .navigationTitle(Constants.ProfileView.profileTitle)
         }
+        .environment(viewModel)
         .task {
             // Check if the user is authenticated every time the profile tab is launched or deep linked
             if !isPreview {

@@ -15,12 +15,12 @@ struct SignUpForm: View {
     }
     
     @Environment(LoginRouter.self) private var router
+    @Environment(ProfileViewModel.self) private var viewModel
     @FocusState private var focusedField: Field?
     
     @State private var email = ""
     @State private var password = ""
     @State private var passwordConfirm = ""
-    @State private var isLoading = false
     
     @State private var emailTouched = false
     @State private var passwordTouched = false
@@ -33,6 +33,8 @@ struct SignUpForm: View {
     @State private var passwordsDoNotMatch = false
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         VStack(spacing: 16) {
             HStack {
                 Text(Constants.ProfileView.signUpSubHeader)
@@ -88,18 +90,21 @@ struct SignUpForm: View {
             HStack {
                 Spacer()
                 ProgressView()
-                    .opacity(isLoading ? 1 : 0)
+                    .opacity(viewModel.isLoading ? 1 : 0)
                 Button {
-                    router.navigate(to: .verifyEmail(email: email))
+                    Task {
+                        await viewModel.createAccount(username: email, password: password)
+                    }
                 } label: {
                     Text(Constants.ProfileView.signUpHeader)
                 }
                 .font(.title3)
-                .disabled(emailEmpty || emailInvalid || passwordEmpty || passwordTooShort || passwordsDoNotMatch || isLoading)
+                .disabled(emailEmpty || emailInvalid || passwordEmpty || passwordTooShort || passwordsDoNotMatch || viewModel.isLoading)
             }
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
+        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onChange(of: focusedField) {
             withAnimation {
                 if focusedField == .email {
@@ -111,10 +116,40 @@ struct SignUpForm: View {
                 }
             }
         }
+        .task(id: viewModel.chef) {
+            if let chef = viewModel.chef, !chef.emailVerified {
+                await viewModel.sendVerificationEmail()
+                router.navigate(to: .verifyEmail(email: chef.email))
+            }
+        }
     }
 }
 
-#Preview {
+#Preview("No Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     SignUpForm()
         .environment(LoginRouter())
+        .environment(viewModel)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.isLoading = true
+    
+    return SignUpForm()
+        .environment(LoginRouter())
+        .environment(viewModel)
+}
+
+#Preview("Alert") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.showAlert = true
+    
+    return SignUpForm()
+        .environment(LoginRouter())
+        .environment(viewModel)
 }

@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ProfileLoggedOut: View {
-    @Bindable var viewModel: ProfileViewModel
+    @Environment(ProfileViewModel.self) private var viewModel
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         VStack {
             Text(Constants.ProfileView.loginMessage)
             
@@ -44,5 +46,6 @@ struct ProfileLoggedOut: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
-    ProfileLoggedOut(viewModel: viewModel)
+    ProfileLoggedOut()
+        .environment(viewModel)
 }

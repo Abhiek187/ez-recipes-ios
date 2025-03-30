@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ForgotPasswordForm: View {
+    @Environment(ProfileViewModel.self) private var viewModel
+    
     @State private var email = ""
-    @State private var isLoading = false
-    @State private var emailSent = false
     
     @State private var emailTouched = false
     
@@ -18,8 +18,10 @@ struct ForgotPasswordForm: View {
     @State private var emailInvalid = true
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         VStack(spacing: 16) {
-            if !emailSent {
+            if !viewModel.emailSent {
                 Text(Constants.ProfileView.forgetPasswordHeader)
                     .font(.title3)
                 
@@ -42,23 +44,51 @@ struct ForgotPasswordForm: View {
                 HStack {
                     Spacer()
                     ProgressView()
-                        .opacity(isLoading ? 1 : 0)
+                        .opacity(viewModel.isLoading ? 1 : 0)
                     Button {
-                        emailSent = true
+                        Task {
+                            await viewModel.resetPassword(email: email)
+                        }
                     } label: {
                         Text(Constants.ProfileView.submitButton)
                     }
                     .font(.title3)
-                    .disabled(emailEmpty || emailInvalid || isLoading)
+                    .disabled(emailEmpty || emailInvalid || viewModel.isLoading)
                 }
             } else {
                 Text(Constants.ProfileView.forgetPasswordConfirm(email))
             }
         }
         .padding()
+        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
+        .onAppear {
+            viewModel.emailSent = false
+        }
     }
 }
 
-#Preview {
+#Preview("No Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     ForgotPasswordForm()
+        .environment(viewModel)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.isLoading = true
+    
+    return ForgotPasswordForm()
+        .environment(viewModel)
+}
+
+#Preview("Alert") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.showAlert = true
+    
+    return ForgotPasswordForm()
+        .environment(viewModel)
 }

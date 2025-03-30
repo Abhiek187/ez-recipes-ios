@@ -14,7 +14,7 @@ import OSLog
     var authState: AuthState = .loading
     var chef: Chef?
     var openLoginSheet = false
-    private(set) var emailSent = false
+    var emailSent = false
     var passwordUpdated = false
     var accountDeleted = false
     

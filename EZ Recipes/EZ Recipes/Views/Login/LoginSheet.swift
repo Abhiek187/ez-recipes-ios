@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginSheet: View {
     @Bindable var router = LoginRouter()
+    @Environment(ProfileViewModel.self) private var viewModel
     
     var body: some View {
         NavigationStack(path: $router.path) {
@@ -33,5 +34,9 @@ struct LoginSheet: View {
 }
 
 #Preview {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     LoginSheet()
+        .environment(viewModel)
 }
