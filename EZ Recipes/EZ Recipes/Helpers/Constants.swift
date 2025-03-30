@@ -17,6 +17,7 @@ struct Constants {
     static let appName = "EZ Recipes"
     static let errorTitle = String(localized: "Error")
     static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
+    static let noTokenFound = String(localized: "No token found")
     static let okButton = String(localized: "OK")
     static let loadingMessages = [
         "Prepping the ingredients... 🍱",

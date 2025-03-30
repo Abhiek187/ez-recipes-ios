@@ -16,3 +16,9 @@ protocol ChefRepository: Sendable {
     func login(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError>
     func logout(token: String) async -> Result<Void, RecipeError>
 }
+
+extension ChefRepository {
+    func updateChef(fields: ChefUpdate) async -> Result<ChefEmailResponse, RecipeError> {
+        return await updateChef(fields: fields, token: nil)
+    }
+}

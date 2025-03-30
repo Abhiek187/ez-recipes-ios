@@ -49,11 +49,11 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     
     // MARK: ChefRepository
     func getChef(token: String) async -> Result<Chef, RecipeError> {
-        return isSuccess ? .success(mockChef) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockChef.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func createChef(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func updateChef(fields: ChefUpdate, token: String?) async -> Result<ChefEmailResponse, RecipeError> {
@@ -70,7 +70,7 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     }
     
     func login(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func logout(token: String) async -> Result<Void, RecipeError> {
