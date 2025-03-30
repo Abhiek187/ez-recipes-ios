@@ -35,7 +35,9 @@ final class AFLogger: EventMonitor {
         for field in fieldsToRedact {
             let oldFieldRegex = Regex {
                 field
-                "\":\"[^\"]+\""
+                "\":\""
+                OneOrMore(CharacterClass.anyOf("\"").inverted) // [^\"]+
+                "\""
             }
             
             redactedBody = redactedBody.replacing(oldFieldRegex, with: "\(field)\":\"\(MASK)\"")
