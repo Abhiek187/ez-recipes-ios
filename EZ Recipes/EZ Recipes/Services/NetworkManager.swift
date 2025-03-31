@@ -33,7 +33,8 @@ struct NetworkManager {
                 return .failure(recipeError)
             } catch {
                 // Create a RecipeError object with the raw error response
-                return .failure(RecipeError(error: error.localizedDescription))
+                let errorResponse = try? await request.serializingString().value
+                return .failure(RecipeError(error: errorResponse ?? Constants.unknownError))
             }
         }
     }
