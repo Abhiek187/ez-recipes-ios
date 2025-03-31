@@ -336,8 +336,8 @@ struct Constants {
         """))}
         
         static let changeEmailField = String(localized: "New Email")
-        static let changeEmailConfirm: @Sendable (String) -> String = { email in
-            String(localized: "We sent an email to \(email). Follow the instructions to change your email.")
+        static let changeEmailConfirm: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: "We sent an email to **\(email)**. Follow the instructions to change your email."))
         }
         static let changeEmailSuccess = String(localized: "Email updated successfully! Please sign in again.")
         static let changePasswordField = String(localized: "New Password")
@@ -345,6 +345,7 @@ struct Constants {
         static let deleteAccountHeader = String(localized: "Are You Sure?")
         static let deleteAccountSubHeader = String(localized: """
         You will lose access to your favorite recipes.
+        
         Enter your username to confirm.
         """)
         static let deleteAccountSuccess = String(localized: "Your account has been deleted.")

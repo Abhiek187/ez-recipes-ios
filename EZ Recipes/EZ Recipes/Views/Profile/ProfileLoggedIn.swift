@@ -93,14 +93,16 @@ struct ProfileLoggedIn: View {
 #Preview("No Loading") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
     
-    ProfileLoggedIn(chef: mockRepo.mockChef)
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
         .environment(viewModel)
 }
 
 #Preview("Loading") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
     viewModel.isLoading = true
     
     return ProfileLoggedIn(chef: mockRepo.mockChef)
