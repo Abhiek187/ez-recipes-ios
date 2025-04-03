@@ -11,7 +11,7 @@ import OSLog
 /// Repository for making requests to the ez-recipes-server API using Alamofire
 ///
 /// Each request will respond with one of the following status codes:
-/// - 2xx = a Recipe object
+/// - 2xx = a Decodable object
 /// - 4xx = a RecipeError object with a known error message (defined by the server)
 /// - 5xx = a RecipeError object with an unknown error message (such as a network failure)
 struct NetworkManager {
@@ -19,40 +19,27 @@ struct NetworkManager {
     private let session = Session(eventMonitors: [AFLogger()])
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "NetworkManager")
     
-    private func parseResponse<T: Decodable & Sendable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
+    private func parseResponse<T: Decodable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
         do {
-            // If successful, the request can be decoded as a Recipe object
-            let response = try await request.serializingDecodable(T.self).value
-            return .success(response)
-        } catch {
-            logger.error("\(method) :: error: \(error.localizedDescription)")
+            let responseData = try await request.serializingData().value
             
-            do {
+            if T.self == Empty.self && responseData.isEmpty {
+                // Special check since empty responses can't be decoded
+                return .success(Empty.value as! T)
+            } else if let decodableResponse = try? JSONDecoder().decode(T.self, from: responseData) {
+                // If successful, the request can be decoded like normal
+                return .success(decodableResponse)
+            } else if let errorResponse = try? JSONDecoder().decode(RecipeError.self, from: responseData) {
                 // If this is a client error, the request can be decoded directly as a RecipeError object
-                let recipeError = try await request.serializingDecodable(RecipeError.self).value
-                return .failure(recipeError)
-            } catch {
-                // Create a RecipeError object with the raw error response
-                let errorResponse = try? await request.serializingString().value
-                return .failure(RecipeError(error: errorResponse ?? Constants.unknownError))
+                return .failure(errorResponse)
             }
-        }
-    }
-    
-    // 2nd method since Void isn't Decodable
-    private func parseResponse(fromRequest request: DataRequest, method: String) async -> Result<Void, RecipeError> {
-        do {
-            _ = try await request.serializingString().value
-            return .success(())
+            
+            // Create a RecipeError object with the raw error response
+            let rawResponse = String(data: responseData, encoding: .utf8) ?? Constants.unknownError
+            return .failure(RecipeError(error: rawResponse))
         } catch {
             logger.error("\(method) :: error: \(error.localizedDescription)")
-            
-            do {
-                let recipeError = try await request.serializingDecodable(RecipeError.self).value
-                return .failure(recipeError)
-            } catch {
-                return .failure(RecipeError(error: error.localizedDescription))
-            }
+            return .failure(RecipeError(error: error.localizedDescription))
         }
     }
 }
@@ -122,7 +109,7 @@ extension NetworkManager: ChefRepository {
         return await parseResponse(fromRequest: request, method: #function)
     }
     
-    func deleteChef(token: String) async -> Result<Void, RecipeError> {
+    func deleteChef(token: String) async -> Result<Empty, RecipeError> {
         let request = session.request(Constants.baseChefsPath, method: .delete, headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
@@ -137,7 +124,7 @@ extension NetworkManager: ChefRepository {
         return await parseResponse(fromRequest: request, method: #function)
     }
     
-    func logout(token: String) async -> Result<Void, RecipeError> {
+    func logout(token: String) async -> Result<Empty, RecipeError> {
         let request = session.request("\(Constants.baseChefsPath)/logout", method: .post, headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }

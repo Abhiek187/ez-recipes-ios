@@ -7,6 +7,7 @@
 
 import Foundation
 import OSLog
+import Alamofire
 
 @MainActor
 @Observable class ProfileViewModel: ViewModel {
@@ -186,11 +187,11 @@ import OSLog
     func logout() async {
         isLoading = true
         let token = getToken()
-        let result: Result<Void, RecipeError> = if let token {
+        let result: Result<Empty, RecipeError> = if let token {
             await repository.logout(token: token)
         } else {
             // Assume the user should be signed out since there's no auth token
-            .success(())
+            .success(.value)
         }
         isLoading = false
         
@@ -267,7 +268,7 @@ import OSLog
     func deleteAccount() async {
         isLoading = true
         let token = getToken()
-        let result: Result<Void, RecipeError> = if let token {
+        let result: Result<Empty, RecipeError> = if let token {
             await repository.deleteChef(token: token)
         } else {
             .failure(RecipeError(error: Constants.noTokenFound))

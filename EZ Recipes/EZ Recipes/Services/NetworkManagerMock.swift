@@ -5,6 +5,8 @@
 //  Created by Abhishek Chaudhuri on 11/13/22.
 //
 
+import Alamofire
+
 // Mock the network calls to fetch a hardcoded recipe
 struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     static let shared = NetworkManagerMock()
@@ -60,9 +62,9 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
         return isSuccess ? .success(mockChefEmailResponse) : .failure(Constants.Mocks.tokenError)
     }
     
-    func deleteChef(token: String) async -> Result<Void, RecipeError> {
+    func deleteChef(token: String) async -> Result<Empty, RecipeError> {
         // () == Void
-        return isSuccess ? .success(()) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(.value) : .failure(Constants.Mocks.tokenError)
     }
     
     func verifyEmail(token: String) async -> Result<ChefEmailResponse, RecipeError> {
@@ -73,7 +75,7 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
         return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
-    func logout(token: String) async -> Result<Void, RecipeError> {
-        return isSuccess ? .success(()) : .failure(Constants.Mocks.tokenError)
+    func logout(token: String) async -> Result<Empty, RecipeError> {
+        return isSuccess ? .success(.value) : .failure(Constants.Mocks.tokenError)
     }
 }
