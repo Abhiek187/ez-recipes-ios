@@ -19,7 +19,7 @@ private extension ProfileViewModel {
 }
 
 @MainActor
-@Suite struct ProfileViewModelTests {
+@Suite(.serialized) struct ProfileViewModelTests {
     private let mockRepo = NetworkManagerMock.shared
     
     init() {

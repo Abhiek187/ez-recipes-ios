@@ -33,6 +33,7 @@ struct KeychainManager {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "KeychainManager")
     enum Key: String {
         case token
+        case mockToken // for tests only
     }
     
     private static func setupQueryDictionary(forKey key: Key) throws -> [CFString: Any] {

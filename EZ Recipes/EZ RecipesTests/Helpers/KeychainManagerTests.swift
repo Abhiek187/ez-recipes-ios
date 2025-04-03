@@ -9,7 +9,7 @@ import Testing
 @testable import EZ_Recipes
 
 @Suite struct KeychainManagerTests {
-    let key: KeychainManager.Key = .token
+    let key: KeychainManager.Key = .mockToken
     let token = "mockJwt"
     
     init() throws {
