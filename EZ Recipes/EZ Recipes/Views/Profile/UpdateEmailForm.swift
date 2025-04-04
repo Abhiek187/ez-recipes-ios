@@ -18,6 +18,9 @@ struct UpdateEmailForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
+            Text(Constants.ProfileView.changeEmail)
+                .font(.title2)
+            
             if !viewModel.emailSent {
                 TextField(Constants.ProfileView.changeEmailField, text: $email)
                     .textContentType(.emailAddress)

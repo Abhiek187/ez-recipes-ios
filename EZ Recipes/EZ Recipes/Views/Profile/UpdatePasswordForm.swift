@@ -29,6 +29,9 @@ struct UpdatePasswordForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
+            Text(Constants.ProfileView.changePassword)
+                .font(.title2)
+            
             SecureTextField(label: Constants.ProfileView.changePasswordField, text: $password, isNewPassword: true)
                 .focused($focusedField, equals: .password)
                 .onChange(of: password) {
