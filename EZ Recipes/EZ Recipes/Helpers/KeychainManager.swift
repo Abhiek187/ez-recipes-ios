@@ -42,23 +42,25 @@ struct KeychainManager {
             throw SecureStoreError.invalidContent
         }
         
-        var error: Unmanaged<CFError>?
-        guard let accessControl = SecAccessControlCreateWithFlags(
-            kCFAllocatorDefault,
-            // Make the Keychain accessible only if the device has a passcode and is unlocked
-            kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-            // Require biometrics or a passcode to access
-            .userPresence,
-            &error
-        ) else {
-            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
-            throw SecureStoreError.invalidContent
-        }
+        // Skipping biometrics since they're not needed for every token operation
+//        var error: Unmanaged<CFError>?
+//        guard let accessControl = SecAccessControlCreateWithFlags(
+//            kCFAllocatorDefault,
+//            // Make the Keychain accessible only if the device has a passcode and is unlocked
+//            kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+//            // Require biometrics or a passcode to access
+//            .userPresence,
+//            &error
+//        ) else {
+//            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
+//            throw SecureStoreError.invalidContent
+//        }
         
         return [
             kSecClass: kSecClassGenericPassword, // genp table
             kSecAttrAccount: keyData, // account == key
-            kSecAttrAccessControl: accessControl
+            kSecAttrAccessible: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+//            kSecAttrAccessControl: accessControl
         ]
     }
     
