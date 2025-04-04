@@ -33,8 +33,6 @@ struct SignUpForm: View {
     @State private var passwordsDoNotMatch = false
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         VStack(spacing: 16) {
             HStack {
                 Text(Constants.ProfileView.signUpSubHeader)
@@ -104,7 +102,6 @@ struct SignUpForm: View {
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onChange(of: focusedField) {
             withAnimation {
                 if focusedField == .email {
@@ -138,16 +135,6 @@ struct SignUpForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
-    
-    return SignUpForm()
-        .environment(LoginRouter())
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.showAlert = true
     
     return SignUpForm()
         .environment(LoginRouter())

@@ -17,7 +17,6 @@ struct UpdateEmailForm: View {
     @State private var emailInvalid = true
     
     var body: some View {
-        @Bindable var viewModel = viewModel
         VStack(spacing: 16) {
             if !viewModel.emailSent {
                 TextField(Constants.ProfileView.changeEmailField, text: $email)
@@ -55,7 +54,6 @@ struct UpdateEmailForm: View {
             }
         }
         .padding()
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onAppear {
             viewModel.emailSent = false
         }
@@ -74,15 +72,6 @@ struct UpdateEmailForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
-    
-    return UpdateEmailForm()
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.showAlert = true
     
     return UpdateEmailForm()
         .environment(viewModel)

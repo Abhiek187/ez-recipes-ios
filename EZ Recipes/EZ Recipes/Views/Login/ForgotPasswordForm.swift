@@ -18,8 +18,6 @@ struct ForgotPasswordForm: View {
     @State private var emailInvalid = true
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         VStack(spacing: 16) {
             if !viewModel.emailSent {
                 Text(Constants.ProfileView.forgetPasswordHeader)
@@ -60,7 +58,6 @@ struct ForgotPasswordForm: View {
             }
         }
         .padding()
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onAppear {
             viewModel.emailSent = false
         }
@@ -79,15 +76,6 @@ struct ForgotPasswordForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
-    
-    return ForgotPasswordForm()
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.showAlert = true
     
     return ForgotPasswordForm()
         .environment(viewModel)

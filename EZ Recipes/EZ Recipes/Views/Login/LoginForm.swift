@@ -29,8 +29,6 @@ struct LoginForm: View {
     @State private var passwordEmpty = true
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         VStack(spacing: 16) {
             HStack {
                 Text(Constants.ProfileView.signInSubHeader)
@@ -88,7 +86,6 @@ struct LoginForm: View {
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onChange(of: focusedField) {
             withAnimation {
                 if focusedField == .username {
@@ -121,16 +118,6 @@ struct LoginForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
-    
-    return LoginForm()
-        .environment(LoginRouter())
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.showAlert = true
     
     return LoginForm()
         .environment(LoginRouter())

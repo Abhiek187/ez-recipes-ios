@@ -108,3 +108,13 @@ struct ProfileLoggedIn: View {
     return ProfileLoggedIn(chef: mockRepo.mockChef)
         .environment(viewModel)
 }
+
+#Preview("Alert") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.showAlert = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}

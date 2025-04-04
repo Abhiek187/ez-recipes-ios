@@ -15,8 +15,6 @@ struct DeleteAccountForm: View {
     @State private var usernameMatches = false
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         VStack(spacing: 16) {
             Text(Constants.ProfileView.deleteAccountHeader)
                 .font(.title2)
@@ -52,7 +50,6 @@ struct DeleteAccountForm: View {
             }
         }
         .padding()
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onChange(of: viewModel.authState) {
             if viewModel.authState == .unauthenticated {
                 dismiss()
@@ -75,16 +72,6 @@ struct DeleteAccountForm: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     viewModel.isLoading = true
-    
-    return DeleteAccountForm()
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.chef = mockRepo.mockChef
-    viewModel.showAlert = true
     
     return DeleteAccountForm()
         .environment(viewModel)

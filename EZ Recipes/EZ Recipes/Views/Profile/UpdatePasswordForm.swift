@@ -28,8 +28,6 @@ struct UpdatePasswordForm: View {
     @State private var passwordsDoNotMatch = false
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         VStack(spacing: 16) {
             SecureTextField(label: Constants.ProfileView.changePasswordField, text: $password, isNewPassword: true)
                 .focused($focusedField, equals: .password)
@@ -73,7 +71,6 @@ struct UpdatePasswordForm: View {
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
         .onChange(of: focusedField) {
             withAnimation {
                 if focusedField == .password {
@@ -103,15 +100,6 @@ struct UpdatePasswordForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
-    
-    return UpdatePasswordForm()
-        .environment(viewModel)
-}
-
-#Preview("Alert") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.showAlert = true
     
     return UpdatePasswordForm()
         .environment(viewModel)

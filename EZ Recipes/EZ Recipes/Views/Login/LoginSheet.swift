@@ -12,6 +12,8 @@ struct LoginSheet: View {
     @Environment(ProfileViewModel.self) private var viewModel
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         NavigationStack(path: $router.path) {
             LoginForm()
                 .navigationTitle(Constants.ProfileView.signInHeader)
@@ -30,13 +32,23 @@ struct LoginSheet: View {
                 }
         }
         .environment(router)
+        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
     }
 }
 
-#Preview {
+#Preview("No Alert") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
     LoginSheet()
+        .environment(viewModel)
+}
+
+#Preview("Alert") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.showAlert = true
+    
+    return LoginSheet()
         .environment(viewModel)
 }
