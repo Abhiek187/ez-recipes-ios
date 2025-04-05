@@ -14,6 +14,17 @@ enum SecureStoreError: Error {
     case failure(error: NSError)
 }
 
+extension SecureStoreError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidContent:
+            return "The data provided is invalid."
+        case .failure(let error):
+            return error.localizedDescription // converts Error.localizedDescription to NSError.localizedDescription
+        }
+    }
+}
+
 /// Helper methods for the Keychain
 ///
 /// - Note: Keychain stored at `~/Library/Developer/CoreSimulator/Devices/_Device-UUID_/data/Library/Keychains`
@@ -22,6 +33,7 @@ struct KeychainManager {
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "KeychainManager")
     enum Key: String {
         case token
+        case mockToken // for tests only
     }
     
     private static func setupQueryDictionary(forKey key: Key) throws -> [CFString: Any] {
@@ -30,23 +42,25 @@ struct KeychainManager {
             throw SecureStoreError.invalidContent
         }
         
-        var error: Unmanaged<CFError>?
-        guard let accessControl = SecAccessControlCreateWithFlags(
-            kCFAllocatorDefault,
-            // Make the Keychain accessible only if the device has a passcode and is unlocked
-            kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-            // Require biometrics or a passcode to access
-            .userPresence,
-            &error
-        ) else {
-            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
-            throw SecureStoreError.invalidContent
-        }
+        // Skipping biometrics since they're not needed for every token operation
+//        var error: Unmanaged<CFError>?
+//        guard let accessControl = SecAccessControlCreateWithFlags(
+//            kCFAllocatorDefault,
+//            // Make the Keychain accessible only if the device has a passcode and is unlocked
+//            kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+//            // Require biometrics or a passcode to access
+//            .userPresence,
+//            &error
+//        ) else {
+//            logger.error("Could not create access control flags :: Error: \(String(describing: error))")
+//            throw SecureStoreError.invalidContent
+//        }
         
         return [
             kSecClass: kSecClassGenericPassword, // genp table
             kSecAttrAccount: keyData, // account == key
-            kSecAttrAccessControl: accessControl
+            kSecAttrAccessible: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+//            kSecAttrAccessControl: accessControl
         ]
     }
     

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct VerifyEmail: View {
+    @Environment(ProfileViewModel.self) private var viewModel
     @State var email: String
     
     // Throttle the number of times the user can resend the verification email to satisfy API limits
@@ -23,7 +24,10 @@ struct VerifyEmail: View {
             HStack {
                 Text(Constants.ProfileView.emailVerifyRetryText)
                 Button {
-                    enableResend = false
+                    Task {
+                        await viewModel.sendVerificationEmail()
+                        enableResend = false
+                    }
                 } label: {
                     Text(Constants.ProfileView.emailVerifyRetryLink)
                 }
@@ -36,7 +40,9 @@ struct VerifyEmail: View {
             HStack {
                 Spacer()
                 Button {
-                    print("Logout")
+                    Task {
+                        await viewModel.logout()
+                    }
                 } label: {
                     Text(Constants.ProfileView.logout)
                 }
@@ -59,5 +65,9 @@ struct VerifyEmail: View {
 }
 
 #Preview {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     VerifyEmail(email: Constants.Mocks.chef.email)
+        .environment(viewModel)
 }

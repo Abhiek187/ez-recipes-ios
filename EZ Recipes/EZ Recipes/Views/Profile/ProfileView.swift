@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State var authState: AuthState = .unauthenticated
+    @State var viewModel: ProfileViewModel
+    @State var isPreview = false
     
     var body: some View {
         NavigationStack {
             Group {
-                switch authState {
-                case .authenticated:
-                    ProfileLoggedIn()
-                case .unauthenticated:
+                if viewModel.authState == .authenticated, let chef = viewModel.chef {
+                    ProfileLoggedIn(chef: chef)
+                } else if viewModel.authState == .unauthenticated {
                     ProfileLoggedOut()
-                case .loading:
+                } else {
                     VStack {
                         ProgressView()
                         Text(Constants.ProfileView.profileLoading)
@@ -27,17 +27,37 @@ struct ProfileView: View {
             }
             .navigationTitle(Constants.ProfileView.profileTitle)
         }
+        .environment(viewModel)
+        .task {
+            // Check if the user is authenticated every time the profile tab is launched or deep linked
+            if !isPreview {
+                await viewModel.getChef()
+            }
+        }
     }
 }
 
 #Preview("Logged Out") {
-    ProfileView(authState: .unauthenticated)
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.authState = .unauthenticated
+    
+    return ProfileView(viewModel: viewModel, isPreview: true)
 }
 
 #Preview("Logged In") {
-    ProfileView(authState: .authenticated)
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.authState = .authenticated
+    viewModel.chef = mockRepo.mockChef
+    
+    return ProfileView(viewModel: viewModel, isPreview: true)
 }
 
 #Preview("Loading") {
-    ProfileView(authState: .loading)
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.authState = .loading
+    
+    return ProfileView(viewModel: viewModel, isPreview: true)
 }

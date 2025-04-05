@@ -1,66 +1,38 @@
 //
-//  SignUpForm.swift
+//  UpdatePasswordForm.swift
 //  EZ Recipes
 //
-//  Created by Abhishek Chaudhuri on 3/22/25.
+//  Created by Abhishek Chaudhuri on 3/30/25.
 //
 
 import SwiftUI
 
-struct SignUpForm: View {
+struct UpdatePasswordForm: View {
     private enum Field: CaseIterable {
-        case email
         case password
         case passwordConfirm
     }
     
-    @Environment(LoginRouter.self) private var router
     @Environment(ProfileViewModel.self) private var viewModel
+    @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
     
-    @State private var email = ""
     @State private var password = ""
     @State private var passwordConfirm = ""
     
-    @State private var emailTouched = false
     @State private var passwordTouched = false
     @State private var passwordConfirmTouched = false
     
-    @State private var emailEmpty = true
-    @State private var emailInvalid = true
     @State private var passwordEmpty = true
     @State private var passwordTooShort = true
     @State private var passwordsDoNotMatch = false
     
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                Text(Constants.ProfileView.signUpSubHeader)
-                Button {
-                    router.goBack()
-                } label: {
-                    Text(Constants.ProfileView.signInHeader)
-                }
-            }
-            .font(.title2)
+            Text(Constants.ProfileView.changePassword)
+                .font(.title2)
             
-            TextField(Constants.ProfileView.emailField, text: $email)
-                .textContentType(.emailAddress)
-                .keyboardType(.emailAddress)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .textFieldStyle(.roundedBorder)
-                .focused($focusedField, equals: .email)
-                .onChange(of: email) {
-                    withAnimation {
-                        emailEmpty = email.isEmpty
-                        emailInvalid = email.wholeMatch(of: Constants.emailRegex) == nil
-                    }
-                }
-            FormError(on: emailTouched && emailEmpty, message: Constants.ProfileView.fieldRequired("Email"))
-            FormError(on: emailTouched && emailInvalid, message: Constants.ProfileView.emailInvalid)
-            
-            SecureTextField(label: Constants.ProfileView.passwordField, text: $password, isNewPassword: true)
+            SecureTextField(label: Constants.ProfileView.changePasswordField, text: $password, isNewPassword: true)
                 .focused($focusedField, equals: .password)
                 .onChange(of: password) {
                     withAnimation {
@@ -91,32 +63,29 @@ struct SignUpForm: View {
                     .opacity(viewModel.isLoading ? 1 : 0)
                 Button {
                     Task {
-                        await viewModel.createAccount(username: email, password: password)
+                        await viewModel.updatePassword(newPassword: password)
                     }
                 } label: {
-                    Text(Constants.ProfileView.signUpHeader)
+                    Text(Constants.ProfileView.submitButton)
                 }
                 .font(.title3)
-                .disabled(emailEmpty || emailInvalid || passwordEmpty || passwordTooShort || passwordsDoNotMatch || viewModel.isLoading)
+                .disabled(passwordEmpty || passwordTooShort || passwordsDoNotMatch || viewModel.isLoading)
             }
         }
         .padding()
         .keyboardNavigation(focusedField: $focusedField)
         .onChange(of: focusedField) {
             withAnimation {
-                if focusedField == .email {
-                    emailTouched = true
-                } else if focusedField == .password {
+                if focusedField == .password {
                     passwordTouched = true
                 } else if focusedField == .passwordConfirm {
                     passwordConfirmTouched = true
                 }
             }
         }
-        .task(id: viewModel.chef) {
-            if let chef = viewModel.chef, !chef.emailVerified {
-                await viewModel.sendVerificationEmail()
-                router.navigate(to: .verifyEmail(email: chef.email))
+        .onChange(of: viewModel.passwordUpdated) {
+            if viewModel.passwordUpdated {
+                dismiss()
             }
         }
     }
@@ -126,8 +95,7 @@ struct SignUpForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
-    SignUpForm()
-        .environment(LoginRouter())
+    UpdatePasswordForm()
         .environment(viewModel)
 }
 
@@ -136,7 +104,6 @@ struct SignUpForm: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
     
-    return SignUpForm()
-        .environment(LoginRouter())
+    return UpdatePasswordForm()
         .environment(viewModel)
 }

@@ -14,11 +14,11 @@ struct LoginForm: View {
     }
     
     @Environment(LoginRouter.self) private var router
+    @Environment(ProfileViewModel.self) private var viewModel
     @FocusState private var focusedField: Field?
     
     @State private var username = ""
     @State private var password = ""
-    @State private var isLoading = false
     
     // Focus
     @State private var usernameTouched = false
@@ -72,14 +72,16 @@ struct LoginForm: View {
             HStack {
                 Spacer()
                 ProgressView()
-                    .opacity(isLoading ? 1 : 0)
+                    .opacity(viewModel.isLoading ? 1 : 0)
                 Button {
-                    router.navigate(to: .verifyEmail(email: username))
+                    Task {
+                        await viewModel.login(username: username, password: password)
+                    }
                 } label: {
                     Text(Constants.ProfileView.login)
                 }
                 .font(.title3)
-                .disabled(usernameEmpty || passwordEmpty || isLoading)
+                .disabled(usernameEmpty || passwordEmpty || viewModel.isLoading)
             }
         }
         .padding()
@@ -93,10 +95,31 @@ struct LoginForm: View {
                 }
             }
         }
+        .task(id: viewModel.chef) {
+            // Check if the user signed up, but didn't verify their email yet
+            if let chef = viewModel.chef, !chef.emailVerified {
+                await viewModel.sendVerificationEmail()
+                router.navigate(to: .verifyEmail(email: chef.email))
+            }
+        }
     }
 }
 
-#Preview {
+#Preview("No Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     LoginForm()
         .environment(LoginRouter())
+        .environment(viewModel)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.isLoading = true
+    
+    return LoginForm()
+        .environment(LoginRouter())
+        .environment(viewModel)
 }

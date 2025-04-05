@@ -64,12 +64,8 @@ struct HomeView: View {
                     // Prevent users from spamming the button
                     .disabled(viewModel.isLoading)
                     // Show an alert if the request failed
-                    .alert(Constants.errorTitle, isPresented: $viewModel.recipeFailedToLoad) {
-                        Button(Constants.okButton, role: .cancel) {}
-                    } message: {
-                        // recipeError shouldn't be nil if recipeFailedToLoad is true
-                        Text(viewModel.recipeError?.error ?? Constants.unknownError)
-                    }
+                    // recipeError shouldn't be nil if recipeFailedToLoad is true
+                    .errorAlert(isPresented: $viewModel.recipeFailedToLoad, message: viewModel.recipeError?.error)
                     
                     // Show a spinner while the network request is loading
                     // Use opacity instead of an if statement so the button doesn't jump when pressed

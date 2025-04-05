@@ -35,7 +35,9 @@ final class AFLogger: EventMonitor {
         for field in fieldsToRedact {
             let oldFieldRegex = Regex {
                 field
-                "\":\"[^\"]+\""
+                "\":\""
+                OneOrMore(CharacterClass.anyOf("\"").inverted) // [^\"]+
+                "\""
             }
             
             redactedBody = redactedBody.replacing(oldFieldRegex, with: "\(field)\":\"\(MASK)\"")
@@ -63,13 +65,17 @@ final class AFLogger: EventMonitor {
     
     func request<Value>(_ request: DataRequest, didParseResponse response: DataResponse<Value, AFError>) {
         // Headers are already logged here
-        logger.debug("[AF Response] Metrics: \(response.metrics)")
+        // logger.debug("[AF Response] Metrics: \(response.metrics)")
         
         let urlResponse = response.response
         let method = response.request?.httpMethod
         let url = urlResponse?.url?.absoluteString
         let status = urlResponse?.statusCode
         var log = "[AF Response] Method: \(method ?? "") | URL: \(url ?? "") | Status: \(status?.description ?? "")"
+        
+        if let headers = urlResponse?.headers.dictionary {
+            log += " | Headers: \(redact(headers))"
+        }
         
         if let bodyData = response.data, let body = String(data: bodyData, encoding: .utf8) {
             log += " | Data: \(redact(body))"

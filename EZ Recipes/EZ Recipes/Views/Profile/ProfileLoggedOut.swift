@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ProfileLoggedOut: View {
-    @State private var showLoginSheet = false
+    @Environment(ProfileViewModel.self) private var viewModel
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         VStack {
             Text(Constants.ProfileView.loginMessage)
             
             Button {
-                showLoginSheet.toggle()
+                viewModel.openLoginSheet = true
             } label: {
                 Text(Constants.ProfileView.login)
             }
-            .sheet(isPresented: $showLoginSheet) {
+            .sheet(isPresented: $viewModel.openLoginSheet) {
                 LoginSheet()
             }
             
@@ -27,9 +30,38 @@ struct ProfileLoggedOut: View {
         }
         .padding()
         .font(.title2)
+        // Show messages after actions that force the user to be signed out
+        .toast(isPresenting: $viewModel.passwordUpdated) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changePasswordSuccessHeader, subTitle: Constants.ProfileView.changePasswordSuccessSubHeader)
+        }
+        .toast(isPresenting: $viewModel.accountDeleted) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.deleteAccountSuccess)
+        }
     }
 }
 
-#Preview {
+#Preview("Regular") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     ProfileLoggedOut()
+        .environment(viewModel)
+}
+
+#Preview("Password Updated") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.passwordUpdated = true
+    
+    return ProfileLoggedOut()
+        .environment(viewModel)
+}
+
+#Preview("Account Deleted") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.accountDeleted = true
+    
+    return ProfileLoggedOut()
+        .environment(viewModel)
 }

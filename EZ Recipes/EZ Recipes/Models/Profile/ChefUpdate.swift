@@ -8,5 +8,5 @@
 struct ChefUpdate: Encodable {
     let type: ChefUpdateType
     let email: String
-    let password: String?
+    var password: String? = nil
 }

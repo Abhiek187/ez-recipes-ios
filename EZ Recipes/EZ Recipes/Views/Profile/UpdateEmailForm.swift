@@ -1,15 +1,14 @@
 //
-//  ForgotPasswordForm.swift
+//  UpdateEmailForm.swift
 //  EZ Recipes
 //
-//  Created by Abhishek Chaudhuri on 3/22/25.
+//  Created by Abhishek Chaudhuri on 3/30/25.
 //
 
 import SwiftUI
 
-struct ForgotPasswordForm: View {
+struct UpdateEmailForm: View {
     @Environment(ProfileViewModel.self) private var viewModel
-    
     @State private var email = ""
     
     @State private var emailTouched = false
@@ -19,11 +18,11 @@ struct ForgotPasswordForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
+            Text(Constants.ProfileView.changeEmail)
+                .font(.title2)
+            
             if !viewModel.emailSent {
-                Text(Constants.ProfileView.forgetPasswordHeader)
-                    .font(.title3)
-                
-                TextField(Constants.ProfileView.emailField, text: $email)
+                TextField(Constants.ProfileView.changeEmailField, text: $email)
                     .textContentType(.emailAddress)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
@@ -45,7 +44,7 @@ struct ForgotPasswordForm: View {
                         .opacity(viewModel.isLoading ? 1 : 0)
                     Button {
                         Task {
-                            await viewModel.resetPassword(email: email)
+                            await viewModel.updateEmail(newEmail: email)
                         }
                     } label: {
                         Text(Constants.ProfileView.submitButton)
@@ -54,7 +53,7 @@ struct ForgotPasswordForm: View {
                     .disabled(emailEmpty || emailInvalid || viewModel.isLoading)
                 }
             } else {
-                Text(Constants.ProfileView.forgetPasswordConfirm(email))
+                Text(Constants.ProfileView.changeEmailConfirm(email))
             }
         }
         .padding()
@@ -68,7 +67,7 @@ struct ForgotPasswordForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
-    ForgotPasswordForm()
+    UpdateEmailForm()
         .environment(viewModel)
 }
 
@@ -77,6 +76,6 @@ struct ForgotPasswordForm: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
     
-    return ForgotPasswordForm()
+    return UpdateEmailForm()
         .environment(viewModel)
 }

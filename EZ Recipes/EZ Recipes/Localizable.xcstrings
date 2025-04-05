@@ -370,6 +370,9 @@
     "No recipes found" : {
 
     },
+    "No token found" : {
+
+    },
     "Nutrition Facts" : {
 
     },
@@ -385,7 +388,13 @@
     "Password must be at least 8 characters long" : {
 
     },
+    "Password updated successfully!" : {
+
+    },
     "Password updated successfully! Please sign in again." : {
+
+    },
+    "Please sign in again." : {
 
     },
     "Powered by spoonacular" : {
@@ -533,16 +542,16 @@
     "We just need to verify your email before you can put on the chef's hat.\nCheck your email for a magic link sent to **%@**\n\n⚠️ We will delete accounts from our system if they're not verified within 1 week." : {
 
     },
-    "We sent an email to **%@**. Follow the instructions to reset your password.\n\nIf you didn't receive an email, you may not have created an account with this email." : {
+    "We sent an email to **%@**. Follow the instructions to change your email." : {
 
     },
-    "We sent an email to %@. Follow the instructions to change your email." : {
+    "We sent an email to **%@**. Follow the instructions to reset your password.\n\nIf you didn't receive an email, you may not have created an account with this email." : {
 
     },
     "You must be signed in to rate this recipe" : {
 
     },
-    "You will lose access to your favorite recipes.\nEnter your username to confirm." : {
+    "You will lose access to your favorite recipes.\n\nEnter your username to confirm." : {
 
     },
     "You're Almost There!" : {

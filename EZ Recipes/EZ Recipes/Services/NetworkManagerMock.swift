@@ -5,6 +5,8 @@
 //  Created by Abhishek Chaudhuri on 11/13/22.
 //
 
+import Alamofire
+
 // Mock the network calls to fetch a hardcoded recipe
 struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     static let shared = NetworkManagerMock()
@@ -49,20 +51,20 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     
     // MARK: ChefRepository
     func getChef(token: String) async -> Result<Chef, RecipeError> {
-        return isSuccess ? .success(mockChef) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockChef.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func createChef(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func updateChef(fields: ChefUpdate, token: String?) async -> Result<ChefEmailResponse, RecipeError> {
         return isSuccess ? .success(mockChefEmailResponse) : .failure(Constants.Mocks.tokenError)
     }
     
-    func deleteChef(token: String) async -> Result<Void, RecipeError> {
+    func deleteChef(token: String) async -> Result<Empty, RecipeError> {
         // () == Void
-        return isSuccess ? .success(()) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(.value) : .failure(Constants.Mocks.tokenError)
     }
     
     func verifyEmail(token: String) async -> Result<ChefEmailResponse, RecipeError> {
@@ -70,10 +72,10 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     }
     
     func login(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
-    func logout(token: String) async -> Result<Void, RecipeError> {
-        return isSuccess ? .success(()) : .failure(Constants.Mocks.tokenError)
+    func logout(token: String) async -> Result<Empty, RecipeError> {
+        return isSuccess ? .success(.value) : .failure(Constants.Mocks.tokenError)
     }
 }

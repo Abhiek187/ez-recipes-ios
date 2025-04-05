@@ -17,6 +17,7 @@ struct Constants {
     static let appName = "EZ Recipes"
     static let errorTitle = String(localized: "Error")
     static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
+    static let noTokenFound = String(localized: "No token found")
     static let okButton = String(localized: "OK")
     static let loadingMessages = [
         "Prepping the ingredients... 🍱",
@@ -335,15 +336,18 @@ struct Constants {
         """))}
         
         static let changeEmailField = String(localized: "New Email")
-        static let changeEmailConfirm: @Sendable (String) -> String = { email in
-            String(localized: "We sent an email to \(email). Follow the instructions to change your email.")
+        static let changeEmailConfirm: @Sendable (String) -> LocalizedStringKey = { email in
+            LocalizedStringKey(String(localized: "We sent an email to **\(email)**. Follow the instructions to change your email."))
         }
         static let changeEmailSuccess = String(localized: "Email updated successfully! Please sign in again.")
         static let changePasswordField = String(localized: "New Password")
         static let changePasswordSuccess = String(localized: "Password updated successfully! Please sign in again.")
+        static let changePasswordSuccessHeader = String(localized: "Password updated successfully!")
+        static let changePasswordSuccessSubHeader = String(localized: "Please sign in again.")
         static let deleteAccountHeader = String(localized: "Are You Sure?")
         static let deleteAccountSubHeader = String(localized: """
         You will lose access to your favorite recipes.
+        
         Enter your username to confirm.
         """)
         static let deleteAccountSuccess = String(localized: "Your account has been deleted.")
