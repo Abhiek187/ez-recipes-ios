@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ProfileLoggedOut: View {
     @Environment(ProfileViewModel.self) private var viewModel
@@ -29,23 +30,38 @@ struct ProfileLoggedOut: View {
         }
         .padding()
         .font(.title2)
-        .onChange(of: [viewModel.passwordUpdated, viewModel.accountDeleted]) {
-            // Show messages after actions that force the user to be signed out
-            if viewModel.passwordUpdated {
-                print(Constants.ProfileView.changePasswordSuccess)
-                viewModel.passwordUpdated = false
-            } else if viewModel.accountDeleted {
-                print(Constants.ProfileView.deleteAccountSuccess)
-                viewModel.accountDeleted = false
-            }
+        // Show messages after actions that force the user to be signed out
+        .toast(isPresenting: $viewModel.passwordUpdated) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changePasswordSuccessHeader, subTitle: Constants.ProfileView.changePasswordSuccessSubHeader)
+        }
+        .toast(isPresenting: $viewModel.accountDeleted) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.deleteAccountSuccess)
         }
     }
 }
 
-#Preview {
+#Preview("Regular") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     
     ProfileLoggedOut()
+        .environment(viewModel)
+}
+
+#Preview("Password Updated") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.passwordUpdated = true
+    
+    return ProfileLoggedOut()
+        .environment(viewModel)
+}
+
+#Preview("Account Deleted") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.accountDeleted = true
+    
+    return ProfileLoggedOut()
         .environment(viewModel)
 }

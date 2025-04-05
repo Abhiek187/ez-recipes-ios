@@ -388,7 +388,13 @@
     "Password must be at least 8 characters long" : {
 
     },
+    "Password updated successfully!" : {
+
+    },
     "Password updated successfully! Please sign in again." : {
+
+    },
+    "Please sign in again." : {
 
     },
     "Powered by spoonacular" : {

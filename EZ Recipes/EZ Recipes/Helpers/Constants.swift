@@ -342,6 +342,8 @@ struct Constants {
         static let changeEmailSuccess = String(localized: "Email updated successfully! Please sign in again.")
         static let changePasswordField = String(localized: "New Password")
         static let changePasswordSuccess = String(localized: "Password updated successfully! Please sign in again.")
+        static let changePasswordSuccessHeader = String(localized: "Password updated successfully!")
+        static let changePasswordSuccessSubHeader = String(localized: "Please sign in again.")
         static let deleteAccountHeader = String(localized: "Are You Sure?")
         static let deleteAccountSubHeader = String(localized: """
         You will lose access to your favorite recipes.

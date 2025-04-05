@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 5E0405A62DA0CFF300C3B312 /* AlertToast */; };
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
 		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */,
 				F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */,
 				F12C1C662904D16700C3302B /* Alamofire in Frameworks */,
 			);
@@ -144,6 +146,7 @@
 			packageProductDependencies = (
 				F12C1C652904D16700C3302B /* Alamofire */,
 				F17A80A42B78764300E811C8 /* MultiPicker */,
+				5E0405A62DA0CFF300C3B312 /* AlertToast */,
 			);
 			productName = "EZ Recipes";
 			productReference = F12C1C272904951600C3302B /* EZ Recipes.app */;
@@ -226,6 +229,7 @@
 			packageReferences = (
 				F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */,
+				5E0405A52DA0CFF300C3B312 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = F12C1C282904951600C3302B /* Products */;
 			projectDirPath = "";
@@ -586,6 +590,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5E0405A52DA0CFF300C3B312 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 		F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -605,6 +617,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5E0405A62DA0CFF300C3B312 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E0405A52DA0CFF300C3B312 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
 		F12C1C652904D16700C3302B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */;
