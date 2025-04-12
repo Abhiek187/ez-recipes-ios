@@ -374,4 +374,25 @@ class EZ_RecipesUITests: XCTestCase {
         goTo(tab: "Glossary")
         takeScreenshot(withName: "glossary-view")
     }
+    
+    func testProfileScreen() throws {
+        goTo(tab: "Profile")
+        
+        // Wait until the profile loads (should be logged out)
+        let profileLoading = app.staticTexts["Getting your profile ready… 🧑‍🍳"]
+        XCTAssert(profileLoading.waitForNonExistence(timeout: 30), "Error line \(#line): The profile didn't load (the API request timed out after 30 seconds)")
+        let screenshotName = "profile-screen"
+        var shotNum = 1
+        takeScreenshot(withName: screenshotName, shotNum: shotNum)
+        shotNum += 1
+        
+        let loginButton = app.buttons["Login"]
+        loginButton.tap()
+        
+        // Check all the validations on the login, create account, & forget password form
+        var profileTest = ProfileTest(app: app, takeScreenshot: takeScreenshot, screenshotName: screenshotName, shotNum: shotNum)
+        profileTest.testSignIn()
+        profileTest.testSignUp()
+        profileTest.testForgetPassword()
+    }
 }
