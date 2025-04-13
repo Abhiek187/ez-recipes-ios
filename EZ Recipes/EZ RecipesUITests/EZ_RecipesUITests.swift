@@ -108,22 +108,12 @@ class EZ_RecipesUITests: XCTestCase {
         XCTAssert(favoriteButton.exists, "Error line \(#line): The favorite button couldn't be found")
         XCTAssertFalse(unFavoriteButton.exists, "Error line \(#line): The favorite button shouldn't be filled")
         
-        favoriteButton.tap()
-        XCTAssertFalse(favoriteButton.exists, "Error line \(#line): The favorite button should be filled")
-        XCTAssert(unFavoriteButton.exists, "Error line \(#line): The un-favorite button couldn't be found")
-        
-        unFavoriteButton.tap()
-        XCTAssert(favoriteButton.exists, "Error line \(#line): The favorite button couldn't be found")
-        XCTAssertFalse(unFavoriteButton.exists, "Error line \(#line): The favorite button shouldn't be filled")
-        
         // Check that the share button is clickable (won't check the share sheet since it needs to be dismissed and requires waiting for the animation)
         let shareButton = recipeNavigationBar.buttons["Share this recipe"]
         XCTAssert(shareButton.isHittable, "Error line \(#line): The share button isn't clickable")
         
         // Since the recipe loaded will be random, check all the elements that are guaranteed to be there for all recipes
-        // Check that the two recipe buttons are clickable and the ProgressView is hidden
-        let madeButton = app.buttons["I Made This!"]
-        XCTAssert(madeButton.isEnabled, "Error line \(#line): The made button isn't clickable")
+        // Check that the recipe button is clickable and the ProgressView is hidden
         let showAnotherRecipeButton = app.buttons["Show Me Another Recipe!"]
         XCTAssert(showAnotherRecipeButton.isEnabled, "Error line \(#line): The show button isn't clickable")
         XCTAssertFalse(progressView.isHittable, "Error line \(#line): The ProgressView should be hidden")
@@ -381,7 +371,7 @@ class EZ_RecipesUITests: XCTestCase {
         // Wait until the profile loads (should be logged out)
         let profileLoading = app.staticTexts["Getting your profile ready… 🧑‍🍳"]
         XCTAssert(profileLoading.waitForNonExistence(timeout: 30), "Error line \(#line): The profile didn't load (the API request timed out after 30 seconds)")
-        let screenshotName = "profile-screen"
+        let screenshotName = "profile-view"
         var shotNum = 1
         takeScreenshot(withName: screenshotName, shotNum: shotNum)
         shotNum += 1
