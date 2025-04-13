@@ -57,10 +57,17 @@ struct RecipeHeader: View {
                 Spacer()
             }
             
-            // Recipe time and buttons
+            // Recipe time, views, and buttons
             VStack {
-                Text(Constants.RecipeView.recipeTime(recipe.time))
-                    .font(.system(size: 20))
+                HStack {
+                    Text(Constants.RecipeView.recipeTime(recipe.time))
+                        .font(.system(size: 20))
+                    Spacer()
+                    Label(recipe.views?.shorthand() ?? "0", systemImage: "eye.fill")
+                        .accessibilityLabel(Constants.RecipeView.viewsAlt)
+                        .accessibilityValue(String(recipe.views ?? 0))
+                }
+                .padding(.horizontal)
                 
                 if !recipe.types.isEmpty && recipe.types != [.unknown] {
                     Text(Constants.RecipeView.mealTypes(recipe.types))
@@ -100,11 +107,20 @@ struct RecipeHeader: View {
                 ProgressView()
             }
         }
+        .padding(.horizontal, 4)
     }
 }
 
-#Preview("No Loading") {
+#Preview("Blueberry Yogurt") {
     RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
+}
+
+#Preview("Chocolate Cupcake") {
+    RecipeHeader(recipe: Constants.Mocks.chocolateCupcake, isLoading: false) {}
+}
+
+#Preview("Thai Basil Chicken") {
+    RecipeHeader(recipe: Constants.Mocks.thaiBasilChicken, isLoading: false) {}
 }
 
 #Preview("Loading") {

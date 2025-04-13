@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RecipeView: View {
-    var viewModel: HomeViewModel
+    var homeViewModel: HomeViewModel
+    var profileViewModel: ProfileViewModel
     @State var isFavorite = false
     
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -17,22 +18,22 @@ struct RecipeView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                if let recipe = viewModel.recipe {
+                if let recipe = homeViewModel.recipe {
                     // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
                     RecipeTitle(recipe: recipe)
                     
                     // Show views side-by-side if the screen is wide enough
                     if sizeClass == .compact {
-                        RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
+                        RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading) {
                             // When the show another recipe button is tapped, load a new recipe in the same view
-                            await viewModel.getRandomRecipe()
+                            await homeViewModel.getRandomRecipe()
                         }
                         NutritionLabel(recipe: recipe)
                     } else {
                         HStack {
                             Spacer()
-                            RecipeHeader(recipe: recipe, isLoading: viewModel.isLoading) {
-                                await viewModel.getRandomRecipe()
+                            RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading) {
+                                await homeViewModel.getRandomRecipe()
                             }
                             Spacer()
                             NutritionLabel(recipe: recipe)
@@ -71,6 +72,12 @@ struct RecipeView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle(Constants.RecipeView.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            // If logged in, save recipe to chef's profile. Otherwise, save to temporary storage.
+            if let recipe = homeViewModel.recipe {
+                await profileViewModel.updateViews(forRecipe: recipe)
+            }
+        }
         .toolbar {
             // Buttons on the top right of the screen
             ToolbarItemGroup {
@@ -84,9 +91,9 @@ struct RecipeView: View {
                     
                     ShareLink(
                         Constants.RecipeView.shareAlt,
-                        item: Constants.RecipeView.shareUrl(viewModel.recipe?.id ?? 0),
-                        subject: Text(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe),
-                        message: Text(Constants.RecipeView.shareBody(viewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe))
+                        item: Constants.RecipeView.shareUrl(homeViewModel.recipe?.id ?? 0),
+                        subject: Text(homeViewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe),
+                        message: Text(Constants.RecipeView.shareBody(homeViewModel.recipe?.name ?? Constants.RecipeView.unknownRecipe))
                     )
                 }
             }
@@ -95,12 +102,15 @@ struct RecipeView: View {
 }
 
 #Preview {
-    let viewModel = HomeViewModel(repository: NetworkManagerMock.shared, swiftData: SwiftDataManager.preview)
+    let repository = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: repository, swiftData: swiftData)
+    let profileViewModel = ProfileViewModel(repository: repository, swiftData: swiftData)
     
     return NavigationStack {
-        RecipeView(viewModel: viewModel)
+        RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
     }
     .task {
-        await viewModel.getRandomRecipe()
+        await homeViewModel.getRandomRecipe()
     }
 }
