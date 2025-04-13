@@ -10,7 +10,6 @@ import SwiftUI
 struct RecipeView: View {
     var homeViewModel: HomeViewModel
     var profileViewModel: ProfileViewModel
-    @State var isFavorite = false
     
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.dismiss) private var dismiss
@@ -72,7 +71,7 @@ struct RecipeView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle(Constants.RecipeView.recipeTitle)
         .navigationBarTitleDisplayMode(.inline)
-        .task {
+        .task(id: homeViewModel.recipe) {
             // If logged in, save recipe to chef's profile. Otherwise, save to temporary storage.
             if let recipe = homeViewModel.recipe {
                 await profileViewModel.updateViews(forRecipe: recipe)
@@ -82,11 +81,18 @@ struct RecipeView: View {
             // Buttons on the top right of the screen
             ToolbarItemGroup {
                 HStack {
-                    Button {
-                        isFavorite.toggle()
-                    } label: {
-                        // Add alt text to the system image
-                        Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
+                    if let recipeId = homeViewModel.recipe?.id {
+                        let isFavorite = profileViewModel.chef?.favoriteRecipes.contains { $0 == String(recipeId) } == true
+                        
+                        Button {
+                            Task {
+                                await profileViewModel.toggleFavoriteRecipe(recipeId: recipeId, isFavorite: !isFavorite)
+                            }
+                        } label: {
+                            // Add alt text to the system image
+                            Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
+                        }
+                        .disabled(profileViewModel.chef == nil)
                     }
                     
                     ShareLink(
@@ -101,11 +107,26 @@ struct RecipeView: View {
     }
 }
 
-#Preview {
+#Preview("Logged Out") {
     let repository = NetworkManagerMock.shared
     let swiftData = SwiftDataManager.preview
     let homeViewModel = HomeViewModel(repository: repository, swiftData: swiftData)
     let profileViewModel = ProfileViewModel(repository: repository, swiftData: swiftData)
+    
+    return NavigationStack {
+        RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+    }
+    .task {
+        await homeViewModel.getRandomRecipe()
+    }
+}
+
+#Preview("Logged In") {
+    let repository = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: repository, swiftData: swiftData)
+    let profileViewModel = ProfileViewModel(repository: repository, swiftData: swiftData)
+    profileViewModel.chef = repository.mockChef
     
     return NavigationStack {
         RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)

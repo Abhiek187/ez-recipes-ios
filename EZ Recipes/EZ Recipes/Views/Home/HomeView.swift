@@ -94,7 +94,7 @@ struct HomeView: View {
                                 HStack {
                                     ForEach(homeViewModel.recentRecipes, id: \.id) { recentRecipe in
                                         if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                            RecipeCard(recipe: recipe)
+                                            RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
                                                 .frame(width: 350)
                                                 .simultaneousGesture(TapGesture().onEnded {
                                                     // Show the recipe cards animating to the right position after tapping them
@@ -109,7 +109,7 @@ struct HomeView: View {
                         }
                         Divider()
                         DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
-                            RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
+                            RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
                                 .frame(width: 350)
                                 .redacted(reason: .placeholder)
                                 .disabled(true)

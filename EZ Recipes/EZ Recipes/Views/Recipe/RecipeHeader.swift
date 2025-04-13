@@ -68,6 +68,7 @@ struct RecipeHeader: View {
                         .accessibilityValue(String(recipe.views ?? 0))
                 }
                 .padding(.horizontal)
+                .padding(.bottom, 4)
                 
                 if !recipe.types.isEmpty && recipe.types != [.unknown] {
                     Text(Constants.RecipeView.mealTypes(recipe.types))

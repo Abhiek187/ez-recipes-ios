@@ -9,10 +9,10 @@ import SwiftUI
 
 struct RecipeCard: View {
     var recipe: Recipe
-    @State var isFavorite = false
+    var profileViewModel: ProfileViewModel
     
     func getCalories() -> Nutrient? {
-        return recipe.nutrients.first(where: { $0.name == "Calories" })
+        return recipe.nutrients.first { $0.name == "Calories" }
     }
     
     var body: some View {
@@ -27,13 +27,18 @@ struct RecipeCard: View {
             Divider()
             
             HStack {
+                let isFavorite = profileViewModel.chef?.favoriteRecipes.contains { $0 == String(recipe.id) } == true
+                
                 Text(recipe.name)
                 Button {
-                    isFavorite.toggle()
+                    Task {
+                        await profileViewModel.toggleFavoriteRecipe(recipeId: recipe.id, isFavorite: !isFavorite)
+                    }
                 } label: {
                     // Add alt text to the system image
                     Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
+                .disabled(profileViewModel.chef == nil)
             }
             .padding(.bottom, 8)
             
@@ -51,6 +56,17 @@ struct RecipeCard: View {
     }
 }
 
-#Preview {
-    RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
+#Preview("Logged Out") {
+    let mockRepo = NetworkManagerMock.shared
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: SwiftDataManager.preview)
+    
+    RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
+}
+
+#Preview("Logged In") {
+    let mockRepo = NetworkManagerMock.shared
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: SwiftDataManager.preview)
+    profileViewModel.chef = mockRepo.mockChef
+    
+    return RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
 }

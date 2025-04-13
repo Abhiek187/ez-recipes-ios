@@ -21,7 +21,7 @@ struct SearchResults: View {
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                 ForEach(searchViewModel.recipes, id: \.id) { recipe in
                     NavigationLink(value: recipe.id) {
-                        RecipeCard(recipe: recipe)
+                        RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
                     }
                     // Don't make all the text the accent color
                     .buttonStyle(.plain)
