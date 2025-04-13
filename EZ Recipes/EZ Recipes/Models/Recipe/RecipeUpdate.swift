@@ -6,7 +6,7 @@
 //
 
 struct RecipeUpdate: Encodable {
-    let rating: Int?
-    let view: Bool?
-    let isFavorite: Bool?
+    var rating: Int? = nil
+    var view: Bool? = nil
+    var isFavorite: Bool? = nil
 }
