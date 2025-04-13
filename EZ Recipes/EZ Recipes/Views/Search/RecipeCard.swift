@@ -16,7 +16,10 @@ struct RecipeCard: View {
     }
     
     var body: some View {
-        VStack {
+        let chef = profileViewModel.chef
+        let isFavorite = chef?.favoriteRecipes.contains { $0 == String(recipe.id) } == true
+        
+        VStack(spacing: 16) {
             AsyncImage(url: URL(string: recipe.image)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
@@ -27,8 +30,6 @@ struct RecipeCard: View {
             Divider()
             
             HStack {
-                let isFavorite = profileViewModel.chef?.favoriteRecipes.contains { $0 == String(recipe.id) } == true
-                
                 Text(recipe.name)
                 Button {
                     Task {
@@ -42,6 +43,12 @@ struct RecipeCard: View {
             }
             .padding(.bottom, 8)
             
+            RecipeRating(averageRating: recipe.averageRating, totalRatings: recipe.totalRatings ?? 0, myRating: chef?.ratings[String(recipe.id)], enabled: chef != nil) { rating in
+                Task {
+                    await profileViewModel.rateRecipe(recipeId: recipe.id, rating: rating)
+                }
+            }
+            
             HStack {
                 Spacer()
                 Text(Constants.RecipeView.recipeTime(recipe.time))
@@ -53,6 +60,12 @@ struct RecipeCard: View {
             }
         }
         .card()
+        .task {
+            // Avoid fetching the chef if it's already available
+            if profileViewModel.chef == nil {
+                await profileViewModel.getChef()
+            }
+        }
     }
 }
 

@@ -190,7 +190,6 @@ struct Constants {
         static let cuisines: @Sendable ([Cuisine]) -> LocalizedStringKey = { cultures in
             LocalizedStringKey(String(format: "**Cuisines:** %@", cultures.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
-        static let madeButton = String(localized: "I Made This!")
         static let showRecipeButton = String(localized: "Show Me Another Recipe!")
         
         static let nutritionFacts = String(localized: "Nutrition Facts")

@@ -63,12 +63,11 @@ struct ProfileLoggedIn: View {
                     Text(Constants.ProfileView.changePassword)
                         .font(.title3)
                 }
-                Button {
+                Button(role: .destructive) {
                     formToShow = .deleteAccount
                 } label: {
                     Text(Constants.ProfileView.deleteAccount)
                         .font(.title3)
-                        .tint(.red)
                 }
             }
         }

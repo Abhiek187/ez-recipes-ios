@@ -4,6 +4,20 @@
     "" : {
       "comment" : "Workaround for the divider in FilterForm"
     },
+    "(%@)" : {
+      "comment" : "Total ratings"
+    },
+    "(%@/5, %@)" : {
+      "comment" : "Average & total ratings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "(%1$@/5, %2$@)"
+          }
+        }
+      }
+    },
     "**%@** — %@" : {
       "comment" : "Glossary word & definition",
       "localizations" : {
@@ -320,9 +334,6 @@
 
     },
     "Home" : {
-
-    },
-    "I Made This!" : {
 
     },
     "Ingredients" : {

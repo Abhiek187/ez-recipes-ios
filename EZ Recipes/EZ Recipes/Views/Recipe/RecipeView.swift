@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct RecipeView: View {
     var homeViewModel: HomeViewModel
@@ -14,25 +15,43 @@ struct RecipeView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.dismiss) private var dismiss
     
+    @State private var showRatingError = false
+    
+    private func rateRecipe(_ rating: Int, forId recipeId: Int) {
+        if profileViewModel.chef != nil {
+            Task {
+                await profileViewModel.rateRecipe(recipeId: recipeId, rating: rating)
+            }
+        } else {
+            showRatingError = true
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 8) {
                 if let recipe = homeViewModel.recipe {
+                    let chefRating = profileViewModel.chef?.ratings[String(recipe.id)]
+                    
                     // Since the ViewModel owns the recipe, all child views should bind to the recipe object to respond to updates
                     RecipeTitle(recipe: recipe)
                     
                     // Show views side-by-side if the screen is wide enough
                     if sizeClass == .compact {
-                        RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading) {
+                        RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading, myRating: chefRating) {
                             // When the show another recipe button is tapped, load a new recipe in the same view
                             await homeViewModel.getRandomRecipe()
+                        } onRate: { rating in
+                            rateRecipe(rating, forId: recipe.id)
                         }
                         NutritionLabel(recipe: recipe)
                     } else {
                         HStack {
                             Spacer()
-                            RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading) {
+                            RecipeHeader(recipe: recipe, isLoading: homeViewModel.isLoading, myRating: chefRating) {
                                 await homeViewModel.getRandomRecipe()
+                            } onRate: { rating in
+                                rateRecipe(rating, forId: recipe.id)
                             }
                             Spacer()
                             NutritionLabel(recipe: recipe)
@@ -103,6 +122,9 @@ struct RecipeView: View {
                     )
                 }
             }
+        }
+        .toast(isPresenting: $showRatingError) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.RecipeView.ratingError)
         }
     }
 }
