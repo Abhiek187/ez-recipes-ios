@@ -158,14 +158,13 @@ struct Constants {
         static let unknownRecipe = String(localized: "unknown recipe")
         
         static let recipeLinkAlt = String(localized: "Open recipe source")
-        // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html
         static let imageCopyright: @Sendable (String, String) -> LocalizedStringKey = { credit, source in
-            // Substitute the format variables, then convert to a LocalizedStringKey to parse the markdown
-            LocalizedStringKey(String(format: "Image © [%@](%@)", credit, source))
+            // Convert to a LocalizedStringKey to parse the markdown
+            LocalizedStringKey("Image © [\(credit)](\(source))")
         }
         static let recipeTime: @Sendable (Int) -> LocalizedStringKey = { minutes in
             // String(localized:) == NSLocalizedString
-            LocalizedStringKey(String(format: String(localized: "**Time:** %d minute(s)"), minutes))
+            LocalizedStringKey(String(localized: "**Time:** \(minutes) minute(s)"))
         }
         static let viewsAlt = String(localized: "views")
         
@@ -177,13 +176,14 @@ struct Constants {
             String(localized: "Your rating: \(stars) out of 5 stars")
         }
         static let starRatingInput: @Sendable (Int) -> String = { stars in
-            String(format: String(localized: "Rate %d star(s)"), stars)
+            String(localized: "Rate \(stars) star(s)")
         }
         static let totalRatings: @Sendable (Int) -> String = { rating in
-            String(format: String(localized: "%d rating(s)"), rating)
+            String(localized: "\(rating) rating(s)")
         }
         static let ratingError = String(localized: "You must be signed in to rate this recipe")
         
+        // String format specifiers: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Strings/Articles/formatSpecifiers.html
         static let mealTypes: @Sendable ([MealType]) -> LocalizedStringKey = { types in
             LocalizedStringKey(String(format: "**Great for:** %@", types.filter { $0 != .unknown }.map { $0.rawValue }.joined(separator: ", ")))
         }
@@ -197,7 +197,7 @@ struct Constants {
             String(localized: "Health Score: \(score)%")
         }
         static let servings: @Sendable (Int) -> String = { servings in
-            String(format: String(localized: "%d serving(s)"), servings)
+            String(localized: "\(servings) serving(s)")
         }
         static let calories = String(localized: "Calories")
         static let fat = String(localized: "Fat")
@@ -272,10 +272,10 @@ struct Constants {
             String(localized: "Chef \(name)")
         }
         static let favorites: @Sendable (Int) -> String = { recipes in
-            String(format: String(localized: "%d favorite(s)"), recipes)
+            String(localized: "\(recipes) favorite(s)")
         }
         static let recipesViewed: @Sendable (Int) -> String = { views in
-            String(format: String(localized: "%d recipe(s) viewed"), views)
+            String(localized: "\(views) recipe(s) viewed")
         }
         static let loginMessage = String(localized: """
         Signing up for an account is free and gives you great perks, including:

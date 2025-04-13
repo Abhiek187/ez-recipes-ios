@@ -29,7 +29,7 @@
         }
       }
     },
-    "**Time:** %d minute(s)" : {
+    "**Time:** %lld minute(s)" : {
       "localizations" : {
         "en" : {
           "variations" : {
@@ -37,13 +37,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "**Time:** %d minute"
+                  "value" : "**Time:** %lld minute"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "**Time:** %d minutes"
+                  "value" : "**Time:** %lld minutes"
                 }
               }
             }
@@ -62,114 +62,96 @@
         }
       }
     },
-    "%d favorite(s)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%#@favorites@"
-          },
-          "substitutions" : {
-            "favorites" : {
-              "formatSpecifier" : "d",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%d favorite"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%d favorites"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%d rating(s)" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d rating"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d ratings"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%d recipe(s) viewed" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%#@recipes@"
-          },
-          "substitutions" : {
-            "recipes" : {
-              "formatSpecifier" : "d",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%d recipe viewed"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "translated",
-                      "value" : "%d recipes viewed"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%d serving(s)" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d serving"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d servings"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "%lld" : {
       "comment" : "Recipe step number"
+    },
+    "%lld favorite(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld favorite"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld favorites"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld rating(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld rating"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ratings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld recipe(s) viewed" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld recipe viewed"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld recipes viewed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld serving(s)" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld serving"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld servings"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "≤ Calories ≤" : {
 
@@ -336,6 +318,16 @@
     "Home" : {
 
     },
+    "Image © [%@](%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Image © [%1$@](%2$@)"
+          }
+        }
+      }
+    },
     "Ingredients" : {
 
     },
@@ -429,7 +421,7 @@
     "Query" : {
 
     },
-    "Rate %d star(s)" : {
+    "Rate %lld star(s)" : {
       "localizations" : {
         "en" : {
           "variations" : {
@@ -437,13 +429,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Rate %d star"
+                  "value" : "Rate %lld star"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Rate %d stars"
+                  "value" : "Rate %lld stars"
                 }
               }
             }
