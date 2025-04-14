@@ -47,6 +47,8 @@ struct HomeView: View {
     }
     
     var body: some View {
+        let isLoggedIn = profileViewModel.authState == .authenticated
+        
         NavigationSplitView {
             ScrollView {
                 VStack {
@@ -140,6 +142,11 @@ struct HomeView: View {
                 presentReview()
                 
                 lastVersionPromptedForReview = currentAppVersion
+            }
+        }
+        .task {
+            if !isLoggedIn {
+                await profileViewModel.getChef()
             }
         }
     }

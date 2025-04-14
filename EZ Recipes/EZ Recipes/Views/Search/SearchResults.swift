@@ -52,6 +52,9 @@ struct SearchResults: View {
         .navigationDestination(for: Int.self) { _ in
             RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
         }
+        .task {
+            await profileViewModel.getChef()
+        }
     }
 }
 
