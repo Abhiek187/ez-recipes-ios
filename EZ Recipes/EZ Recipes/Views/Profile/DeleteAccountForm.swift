@@ -37,7 +37,7 @@ struct DeleteAccountForm: View {
                 Spacer()
                 ProgressView()
                     .opacity(viewModel.isLoading ? 1 : 0)
-                Button {
+                Button(role: .destructive) {
                     Task {
                         await viewModel.deleteAccount()
                     }
@@ -45,7 +45,6 @@ struct DeleteAccountForm: View {
                     Text(Constants.ProfileView.deleteAccount)
                 }
                 .font(.title3)
-                .tint(.red)
                 .disabled(!usernameMatches || viewModel.isLoading)
             }
         }

@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    let repository = NetworkManager.shared
+    let homeViewModel: HomeViewModel
+    let searchViewModel: SearchViewModel
+    let profileViewModel: ProfileViewModel
+    
+    init() {
+        homeViewModel = HomeViewModel(repository: repository)
+        searchViewModel = SearchViewModel(repository: repository)
+        profileViewModel = ProfileViewModel(repository: repository)
+    }
+    
     var body: some View {
         TabView {
             // TODO: Replace .tabItem with Tab() for iOS 18.0+
-            HomeView(viewModel: HomeViewModel(repository: NetworkManager.shared))
+            HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                 .tabItem {
                     Constants.Tabs.home
                 }
-            SearchView(viewModel: SearchViewModel(repository: NetworkManager.shared))
+            SearchView(viewModel: searchViewModel)
                 .tabItem {
                     Constants.Tabs.search
                 }
@@ -23,7 +34,7 @@ struct ContentView: View {
                 .tabItem {
                     Constants.Tabs.glossary
                 }
-            ProfileView(viewModel: ProfileViewModel(repository: NetworkManager.shared))
+            ProfileView(viewModel: profileViewModel)
                 .tabItem {
                     Constants.Tabs.profile
                 }

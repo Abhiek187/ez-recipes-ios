@@ -14,7 +14,7 @@ struct Chef: Codable, Equatable {
     let favoriteRecipes: [String]
     let token: String
     
-    func copy(emailVerified: Bool) -> Self {
-        return Chef(uid: self.uid, email: self.email, emailVerified: emailVerified, ratings: self.ratings, recentRecipes: self.recentRecipes, favoriteRecipes: self.favoriteRecipes, token: self.token)
+    func copy(emailVerified: Bool? = nil, ratings: [String: Int]? = nil, recentRecipes: [String: String]? = nil, favoriteRecipes: [String]? = nil) -> Self {
+        return Chef(uid: self.uid, email: self.email, emailVerified: emailVerified ?? self.emailVerified, ratings: ratings ?? self.ratings, recentRecipes: recentRecipes ?? self.recentRecipes, favoriteRecipes: favoriteRecipes ?? self.favoriteRecipes, token: self.token)
     }
 }

@@ -13,8 +13,9 @@ private extension ProfileViewModel {
         var mockRepo = NetworkManagerMock.shared
         mockRepo.isSuccess = isSuccess
         mockRepo.isEmailVerified = isEmailVerified
+        let swiftData = SwiftDataManager.preview
         
-        self.init(repository: mockRepo)
+        self.init(repository: mockRepo, swiftData: swiftData)
     }
 }
 
@@ -406,5 +407,138 @@ private extension ProfileViewModel {
         #expect(!viewModel.accountDeleted)
         #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
         #expect(!viewModel.showAlert)
+    }
+    
+    @Test func updateRecipeViewsSuccess() async {
+        // Given a recipe and a valid token
+        let recipe = mockRepo.mockRecipes[0]
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+        
+        // When updating the recipe views
+        await viewModel.updateViews(forRecipe: recipe)
+        
+        // Then the recipe views should be updated
+        #expect(viewModel.chef?.recentRecipes[String(recipe.id)] != nil)
+    }
+    
+    @Test func updateRecipeViewsError() async {
+        // Given a recipe and a valid token
+        let recipe = mockRepo.mockRecipes[0]
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+        
+        // When updating the recipe views and an error occurs
+        await viewModel.updateViews(forRecipe: recipe)
+        
+        // Then an error is logged
+        #expect(viewModel.chef?.recentRecipes[String(recipe.id)] == nil)
+    }
+    
+    @Test func updateRecipeViewsNoToken() async {
+        // Given a recipe and no token
+        clearToken()
+        let recipe = mockRepo.mockRecipes[0]
+        
+        // When updating the recipe views
+        let viewModel = ProfileViewModel()
+        await viewModel.updateViews(forRecipe: recipe)
+        
+        // Then the chef shouldn't be updated
+        #expect(viewModel.chef == nil)
+    }
+    
+    @Test func favoriteRecipeSuccess() async {
+        // Given a recipe and a valid token
+        let recipeId = 1
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+        
+        // When adding the recipe to favorites
+        await viewModel.toggleFavoriteRecipe(recipeId: recipeId, isFavorite: true)
+        
+        // Then the recipe should appear in the chef's favorites
+        #expect(viewModel.chef?.favoriteRecipes.contains(String(recipeId)) == true)
+    }
+    
+    @Test func unFavoriteRecipeSuccess() async {
+        // Given a recipe and a valid token
+        let recipeId = 1
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+        
+        // When removing the recipe from favorites
+        await viewModel.toggleFavoriteRecipe(recipeId: recipeId, isFavorite: false)
+        
+        // Then the recipe shouldn't appear in the chef's favorites
+        #expect(viewModel.chef?.favoriteRecipes.contains(String(recipeId)) == false)
+    }
+    
+    @Test func toggleFavoriteRecipeError() async {
+        // Given a recipe and a valid token
+        let recipeId = 1
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+        
+        // When toggling a recipe as a favorite and an error occurs
+        await viewModel.toggleFavoriteRecipe(recipeId: recipeId, isFavorite: true)
+        
+        // Then an error is logged
+        #expect(viewModel.chef?.favoriteRecipes.contains(String(recipeId)) != true)
+    }
+    
+    @Test func toggleFavoriteRecipeNoToken() async {
+        // Given no token
+        clearToken()
+        let recipeId = 1
+        
+        // When toggling a recipe as a favorite
+        let viewModel = ProfileViewModel()
+        await viewModel.toggleFavoriteRecipe(recipeId: recipeId, isFavorite: true)
+        
+        // Then the chef shouldn't be updated
+        #expect(viewModel.chef == nil)
+    }
+    
+    @Test func rateRecipeSuccess() async {
+        // Given a recipe and a valid token
+        let recipeId = 1
+        let rating = 4
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+        
+        // When rating the recipe
+        await viewModel.rateRecipe(recipeId: recipeId, rating: rating)
+        
+        // Then the rating should be saved with the chef
+        #expect(viewModel.chef?.ratings[String(recipeId)] == rating)
+    }
+    
+    @Test func rateRecipeError() async {
+        // Given a recipe and a valid token
+        let recipeId = 1
+        let rating = 4
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+        
+        // When rating the recipe and an error occurs
+        await viewModel.rateRecipe(recipeId: recipeId, rating: rating)
+        
+        // Then an error is logged
+        #expect(viewModel.chef?.ratings[String(recipeId)] == nil)
+    }
+    
+    @Test func rateRecipeNoToken() async {
+        // Given no token
+        clearToken()
+        let recipeId = 1
+        let rating = 4
+        
+        // When rating the recipe
+        let viewModel = ProfileViewModel()
+        await viewModel.rateRecipe(recipeId: recipeId, rating: rating)
+        
+        // Then the chef shouldn't be updated
+        #expect(viewModel.chef == nil)
     }
 }

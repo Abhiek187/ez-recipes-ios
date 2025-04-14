@@ -9,14 +9,17 @@ import SwiftUI
 
 struct RecipeCard: View {
     var recipe: Recipe
-    @State var isFavorite = false
+    var profileViewModel: ProfileViewModel
     
     func getCalories() -> Nutrient? {
-        return recipe.nutrients.first(where: { $0.name == "Calories" })
+        return recipe.nutrients.first { $0.name == "Calories" }
     }
     
     var body: some View {
-        VStack {
+        let chef = profileViewModel.chef
+        let isFavorite = chef?.favoriteRecipes.contains { $0 == String(recipe.id) } == true
+        
+        VStack(spacing: 16) {
             AsyncImage(url: URL(string: recipe.image)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
@@ -29,13 +32,22 @@ struct RecipeCard: View {
             HStack {
                 Text(recipe.name)
                 Button {
-                    isFavorite.toggle()
+                    Task {
+                        await profileViewModel.toggleFavoriteRecipe(recipeId: recipe.id, isFavorite: !isFavorite)
+                    }
                 } label: {
                     // Add alt text to the system image
                     Label(isFavorite ? Constants.RecipeView.unFavoriteAlt : Constants.RecipeView.favoriteAlt, systemImage: isFavorite ? "heart.fill" : "heart")
                 }
+                .disabled(profileViewModel.chef == nil)
             }
             .padding(.bottom, 8)
+            
+            RecipeRating(averageRating: recipe.averageRating, totalRatings: recipe.totalRatings ?? 0, myRating: chef?.ratings[String(recipe.id)], enabled: chef != nil) { rating in
+                Task {
+                    await profileViewModel.rateRecipe(recipeId: recipe.id, rating: rating)
+                }
+            }
             
             HStack {
                 Spacer()
@@ -48,9 +60,26 @@ struct RecipeCard: View {
             }
         }
         .card()
+        .task {
+            // Avoid fetching the chef if it's already available
+            if profileViewModel.chef == nil {
+                await profileViewModel.getChef()
+            }
+        }
     }
 }
 
-#Preview {
-    RecipeCard(recipe: Constants.Mocks.blueberryYogurt)
+#Preview("Logged Out") {
+    let mockRepo = NetworkManagerMock.shared
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: SwiftDataManager.preview)
+    
+    RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
+}
+
+#Preview("Logged In") {
+    let mockRepo = NetworkManagerMock.shared
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: SwiftDataManager.preview)
+    profileViewModel.chef = mockRepo.mockChef
+    
+    return RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
 }

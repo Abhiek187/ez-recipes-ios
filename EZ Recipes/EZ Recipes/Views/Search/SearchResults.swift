@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchResults: View {
     var searchViewModel: SearchViewModel
     let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    let profileViewModel = ProfileViewModel(repository: NetworkManager.shared)
     
     let columns = [
         GridItem(.adaptive(minimum: 350), alignment: .top)
@@ -20,7 +21,7 @@ struct SearchResults: View {
             LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
                 ForEach(searchViewModel.recipes, id: \.id) { recipe in
                     NavigationLink(value: recipe.id) {
-                        RecipeCard(recipe: recipe)
+                        RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
                     }
                     // Don't make all the text the accent color
                     .buttonStyle(.plain)
@@ -49,7 +50,10 @@ struct SearchResults: View {
         .navigationTitle(Constants.SearchView.resultsTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: Int.self) { _ in
-            RecipeView(viewModel: homeViewModel)
+            RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+        }
+        .task {
+            await profileViewModel.getChef()
         }
     }
 }

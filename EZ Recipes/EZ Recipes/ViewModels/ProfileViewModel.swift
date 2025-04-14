@@ -24,9 +24,15 @@ import Alamofire
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "ProfileViewModel")
     private var repository: ChefRepository & RecipeRepository
+    private var swiftData = SwiftDataManager.shared
     
     required init(repository: ChefRepository & RecipeRepository) {
         self.repository = repository
+    }
+    
+    convenience init(repository: ChefRepository & RecipeRepository, swiftData: SwiftDataManager) {
+        self.init(repository: repository)
+        self.swiftData = swiftData
     }
     
     private func saveToken(_ token: String) {
@@ -287,6 +293,73 @@ import Alamofire
         case .failure(let recipeError):
             self.recipeError = recipeError
             showAlert = token != nil
+        }
+    }
+    
+    func updateViews(forRecipe recipe: Recipe) async {
+        // Recipe view updates can occur in the background without impacting the UX
+        let recipeUpdate = RecipeUpdate(view: true)
+        let token = getToken()
+        let result = await repository.updateRecipe(withId: recipe.id, fields: recipeUpdate, token: token)
+        
+        switch result {
+        case .success(let tokenResponse):
+            logger.debug("Recipe view count updated successfully")
+            let currentDate = Date.now.formatted(Date.ISO8601FormatStyle(includingFractionalSeconds: true))
+            chef = chef?.copy(
+                recentRecipes: chef?.recentRecipes.merging([String(recipe.id): String(currentDate)]) { $1 } // overwrite the recipe's timestamp if it's already in the dictionary
+            )
+            
+            if let newToken = tokenResponse.token {
+                saveToken(newToken)
+            }
+        case .failure(let recipeError):
+            logger.warning("Failed to update the recipe view count :: error: \(recipeError.error)")
+        }
+    }
+    
+    func toggleFavoriteRecipe(recipeId: Int, isFavorite: Bool) async {
+        isLoading = true
+        let recipeUpdate = RecipeUpdate(isFavorite: isFavorite)
+        let token = getToken()
+        let result = await repository.updateRecipe(withId: recipeId, fields: recipeUpdate, token: token)
+        isLoading = false
+        
+        switch result {
+        case .success(let tokenResponse):
+            if let chef {
+                self.chef = chef.copy(
+                    favoriteRecipes: isFavorite ? chef.favoriteRecipes + [String(recipeId)] : chef.favoriteRecipes.filter { $0 != String(recipeId) }
+                )
+            }
+            swiftData.toggleFavoriteRecentRecipe(forId: recipeId)
+            
+            if let newToken = tokenResponse.token {
+                saveToken(newToken)
+            }
+        case .failure(let recipeError):
+            logger.warning("Failed to update the recipe favorite status :: error: \(recipeError.error)")
+        }
+    }
+    
+    func rateRecipe(recipeId: Int, rating: Int) async {
+        isLoading = true
+        let recipeUpdate = RecipeUpdate(rating: rating)
+        let token = getToken()
+        let result = await repository.updateRecipe(withId: recipeId, fields: recipeUpdate, token: token)
+        isLoading = false
+        
+        switch result {
+        case .success(let tokenResponse):
+            self.chef = chef?.copy(
+                ratings: chef?.ratings.merging([String(recipeId): rating]) { $1 }
+            )
+            
+            if let newToken = tokenResponse.token {
+                saveToken(newToken)
+            }
+        case .failure(let recipeError):
+            logger.warning("Failed to rate the recipe :: error: \(recipeError.error)")
         }
     }
 }

@@ -27,7 +27,9 @@ private extension Button {
 struct RecipeHeader: View {
     var recipe: Recipe
     var isLoading: Bool
+    var myRating: Int? = nil
     var onFindRecipeButtonTapped: () async -> Void // callback to pass to the parent View
+    var onRate: (Int) -> Void = { _ in }
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -57,10 +59,21 @@ struct RecipeHeader: View {
                 Spacer()
             }
             
-            // Recipe time and buttons
+            // Recipe time, views, and buttons
             VStack {
-                Text(Constants.RecipeView.recipeTime(recipe.time))
-                    .font(.system(size: 20))
+                HStack {
+                    Text(Constants.RecipeView.recipeTime(recipe.time))
+                        .font(.system(size: 20))
+                    Spacer()
+                    Label(recipe.views?.shorthand() ?? "0", systemImage: "eye.fill")
+                        .accessibilityLabel(Constants.RecipeView.viewsAlt)
+                        .accessibilityValue(String(recipe.views ?? 0))
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+                
+                RecipeRating(averageRating: recipe.averageRating, totalRatings: recipe.totalRatings ?? 0, myRating: myRating, onRate: onRate)
+                    .padding(.bottom, 8)
                 
                 if !recipe.types.isEmpty && recipe.types != [.unknown] {
                     Text(Constants.RecipeView.mealTypes(recipe.types))
@@ -73,38 +86,37 @@ struct RecipeHeader: View {
                         .padding(.horizontal)
                 }
                 
-                HStack {
-                    Button {
-                        print("Nice! Hope it was tasty!")
-                    } label: {
-                        Label(Constants.RecipeView.madeButton, systemImage: "fork.knife")
+                Button {
+                    Task {
+                        await onFindRecipeButtonTapped()
                     }
-                    .buttonStyle(for: colorScheme)
-                    .tint(.red)
-                    
-                    Button {
-                        Task {
-                            await onFindRecipeButtonTapped()
-                        }
-                    } label: {
-                        Label(Constants.RecipeView.showRecipeButton, systemImage: "text.book.closed")
-                    }
-                    .buttonStyle(for: colorScheme)
-                    .tint(.yellow)
-                    .foregroundStyle(colorScheme == .light ? .black : .yellow)
-                    .disabled(isLoading)
+                } label: {
+                    Label(Constants.RecipeView.showRecipeButton, systemImage: "text.book.closed")
                 }
+                .buttonStyle(for: colorScheme)
+                .tint(.yellow)
+                .foregroundStyle(colorScheme == .light ? .black : .yellow)
+                .disabled(isLoading)
             }
             
             if isLoading {
                 ProgressView()
             }
         }
+        .padding(.horizontal, 4)
     }
 }
 
-#Preview("No Loading") {
+#Preview("Blueberry Yogurt") {
     RecipeHeader(recipe: Constants.Mocks.blueberryYogurt, isLoading: false) {}
+}
+
+#Preview("Chocolate Cupcake") {
+    RecipeHeader(recipe: Constants.Mocks.chocolateCupcake, isLoading: false) {}
+}
+
+#Preview("Thai Basil Chicken") {
+    RecipeHeader(recipe: Constants.Mocks.thaiBasilChicken, isLoading: false) {}
 }
 
 #Preview("Loading") {
