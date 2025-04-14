@@ -179,7 +179,12 @@ struct Constants {
             String(localized: "Rate \(stars) star(s)")
         }
         static let totalRatings: @Sendable (Int) -> String = { rating in
-            String(localized: "\(rating) rating(s)")
+            // Can't use a plural string since the raw rating value isn't in the string itself
+            return if rating == 1 {
+                String(localized: "\(rating.shorthand()) rating")
+            } else {
+                String(localized: "\(rating.shorthand()) ratings")
+            }
         }
         static let ratingError = String(localized: "You must be signed in to rate this recipe")
         

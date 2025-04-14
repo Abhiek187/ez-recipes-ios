@@ -62,6 +62,12 @@
         }
       }
     },
+    "%@ rating" : {
+
+    },
+    "%@ ratings" : {
+
+    },
     "%lld" : {
       "comment" : "Recipe step number"
     },
@@ -80,28 +86,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld favorites"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld rating(s)" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld rating"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld ratings"
                 }
               }
             }
