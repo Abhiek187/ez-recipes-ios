@@ -16,8 +16,11 @@ import OSLog
 /// - 5xx = a RecipeError object with an unknown error message (such as a network failure)
 struct NetworkManager {
     static let shared = NetworkManager()
-    private let session = Session(eventMonitors: [AFLogger()])
+    // Default cache behavior: https://developer.apple.com/documentation/foundation/nsurlrequest/cachepolicy-swift.enum/useprotocolcachepolicy#HTTP-caching-behavior
+    // Cache directory: /APP_PATH/Library/Caches/BUNDLE_ID
+    private let session = Session(cachedResponseHandler: .cache, eventMonitors: [AFLogger()])
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "NetworkManager")
+    private let jsonEncoder = JSONParameterEncoder.default
     
     private func parseResponse<T: Decodable>(fromRequest request: DataRequest, method: String) async -> Result<T, RecipeError> {
         do {
@@ -69,7 +72,7 @@ extension NetworkManager: RecipeRepository {
     }
     
     func updateRecipe(withId id: Int, fields: RecipeUpdate, token: String? = nil) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseRecipesPath)/\(id)", method: .patch, parameters: fields, encoder: JSONParameterEncoder.default) { urlRequest in
+        let request = session.request("\(Constants.baseRecipesPath)/\(id)", method: .patch, parameters: fields, encoder: jsonEncoder) { urlRequest in
             if let token {
                 urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -95,12 +98,12 @@ extension NetworkManager: ChefRepository {
     }
     
     func createChef(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        let request = session.request(Constants.baseChefsPath, method: .post, parameters: credentials, encoder: JSONParameterEncoder.default)
+        let request = session.request(Constants.baseChefsPath, method: .post, parameters: credentials, encoder: jsonEncoder)
         return await parseResponse(fromRequest: request, method: #function)
     }
     
     func updateChef(fields: ChefUpdate, token: String? = nil) async -> Result<ChefEmailResponse, RecipeError> {
-        let request = session.request(Constants.baseChefsPath, method: .patch, parameters: fields, encoder: JSONParameterEncoder.default) { urlRequest in
+        let request = session.request(Constants.baseChefsPath, method: .patch, parameters: fields, encoder: jsonEncoder) { urlRequest in
             if let token {
                 urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
             }
@@ -120,7 +123,7 @@ extension NetworkManager: ChefRepository {
     }
     
     func login(credentials: LoginCredentials) async -> Result<LoginResponse, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/login", method: .post, parameters: credentials, encoder: JSONParameterEncoder.default)
+        let request = session.request("\(Constants.baseChefsPath)/login", method: .post, parameters: credentials, encoder: jsonEncoder)
         return await parseResponse(fromRequest: request, method: #function)
     }
     

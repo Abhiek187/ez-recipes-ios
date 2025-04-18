@@ -276,6 +276,16 @@ class EZ_RecipesUITests: XCTestCase {
         sustainableSwitch.tap()
         sustainableSwitch.tap()
         
+        var ratingPicker = collectionViewsQuery.staticTexts["Rating"]
+        XCTAssert(ratingPicker.exists, "Error line \(#line): The rating picker couldn't be found")
+        for option in (0...5).reversed() {
+            ratingPicker.tap()
+            let optionLabel = option == 0 ? "(none)" : String(option)
+            let optionButton = collectionViewsQuery.buttons[optionLabel]
+            optionButton.tap()
+            ratingPicker = collectionViewsQuery.staticTexts[optionLabel]
+        }
+        
         let spiceLevelText = collectionViewsQuery.staticTexts["Spice Level"]
         XCTAssert(spiceLevelText.exists, "Error line \(#line): The spice level picker couldn't be found")
         let spiceLevelButton = collectionViewsQuery.buttons["Spice Level"]

@@ -67,9 +67,10 @@ final class AFLogger: EventMonitor {
         // Headers are already logged here
         // logger.debug("[AF Response] Metrics: \(response.metrics)")
         
+        let urlRequest = request.request
         let urlResponse = response.response
-        let method = response.request?.httpMethod
-        let url = urlResponse?.url?.absoluteString
+        let method = urlRequest?.httpMethod
+        let url = urlRequest?.url?.absoluteString
         let status = urlResponse?.statusCode
         var log = "[AF Response] Method: \(method ?? "") | URL: \(url ?? "") | Status: \(status?.description ?? "")"
         

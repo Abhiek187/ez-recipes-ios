@@ -252,6 +252,8 @@ struct Constants {
         static let cheapLabel = String(localized: "Cheap")
         static let sustainableLabel = String(localized: "Sustainable")
         
+        static let optionNone = String(localized: "(none)")
+        static let ratingLabel = String(localized: "Rating")
         static let spiceLabel = String(localized: "Spice Level")
         static let typeLabel = String(localized: "Meal Type")
         static let cultureLabel = String(localized: "Cuisine")

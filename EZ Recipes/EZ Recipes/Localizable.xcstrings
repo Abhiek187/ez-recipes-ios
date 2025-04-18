@@ -18,6 +18,9 @@
         }
       }
     },
+    "(none)" : {
+
+    },
     "**%@** — %@" : {
       "comment" : "Glossary word & definition",
       "localizations" : {
@@ -426,6 +429,9 @@
           }
         }
       }
+    },
+    "Rating" : {
+
     },
     "Recipe" : {
 
