@@ -76,6 +76,23 @@ struct FilterForm: View {
                 Toggle(Constants.SearchView.cheapLabel, isOn: $viewModel.recipeFilter.cheap)
                 Toggle(Constants.SearchView.sustainableLabel, isOn: $viewModel.recipeFilter.sustainable)
                 
+                Picker(Constants.SearchView.ratingLabel, selection: $viewModel.recipeFilter.rating) {
+                    Text(Constants.SearchView.optionNone)
+                        .tag(nil as Int?)
+                    
+                    ForEach(1...5, id: \.self) { option in
+                        HStack {
+                            ForEach(1...option, id: \.self) { _ in
+                                Image(systemName: "star.fill")
+                                    .tint(.yellow)
+                            }
+                            Spacer()
+                            Text("\(option)")
+                        }
+                        .tag(option)
+                    }
+                }
+                
                 MultiPicker(Constants.SearchView.spiceLabel, selection: $viewModel.recipeFilter.spiceLevel) {
                     ForEach(SpiceLevel.allCases, id: \.rawValue) { spiceLevel in
                         // Don't filter by unknown
