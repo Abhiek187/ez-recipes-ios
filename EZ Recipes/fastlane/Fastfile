@@ -25,8 +25,8 @@ platform :ios do
     # Only run in GitHub Actions
     if ENV["CI"]
       # Set the Xcode version before running each lane: /usr/local/bin/xcodes installed VERSION
-      xcodes(version: "16.1", # required for Swift 6
-             select_for_current_build_only: true)
+      # xcodes(version: "16.1", # required for Swift 6
+      #        select_for_current_build_only: true)
     end
   end
   
