@@ -12,6 +12,7 @@ struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
     @State var homeViewModel: HomeViewModel
     @State var profileViewModel: ProfileViewModel
+    @State var expandAccordions = false
     @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly
@@ -19,6 +20,10 @@ struct HomeView: View {
     private let defaultLoadingMessage = " "
     @State private var loadingMessage = " "
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    
+    @State private var didExpandFavorites = false
+    @State private var didExpandRecent = false
+    @State private var didExpandRates = false
     
     // Up to 3 review prompts can appear every 365 days
     @Environment(\.requestReview) private var requestReview
@@ -28,7 +33,7 @@ struct HomeView: View {
     @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
-    struct ToggleStates {
+    private struct ToggleStates {
         var expandFavorites = false
         var expandRecents = false
         var expandRatings = false
@@ -42,6 +47,73 @@ struct HomeView: View {
                 // Delay for two seconds to avoid interrupting the person using the app
                 try await Task.sleep(for: .seconds(2))
                 requestReview()
+            }
+        }
+    }
+    
+    private func loadRecipeCards(_ recipes: [Recipe?], showWhenOffline: Bool = false) -> some View {
+        let isLoggedIn = profileViewModel.authState == .authenticated
+        let isFetchingChef = profileViewModel.authState == .loading
+        
+        return Group {
+            if !isLoggedIn {
+                if showWhenOffline {
+                    // Show what's stored on the device while the chef isn't signed in
+                    if homeViewModel.recentRecipes.isEmpty {
+                        Text(Constants.noResults)
+                    } else {
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 16) {
+                                ForEach(homeViewModel.recentRecipes, id: \.id) { recentRecipe in
+                                    if let recipe: Recipe = recentRecipe.recipe.decode() {
+                                        RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
+                                            .frame(width: 350)
+                                            .simultaneousGesture(TapGesture().onEnded {
+                                                // Show the recipe cards animating to the right position after tapping them
+                                                withAnimation {
+                                                    homeViewModel.setRecipe(recipe)
+                                                }
+                                            })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if isFetchingChef {
+                    // Show the recipe cards loading while waiting for both the auth state & recipes
+                    RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
+                        .frame(width: 350)
+                        .redacted(reason: .placeholder)
+                        .disabled(true)
+                } else {
+                    // Encourage the user to sign in to see these recipes
+                    Text(Constants.HomeView.signInForRecipes)
+                }
+            } else if recipes.isEmpty {
+                Text(Constants.noResults)
+            } else {
+                ScrollView(.horizontal) {
+                    HStack(spacing: 16) {
+                        // Can't use ForEach directly if the element type is optional
+                        ForEach(Array(zip(recipes.indices, recipes)), id: \.0) { _, recipe in
+                            if let recipe {
+                                RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
+                                    .frame(width: 350)
+                                    .simultaneousGesture(TapGesture().onEnded {
+                                        // Show the recipe cards animating to the right position after tapping them
+                                        withAnimation {
+                                            homeViewModel.setRecipe(recipe)
+                                        }
+                                    })
+                            } else {
+                                RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
+                                    .frame(width: 350)
+                                    .redacted(reason: .placeholder)
+                                    .disabled(true)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -88,33 +160,15 @@ struct HomeView: View {
                     // Saved recipes
                     VStack {
                         DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
-                            Text(Constants.HomeView.signInForRecipes)
+                            loadRecipeCards(profileViewModel.favoriteRecipes)
                         }
                         Divider()
                         DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
-                            ScrollView(.horizontal) {
-                                HStack {
-                                    ForEach(homeViewModel.recentRecipes, id: \.id) { recentRecipe in
-                                        if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                            RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
-                                                .frame(width: 350)
-                                                .simultaneousGesture(TapGesture().onEnded {
-                                                    // Show the recipe cards animating to the right position after tapping them
-                                                    withAnimation {
-                                                        homeViewModel.setRecipe(recipe)
-                                                    }
-                                                })
-                                        }
-                                    }
-                                }
-                            }
+                            loadRecipeCards(profileViewModel.recentRecipes, showWhenOffline: true)
                         }
                         Divider()
                         DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
-                            RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
-                                .frame(width: 350)
-                                .redacted(reason: .placeholder)
-                                .disabled(true)
+                            loadRecipeCards(profileViewModel.ratedRecipes)
                         }
                     }
                     .padding()
@@ -153,32 +207,47 @@ struct HomeView: View {
 }
 
 // Show previews of the HomeView with and without the spinner or an alert box
-#Preview("No Loading") {
-    let repoSuccess = NetworkManagerMock.shared
-    let swiftData = SwiftDataManager.preview
-    let homeViewModel = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    let profileViewModel = ProfileViewModel(repository: repoSuccess, swiftData: swiftData)
+// Expand the accordions by default to make it easier to distinguish each preview
+@MainActor
+private func setupPreview(isLoading: Bool = false, showAlert: Bool = false, recentRecipes: [Recipe] = [], authState: AuthState = .unauthenticated, expandAccordions: Bool = true) -> some View {
+    var mockRepo = NetworkManagerMock.shared
+    mockRepo.isSuccess = !showAlert
     
-    return HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+    homeViewModel.isLoading = isLoading
+    homeViewModel.recentRecipes = recentRecipes.map { recipe in
+        RecentRecipe(recipe: recipe)
+    }
+    
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: swiftData)
+    profileViewModel.isLoading = isLoading
+    profileViewModel.authState = authState
+    profileViewModel.chef = authState == .authenticated ? mockRepo.mockChef : nil
+    
+    return HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel, expandAccordions: expandAccordions)
 }
 
-#Preview("Loading") {
-    let repoSuccess = NetworkManagerMock.shared
-    let swiftData = SwiftDataManager.preview
-    let homeViewModel = HomeViewModel(repository: repoSuccess, swiftData: swiftData)
-    homeViewModel.isLoading = true
-    let profileViewModel = ProfileViewModel(repository: repoSuccess, swiftData: swiftData)
-    profileViewModel.isLoading = true
-    
-    return HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+#Preview("Offline Recipes") {
+    setupPreview(recentRecipes: [Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken])
+}
+
+#Preview("Authenticated") {
+    setupPreview(authState: .authenticated, expandAccordions: false)
+}
+
+#Preview("Loading (Auth)") {
+    setupPreview(authState: .loading)
+}
+
+#Preview("No Loading") {
+    setupPreview()
+}
+
+#Preview("Loading (Recipe)") {
+    setupPreview(isLoading: true)
 }
 
 #Preview("Alert") {
-    var repoFail = NetworkManagerMock.shared
-    repoFail.isSuccess = false
-    let swiftData = SwiftDataManager.preview
-    let homeViewModel = HomeViewModel(repository: repoFail, swiftData: swiftData)
-    let profileViewModel = ProfileViewModel(repository: repoFail, swiftData: swiftData)
-    
-    return HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+    setupPreview(showAlert: true)
 }

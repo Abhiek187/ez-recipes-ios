@@ -308,7 +308,8 @@ import Alamofire
         
         // Fetch all recipes in parallel
         await withTaskGroup { group in
-            for (index, recipeId) in recipeIds.enumerated() {
+            // zip is preferred over enumerated for guaranteed 0-based indexing: https://stackoverflow.com/a/63145650
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
                     let result = await self.repository.getRecipe(byId: recipeId)
                     return (result, index, recipeId)
@@ -341,7 +342,7 @@ import Alamofire
         recentRecipes = recipeIds.map { _ in nil }
         
         await withTaskGroup { group in
-            for (index, recipeId) in recipeIds.enumerated() {
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
                     let result = await self.repository.getRecipe(byId: recipeId)
                     return (result, index, recipeId)
@@ -368,7 +369,7 @@ import Alamofire
         ratedRecipes = recipeIds.map { _ in nil }
         
         await withTaskGroup { group in
-            for (index, recipeId) in recipeIds.enumerated() {
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
                     let result = await self.repository.getRecipe(byId: recipeId)
                     return (result, index, recipeId)

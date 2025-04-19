@@ -37,6 +37,7 @@ struct Constants {
     ].map {
         String(localized: $0)
     }
+    static let noResults = String(localized: "No recipes found")
     
     // APIs
     static let serverBaseUrl = "https://ez-recipes-server.onrender.com"
@@ -258,7 +259,6 @@ struct Constants {
         static let typeLabel = String(localized: "Meal Type")
         static let cultureLabel = String(localized: "Cuisine")
         static let applyButton = String(localized: "Apply")
-        static let noResults = String(localized: "No recipes found")
         
         // Results
         static let resultsTitle = String(localized: "Results")
