@@ -21,10 +21,6 @@ struct HomeView: View {
     @State private var loadingMessage = " "
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
-    @State private var didExpandFavorites = false
-    @State private var didExpandRecent = false
-    @State private var didExpandRates = false
-    
     // Up to 3 review prompts can appear every 365 days
     @Environment(\.requestReview) private var requestReview
 
@@ -84,7 +80,7 @@ struct HomeView: View {
                         }
                     
                     // Saved recipes
-                    HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+                    HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel, expandAccordions: expandAccordions)
                 }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
@@ -142,7 +138,7 @@ private func setupPreview(isLoading: Bool = false, showAlert: Bool = false, rece
 }
 
 #Preview("Offline Recipes") {
-    setupPreview(recentRecipes: [Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken])
+    setupPreview(showAlert: true, recentRecipes: [Constants.Mocks.blueberryYogurt, Constants.Mocks.chocolateCupcake, Constants.Mocks.thaiBasilChicken])
 }
 
 #Preview("Authenticated") {

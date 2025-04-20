@@ -11,12 +11,22 @@ struct HomeAccordions: View {
     var homeViewModel: HomeViewModel
     var profileViewModel: ProfileViewModel
     
-    private struct ToggleStates {
-        var expandFavorites = false
-        var expandRecents = false
-        var expandRatings = false
+    @State private var expandFavorites: Bool
+    @State private var expandRecents: Bool
+    @State private var expandRatings: Bool
+    
+    @State private var didExpandFavorites = false
+    @State private var didExpandRecent = false
+    @State private var didExpandRates = false
+    
+    init(homeViewModel: HomeViewModel, profileViewModel: ProfileViewModel, expandAccordions: Bool = false) {
+        self.homeViewModel = homeViewModel
+        self.profileViewModel = profileViewModel
+        
+        expandFavorites = expandAccordions
+        expandRecents = expandAccordions
+        expandRatings = expandAccordions
     }
-    @State private var toggleStates = ToggleStates()
     
     private func recipeCard(_ recipe: Recipe) -> some View {
         RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
@@ -81,19 +91,38 @@ struct HomeAccordions: View {
                 }
             }
         }
+        .task(id: expandFavorites) {
+            // Only fetch the recipes once per load
+            if expandFavorites && isLoggedIn && !didExpandFavorites {
+                await profileViewModel.getAllFavoriteRecipes()
+                didExpandFavorites = true
+            }
+        }
+        .task(id: expandRecents) {
+            if expandRecents && isLoggedIn && !didExpandRecent {
+                await profileViewModel.getAllRecentRecipes()
+                didExpandRecent = true
+            }
+        }
+        .task(id: expandRatings) {
+            if expandRatings && isLoggedIn && !didExpandRates {
+                await profileViewModel.getAllRatedRecipes()
+                didExpandRates = true
+            }
+        }
     }
     
     var body: some View {
         VStack {
-            DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
+            DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $expandFavorites) {
                 loadRecipeCards(profileViewModel.favoriteRecipes)
             }
             Divider()
-            DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
+            DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $expandRecents) {
                 loadRecipeCards(profileViewModel.recentRecipes, showWhenOffline: true)
             }
             Divider()
-            DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
+            DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $expandRatings) {
                 loadRecipeCards(profileViewModel.ratedRecipes)
             }
         }
@@ -101,12 +130,24 @@ struct HomeAccordions: View {
     }
 }
 
-#Preview {
-    let mockRepo = NetworkManagerMock.shared
+#Preview("Collapsed") {
+    var mockRepo = NetworkManagerMock.shared
+    mockRepo.isSuccess = false // prevent getChef from getting called
     let swiftData = SwiftDataManager.preview
     let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
     
     let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: swiftData)
     
     return HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+}
+
+#Preview("Expanded") {
+    var mockRepo = NetworkManagerMock.shared
+    mockRepo.isSuccess = false
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+    
+    let profileViewModel = ProfileViewModel(repository: mockRepo, swiftData: swiftData)
+    
+    return HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel, expandAccordions: true)
 }
