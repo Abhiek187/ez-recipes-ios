@@ -300,6 +300,8 @@ import Alamofire
         }
     }
     
+    private typealias TaskGroupResult = (Result<Recipe, RecipeError>, Range<Array<Int>.Index>.Element, Int)
+    
     func getAllFavoriteRecipes() async {
         guard let chef else { return }
         
@@ -307,7 +309,7 @@ import Alamofire
         favoriteRecipes = recipeIds.map { _ in nil } // nil == loading
         
         // Fetch all recipes in parallel
-        await withTaskGroup { group in
+        await withTaskGroup(of: TaskGroupResult.self) { group in
             // zip is preferred over enumerated for guaranteed 0-based indexing: https://stackoverflow.com/a/63145650
             for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
@@ -341,7 +343,7 @@ import Alamofire
             .compactMap { $0.0 }
         recentRecipes = recipeIds.map { _ in nil }
         
-        await withTaskGroup { group in
+        await withTaskGroup(of: TaskGroupResult.self) { group in
             for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
                     let result = await self.repository.getRecipe(byId: recipeId)
@@ -368,7 +370,7 @@ import Alamofire
         let recipeIds = chef.ratings.compactMap { (id, _) in Int(id) }
         ratedRecipes = recipeIds.map { _ in nil }
         
-        await withTaskGroup { group in
+        await withTaskGroup(of: TaskGroupResult.self) { group in
             for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
                 group.addTask {
                     let result = await self.repository.getRecipe(byId: recipeId)
