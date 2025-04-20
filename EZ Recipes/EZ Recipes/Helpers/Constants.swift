@@ -15,6 +15,7 @@ struct Constants {
     
     // Common strings
     static let appName = "EZ Recipes"
+    // Using localized strings for automatic translation support
     static let errorTitle = String(localized: "Error")
     static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
     static let noTokenFound = String(localized: "No token found")
@@ -128,7 +129,6 @@ struct Constants {
     }
     
     struct HomeView {
-        // Using localized strings for automatic translation support
         static let homeTitle = String(localized: "Home")
         static let findRecipeButton = String(localized: "Find Me a Recipe!")
         static let maxRecentRecipes = 10
@@ -136,8 +136,6 @@ struct Constants {
         static let profileFavorites = String(localized: "💖 Favorites")
         static let profileRecentlyViewed = String(localized: "⌚ Recently Viewed")
         static let profileRatings = String(localized: "⭐ Ratings")
-        static let accordionExpand = String(localized: "Expand")
-        static let accordionCollapse = String(localized: "Collapse")
         static let signInForRecipes = String(localized: "Sign in to view your saved recipes")
         
         // Secondary view

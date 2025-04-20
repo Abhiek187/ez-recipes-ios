@@ -78,6 +78,26 @@ class EZ_RecipesUITests: XCTestCase {
         let homeNavigationBar = app.navigationBars["Home"] // UI tests can't import modules from the app target
         XCTAssert(homeNavigationBar.exists, "Error line \(#line): The home navigation bar couldn't be found")
         
+        // The accordions should be present, but not display any recipes
+        let favoriteAccordion = app.buttons["💖 Favorites"]
+        let recentAccordion = app.buttons["⌚ Recently Viewed"]
+        let ratingAccordion = app.buttons["⭐ Ratings"]
+        let signInMessage = app.staticTexts["Sign in to view your saved recipes"]
+        XCTAssert(favoriteAccordion.exists, "Error line \(#line): The Favorites accordion isn't showing")
+        XCTAssert(recentAccordion.exists, "Error line \(#line): The Recently Viewed accordion isn't showing")
+        XCTAssert(ratingAccordion.exists, "Error line \(#line): The Ratings accordion isn't showing")
+        XCTAssert(!signInMessage.exists, "Error line \(#line): The accordions shouldn't be expanded")
+
+        favoriteAccordion.tap()
+        XCTAssert(signInMessage.exists, "Error line \(#line): The sign in message isn't showing under favorites")
+        favoriteAccordion.tap()
+        recentAccordion.tap()
+        XCTAssert(!signInMessage.exists, "Error line \(#line): The sign in message shouldn't appear under recents")
+        recentAccordion.tap()
+        ratingAccordion.tap()
+        XCTAssert(signInMessage.exists, "Error line \(#line): The sign in message isn't showing under ratings")
+        ratingAccordion.tap()
+        
         // When first launching the app, the find recipe button should be clickable and the ProgressView should be hidden
         let findRecipeButton = app.buttons["Find Me a Recipe!"]
         let progressView = app.activityIndicators.firstMatch
