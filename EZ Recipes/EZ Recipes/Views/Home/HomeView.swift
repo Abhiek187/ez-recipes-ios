@@ -33,13 +33,6 @@ struct HomeView: View {
     @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
-    private struct ToggleStates {
-        var expandFavorites = false
-        var expandRecents = false
-        var expandRatings = false
-    }
-    @State private var toggleStates = ToggleStates()
-    
     private func presentReview() {
         // Don't show the alert in a UI test
         if !Constants.isUITest {
@@ -47,73 +40,6 @@ struct HomeView: View {
                 // Delay for two seconds to avoid interrupting the person using the app
                 try await Task.sleep(for: .seconds(2))
                 requestReview()
-            }
-        }
-    }
-    
-    private func loadRecipeCards(_ recipes: [Recipe?], showWhenOffline: Bool = false) -> some View {
-        let isLoggedIn = profileViewModel.authState == .authenticated
-        let isFetchingChef = profileViewModel.authState == .loading
-        
-        return Group {
-            if !isLoggedIn {
-                if showWhenOffline {
-                    // Show what's stored on the device while the chef isn't signed in
-                    if homeViewModel.recentRecipes.isEmpty {
-                        Text(Constants.noResults)
-                    } else {
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 16) {
-                                ForEach(homeViewModel.recentRecipes, id: \.id) { recentRecipe in
-                                    if let recipe: Recipe = recentRecipe.recipe.decode() {
-                                        RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
-                                            .frame(width: 350)
-                                            .simultaneousGesture(TapGesture().onEnded {
-                                                // Show the recipe cards animating to the right position after tapping them
-                                                withAnimation {
-                                                    homeViewModel.setRecipe(recipe)
-                                                }
-                                            })
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else if isFetchingChef {
-                    // Show the recipe cards loading while waiting for both the auth state & recipes
-                    RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
-                        .frame(width: 350)
-                        .redacted(reason: .placeholder)
-                        .disabled(true)
-                } else {
-                    // Encourage the user to sign in to see these recipes
-                    Text(Constants.HomeView.signInForRecipes)
-                }
-            } else if recipes.isEmpty {
-                Text(Constants.noResults)
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(spacing: 16) {
-                        // Can't use ForEach directly if the element type is optional
-                        ForEach(Array(zip(recipes.indices, recipes)), id: \.0) { _, recipe in
-                            if let recipe {
-                                RecipeCard(recipe: recipe, profileViewModel: profileViewModel)
-                                    .frame(width: 350)
-                                    .simultaneousGesture(TapGesture().onEnded {
-                                        // Show the recipe cards animating to the right position after tapping them
-                                        withAnimation {
-                                            homeViewModel.setRecipe(recipe)
-                                        }
-                                    })
-                            } else {
-                                RecipeCard(recipe: Constants.Mocks.blueberryYogurt, profileViewModel: profileViewModel)
-                                    .frame(width: 350)
-                                    .redacted(reason: .placeholder)
-                                    .disabled(true)
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -158,20 +84,7 @@ struct HomeView: View {
                         }
                     
                     // Saved recipes
-                    VStack {
-                        DisclosureGroup(Constants.HomeView.profileFavorites, isExpanded: $toggleStates.expandFavorites) {
-                            loadRecipeCards(profileViewModel.favoriteRecipes)
-                        }
-                        Divider()
-                        DisclosureGroup(Constants.HomeView.profileRecentlyViewed, isExpanded: $toggleStates.expandRecents) {
-                            loadRecipeCards(profileViewModel.recentRecipes, showWhenOffline: true)
-                        }
-                        Divider()
-                        DisclosureGroup(Constants.HomeView.profileRatings, isExpanded: $toggleStates.expandRatings) {
-                            loadRecipeCards(profileViewModel.ratedRecipes)
-                        }
-                    }
-                    .padding()
+                    HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
                 }
             }
             .navigationTitle(Constants.HomeView.homeTitle)
