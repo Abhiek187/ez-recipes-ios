@@ -19,6 +19,10 @@ import Alamofire
     var passwordUpdated = false
     var accountDeleted = false
     
+    var favoriteRecipes: [Recipe?] = []
+    var recentRecipes: [Recipe?] = []
+    var ratedRecipes: [Recipe?] = []
+    
     private(set) var recipeError: RecipeError?
     var showAlert = false
     
@@ -294,6 +298,97 @@ import Alamofire
             self.recipeError = recipeError
             showAlert = token != nil
         }
+    }
+    
+    private typealias TaskGroupResult = (Result<Recipe, RecipeError>, Range<Array<Int>.Index>.Element, Int)
+    
+    func getAllFavoriteRecipes() async {
+        guard let chef else { return }
+        
+        let recipeIds = chef.favoriteRecipes.compactMap { Int($0) } // compactMap == non-nil values
+        favoriteRecipes = recipeIds.map { _ in nil } // nil == loading
+        
+        // Fetch all recipes in parallel
+        await withTaskGroup(of: TaskGroupResult.self) { group in
+            // zip is preferred over enumerated for guaranteed 0-based indexing: https://stackoverflow.com/a/63145650
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
+                group.addTask {
+                    let result = await self.repository.getRecipe(byId: recipeId)
+                    return (result, index, recipeId)
+                }
+            }
+            
+            for await (result, index, recipeId) in group {
+                switch result {
+                case .success(let recipeResponse):
+                    // Update the state for this specific recipe
+                    favoriteRecipes[index] = recipeResponse
+                case .failure(let recipeError):
+                    logger.warning("Failed to get recipe \(recipeId) :: error: \(recipeError.error)")
+                }
+            }
+        }
+        
+        // Remove all recipes that failed to load
+        favoriteRecipes.removeAll { $0 == nil }
+    }
+    
+    func getAllRecentRecipes() async {
+        guard let chef else { return }
+        
+        // Sort the recipe IDs by most recent timestamp
+        let recipeIds = chef.recentRecipes
+            .compactMap { (id, timestamp) in (Int(id), timestamp) }
+            .sorted { $0.1 > $1.1 }
+            .compactMap { $0.0 }
+        recentRecipes = recipeIds.map { _ in nil }
+        
+        await withTaskGroup(of: TaskGroupResult.self) { group in
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
+                group.addTask {
+                    let result = await self.repository.getRecipe(byId: recipeId)
+                    return (result, index, recipeId)
+                }
+            }
+            
+            for await (result, index, recipeId) in group {
+                switch result {
+                case .success(let recipeResponse):
+                    recentRecipes[index] = recipeResponse
+                case .failure(let recipeError):
+                    logger.warning("Failed to get recipe \(recipeId) :: error: \(recipeError.error)")
+                }
+            }
+        }
+        
+        recentRecipes.removeAll { $0 == nil }
+    }
+    
+    func getAllRatedRecipes() async {
+        guard let chef else { return }
+        
+        let recipeIds = chef.ratings.compactMap { (id, _) in Int(id) }
+        ratedRecipes = recipeIds.map { _ in nil }
+        
+        await withTaskGroup(of: TaskGroupResult.self) { group in
+            for (index, recipeId) in zip(recipeIds.indices, recipeIds) {
+                group.addTask {
+                    let result = await self.repository.getRecipe(byId: recipeId)
+                    return (result, index, recipeId)
+                }
+            }
+            
+            for await (result, index, recipeId) in group {
+                switch result {
+                case .success(let recipeResponse):
+                    ratedRecipes[index] = recipeResponse
+                case .failure(let recipeError):
+                    logger.warning("Failed to get recipe \(recipeId) :: error: \(recipeError.error)")
+                }
+            }
+        }
+        
+        ratedRecipes.removeAll { $0 == nil }
     }
     
     func updateViews(forRecipe recipe: Recipe) async {

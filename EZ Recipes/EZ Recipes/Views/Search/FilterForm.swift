@@ -131,7 +131,7 @@ struct FilterForm: View {
                             noRecipesFound = viewModel.noRecipesFound
                         }
                     }
-                FormError(on: noRecipesFound, message: Constants.SearchView.noResults)
+                FormError(on: noRecipesFound, message: Constants.noResults)
             }
         }
         // Prevent navigation unless the recipes are loaded

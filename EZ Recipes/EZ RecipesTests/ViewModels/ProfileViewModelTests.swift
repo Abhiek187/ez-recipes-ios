@@ -409,6 +409,78 @@ private extension ProfileViewModel {
         #expect(!viewModel.showAlert)
     }
     
+    @Test func getAllFavoriteRecipesSuccess() async {
+        // Given a chef with favorite recipes
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+
+        // When getting all favorite recipes
+        await viewModel.getAllFavoriteRecipes()
+
+        // Then all the recipes are fetched
+        #expect(viewModel.favoriteRecipes.count == mockRepo.mockChef.favoriteRecipes.count)
+    }
+
+    @Test func getAllFavoriteRecipesError() async {
+        // Given a chef with favorite recipes
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+
+        // When getting all favorite recipes and an error occurs
+        await viewModel.getAllFavoriteRecipes()
+
+        // Then no recipes are fetched
+        #expect(viewModel.favoriteRecipes.isEmpty)
+    }
+
+    @Test func getAllRecentRecipesSuccess() async {
+        // Given a chef with recent recipes
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+
+        // When getting all recent recipes
+        await viewModel.getAllRecentRecipes()
+
+        // Then all the recipes are fetched
+        #expect(viewModel.recentRecipes.count == mockRepo.mockChef.recentRecipes.count)
+    }
+
+    @Test func getAllRecentRecipesError() async {
+        // Given a chef with recent recipes
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+
+        // When getting all recent recipes and an error occurs
+        await viewModel.getAllRecentRecipes()
+
+        // Then no recipes are fetched
+        #expect(viewModel.recentRecipes.isEmpty)
+    }
+
+    @Test func getAllRatedRecipesSuccess() async {
+        // Given a chef with rated recipes
+        let viewModel = ProfileViewModel()
+        await viewModel.getChef()
+
+        // When getting all rated recipes
+        await viewModel.getAllRatedRecipes()
+
+        // Then all the recipes are fetched
+        #expect(viewModel.ratedRecipes.count == mockRepo.mockChef.ratings.count)
+    }
+
+    @Test func getAllRatedRecipesError() async {
+        // Given a chef with rated recipes
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getChef()
+
+        // When getting all rated recipes and an error occurs
+        await viewModel.getAllRatedRecipes()
+
+        // Then no recipes are fetched
+        #expect(viewModel.ratedRecipes.isEmpty)
+    }
+    
     @Test func updateRecipeViewsSuccess() async {
         // Given a recipe and a valid token
         let recipe = mockRepo.mockRecipes[0]
