@@ -32,7 +32,7 @@ struct ProfileLoggedOut: View {
         .font(.title2)
         // Show messages after actions that force the user to be signed out
         .toast(isPresenting: $viewModel.passwordUpdated) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changePasswordSuccessHeader, subTitle: Constants.ProfileView.changePasswordSuccessSubHeader)
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changePasswordSuccess, subTitle: Constants.ProfileView.signInAgain)
         }
         .toast(isPresenting: $viewModel.accountDeleted) {
             AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.deleteAccountSuccess)

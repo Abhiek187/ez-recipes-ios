@@ -34,6 +34,7 @@ import OSLog
             recipeFailedToLoad = recipeError != nil
         }
     }
+    var profileAction: ProfileAction? = nil
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
     private var repository: RecipeRepository & TermRepository
@@ -93,26 +94,21 @@ import OSLog
         
         if path.contains(recipeUrlRegex) {
             let recipeIdString = path.components(separatedBy: "/")[2]
-            guard let recipeId = Int(recipeIdString) else { return }
+            guard let recipeId = Int(recipeIdString) else {
+                logger.warning("Invalid universal recipe link: \(url)")
+                return
+            }
             
             // Open RecipeView with the specified recipe ID
             await getRecipe(byId: recipeId)
         } else if path.contains(profileUrlRegex) {
             guard let action = components.queryItems?.first(where: { $0.name == "action" })?.value,
-                  let profileAction = Constants.ProfileView.Actions(rawValue: action) else {
-                logger.warning("Invalid universal profile link: \(path)")
+                  let profileAction = ProfileAction(rawValue: action) else {
+                logger.warning("Invalid universal profile link: \(url)")
                 return
             }
             
-            // Open ProfileView with the appropriate confirmation message
-            switch profileAction {
-            case .verifyEmail:
-                logger.info("\(Constants.ProfileView.emailVerifySuccess)")
-            case .changeEmail:
-                logger.info("\(Constants.ProfileView.changeEmailSuccess)")
-            case .resetPassword:
-                logger.info("\(Constants.ProfileView.changePasswordSuccess)")
-            }
+            self.profileAction = profileAction
         }
     }
     

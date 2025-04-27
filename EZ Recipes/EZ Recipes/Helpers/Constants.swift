@@ -267,10 +267,6 @@ struct Constants {
     }
     
     struct ProfileView {
-        enum Actions: String {
-            case verifyEmail, changeEmail, resetPassword
-        }
-        
         static let profileLoading = String(localized: "Getting your profile ready… 🧑‍🍳")
         static let profileTitle = String(localized: "Profile")
         static let profileHeader: @Sendable (String) -> String = { name in
@@ -343,11 +339,10 @@ struct Constants {
         static let changeEmailConfirm: @Sendable (String) -> LocalizedStringKey = { email in
             LocalizedStringKey(String(localized: "We sent an email to **\(email)**. Follow the instructions to change your email."))
         }
-        static let changeEmailSuccess = String(localized: "Email updated successfully! Please sign in again.")
+        static let changeEmailSuccess = String(localized: "Email updated successfully!")
         static let changePasswordField = String(localized: "New Password")
-        static let changePasswordSuccess = String(localized: "Password updated successfully! Please sign in again.")
-        static let changePasswordSuccessHeader = String(localized: "Password updated successfully!")
-        static let changePasswordSuccessSubHeader = String(localized: "Please sign in again.")
+        static let changePasswordSuccess = String(localized: "Password updated successfully!")
+        static let signInAgain = String(localized: "Please sign in again.")
         static let deleteAccountHeader = String(localized: "Are You Sure?")
         static let deleteAccountSubHeader = String(localized: """
         You will lose access to your favorite recipes.

@@ -10,8 +10,8 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @State var homeViewModel: HomeViewModel
-    @State var profileViewModel: ProfileViewModel
+    @Bindable var homeViewModel: HomeViewModel
+    var profileViewModel: ProfileViewModel
     @State var expandAccordions = false
     @State private var recentRecipes: [RecentRecipe] = []
     
