@@ -13,7 +13,6 @@ struct HomeView: View {
     @Bindable var homeViewModel: HomeViewModel
     var profileViewModel: ProfileViewModel
     @State var expandAccordions = false
-    @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
