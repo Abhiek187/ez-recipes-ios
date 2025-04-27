@@ -17,12 +17,20 @@ struct FormError: View {
                 .font(.callout)
                 .foregroundStyle(.red)
                 // Animate the error sliding down when visible
-                .transition(.move(edge: .bottom))
+                .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }
 }
 
 #Preview {
-    FormError(on: false, message: "You shouldn't see this")
-    FormError(on: true, message: "Error message")
+    @Previewable @State var showError = false
+    
+    VStack(spacing: 16) {
+        Button("Toggle Error") {
+            withAnimation {
+                showError.toggle()
+            }
+        }
+        FormError(on: showError, message: "Error message")
+    }
 }
