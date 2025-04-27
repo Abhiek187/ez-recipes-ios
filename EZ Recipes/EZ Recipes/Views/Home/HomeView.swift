@@ -42,7 +42,7 @@ struct HomeView: View {
     var body: some View {
         let isLoggedIn = profileViewModel.authState == .authenticated
         
-        NavigationSplitView {
+        NavigationStack {
             ScrollView {
                 VStack {
                     Button {
@@ -87,9 +87,6 @@ struct HomeView: View {
             .navigationDestination(isPresented: $homeViewModel.isRecipeLoaded) {
                 RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
             }
-        } detail: {
-            // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
-            HomeSecondaryView()
         }
         .onAppear {
             // Avoid presenting a review immediately on launch

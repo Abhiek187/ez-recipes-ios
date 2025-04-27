@@ -137,9 +137,6 @@ struct Constants {
         static let profileRecentlyViewed = String(localized: "⌚ Recently Viewed")
         static let profileRatings = String(localized: "⭐ Ratings")
         static let signInForRecipes = String(localized: "Sign in to view your saved recipes")
-        
-        // Secondary view
-        static let selectRecipe = String(localized: "Select a recipe from the navigation menu.")
     }
     
     struct RecipeView {
