@@ -1,0 +1,11 @@
+Accounts are here! With accounts, it's now possible to rate recipes and save them to your favorites. You can then sync these recipes between devices. Don't worry, the core experience remains the same for those who want to be anonymous.
+
+- The home screen now shows your favorite, recently viewed, and rated recipes
+- Recipes now display a view count and rating
+- Recipe summaries have enhanced styling
+- In exchange for the "I Made This!" button, the favorite button is now fully functional for chefs with accounts
+- Recipes can now be filtered by their average rating
+- Fixed a bug that prevented additional recipes from loading in search results
+- A new profile tab is added to manage your account
+- The minimum supported iOS version is now 17
+- More meal types and cuisines than you can chew on
