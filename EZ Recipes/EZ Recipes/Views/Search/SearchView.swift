@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State var viewModel: SearchViewModel
+    var viewModel: SearchViewModel
     
     var body: some View {
         NavigationSplitView {

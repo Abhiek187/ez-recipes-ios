@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ProfileView: View {
-    @State var viewModel: ProfileViewModel
-    @State var isPreview = false
+    var viewModel: ProfileViewModel
+    var profileAction: ProfileAction? = nil
+    var isPreview = false
+    
+    @State private var showToast = false
     
     var body: some View {
         NavigationStack {
@@ -34,30 +38,55 @@ struct ProfileView: View {
                 await viewModel.getChef()
             }
         }
+        .onChange(of: profileAction) {
+            showToast = profileAction != nil
+        }
+        .toast(isPresenting: $showToast) {
+            switch profileAction {
+            case .verifyEmail:
+                AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.emailVerifySuccess)
+            case .changeEmail:
+                AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changeEmailSuccess, subTitle: Constants.ProfileView.signInAgain)
+            case .resetPassword:
+                AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.changePasswordSuccess, subTitle: Constants.ProfileView.signInAgain)
+            case .none:
+                // Shouldn't be seen normally
+                AlertToast(displayMode: .banner(.pop), type: .error(.red), title: Constants.unknownError)
+            }
+        }
     }
 }
 
-#Preview("Logged Out") {
+@MainActor
+private func setupPreview(authState: AuthState, profileAction: ProfileAction? = nil) -> some View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.authState = .unauthenticated
+    viewModel.authState = authState
+    viewModel.chef = authState == .authenticated ? mockRepo.mockChef : nil
     
-    return ProfileView(viewModel: viewModel, isPreview: true)
+    return ProfileView(viewModel: viewModel, profileAction: profileAction, isPreview: true)
+}
+
+#Preview("Logged Out") {
+    setupPreview(authState: .unauthenticated)
 }
 
 #Preview("Logged In") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.authState = .authenticated
-    viewModel.chef = mockRepo.mockChef
-    
-    return ProfileView(viewModel: viewModel, isPreview: true)
+    setupPreview(authState: .authenticated)
 }
 
 #Preview("Loading") {
-    let mockRepo = NetworkManagerMock.shared
-    let viewModel = ProfileViewModel(repository: mockRepo)
-    viewModel.authState = .loading
-    
-    return ProfileView(viewModel: viewModel, isPreview: true)
+    setupPreview(authState: .loading)
+}
+
+#Preview("Verified Email") {
+    setupPreview(authState: .authenticated, profileAction: .verifyEmail)
+}
+
+#Preview("Changed Email") {
+    setupPreview(authState: .unauthenticated, profileAction: .changeEmail)
+}
+
+#Preview("Reset Password") {
+    setupPreview(authState: .unauthenticated, profileAction: .resetPassword)
 }

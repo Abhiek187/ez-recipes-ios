@@ -10,10 +10,9 @@ import SwiftUI
 
 struct HomeView: View {
     // Subscribe to changes in the ObservableObject and automatically update the UI
-    @State var homeViewModel: HomeViewModel
-    @State var profileViewModel: ProfileViewModel
+    @Bindable var homeViewModel: HomeViewModel
+    var profileViewModel: ProfileViewModel
     @State var expandAccordions = false
-    @State private var recentRecipes: [RecentRecipe] = []
     
     // Don't show any messages initially if the recipe loads quickly
     // " " will allocate space for the loading message so the UI doesn't dynamically shift
@@ -43,7 +42,7 @@ struct HomeView: View {
     var body: some View {
         let isLoggedIn = profileViewModel.authState == .authenticated
         
-        NavigationSplitView {
+        NavigationStack {
             ScrollView {
                 VStack {
                     Button {
@@ -88,9 +87,6 @@ struct HomeView: View {
             .navigationDestination(isPresented: $homeViewModel.isRecipeLoaded) {
                 RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
             }
-        } detail: {
-            // Show a message in the secondary view that tells the user to select a recipe (only visible on wide screens)
-            HomeSecondaryView()
         }
         .onAppear {
             // Avoid presenting a review immediately on launch

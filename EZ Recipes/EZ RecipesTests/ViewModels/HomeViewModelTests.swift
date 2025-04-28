@@ -96,7 +96,7 @@ private extension HomeViewModel {
     }
     
     @Test func handleRecipeLinkSuccess() async {
-        // Given a universal link from the web app
+        // Given a universal link from the web app for a recipe
         let recipeId = 644783
         guard let recipeUrl = URL(string: "\(Constants.recipeWebOrigin)/recipe/\(recipeId)") else {
             Issue.record("The test URL is invalid")
@@ -142,5 +142,67 @@ private extension HomeViewModel {
         
         // Then the getRecipe(byId:) method shouldn't be called
         #expect(viewModel.recipe == nil)
+    }
+    
+    @Test func handleRecipeLinkFailInvalidRecipeId() async {
+        // Given a universal link from the web app with an invalid recipe ID
+        guard let recipeUrl = URL(string: "\(Constants.recipeWebOrigin)/recipe/1.23") else {
+            Issue.record("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        let viewModel = HomeViewModel(swiftData)
+        await viewModel.handleDeepLink(recipeUrl)
+        
+        // Then the getRecipe(byId:) method shouldn't be called
+        #expect(viewModel.recipe == nil)
+    }
+    
+    @Test func handleProfileLinkSuccess() async {
+        // Given a universal link from the web app with a profile action
+        let profileAction: ProfileAction = .verifyEmail
+        guard let profileUrl = URL(string: "\(Constants.recipeWebOrigin)/profile?action=\(profileAction)") else {
+            Issue.record("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        let viewModel = HomeViewModel(swiftData)
+        await viewModel.handleDeepLink(profileUrl)
+        
+        // Then the profileAction should match the action in the URL
+        #expect(viewModel.profileAction == profileAction)
+    }
+    
+    @Test func handleProfileLinkFailMissingAction() async {
+        // Given a universal link from the web app without a profile action
+        guard let profileUrl = URL(string: "\(Constants.recipeWebOrigin)/profile") else {
+            Issue.record("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        let viewModel = HomeViewModel(swiftData)
+        await viewModel.handleDeepLink(profileUrl)
+        
+        // Then the profileAction should be nil
+        #expect(viewModel.profileAction == nil)
+    }
+    
+    @Test func handleProfileLinkFailInvalidAction() async {
+        // Given a universal link from the web app with an invalid profile action
+        let profileAction = "deleteAccount"
+        guard let profileUrl = URL(string: "\(Constants.recipeWebOrigin)/profile?action=\(profileAction)") else {
+            Issue.record("The test URL is invalid")
+            return
+        }
+        
+        // When handling the URL
+        let viewModel = HomeViewModel(swiftData)
+        await viewModel.handleDeepLink(profileUrl)
+        
+        // Then the profileAction should be nil
+        #expect(viewModel.profileAction == nil)
     }
 }

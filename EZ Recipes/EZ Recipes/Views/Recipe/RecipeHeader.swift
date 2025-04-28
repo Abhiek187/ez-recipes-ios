@@ -62,12 +62,14 @@ struct RecipeHeader: View {
             // Recipe time, views, and buttons
             VStack {
                 HStack {
+                    Spacer()
                     Text(Constants.RecipeView.recipeTime(recipe.time))
                         .font(.system(size: 20))
                     Spacer()
                     Label(recipe.views?.shorthand() ?? "0", systemImage: "eye.fill")
                         .accessibilityLabel(Constants.RecipeView.viewsAlt)
                         .accessibilityValue(String(recipe.views ?? 0))
+                    Spacer()
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 8)

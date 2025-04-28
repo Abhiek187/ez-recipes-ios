@@ -13,15 +13,19 @@ struct EZ_RecipesApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(homeViewModel: homeViewModel)
                 .onOpenURL { url in
                     // Verify Universal Links configuration: https://app-site-association.cdn-apple.com/a/v1/ez-recipes-web.onrender.com
+                    // Debugging Universal Links: https://developer.apple.com/documentation/technotes/tn3155-debugging-universal-links
                     Task {
                         await homeViewModel.handleDeepLink(url)
                     }
                 }
                 .task {
                     await homeViewModel.checkCachedTerms()
+                    // Universal Links for testing
+                    // await homeViewModel.handleDeepLink(URL(string: "\(Constants.recipeWebOrigin)/recipe/644783")!)
+                    // await homeViewModel.handleDeepLink(URL(string: "\(Constants.recipeWebOrigin)/profile?action=verifyEmail")!)
                 }
         }
     }

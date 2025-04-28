@@ -221,7 +221,7 @@
     "Email" : {
 
     },
-    "Email updated successfully! Please sign in again." : {
+    "Email updated successfully!" : {
 
     },
     "Email verified successfully!" : {
@@ -375,9 +375,6 @@
     "Password updated successfully!" : {
 
     },
-    "Password updated successfully! Please sign in again." : {
-
-    },
     "Please sign in again." : {
 
     },
@@ -443,9 +440,6 @@
 
     },
     "Search for recipes by applying filters from the navigation menu." : {
-
-    },
-    "Select a recipe from the navigation menu." : {
 
     },
     "Shaking things up... 🍲" : {
