@@ -14,8 +14,6 @@ struct RecipeRating: View {
     var enabled = true
     var onRate: (Int) -> Void = { _ in }
     
-//    @Environment(\.colorScheme) private var colorScheme
-    
     private func starIcon(for i: Int) -> String {
         // If the user has rated the recipe, show their rating instead of the average
         // If there are no ratings, show all empty stars
