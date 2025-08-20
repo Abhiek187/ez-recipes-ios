@@ -47,7 +47,7 @@ Creating an account is free and unlocks more exciting features for chefs. This i
 flowchart LR
 
 A(Checkout repository) --> B(Install Fastlane)
-B --> C(Install xcbeautify & xcodes)
+B --> C(Install xcbeautify)
 C -->|"Small iPhone, Large iPhone, iPad"| D
 
 subgraph D [Run unit & UI tests]
