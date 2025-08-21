@@ -400,7 +400,7 @@ class EZ_RecipesUITests: XCTestCase {
         // Check all the validations on the login, create account, & forget password form
         var profileTest = ProfileTest(app: app, takeScreenshot: takeScreenshot, screenshotName: screenshotName, shotNum: shotNum)
         profileTest.testSignIn()
-        profileTest.testSignUp()
+        try profileTest.testSignUp()
         profileTest.testForgetPassword()
     }
 }
