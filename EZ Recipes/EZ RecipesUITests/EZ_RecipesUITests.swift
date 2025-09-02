@@ -40,7 +40,7 @@ class EZ_RecipesUITests: XCTestCase {
         if tabBar.exists {
             tabBar.buttons[tab].tap()
         } else {
-            app.buttons[tab].tap()
+            app.buttons[tab].firstMatch.tap()
         }
     }
     
