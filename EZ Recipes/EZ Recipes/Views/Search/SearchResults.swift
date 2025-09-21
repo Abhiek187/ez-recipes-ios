@@ -16,8 +16,14 @@ struct SearchResults: View {
         GridItem(.adaptive(minimum: 350), alignment: .top)
     ]
     
+    func scrollToTop(_ proxy: ScrollViewProxy) {
+        withAnimation {
+            proxy.scrollTo(searchViewModel.recipes[0].id, anchor: .top)
+        }
+    }
+    
     var body: some View {
-        VStack {
+        ScrollViewReader { proxy in
             HStack {
                 Picker(Constants.SearchView.sortLabel, selection: $searchViewModel.recipeFilter.sort) {
                     Text(Constants.SearchView.optionNone)
@@ -36,6 +42,7 @@ struct SearchResults: View {
                         
                         // Don't submit the form if the sort field isn't specified
                         if searchViewModel.recipeFilter.sort != nil {
+                            scrollToTop(proxy)
                             await searchViewModel.searchRecipes()
                         }
                     }
@@ -44,6 +51,7 @@ struct SearchResults: View {
                 }
                 .task(id: searchViewModel.recipeFilter.sort) {
                     if searchViewModel.recipeFilter.sort != nil {
+                        scrollToTop(proxy)
                         await searchViewModel.searchRecipes()
                     }
                 }
@@ -56,6 +64,7 @@ struct SearchResults: View {
                         }
                         // Don't make all the text the accent color
                         .buttonStyle(.plain)
+                        .id(recipe.id)
                         .simultaneousGesture(TapGesture().onEnded {
                             // Populate the recipe directly without making an API call
                             homeViewModel.setRecipe(recipe)
