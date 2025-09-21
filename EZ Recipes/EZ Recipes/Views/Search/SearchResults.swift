@@ -75,10 +75,13 @@ struct SearchResults: View {
                     // https://stackoverflow.com/a/68682309
                     Color.clear
                         .frame(width: 0, height: 0, alignment: .bottom)
-                        .task {
+                        .onAppear {
                             // Prevent multiple requests from running at once
+                            // Using onAppear instead of task ensures the request isn't cancelled if the user scrolls too quickly
                             if searchViewModel.lastToken != nil && !searchViewModel.isLoading {
-                                await searchViewModel.searchRecipes(withPagination: true)
+                                Task {
+                                    await searchViewModel.searchRecipes(withPagination: true)
+                                }
                             }
                         }
                 }
