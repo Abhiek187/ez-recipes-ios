@@ -27,7 +27,7 @@ private struct CustomBoolEncoder: ParameterEncoder {
         guard let parameters = parameters as? [EncodableParameter] else { return request }
         
         var queryItems: [URLQueryItem] = []
-        let boolParams = ["vegetarian", "vegan", "gluten-free", "healthy", "cheap", "sustainable"]
+        let boolParams = ["vegetarian", "vegan", "gluten-free", "healthy", "cheap", "sustainable", "asc"]
         
         for parameter in parameters {
             let name = parameter.name

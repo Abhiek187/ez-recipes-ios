@@ -257,6 +257,9 @@ struct Constants {
         
         // Results
         static let resultsTitle = String(localized: "Results")
+        static let sortLabel = String(localized: "Sort")
+        static let sortAltAsc = String(localized: "Sort in ascending order")
+        static let sortAltDesc = String(localized: "Sort in descending order")
     }
     
     struct GlossaryView {

@@ -112,13 +112,13 @@ import Alamofire
     
     @Test func encodeWithAllParams() throws {
         // Given a recipe filter with every possible filter
-        let parameters = RecipeFilter(query: "salad", minCals: 0, maxCals: 2000, vegetarian: true, vegan: true, glutenFree: true, healthy: true, cheap: true, sustainable: true, spiceLevel: [SpiceLevel.none.rawValue, SpiceLevel.mild.rawValue, SpiceLevel.spicy.rawValue], type: [MealType.horDOeuvre.rawValue], culture: [Cuisine.EasternEuropean.rawValue, Cuisine.MiddleEastern.rawValue])
+        let parameters = RecipeFilter(query: "salad", minCals: 0, maxCals: 2000, vegetarian: true, vegan: true, glutenFree: true, healthy: true, cheap: true, sustainable: true, spiceLevel: [SpiceLevel.none.rawValue, SpiceLevel.mild.rawValue, SpiceLevel.spicy.rawValue], type: [MealType.horDOeuvre.rawValue], culture: [Cuisine.EasternEuropean.rawValue, Cuisine.MiddleEastern.rawValue], sort: .healthScore, asc: true)
         
         // When encoded
         let encodedRequest = try encoder.encode(parameters, into: urlRequest)
         
         // Then all the values should appear in the query parameters
-        assertEquals(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d%27oeuvre&culture=Eastern%20European&culture=Middle%20Eastern")
+        assertEquals(encodedRequest.url?.query(), "query=salad&min-cals=0&max-cals=2000&vegetarian&vegan&gluten-free&healthy&cheap&sustainable&spice-level=none&spice-level=mild&spice-level=spicy&type=hor%20d%27oeuvre&culture=Eastern%20European&culture=Middle%20Eastern&sort=health-score&asc")
     }
     
     @Test func encodeSpecialCharacters() throws {
