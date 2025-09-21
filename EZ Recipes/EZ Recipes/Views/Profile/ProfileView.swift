@@ -29,7 +29,7 @@ struct ProfileView: View {
                     }
                 }
             }
-            .navigationTitle(Constants.ProfileView.profileTitle)
+            .navigationTitle(Constants.Tabs.profileTitle)
         }
         .environment(viewModel)
         .task {

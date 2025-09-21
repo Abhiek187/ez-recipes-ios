@@ -25,7 +25,7 @@ struct GlossaryView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle(Constants.GlossaryView.glossaryTitle)
+            .navigationTitle(Constants.Tabs.glossaryTitle)
         }
         .onAppear {
             // Update the terms list when switching tabs

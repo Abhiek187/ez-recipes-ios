@@ -114,12 +114,11 @@ struct Constants {
         static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
     }
     
-    @MainActor
     struct Tabs {
-        static let home = Label("Home", systemImage: "house")
-        static let search = Label("Search", systemImage: "magnifyingglass")
-        static let glossary = Label("Glossary", systemImage: "book")
-        static let profile = Label("Profile", systemImage: "person.crop.circle")
+        static let homeTitle = String(localized: "Home")
+        static let searchTitle = String(localized: "Search")
+        static let glossaryTitle = String(localized: "Glossary")
+        static let profileTitle = String(localized: "Profile")
     }
     
     struct KeyboardNavigation {
@@ -129,7 +128,6 @@ struct Constants {
     }
     
     struct HomeView {
-        static let homeTitle = String(localized: "Home")
         static let findRecipeButton = String(localized: "Find Me a Recipe!")
         static let maxRecentRecipes = 10
         
@@ -224,8 +222,6 @@ struct Constants {
     }
     
     struct SearchView {
-        static let searchTitle = String(localized: "Search")
-        
         // Secondary view
         static let searchRecipes = String(localized: "Search for recipes by applying filters from the navigation menu.")
         
@@ -262,13 +258,8 @@ struct Constants {
         static let sortAltDesc = String(localized: "Sort in descending order")
     }
     
-    struct GlossaryView {
-        static let glossaryTitle = String(localized: "Glossary")
-    }
-    
     struct ProfileView {
         static let profileLoading = String(localized: "Getting your profile ready… 🧑‍🍳")
-        static let profileTitle = String(localized: "Profile")
         static let profileHeader: @Sendable (String) -> String = { name in
             String(localized: "Chef \(name)")
         }
