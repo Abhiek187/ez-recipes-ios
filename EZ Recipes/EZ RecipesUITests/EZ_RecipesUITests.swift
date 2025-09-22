@@ -181,7 +181,12 @@ class EZ_RecipesUITests: XCTestCase {
         shotNum += 1
         
         // If the sidebar button exists, check that the search recipes text is shown and tapping the sidebar button opens the filter form
-        let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
+        // Known as ToggleSidebar before iOS 26 & Show Sidebar in iOS 26 (not to be confused with ToggleSideBar on the TabView 😵‍💫)
+        let sidebarButton = if #available(iOS 26.0, *) {
+            app.buttons["Show Sidebar"]
+        } else {
+            app.navigationBars.buttons["ToggleSidebar"]
+        }
         
         if sidebarButton.exists {
             let searchRecipes = app.staticTexts["Search for recipes by applying filters from the navigation menu."]
