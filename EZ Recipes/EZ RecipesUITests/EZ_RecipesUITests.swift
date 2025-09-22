@@ -292,7 +292,7 @@ class EZ_RecipesUITests: XCTestCase {
         sustainableSwitch.tap()
         sustainableSwitch.tap()
         
-        var ratingPicker = collectionViewsQuery.staticTexts["Rating"]
+        var ratingPicker = collectionViewsQuery.staticTexts["(none)"]
         XCTAssert(ratingPicker.exists, "Error line \(#line): The rating picker couldn't be found")
         for option in (0...5).reversed() {
             ratingPicker.tap()
@@ -336,7 +336,7 @@ class EZ_RecipesUITests: XCTestCase {
             popoverDismissRegion.tap()
         }
         dinnerButton.tap()
-        collectionViewsQuery.element.swipeUp()
+        collectionViewsQuery.firstMatch.swipeUp()
         let lunchButton = collectionViewsQuery.buttons["lunch"]
         lunchButton.tap()
         let mainCourseButton = collectionViewsQuery.buttons["main course"]
