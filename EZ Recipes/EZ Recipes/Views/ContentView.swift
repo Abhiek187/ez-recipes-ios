@@ -37,6 +37,7 @@ struct ContentView: View {
                 ProfileView(viewModel: profileViewModel, profileAction: homeViewModel.profileAction)
             }
         }
+        .tabViewStyle(.sidebarAdaptable)
         .onChange(of: homeViewModel.profileAction) { oldValue, newValue in
             // Open ProfileView with the appropriate confirmation message
             if oldValue == nil && newValue != nil {
