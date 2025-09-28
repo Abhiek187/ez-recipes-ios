@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/toastersocks/MultiPicker.git",
       "state" : {
-        "revision" : "9951dd344ea0537fd24c9d744e0b8b1680c5bea9",
-        "version" : "1.2.0"
+        "revision" : "2201cb04de77147778b351b71fcda030fb7ac6a2",
+        "version" : "2.0.2"
       }
     }
   ],

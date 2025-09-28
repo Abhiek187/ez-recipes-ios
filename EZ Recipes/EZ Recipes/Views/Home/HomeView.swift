@@ -82,7 +82,7 @@ struct HomeView: View {
                     HomeAccordions(homeViewModel: homeViewModel, profileViewModel: profileViewModel, expandAccordions: expandAccordions)
                 }
             }
-            .navigationTitle(Constants.HomeView.homeTitle)
+            .navigationTitle(Constants.Tabs.homeTitle)
             // Show the recipe view once the recipe loads in the ViewModel
             .navigationDestination(isPresented: $homeViewModel.isRecipeLoaded) {
                 RecipeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)

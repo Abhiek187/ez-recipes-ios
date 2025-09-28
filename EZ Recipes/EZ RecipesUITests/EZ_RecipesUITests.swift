@@ -181,7 +181,12 @@ class EZ_RecipesUITests: XCTestCase {
         shotNum += 1
         
         // If the sidebar button exists, check that the search recipes text is shown and tapping the sidebar button opens the filter form
-        let sidebarButton = app.navigationBars.buttons["ToggleSidebar"]
+        // Known as ToggleSidebar before iOS 26 & Show Sidebar in iOS 26 (not to be confused with ToggleSideBar on the TabView 😵‍💫)
+        let sidebarButton = if #available(iOS 26.0, *) {
+            app.buttons["Show Sidebar"]
+        } else {
+            app.navigationBars.buttons["ToggleSidebar"]
+        }
         
         if sidebarButton.exists {
             let searchRecipes = app.staticTexts["Search for recipes by applying filters from the navigation menu."]
@@ -287,7 +292,7 @@ class EZ_RecipesUITests: XCTestCase {
         sustainableSwitch.tap()
         sustainableSwitch.tap()
         
-        var ratingPicker = collectionViewsQuery.staticTexts["Rating"]
+        var ratingPicker = collectionViewsQuery.staticTexts["(none)"]
         XCTAssert(ratingPicker.exists, "Error line \(#line): The rating picker couldn't be found")
         for option in (0...5).reversed() {
             ratingPicker.tap()
@@ -331,7 +336,7 @@ class EZ_RecipesUITests: XCTestCase {
             popoverDismissRegion.tap()
         }
         dinnerButton.tap()
-        collectionViewsQuery.element.swipeUp()
+        collectionViewsQuery.firstMatch.swipeUp()
         let lunchButton = collectionViewsQuery.buttons["lunch"]
         lunchButton.tap()
         let mainCourseButton = collectionViewsQuery.buttons["main course"]

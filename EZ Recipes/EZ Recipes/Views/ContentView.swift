@@ -13,7 +13,7 @@ struct ContentView: View {
     let searchViewModel: SearchViewModel
     let profileViewModel: ProfileViewModel
     
-    @State private var currentTab = Constants.HomeView.homeTitle
+    @State private var currentTab = Constants.Tabs.homeTitle
     
     // HomeViewModel is used for deep linking
     init(homeViewModel: HomeViewModel) {
@@ -24,32 +24,24 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $currentTab) {
-            // TODO: Replace .tabItem with Tab() for iOS 18.0+
-            HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
-                .tabItem {
-                    Constants.Tabs.home
-                }
-                .tag(Constants.HomeView.homeTitle)
-            SearchView(viewModel: searchViewModel)
-                .tabItem {
-                    Constants.Tabs.search
-                }
-                .tag(Constants.SearchView.searchTitle)
-            GlossaryView()
-                .tabItem {
-                    Constants.Tabs.glossary
-                }
-                .tag(Constants.GlossaryView.glossaryTitle)
-            ProfileView(viewModel: profileViewModel, profileAction: homeViewModel.profileAction)
-                .tabItem {
-                    Constants.Tabs.profile
-                }
-                .tag(Constants.ProfileView.profileTitle)
+            Tab(Constants.Tabs.homeTitle, systemImage: "house", value: Constants.Tabs.homeTitle) {
+                HomeView(homeViewModel: homeViewModel, profileViewModel: profileViewModel)
+            }
+            Tab(Constants.Tabs.searchTitle, systemImage: "magnifyingglass", value: Constants.Tabs.searchTitle) {
+                SearchView(viewModel: searchViewModel)
+            }
+            Tab(Constants.Tabs.glossaryTitle, systemImage: "book", value: Constants.Tabs.glossaryTitle) {
+                GlossaryView()
+            }
+            Tab(Constants.Tabs.profileTitle, systemImage: "person.crop.circle", value: Constants.Tabs.profileTitle) {
+                ProfileView(viewModel: profileViewModel, profileAction: homeViewModel.profileAction)
+            }
         }
+        .tabViewStyle(.sidebarAdaptable)
         .onChange(of: homeViewModel.profileAction) { oldValue, newValue in
             // Open ProfileView with the appropriate confirmation message
             if oldValue == nil && newValue != nil {
-                currentTab = Constants.ProfileView.profileTitle
+                currentTab = Constants.Tabs.profileTitle
             }
         }
     }

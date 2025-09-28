@@ -13,7 +13,7 @@ struct SearchView: View {
     var body: some View {
         NavigationSplitView {
             FilterForm(viewModel: viewModel)
-                .navigationTitle(Constants.SearchView.searchTitle)
+                .navigationTitle(Constants.Tabs.searchTitle)
         } detail: {
             NavigationStack {
                 SearchSecondaryView()

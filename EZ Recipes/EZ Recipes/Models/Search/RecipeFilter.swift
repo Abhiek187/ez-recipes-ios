@@ -20,4 +20,6 @@ struct RecipeFilter: Encodable {
     var type: Set<String> = []
     var culture: Set<String> = []
     var token: String? // either an ObjectId or searchSequenceToken for pagination
+    var sort: RecipeSortField?
+    var asc: Bool = false
 }
