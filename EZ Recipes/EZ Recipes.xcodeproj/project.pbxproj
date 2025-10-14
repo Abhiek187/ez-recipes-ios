@@ -30,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E756B052E9DD80B002D0E25 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C372904951B00C3302B /* EZ RecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C412904951B00C3302B /* EZ RecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +105,7 @@
 				F12C1C55290495A500C3302B /* .gitignore */,
 				F1F38EC9290F58EB000FF99C /* Gemfile */,
 				F1F38ECA290F58EB000FF99C /* Gemfile.lock */,
+				5E756B052E9DD80B002D0E25 /* Package.swift */,
 				F12C1C56290495A500C3302B /* LICENSE */,
 				F12C1C54290495A500C3302B /* README.md */,
 				F12C1C5729049F7200C3302B /* EZ-Recipes-Info.plist */,

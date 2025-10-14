@@ -1,0 +1,51 @@
+{
+  "originHash" : "fc47391029e355d214c142e93c9887aef5786240a6737e68d14b126c09dfad10",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "alerttoast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/elai950/AlertToast.git",
+      "state" : {
+        "revision" : "b39252eacd159904afd7d718bba0afabb87f2f2f",
+        "version" : "1.3.9"
+      }
+    },
+    {
+      "identity" : "flow",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/toastersocks/Flow.git",
+      "state" : {
+        "revision" : "5c1b99acf390ace87006e065b14f9bdcdd27fdbb",
+        "version" : "1.2.3"
+      }
+    },
+    {
+      "identity" : "helpers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/toastersocks/Helpers.git",
+      "state" : {
+        "revision" : "cc32e570cc0b2b45bdd6ac88f089a3755f46770c",
+        "version" : "0.7.0"
+      }
+    },
+    {
+      "identity" : "multipicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/toastersocks/MultiPicker.git",
+      "state" : {
+        "revision" : "2201cb04de77147778b351b71fcda030fb7ac6a2",
+        "version" : "2.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}
