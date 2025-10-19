@@ -95,6 +95,7 @@ struct Constants {
     }
     static let emailCooldownSeconds = 30
     static let passwordMinLength = 8
+    static let credentialTooOldError = "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"
     
     struct Mocks {
         // Normal, no culture
@@ -327,6 +328,7 @@ struct Constants {
         """))}
         
         static let changeEmailField = String(localized: "New Email")
+        static let changeEmailLoginAgain = String(localized: "This is a sensitive operation. Please sign in again.")
         static let changeEmailConfirm: @Sendable (String) -> LocalizedStringKey = { email in
             LocalizedStringKey(String(localized: "We sent an email to **\(email)**. Follow the instructions to change your email."))
         }

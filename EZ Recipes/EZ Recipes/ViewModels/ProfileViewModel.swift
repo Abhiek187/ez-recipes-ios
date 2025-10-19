@@ -18,6 +18,7 @@ import Alamofire
     var emailSent = false
     var passwordUpdated = false
     var accountDeleted = false
+    var loginAgain = false
     
     var favoriteRecipes: [Recipe?] = []
     var recentRecipes: [Recipe?] = []
@@ -242,8 +243,15 @@ import Alamofire
                 saveToken(newToken)
             }
         case .failure(let recipeError):
-            self.recipeError = recipeError
-            showAlert = token != nil
+            if recipeError.error.contains(Constants.credentialTooOldError) {
+                // Prompt the user to sign in again
+                self.recipeError = nil
+                showAlert = false
+                loginAgain = true
+            } else {
+                self.recipeError = recipeError
+                showAlert = token != nil
+            }
         }
     }
     

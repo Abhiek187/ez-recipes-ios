@@ -13,7 +13,8 @@ struct LoginForm: View {
         case password
     }
     
-    @Environment(LoginRouter.self) private var router
+    // For step-up authentication, only the login screen is needed
+    @Environment(LoginRouter.self) private var router: LoginRouter?
     @Environment(ProfileViewModel.self) private var viewModel
     @FocusState private var focusedField: Field?
     
@@ -30,15 +31,20 @@ struct LoginForm: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                Text(Constants.ProfileView.signInSubHeader)
-                Button {
-                    router.navigate(to: .signUp)
-                } label: {
-                    Text(Constants.ProfileView.signUpHeader)
+            if let router {
+                HStack {
+                    Text(Constants.ProfileView.signInSubHeader)
+                    Button {
+                        router.navigate(to: .signUp)
+                    } label: {
+                        Text(Constants.ProfileView.signUpHeader)
+                    }
                 }
+                .font(.title2)
+            } else {
+                Text(Constants.ProfileView.changeEmailLoginAgain)
+                    .font(.title2)
             }
-            .font(.title2)
             
             TextField(Constants.ProfileView.usernameField, text: $username)
                 .textContentType(.username)
@@ -63,12 +69,14 @@ struct LoginForm: View {
                 }
             FormError(on: passwordTouched && passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
             
-            Button {
-                router.navigate(to: .forgotPassword)
-            } label: {
-                Text(Constants.ProfileView.passwordForget)
+            if let router {
+                Button {
+                    router.navigate(to: .forgotPassword)
+                } label: {
+                    Text(Constants.ProfileView.passwordForget)
+                }
+                .font(.title3)
             }
-            .font(.title3)
             HStack {
                 Spacer()
                 ProgressView()
@@ -97,7 +105,7 @@ struct LoginForm: View {
         }
         .task(id: viewModel.chef) {
             // Check if the user signed up, but didn't verify their email yet
-            if let chef = viewModel.chef, !chef.emailVerified {
+            if let chef = viewModel.chef, !chef.emailVerified, let router {
                 await viewModel.sendVerificationEmail()
                 router.navigate(to: .verifyEmail(email: chef.email))
             }
@@ -121,5 +129,13 @@ struct LoginForm: View {
     
     return LoginForm()
         .environment(LoginRouter())
+        .environment(viewModel)
+}
+
+#Preview("No Router") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
+    return LoginForm()
         .environment(viewModel)
 }

@@ -71,8 +71,8 @@ struct ProfileLoggedIn: View {
                 }
             }
         }
-        .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
-        .sheet(isPresented: .constant(formToShow != nil), onDismiss: {
+        .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain), message: viewModel.recipeError?.error)
+        .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
             formToShow = nil
         }) {
             Group {
@@ -85,6 +85,15 @@ struct ProfileLoggedIn: View {
                 }
             }
             .presentationDetents([.medium]) // half-screen modal
+        }
+        .sheet(isPresented: $viewModel.loginAgain) {
+            LoginForm()
+                .errorAlert(isPresented: $viewModel.showAlert, message: viewModel.recipeError?.error)
+                .onChange(of: viewModel.chef) {
+                    // After logging in, go back to the previous sheet
+                    viewModel.loginAgain = false
+                    formToShow = .updateEmail
+                }
         }
     }
 }
