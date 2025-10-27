@@ -31,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		5E756B052E9DD80B002D0E25 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
+		5E7588B82EAEFF250014B4CD /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = AGENTS.md; path = ../AGENTS.md; sourceTree = SOURCE_ROOT; };
 		F12C1C272904951600C3302B /* EZ Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EZ Recipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C372904951B00C3302B /* EZ RecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12C1C412904951B00C3302B /* EZ RecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EZ RecipesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +109,7 @@
 				5E756B052E9DD80B002D0E25 /* Package.swift */,
 				F12C1C56290495A500C3302B /* LICENSE */,
 				F12C1C54290495A500C3302B /* README.md */,
+				5E7588B82EAEFF250014B4CD /* AGENTS.md */,
 				F12C1C5729049F7200C3302B /* EZ-Recipes-Info.plist */,
 				5E5ADA482D7CD3B1001D415C /* EZ Recipes */,
 				5E5AD9E12D7CD36B001D415C /* EZ RecipesTests */,
