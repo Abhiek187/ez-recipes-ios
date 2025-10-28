@@ -4,7 +4,7 @@
 
 This is an iOS app that lets users learning to cook to search, view, and save a variety of recipes. The UI is built using SwiftUI and follows Apple's Human Interface Guidelines. It connects to a backend service called EZ Recipes Server that routes all API requests to the appropriate services. API calls are handled using Alamofire. The CI/CD pipeline is handled using Fastlane & GitHub Actions. The app isn't currently published on the App Store due to Apple's yearly developer fee, but it should be configured as if it can be deployed on the App Store at any point. For example, any features that require changes to plist files, privacy manifests, or entitlements must be included as long as they don't require an Apple Developer membership to build the app.
 
-App versioning and management of certificates and provisioning profiles should be automated where possible. Use semantic versioning and update the build number with every attempt to create a signed build for an app version. App builds should be deployed to TestFlight to check for any prod-specific issues before being promoted to the App Store.
+App versioning and management of certificates and provisioning profiles should be automated where possible. Use semantic versioning and update the build number with every attempt to create a signed build for an app version. App builds should be deployed to TestFlight to check for any prod-specific issues before being promoted to the App Store. Each release requires writing release notes under the Fastlane changelogs directory, named after the marketing version. The release notes shouldn't go into technical detail. Instead, they should give a high-level summary of changes made since the last release that can be understood by the average user.
 
 Before writing any code, review the existing architecture and propose your implementation plan for approval by the user. If something is uncertain, always prefer asking for clarity over making any assumptions. If you're not sure how to implement a solution, it's ok to be honest and admit it to the user.
 
@@ -17,7 +17,7 @@ Before committing changes, make sure the following command succeeds:
 bundle exec fastlane ios test
 ```
 
-This command runs both unit tests and UI tests. While UI tests may be flaky, at minimum, unit tests must succeed with each commit.
+This command runs both unit tests and UI tests. While UI tests may be flaky, at a minimum, unit tests must succeed with each commit.
 
 ## Code Style Guidelines
 
@@ -51,6 +51,6 @@ This is a frontend app. Therefore, NO secrets should be managed in this repo sin
 
 While the server will validate all inputs, it's still good practice to validate inputs on the client side. This way, users can receive immediate feedback on their inputs before sending them to the server.
 
-Use Apple's unified logging system for structured logs that should be saved on the user's device. All API requests and responses should be logged for auditing purposes, but sensitive information like passwords, cookies, or API keys should be masked in the logs. Important transactions can be logged as well, but don't make logs excessive when it comes time to search logs to troubleshoot bugs with the app. If an API errors out, make sure to provide a user-friendly message explaining what went wrong. Don't go into too much technical detail, especially if the error exposes information that would benefit malicious actors, such as if the username is correct, but the password was invalid.
+Use Apple's unified logging system for structured logs that should be saved on the user's device. All API requests and responses should be logged for auditing purposes, but sensitive information like passwords, cookies, or API keys should be masked in the logs. Important transactions can be logged as well, but don't make logs excessive when it comes time to search logs to troubleshoot bugs with the app. If an API errors out, make sure to provide a user-friendly message explaining what went wrong. Don't go into too much technical detail, especially if the error exposes information that would benefit malicious actors, such as if the username is correct, but the password is invalid.
 
 Use Swift Package Manager to manage dependencies. In addition to Package Dependencies within Xcode's UI, utilize Package.swift found at the root of this repo. This helps ensure the pipeline can keep track of any outdated dependencies. The Package.resolved files are symlinked together to ensure the normal build process continues to work. All dependencies should be kept up-to-date to minimize any vulnerabilities. Any new packages added to this project should be regularly updated and not abandoned after several years or contain lingering vulnerabilities. If a feature can be implemented trivially without introducing another dependency, that's preferred.
