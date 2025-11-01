@@ -1,5 +1,5 @@
 {
-  "originHash" : "fc47391029e355d214c142e93c9887aef5786240a6737e68d14b126c09dfad10",
+  "originHash" : "4d3034f04f5009b469e1c43da696a3d1fb85455a33729848b679fe20e5688596",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/toastersocks/Helpers.git",
       "state" : {
-        "revision" : "cc32e570cc0b2b45bdd6ac88f089a3755f46770c",
-        "version" : "0.7.0"
+        "revision" : "05bbf887ec0b235c14be6d13de61a04fc65a1ddc",
+        "version" : "1.0.1"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/toastersocks/MultiPicker.git",
       "state" : {
-        "revision" : "2201cb04de77147778b351b71fcda030fb7ac6a2",
-        "version" : "2.0.2"
+        "revision" : "546bdb3c6534c78dac3d2bb55995f613e054741e",
+        "version" : "2.0.6"
       }
     }
   ],
