@@ -19,6 +19,7 @@ import Alamofire
     var passwordUpdated = false
     var accountDeleted = false
     var loginAgain = false
+    var authUrls: [Provider: URL?] = [:]
     
     var favoriteRecipes: [Recipe?] = []
     var recentRecipes: [Recipe?] = []
@@ -215,6 +216,86 @@ import Alamofire
             chef = nil
             authState = .unauthenticated
             openLoginSheet = false
+        case .failure(let recipeError):
+            self.recipeError = recipeError
+            showAlert = true
+        }
+    }
+    
+    func getAuthUrls() async {
+        let result = await repository.getAuthUrls(redirectUrl: Constants.redirectUrl)
+        
+        switch result {
+        case .success(let authUrls):
+            recipeError = nil
+            showAlert = false
+            
+            self.authUrls = Dictionary(uniqueKeysWithValues: authUrls.map { ($0.providerId, URL(string: $0.authUrl)) })
+        case .failure(let recipeError):
+            self.recipeError = recipeError
+            showAlert = true
+            
+            authUrls = [:]
+        }
+    }
+    
+    func loginWithOAuth(code: String, provider: Provider) async {
+        let oAuthRequest = OAuthRequest(code: code, providerId: provider, redirectUrl: Constants.redirectUrl)
+        let token = getToken()
+        
+        isLoading = true
+        let result = await repository.loginWithOAuth(oAuthRequest: oAuthRequest, token: token)
+        
+        switch result {
+        case .success(let loginResponse):
+            recipeError = nil
+            showAlert = false
+            
+            saveToken(loginResponse.token)
+            // The email will be gotten from the GET chef response
+            chef = Chef(uid: loginResponse.uid, email: "", emailVerified: loginResponse.emailVerified, ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            
+            // Fetch the rest of the chef's profile
+            let chefResult = await repository.getChef(token: loginResponse.token)
+            isLoading = false
+            
+            switch chefResult {
+            case .success(let chefResponse):
+                chef = chefResponse
+            case .failure(let recipeError):
+                self.recipeError = recipeError
+                showAlert = true
+            }
+            
+            if loginResponse.emailVerified {
+                authState = .authenticated
+                openLoginSheet = false
+            }
+        case .failure(let recipeError):
+            isLoading = false
+            self.recipeError = recipeError
+            showAlert = true
+        }
+    }
+    
+    func unlinkOAuthProvider(provider: Provider) async {
+        isLoading = true
+        let token = getToken()
+        let result: Result<Token, RecipeError> = if let token {
+            await repository.unlinkOAuthProvider(providerId: provider, token: token)
+        } else {
+            .failure(RecipeError(error: Constants.noTokenFound))
+        }
+        isLoading = false
+        
+        switch result {
+        case .success(let tokenResponse):
+            recipeError = nil
+            showAlert = false
+            
+            if let newToken = tokenResponse.token {
+                saveToken(newToken)
+            }
         case .failure(let recipeError):
             self.recipeError = recipeError
             showAlert = true

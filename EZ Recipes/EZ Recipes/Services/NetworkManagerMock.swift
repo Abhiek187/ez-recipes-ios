@@ -87,7 +87,7 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
         return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
     }
     
-    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Empty, RecipeError> {
-        return isSuccess ? .success(.value) : .failure(Constants.Mocks.tokenError)
+    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
+        return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
     }
 }

@@ -86,7 +86,8 @@ struct LoginForm: View {
                 .font(.title3)
             LazyVGrid(columns: oAuthColumns, spacing: 16) {
                 ForEach(Provider.allCases, id: \.rawValue) { provider in
-                    OAuthButton(provider: provider)
+                    // Handle double optional: if the provider doesn't exist in the dictionary, or if the URL is missing/invalid
+                    OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
                 }
             }
             
@@ -115,6 +116,9 @@ struct LoginForm: View {
                     passwordTouched = true
                 }
             }
+        }
+        .task {
+            await viewModel.getAuthUrls()
         }
         .task(id: viewModel.chef) {
             // Check if the user signed up, but didn't verify their email yet

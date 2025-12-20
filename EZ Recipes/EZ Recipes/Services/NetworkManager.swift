@@ -133,7 +133,7 @@ extension NetworkManager: ChefRepository {
     }
     
     func getAuthUrls(redirectUrl: String) async -> Result<[AuthUrl], RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/oauth", parameters: redirectUrl)
+        let request = session.request("\(Constants.baseChefsPath)/oauth", parameters: ["redirectUrl": redirectUrl])
         return await parseResponse(fromRequest: request, method: #function)
     }
     
@@ -147,8 +147,8 @@ extension NetworkManager: ChefRepository {
         return await parseResponse(fromRequest: request, method: #function)
     }
     
-    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Empty, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: providerId, headers: [.authorization(bearerToken: token)])
+    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: ["providerId": providerId], headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
 }
