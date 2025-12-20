@@ -113,6 +113,7 @@ struct Constants {
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
         
         static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
+        static let authUrls = [AuthUrl(providerId: .google, authUrl: "https://www.google.com"), AuthUrl(providerId: .facebook, authUrl: "https://www.facebook.com"), AuthUrl(providerId: .github, authUrl: "https://github.com")]
     }
     
     struct Tabs {
@@ -292,6 +293,7 @@ struct Constants {
         static let passwordShow = String(localized: "Show password")
         static let passwordHide = String(localized: "Hide password")
         static let passwordForget = String(localized: "Forgot password?")
+        static let oAuthHeader = String(localized: "Or sign in using:")
         static let signInSuccess = String(localized: "Signed in successfully!")
         static let signOutSuccess = String(localized: "Signed out successfully!")
         

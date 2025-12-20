@@ -29,6 +29,10 @@ struct LoginForm: View {
     @State private var usernameEmpty = true
     @State private var passwordEmpty = true
     
+    let oAuthColumns = [
+        GridItem(.adaptive(minimum: 130), alignment: .top)
+    ]
+    
     var body: some View {
         VStack(spacing: 16) {
             if let router {
@@ -77,6 +81,15 @@ struct LoginForm: View {
                 }
                 .font(.title3)
             }
+            
+            Text(Constants.ProfileView.oAuthHeader)
+                .font(.title3)
+            LazyVGrid(columns: oAuthColumns, spacing: 16) {
+                ForEach(Provider.allCases, id: \.rawValue) { provider in
+                    OAuthButton(provider: provider)
+                }
+            }
+            
             HStack {
                 Spacer()
                 ProgressView()

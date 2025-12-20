@@ -131,4 +131,24 @@ extension NetworkManager: ChefRepository {
         let request = session.request("\(Constants.baseChefsPath)/logout", method: .post, headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
+    
+    func getAuthUrls(redirectUrl: String) async -> Result<[AuthUrl], RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", parameters: redirectUrl)
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func loginWithOAuth(oAuthRequest: OAuthRequest, token: String?) async -> Result<LoginResponse, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .post, parameters: oAuthRequest, encoder: jsonEncoder) { urlRequest in
+            if let token {
+                urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
+            }
+        }
+        
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Empty, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: providerId, headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
 }
