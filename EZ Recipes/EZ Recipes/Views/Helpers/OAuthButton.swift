@@ -19,25 +19,26 @@ struct OAuthButton: View {
     var body: some View {
         Button {
             guard let authUrl else { return }
+            let redirectUrlComponents = URLComponents(string: Constants.redirectUrl)
+            guard let host = redirectUrlComponents?.host, let path = redirectUrlComponents?.path else { return }
             
             Task {
                 do {
                     // Start the authorization code flow
-                    print("Login to \(provider) at \(authUrl)")
                     // Ephemeral = don't save cookies
-                    let responseUrl = try await webAuthenticationSession.authenticate(using: authUrl, callback: .customScheme("com.abhiek.EZ-Recipes"), preferredBrowserSession: .ephemeral, additionalHeaderFields: [:])
+                    let responseUrl = try await webAuthenticationSession.authenticate(using: authUrl, callback: .https(host: host, path: path), preferredBrowserSession: .ephemeral, additionalHeaderFields: [:])
                     
                     // Extract the authorization code from the redirect and then exchange it for an ID token
                     let queryItems = URLComponents(string: responseUrl.absoluteString)?.queryItems
                     let authCode = queryItems?.filter { $0.name == "code" }.first?.value
-                    print("Got responseUrl: \(responseUrl), queryItems: \(String(describing: queryItems)), auth code: \(String(describing: authCode))")
                     guard let authCode else {
                         throw NSError(domain: "No auth code received", code: 0, userInfo: nil)
                     }
                     
                     await viewModel.loginWithOAuth(code: authCode, provider: provider)
                 } catch {
-                    print("Web authentication session failed: \(error)")
+                    viewModel.recipeError = RecipeError(error: error.localizedDescription)
+                    viewModel.showAlert = true
                 }
             }
         } label: {
@@ -62,10 +63,14 @@ struct OAuthButton: View {
 }
 
 #Preview {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    
     VStack(spacing: 16) {
         OAuthButton(provider: .google, authUrl: URL(string: Constants.Mocks.authUrls[0].authUrl))
         OAuthButton(provider: .facebook, authUrl: URL(string: Constants.Mocks.authUrls[1].authUrl))
         OAuthButton(provider: .github, authUrl: URL(string: Constants.Mocks.authUrls[2].authUrl))
         OAuthButton(provider: .google) // disabled
     }
+    .environment(viewModel)
 }

@@ -19,13 +19,13 @@ import Alamofire
     var passwordUpdated = false
     var accountDeleted = false
     var loginAgain = false
-    var authUrls: [Provider: URL?] = [:]
+    private(set) var authUrls: [Provider: URL?] = [:]
     
     var favoriteRecipes: [Recipe?] = []
     var recentRecipes: [Recipe?] = []
     var ratedRecipes: [Recipe?] = []
     
-    private(set) var recipeError: RecipeError?
+    var recipeError: RecipeError?
     var showAlert = false
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "ProfileViewModel")

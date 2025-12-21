@@ -46,7 +46,7 @@ struct Constants {
     static let baseTermsPath = serverBaseUrl + "/api/terms"
     static let baseChefsPath = serverBaseUrl + "/api/chefs"
     static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
-    static let redirectUrl = "https://ez-recipes-848a5.firebaseapp.com/__/auth/handler"
+    static let redirectUrl = "https://ez-recipes-web.onrender.com/oauth/callback"
     
     // Using the Android email regex since Swift doesn't allow escaping certain literals in the RFC 5322 regex: https://android.googlesource.com/platform/frameworks/base/+/cd92588/core/java/android/util/Patterns.java
     // A more readable version of: /[a-zA-Z0-9\+\.\_\%\-\+]{1,256}\@[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}(\.[a-zA-Z0-9][a-zA-Z0-9\-]{0,25})+/

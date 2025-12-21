@@ -86,6 +86,7 @@ import OSLog
     
     func handleDeepLink(_ url: URL) async {
         // Check if the universal link is in the format: /recipe/RECIPE_ID or /profile
+        logger.debug("Received universal link: \(url)")
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
         
         let path = components.path
