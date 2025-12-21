@@ -30,7 +30,7 @@ struct LoginForm: View {
     @State private var passwordEmpty = true
     
     let oAuthColumns = [
-        GridItem(.adaptive(minimum: 130), alignment: .top)
+        GridItem(.adaptive(minimum: 140), alignment: .top)
     ]
     
     var body: some View {
