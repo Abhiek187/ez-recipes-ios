@@ -6,16 +6,31 @@
 //
 
 import SwiftUI
+import OrderedCollections
+import AlertToast
 
 struct ProfileLoggedIn: View {
     private enum ProfileForm {
         case updateEmail, updatePassword, deleteAccount
     }
     
-    var chef: Chef
+    @State var chef: Chef
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
+    @State private var selectedProvider: Provider = .google
+    @State private var showLinkToast = false
+    @State private var showUnlinkConfirmation = false
+    @State private var showUnlinkToast = false
+    
+    var linkedAccounts: OrderedDictionary<Provider, [String]> {
+        // Start with all the supported providers
+        let initialResult = OrderedDictionary<Provider, [String]>(uniqueKeysWithValues: Provider.allCases.map { ($0, []) })
+        // A chef can link 0 or more emails with a provider
+        return chef.providerData.reduce(into: initialResult) { result, providerData in
+            result[providerData.providerId]?.append(providerData.email)
+        }
+    }
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -70,8 +85,61 @@ struct ProfileLoggedIn: View {
                         .font(.title3)
                 }
             }
+            
+            Text(Constants.ProfileView.linkedAccounts)
+                .font(.title2)
+                .padding(.horizontal)
+            ForEach(linkedAccounts.elements, id: \.key) { provider, emails in
+                VStack {
+                    HStack {
+                        OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
+                        Button(role: .destructive) {
+                            // Confirm before unlinking
+                            selectedProvider = provider
+                            showUnlinkConfirmation = true
+                        } label: {
+                            Text(Constants.ProfileView.unlink)
+                        }
+                        .disabled(emails.isEmpty || viewModel.isLoading)
+                        ProgressView()
+                            .opacity(viewModel.isLoading ? 1 : 0)
+                    }
+                    if !emails.isEmpty {
+                        HStack {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.green)
+                            Text(emails.joined(separator: ", "))
+                                .font(.subheadline)
+                        }
+                    }
+                }
+                .padding([.horizontal, .bottom])
+            }
         }
-        .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain), message: viewModel.recipeError?.error)
+        .task {
+            await viewModel.getAuthUrls()
+        }
+        .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation), message: viewModel.recipeError?.error)
+        .alert(Constants.ProfileView.unlinkConfirmation(selectedProvider), isPresented: $showUnlinkConfirmation) {
+            HStack {
+                Button(Constants.yesButton, role: .destructive) {
+                    Task {
+                        await viewModel.unlinkOAuthProvider(provider: selectedProvider)
+                        
+                        if let newChef = viewModel.chef {
+                            chef = newChef
+                        }
+                    }
+                }
+                Button(Constants.noButton, role: .cancel) {}
+            }
+        }
+        .toast(isPresenting: $showLinkToast) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
+        }
+        .toast(isPresenting: $showUnlinkToast) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
+        }
         .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
             formToShow = nil
         }) {

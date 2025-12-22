@@ -20,6 +20,8 @@ struct Constants {
     static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
     static let noTokenFound = String(localized: "No token found")
     static let okButton = String(localized: "OK")
+    static let yesButton = String(localized: "Yes")
+    static let noButton = String(localized: "No")
     static let loadingMessages = [
         "Prepping the ingredients... 🍱",
         "Preheating the oven... ⏲️",
@@ -112,8 +114,7 @@ struct Constants {
         static let tokenError = RecipeError(error: "Invalid Firebase token provided: Error: Decoding Firebase ID token failed. Make sure you passed the entire string JWT which represents an ID token. See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.")
         
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
-        
-        static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
+        static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, providerData: [ProviderData(email: "test@email.com", providerId: .github, uid: "29958092"), ProviderData(email: "test@email.com", providerId: .facebook, uid: "4260456714231215"), ProviderData(email: "test@email.com", providerId: .google, uid: "111444254381322957655"), ProviderData(email: "test2@email2.com", providerId: .google, uid: "100853917476273280774")], ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
         static let authUrls = [AuthUrl(providerId: .google, authUrl: "https://www.google.com"), AuthUrl(providerId: .facebook, authUrl: "https://www.facebook.com"), AuthUrl(providerId: .github, authUrl: "https://github.com")]
     }
     
@@ -285,6 +286,17 @@ struct Constants {
         static let changeEmail = String(localized: "Change Email")
         static let changePassword = String(localized: "Change Password")
         static let deleteAccount = String(localized: "Delete Account")
+        static let linkedAccounts = String(localized: "Linked Accounts")
+        static let unlink = String(localized: "Unlink")
+        static let linkSuccess: @Sendable (Provider) -> String = { provider in
+            String(localized: "Successfully linked \(provider.rawValue)!")
+        }
+        static let unlinkConfirmation: @Sendable (Provider) -> String = { provider in
+            String(localized: "Are you sure you want to unlink \(provider.rawValue)?")
+        }
+        static let unlinkSuccess: @Sendable (Provider) -> String = { provider in
+            String(localized: "Successfully unlinked \(provider.rawValue)!")
+        }
         
         // Login form
         static let signInHeader = String(localized: "Sign In")

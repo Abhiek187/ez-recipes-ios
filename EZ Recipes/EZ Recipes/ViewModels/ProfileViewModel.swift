@@ -81,7 +81,7 @@ import Alamofire
             showAlert = false
             
             saveToken(loginResponse.token)
-            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
         case .failure(let recipeError):
             self.recipeError = recipeError
             showAlert = true
@@ -171,7 +171,7 @@ import Alamofire
             showAlert = false
             
             saveToken(loginResponse.token)
-            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
             
             // Fetch the rest of the chef's profile
             let chefResult = await repository.getChef(token: loginResponse.token)
@@ -252,8 +252,10 @@ import Alamofire
             showAlert = false
             
             saveToken(loginResponse.token)
-            // The email will be gotten from the GET chef response
-            chef = Chef(uid: loginResponse.uid, email: "", emailVerified: loginResponse.emailVerified, ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            if chef == nil {
+                // The email will be gotten from the GET chef response
+                chef = Chef(uid: loginResponse.uid, email: "", emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            }
             
             // Fetch the rest of the chef's profile
             let chefResult = await repository.getChef(token: loginResponse.token)
@@ -281,22 +283,36 @@ import Alamofire
     func unlinkOAuthProvider(provider: Provider) async {
         isLoading = true
         let token = getToken()
-        let result: Result<Token, RecipeError> = if let token {
+        let unlinkResult: Result<Token, RecipeError> = if let token {
             await repository.unlinkOAuthProvider(providerId: provider, token: token)
         } else {
             .failure(RecipeError(error: Constants.noTokenFound))
         }
-        isLoading = false
         
-        switch result {
+        switch unlinkResult {
         case .success(let tokenResponse):
             recipeError = nil
             showAlert = false
             
-            if let newToken = tokenResponse.token {
-                saveToken(newToken)
+            guard let newToken = tokenResponse.token else {
+                isLoading = false
+                return
+            }
+            saveToken(newToken)
+            
+            // Get the chef's updated provider data
+            let chefResult = await repository.getChef(token: newToken)
+            isLoading = false
+            
+            switch chefResult {
+            case .success(let chefResponse):
+                chef = chefResponse
+            case .failure(let recipeError):
+                self.recipeError = recipeError
+                showAlert = true
             }
         case .failure(let recipeError):
+            isLoading = false
             self.recipeError = recipeError
             showAlert = true
         }
