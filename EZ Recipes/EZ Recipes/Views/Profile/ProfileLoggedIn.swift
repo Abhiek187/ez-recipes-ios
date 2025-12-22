@@ -28,7 +28,9 @@ struct ProfileLoggedIn: View {
         let initialResult = OrderedDictionary<Provider, [String]>(uniqueKeysWithValues: Provider.allCases.map { ($0, []) })
         // A chef can link 0 or more emails with a provider
         return chef.providerData.reduce(into: initialResult) { result, providerData in
-            result[providerData.providerId]?.append(providerData.email)
+            if let providerId = Provider(rawValue: providerData.providerId) {
+                result[providerId]?.append(providerData.email)
+            }
         }
     }
     

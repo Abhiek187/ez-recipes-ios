@@ -10,6 +10,6 @@ struct ProviderData: Codable, Equatable {
     let email: String
     var phoneNumber: String? = nil
     var photoURL: String? = nil
-    let providerId: Provider
+    let providerId: String // password auth can appear here
     let uid: String
 }
