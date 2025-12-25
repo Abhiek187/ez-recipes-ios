@@ -551,7 +551,7 @@ import Alamofire
         
         switch result {
         case .success(let tokenResponse):
-            self.chef = chef?.copy(
+            chef = chef?.copy(
                 ratings: chef?.ratings.merging([String(recipeId): rating]) { $1 }
             )
             

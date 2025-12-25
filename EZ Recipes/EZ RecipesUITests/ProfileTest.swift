@@ -58,6 +58,17 @@ struct ProfileTest {
         XCTAssertFalse(hidePasswordButton.exists, "Error line \(#line): The password should be hidden")
         XCTAssert(showPasswordButton.exists, "Error line \(#line): The password should be hidden")
         
+        /* OAuth check:
+         * - The header is shown
+         * - The buttons are shown for all the supported providers
+         */
+        let oAuthHeader = app.staticTexts["Or sign in using:"]
+        XCTAssert(oAuthHeader.exists, "Error line \(#line): The OAuth header is missing")
+        for provider in ["Google", "Facebook", "GitHub"] {
+            let oAuthButton = app.buttons[provider]
+            XCTAssert(oAuthButton.exists, "Error line \(#line): The \(provider) button is missing")
+        }
+        
         XCTAssert(loginButton.isEnabled, "Error line \(#line): The login button should be enabled")
         signUpButton.tap()
     }

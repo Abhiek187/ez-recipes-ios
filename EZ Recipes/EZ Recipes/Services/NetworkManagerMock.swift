@@ -80,11 +80,11 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     }
     
     func getAuthUrls(redirectUrl: String) async -> Result<[AuthUrl], RecipeError> {
-        return isSuccess ? .success(Constants.Mocks.authUrls) : .failure(Constants.Mocks.recipeError)
+        return isSuccess ? .success(Constants.Mocks.authUrls) : .failure(Constants.Mocks.tokenError)
     }
     
     func loginWithOAuth(oAuthRequest: OAuthRequest, token: String?) async -> Result<LoginResponse, RecipeError> {
-        return isSuccess ? .success(mockLoginResponse) : .failure(Constants.Mocks.tokenError)
+        return isSuccess ? .success(mockLoginResponse.copy(emailVerified: isEmailVerified)) : .failure(Constants.Mocks.tokenError)
     }
     
     func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
