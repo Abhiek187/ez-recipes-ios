@@ -16,6 +16,7 @@ struct ProfileLoggedOut: View {
         
         VStack {
             Text(Constants.ProfileView.loginMessage)
+                .padding(.bottom, 8)
             
             Button {
                 viewModel.openLoginSheet = true
