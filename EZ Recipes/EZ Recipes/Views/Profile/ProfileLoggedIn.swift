@@ -40,22 +40,30 @@ struct ProfileLoggedIn: View {
     var body: some View {
         @Bindable var viewModel = viewModel
         
-        VStack {
-            Text(Constants.ProfileView.profileHeader(chef.email))
-                .font(.title)
-                .padding(.horizontal)
-            
-            HStack {
-                Text(Constants.ProfileView.favorites(chef.favoriteRecipes.count))
-                Divider()
-                Text(Constants.ProfileView.recipesViewed(chef.recentRecipes.count))
-                Divider()
-                Text(Constants.RecipeView.totalRatings(chef.ratings.count))
+        List {
+            Section {
+                VStack(spacing: 8) {
+                    HStack {
+                        Spacer()
+                        Text(Constants.ProfileView.profileHeader(chef.email))
+                            .font(.title)
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+
+                    HStack {
+                        Text(Constants.ProfileView.favorites(chef.favoriteRecipes.count))
+                        Divider()
+                        Text(Constants.ProfileView.recipesViewed(chef.recentRecipes.count))
+                        Divider()
+                        Text(Constants.RecipeView.totalRatings(chef.ratings.count))
+                    }
+                    .fixedSize(horizontal: false, vertical: true) // prevent the dividers from taking up the full height
+                }
             }
-            .padding(.horizontal)
-            .fixedSize(horizontal: false, vertical: true) // prevent the dividers from taking up the full height
+            .listSectionSpacing(.compact)
             
-            List {
+            Section {
                 Button {
                     Task {
                         await viewModel.logout()
@@ -91,36 +99,38 @@ struct ProfileLoggedIn: View {
                 }
             }
             
-            Text(Constants.ProfileView.linkedAccounts)
+            Section(header: Text(Constants.ProfileView.linkedAccounts)
                 .font(.title2)
-                .padding(.horizontal)
-            ForEach(linkedAccounts.elements, id: \.key) { provider, emails in
-                VStack {
-                    HStack {
-                        OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
-                        Button(role: .destructive) {
-                            // Confirm before unlinking
-                            selectedProvider = provider
-                            showUnlinkConfirmation = true
-                        } label: {
-                            Text(Constants.ProfileView.unlink)
-                        }
-                        .disabled(emails.isEmpty || viewModel.isLoading)
-                        ProgressView()
-                            .opacity(viewModel.isLoading ? 1 : 0)
-                    }
-                    if !emails.isEmpty {
+            ) {
+                ForEach(linkedAccounts.elements, id: \.key) { provider, emails in
+                    VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(.green)
-                            Text(emails.joined(separator: ", "))
-                                .font(.subheadline)
+                            OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
+                            Button(role: .destructive) {
+                                // Confirm before unlinking
+                                selectedProvider = provider
+                                showUnlinkConfirmation = true
+                            } label: {
+                                Text(Constants.ProfileView.unlink)
+                            }
+                            .disabled(emails.isEmpty || viewModel.isLoading)
+                            ProgressView()
+                                .opacity(viewModel.isLoading ? 1 : 0)
+                        }
+                        if !emails.isEmpty {
+                            HStack {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.green)
+                                Text(emails.joined(separator: ", "))
+                                    .font(.subheadline)
+                            }
                         }
                     }
                 }
-                .padding([.horizontal, .bottom])
             }
         }
+        .listStyle(.insetGrouped) // group sections with padding
+        .scrollContentBackground(.hidden) // hide section backgrounds in light mode
         .task {
             await viewModel.getAuthUrls()
         }
@@ -202,3 +212,4 @@ struct ProfileLoggedIn: View {
     return ProfileLoggedIn(chef: mockRepo.mockChef)
         .environment(viewModel)
 }
+
