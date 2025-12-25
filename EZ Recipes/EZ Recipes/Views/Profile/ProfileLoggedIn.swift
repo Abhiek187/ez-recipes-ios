@@ -18,16 +18,19 @@ struct ProfileLoggedIn: View {
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
+    @State private var linkedAccounts: OrderedDictionary<Provider, [String]> = [:]
     @State private var selectedProvider: Provider = .google
     @State private var showLinkToast = false
     @State private var showUnlinkConfirmation = false
     @State private var showUnlinkToast = false
     
-    var linkedAccounts: OrderedDictionary<Provider, [String]> {
+    private func buildLinkedAccounts(from providerData: [ProviderData]) -> OrderedDictionary<Provider, [String]> {
         // Start with all the supported providers
-        let initialResult = OrderedDictionary<Provider, [String]>(uniqueKeysWithValues: Provider.allCases.map { ($0, []) })
+        let initialResult = OrderedDictionary<Provider, [String]>(
+            uniqueKeysWithValues: Provider.allCases.map { ($0, []) }
+        )
         // A chef can link 0 or more emails with a provider
-        return chef.providerData.reduce(into: initialResult) { result, providerData in
+        return providerData.reduce(into: initialResult) { result, providerData in
             if let providerId = Provider(rawValue: providerData.providerId) {
                 result[providerId]?.append(providerData.email)
             }
@@ -120,6 +123,9 @@ struct ProfileLoggedIn: View {
         }
         .task {
             await viewModel.getAuthUrls()
+        }
+        .onChange(of: chef.providerData, initial: true) { _, newProviderData in
+            linkedAccounts = buildLinkedAccounts(from: newProviderData)
         }
         .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation), message: viewModel.recipeError?.error)
         .alert(Constants.ProfileView.unlinkConfirmation(selectedProvider), isPresented: $showUnlinkConfirmation) {
