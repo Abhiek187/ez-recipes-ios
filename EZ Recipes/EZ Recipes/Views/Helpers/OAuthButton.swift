@@ -37,6 +37,9 @@ struct OAuthButton: View {
                     
                     await viewModel.loginWithOAuth(code: authCode, provider: provider)
                 } catch {
+                    // Don't show an alert if the user closed the auth session
+                    if let webError = error as? ASWebAuthenticationSessionError, webError.code == .canceledLogin && webError.userInfo.isEmpty { return }
+                    
                     viewModel.recipeError = RecipeError(error: error.localizedDescription)
                     viewModel.showAlert = true
                 }
