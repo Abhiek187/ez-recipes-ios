@@ -88,6 +88,8 @@ struct ProfileTest {
         if doneButton.exists {
             doneButton.tap()
         }
+        // Account for anything else preventing the form from being interactive
+        app.tap()
         
         let signInButton = app.buttons["Sign In"].firstMatch
         XCTAssert(signInButton.isEnabled, "Error line \(#line): The sign in button isn't enabled")
