@@ -78,6 +78,16 @@ struct ProfileTest {
         if app.staticTexts["Save Password?"].exists {
             app.buttons["Not Now"].tap()
         }
+        // If an error alert appears, dismiss it
+        let errorAlert = app.alerts["Error"]
+        if errorAlert.exists {
+            errorAlert.buttons["OK"].tap()
+        }
+        // If the keyboard is still present, hide it
+        let doneButton = app.buttons["Done"]
+        if doneButton.exists {
+            doneButton.tap()
+        }
         
         let signInButton = app.buttons["Sign In"].firstMatch
         XCTAssert(signInButton.isEnabled, "Error line \(#line): The sign in button isn't enabled")
