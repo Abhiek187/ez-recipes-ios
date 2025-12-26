@@ -132,6 +132,11 @@ struct ProfileLoggedIn: View {
         .task {
             await viewModel.getAuthUrls()
         }
+        .onChange(of: viewModel.chef) { _, newChef in
+            if let newChef {
+                chef = newChef
+            }
+        }
         .onChange(of: chef.providerData, initial: true) { _, newProviderData in
             linkedAccounts = buildLinkedAccounts(from: newProviderData)
         }
@@ -141,10 +146,6 @@ struct ProfileLoggedIn: View {
                 Button(Constants.yesButton, role: .destructive) {
                     Task {
                         await viewModel.unlinkOAuthProvider(provider: selectedProvider)
-                        
-                        if let newChef = viewModel.chef {
-                            chef = newChef
-                        }
                     }
                 }
                 Button(Constants.noButton, role: .cancel) {
