@@ -74,6 +74,11 @@ struct ProfileTest {
     }
     
     mutating func testSignUp() throws {
+        // If the Save Password prompt appears, close it
+        if app.staticTexts["Save Password?"].exists {
+            app.buttons["Not Now"].tap()
+        }
+        
         let signInButton = app.buttons["Sign In"].firstMatch
         XCTAssert(signInButton.isEnabled, "Error line \(#line): The sign in button isn't enabled")
         let signUpButton = app.buttons["Sign Up"]
