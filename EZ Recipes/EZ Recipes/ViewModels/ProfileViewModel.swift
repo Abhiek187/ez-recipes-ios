@@ -20,6 +20,8 @@ import Alamofire
     var accountDeleted = false
     var loginAgain = false
     private(set) var authUrls: [Provider: URL?] = [:]
+    var accountLinked = false
+    var accountUnlinked = false
     
     var favoriteRecipes: [Recipe?] = []
     var recentRecipes: [Recipe?] = []
@@ -264,6 +266,7 @@ import Alamofire
             switch chefResult {
             case .success(let chefResponse):
                 chef = chefResponse
+                accountLinked = token != nil
             case .failure(let recipeError):
                 self.recipeError = recipeError
                 showAlert = true
@@ -307,14 +310,15 @@ import Alamofire
             switch chefResult {
             case .success(let chefResponse):
                 chef = chefResponse
+                accountUnlinked = true
             case .failure(let recipeError):
                 self.recipeError = recipeError
-                showAlert = true
+                showAlert = token != nil
             }
         case .failure(let recipeError):
             isLoading = false
             self.recipeError = recipeError
-            showAlert = true
+            showAlert = token != nil
         }
     }
     

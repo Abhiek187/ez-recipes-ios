@@ -20,9 +20,7 @@ struct ProfileLoggedIn: View {
     @State private var formToShow: ProfileForm? = nil
     @State private var linkedAccounts: OrderedDictionary<Provider, [String]> = [:]
     @State private var selectedProvider: Provider = .google
-    @State private var showLinkToast = false
     @State private var showUnlinkConfirmation = false
-    @State private var showUnlinkToast = false
     
     private func buildLinkedAccounts(from providerData: [ProviderData]) -> OrderedDictionary<Provider, [String]> {
         // Start with all the supported providers
@@ -149,13 +147,15 @@ struct ProfileLoggedIn: View {
                         }
                     }
                 }
-                Button(Constants.noButton, role: .cancel) {}
+                Button(Constants.noButton, role: .cancel) {
+                    viewModel.showAlert = false
+                }
             }
         }
-        .toast(isPresenting: $showLinkToast) {
+        .toast(isPresenting: $viewModel.accountLinked) {
             AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
         }
-        .toast(isPresenting: $showUnlinkToast) {
+        .toast(isPresenting: $viewModel.accountUnlinked) {
             AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
         }
         .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
@@ -213,3 +213,22 @@ struct ProfileLoggedIn: View {
         .environment(viewModel)
 }
 
+#Preview("Account Linked") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.accountLinked = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}
+
+#Preview("Account Unlinked") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.accountUnlinked = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}

@@ -317,6 +317,7 @@ private extension ProfileViewModel {
         #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
+        #expect(viewModel.accountLinked)
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -351,6 +352,7 @@ private extension ProfileViewModel {
         #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
+        #expect(!viewModel.accountLinked)
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -370,6 +372,7 @@ private extension ProfileViewModel {
         #expect(!viewModel.showAlert)
         #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState != .authenticated)
+        #expect(!viewModel.accountLinked)
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -386,6 +389,7 @@ private extension ProfileViewModel {
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
         #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.accountUnlinked)
         
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -401,6 +405,7 @@ private extension ProfileViewModel {
         // Then an error is shown
         #expect(viewModel.chef == nil)
         #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+        #expect(!viewModel.accountUnlinked)
     }
     
     @Test func unlinkOAuthProviderNoToken() async {
@@ -415,6 +420,7 @@ private extension ProfileViewModel {
         // Then an error is shown
         #expect(viewModel.chef == nil)
         #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
+        #expect(!viewModel.accountUnlinked)
     }
 
     @Test func updateEmailSuccess() async throws {

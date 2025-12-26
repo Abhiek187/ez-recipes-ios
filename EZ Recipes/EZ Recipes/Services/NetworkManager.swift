@@ -29,12 +29,12 @@ struct NetworkManager {
             if T.self == Empty.self && responseData.isEmpty {
                 // Special check since empty responses can't be decoded
                 return .success(Empty.value as! T)
-            } else if let decodableResponse = try? JSONDecoder().decode(T.self, from: responseData) {
-                // If successful, the request can be decoded like normal
-                return .success(decodableResponse)
             } else if let errorResponse = try? JSONDecoder().decode(RecipeError.self, from: responseData) {
                 // If this is a client error, the request can be decoded directly as a RecipeError object
                 return .failure(errorResponse)
+            } else if let decodableResponse = try? JSONDecoder().decode(T.self, from: responseData) {
+                // If successful, the request can be decoded like normal
+                return .success(decodableResponse)
             }
             
             // Create a RecipeError object with the raw error response
@@ -148,7 +148,7 @@ extension NetworkManager: ChefRepository {
     }
     
     func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: ["providerId": providerId], headers: [.authorization(bearerToken: token)])
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: ["providerId": providerId.rawValue], headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
 }
