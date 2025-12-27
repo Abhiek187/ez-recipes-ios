@@ -29,12 +29,12 @@ struct NetworkManager {
             if T.self == Empty.self && responseData.isEmpty {
                 // Special check since empty responses can't be decoded
                 return .success(Empty.value as! T)
-            } else if let decodableResponse = try? JSONDecoder().decode(T.self, from: responseData) {
-                // If successful, the request can be decoded like normal
-                return .success(decodableResponse)
             } else if let errorResponse = try? JSONDecoder().decode(RecipeError.self, from: responseData) {
                 // If this is a client error, the request can be decoded directly as a RecipeError object
                 return .failure(errorResponse)
+            } else if let decodableResponse = try? JSONDecoder().decode(T.self, from: responseData) {
+                // If successful, the request can be decoded like normal
+                return .success(decodableResponse)
             }
             
             // Create a RecipeError object with the raw error response
@@ -129,6 +129,26 @@ extension NetworkManager: ChefRepository {
     
     func logout(token: String) async -> Result<Empty, RecipeError> {
         let request = session.request("\(Constants.baseChefsPath)/logout", method: .post, headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func getAuthUrls(redirectUrl: String) async -> Result<[AuthUrl], RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", parameters: ["redirectUrl": redirectUrl])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func loginWithOAuth(oAuthRequest: OAuthRequest, token: String?) async -> Result<LoginResponse, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .post, parameters: oAuthRequest, encoder: jsonEncoder) { urlRequest in
+            if let token {
+                urlRequest.addValue(token, forHTTPHeaderField: "Authorization")
+            }
+        }
+        
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: ["providerId": providerId.rawValue], headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
 }

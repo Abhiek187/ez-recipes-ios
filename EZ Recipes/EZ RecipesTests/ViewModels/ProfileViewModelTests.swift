@@ -44,7 +44,7 @@ private extension ProfileViewModel {
         // Then a new chef should be created
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: username, emailVerified: mockRepo.mockLoginResponse.emailVerified, ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: username, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: mockRepo.mockLoginResponse.token))
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -188,7 +188,7 @@ private extension ProfileViewModel {
         // Then the user should be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
 
@@ -207,7 +207,7 @@ private extension ProfileViewModel {
         // Then a new chef should be created, but the user shouldn't be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState != .authenticated)
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
@@ -273,6 +273,154 @@ private extension ProfileViewModel {
         #expect(throws: (any Error).self) {
             try KeychainManager.retrieve(forKey: .token)
         }
+    }
+    
+    @Test func getAuthUrlsSuccess() async {
+        // Given no network errors
+        // When getting all the auth URLs
+        let viewModel = ProfileViewModel()
+        await viewModel.getAuthUrls()
+        
+        // Then the URLs should be saved as a dictionary
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.authUrls.count == Constants.Mocks.authUrls.count)
+        for provider in Provider.allCases {
+            #expect(viewModel.authUrls[provider] != nil)
+        }
+    }
+    
+    @Test func getAuthUrlsError() async {
+        // Given a network error
+        // When getting all the auth URLs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.getAuthUrls()
+        
+        // Then the auth URLs should be empty
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+        #expect(viewModel.showAlert)
+        #expect(viewModel.authUrls.isEmpty)
+    }
+    
+    @Test func loginWithOAuthSuccess() async throws {
+        // Given a code, provider, and token
+        let code = "abc123"
+        let provider: Provider = .google
+        
+        // When linking the provider
+        let viewModel = ProfileViewModel()
+        await viewModel.loginWithOAuth(code: code, provider: provider)
+        
+        // Then the chef should be updated
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.authState == .authenticated)
+        #expect(!viewModel.openLoginSheet)
+        #expect(viewModel.accountLinked)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+    
+    @Test func loginWithOAuthError() async {
+        // Given a code, provider, and token
+        let code = "abc123"
+        let provider: Provider = .google
+        
+        // When linking the provider and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.loginWithOAuth(code: code, provider: provider)
+        
+        // Then an error is shown
+        #expect(viewModel.chef == nil)
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+    }
+    
+    @Test func loginWithOAuthNoToken() async throws {
+        // Given a code, provider, and no token
+        let code = "abc123"
+        let provider: Provider = .google
+        clearToken()
+        
+        // When logging in with the provider
+        let viewModel = ProfileViewModel()
+        await viewModel.loginWithOAuth(code: code, provider: provider)
+        
+        // Then the user should be authenticated
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.authState == .authenticated)
+        #expect(!viewModel.openLoginSheet)
+        #expect(!viewModel.accountLinked)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+    
+    @Test func loginWithOAuthEmailNotVerified() async throws {
+        // Given a code, provider, and no token
+        let code = "abc123"
+        let provider: Provider = .google
+        clearToken()
+        
+        // When logging in with the provider and the email isn't verified
+        let viewModel = ProfileViewModel(isEmailVerified: false)
+        await viewModel.loginWithOAuth(code: code, provider: provider)
+        
+        // Then a new chef should be created, but the user shouldn't be authenticated
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.authState != .authenticated)
+        #expect(!viewModel.accountLinked)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+    
+    @Test func unlinkOAuthProviderSuccess() async throws {
+        // Given a provider
+        let provider: Provider = .facebook
+        
+        // When unlinking the provider
+        let viewModel = ProfileViewModel()
+        await viewModel.unlinkOAuthProvider(provider: provider)
+        
+        // Then the provider should be removed from the chef
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.accountUnlinked)
+        
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+    
+    @Test func unlinkOAuthProviderError() async {
+        // Given a provider
+        let provider: Provider = .facebook
+        
+        // When unlinking the provider and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.unlinkOAuthProvider(provider: provider)
+        
+        // Then an error is shown
+        #expect(viewModel.chef == nil)
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+        #expect(!viewModel.accountUnlinked)
+    }
+    
+    @Test func unlinkOAuthProviderNoToken() async {
+        // Given a provider and no token
+        let provider: Provider = .facebook
+        clearToken()
+        
+        // When unlinking the provider
+        let viewModel = ProfileViewModel()
+        await viewModel.unlinkOAuthProvider(provider: provider)
+        
+        // Then an error is shown
+        #expect(viewModel.chef == nil)
+        #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
+        #expect(!viewModel.accountUnlinked)
     }
 
     @Test func updateEmailSuccess() async throws {

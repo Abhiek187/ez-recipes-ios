@@ -9,6 +9,6 @@ enum RecipeSortField: String, Codable, CaseIterable {
     case calories, healthScore = "health-score", rating, views
     
     func label() -> String {
-        return self.rawValue.replacingOccurrences(of: "-", with: " ").capitalized
+        return self.rawValue.replacing("-", with: " ").capitalized
     }
 }

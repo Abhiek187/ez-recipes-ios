@@ -58,11 +58,39 @@ struct ProfileTest {
         XCTAssertFalse(hidePasswordButton.exists, "Error line \(#line): The password should be hidden")
         XCTAssert(showPasswordButton.exists, "Error line \(#line): The password should be hidden")
         
+        /* OAuth check:
+         * - The header is shown
+         * - The buttons are shown for all the supported providers
+         */
+        let oAuthHeader = app.staticTexts["Or sign in using:"]
+        XCTAssert(oAuthHeader.exists, "Error line \(#line): The OAuth header is missing")
+        for provider in ["Google", "Facebook", "GitHub"] {
+            let oAuthButton = app.buttons[provider]
+            XCTAssert(oAuthButton.exists, "Error line \(#line): The \(provider) button is missing")
+        }
+        
         XCTAssert(loginButton.isEnabled, "Error line \(#line): The login button should be enabled")
         signUpButton.tap()
     }
     
     mutating func testSignUp() throws {
+        // If the Save Password prompt appears, close it
+        if app.staticTexts["Save Password?"].exists {
+            app.buttons["Not Now"].tap()
+        }
+        // If an error alert appears, dismiss it
+        let errorAlert = app.alerts["Error"]
+        if errorAlert.exists {
+            errorAlert.buttons["OK"].tap()
+        }
+        // If the keyboard is still present, hide it
+        let doneButton = app.buttons["Done"]
+        if doneButton.exists {
+            doneButton.tap()
+        }
+        // Account for anything else preventing the form from being interactive
+        app.tap()
+        
         let signInButton = app.buttons["Sign In"].firstMatch
         XCTAssert(signInButton.isEnabled, "Error line \(#line): The sign in button isn't enabled")
         let signUpButton = app.buttons["Sign Up"]
