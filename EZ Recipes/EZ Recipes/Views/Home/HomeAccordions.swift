@@ -78,7 +78,7 @@ struct HomeAccordions: View {
                 Text(Constants.noResults)
             } else {
                 ScrollView(.horizontal) {
-                    HStack {
+                    LazyHStack {
                         // Can't use ForEach directly if the element type is optional
                         ForEach(Array(zip(recipes.indices, recipes)), id: \.0) { _, recipe in
                             if let recipe {
