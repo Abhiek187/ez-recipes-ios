@@ -163,12 +163,12 @@ extension NetworkManager: ChefRepository {
     }
     
     func validateNewPasskey(passkeyResponse: NewPasskeyClientResponse, token: String) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, headers: [.authorization(bearerToken: token)])
+        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder, headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
     
     func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: ["email": email])
+        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder)
         return await parseResponse(fromRequest: request, method: #function)
     }
     

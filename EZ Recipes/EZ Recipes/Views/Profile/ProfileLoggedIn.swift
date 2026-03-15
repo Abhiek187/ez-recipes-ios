@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import OrderedCollections
-import AlertToast
 
 struct ProfileLoggedIn: View {
     private enum ProfileForm {
@@ -18,22 +16,7 @@ struct ProfileLoggedIn: View {
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
-    @State private var linkedAccounts: OrderedDictionary<Provider, [String]> = [:]
-    @State private var selectedProvider: Provider = .google
     @State private var showUnlinkConfirmation = false
-    
-    private func buildLinkedAccounts(from providerData: [ProviderData]) -> OrderedDictionary<Provider, [String]> {
-        // Start with all the supported providers
-        let initialResult = OrderedDictionary<Provider, [String]>(
-            uniqueKeysWithValues: Provider.allCases.map { ($0, []) }
-        )
-        // A chef can link 0 or more emails with a provider
-        return providerData.reduce(into: initialResult) { result, providerData in
-            if let providerId = Provider(rawValue: providerData.providerId) {
-                result[providerId]?.append(providerData.email)
-            }
-        }
-    }
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -97,35 +80,8 @@ struct ProfileLoggedIn: View {
                 }
             }
             
-            Section(header: Text(Constants.ProfileView.linkedAccounts)
-                .font(.title2)
-            ) {
-                ForEach(linkedAccounts.elements, id: \.key) { provider, emails in
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
-                            Button(role: .destructive) {
-                                // Confirm before unlinking
-                                selectedProvider = provider
-                                showUnlinkConfirmation = true
-                            } label: {
-                                Text(Constants.ProfileView.unlink)
-                            }
-                            .disabled(emails.isEmpty || viewModel.isLoading)
-                            ProgressView()
-                                .opacity(viewModel.isLoading ? 1 : 0)
-                        }
-                        if !emails.isEmpty {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(.green)
-                                Text(emails.joined(separator: ", "))
-                                    .font(.subheadline)
-                            }
-                        }
-                    }
-                }
-            }
+            LinkedAccounts(chef: chef, showUnlinkConfirmation: $showUnlinkConfirmation)
+            Passkeys(chef: chef)
         }
         .listStyle(.insetGrouped) // group sections with padding
         .scrollContentBackground(.hidden) // hide section backgrounds in light mode
@@ -137,28 +93,7 @@ struct ProfileLoggedIn: View {
                 chef = newChef
             }
         }
-        .onChange(of: chef.providerData, initial: true) { _, newProviderData in
-            linkedAccounts = buildLinkedAccounts(from: newProviderData)
-        }
         .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation), message: viewModel.recipeError?.error)
-        .alert(Constants.ProfileView.unlinkConfirmation(selectedProvider), isPresented: $showUnlinkConfirmation) {
-            HStack {
-                Button(Constants.yesButton, role: .destructive) {
-                    Task {
-                        await viewModel.unlinkOAuthProvider(provider: selectedProvider)
-                    }
-                }
-                Button(Constants.noButton, role: .cancel) {
-                    viewModel.showAlert = false
-                }
-            }
-        }
-        .toast(isPresenting: $viewModel.accountLinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
-        }
-        .toast(isPresenting: $viewModel.accountUnlinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
-        }
         .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
             formToShow = nil
         }) {

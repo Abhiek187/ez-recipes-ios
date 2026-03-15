@@ -16,13 +16,11 @@ struct PasskeyButton: View {
         Button {
             onClick()
         } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "person.badge.key.fill")
-                    .accessibilityHidden(true)
-                Text(text)
-            }
+            Label(text, systemImage: "person.badge.key.fill")
+                .padding(4)
         }
         .disabled(!enabled)
+        .buttonStyle(.borderedProminent)
     }
 }
 

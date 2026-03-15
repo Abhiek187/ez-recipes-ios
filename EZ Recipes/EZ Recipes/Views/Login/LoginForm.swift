@@ -97,17 +97,18 @@ struct LoginForm: View {
                     Task {
                         await viewModel.loginWithPasskey(email: username) { serverPasskeyOptions in
                             let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
-                            let request = provider.createCredentialAssertionRequest(challenge: Data(serverPasskeyOptions.challenge.utf8))
+                            let request = provider.createCredentialAssertionRequest(challenge: serverPasskeyOptions.challenge.data)
                             request.allowedCredentials = serverPasskeyOptions.allowCredentials.map {
-                                ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: Data($0.id.utf8))
+                                ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: $0.id.data)
                             }
+                            request.userVerificationPreference = .init(rawValue: serverPasskeyOptions.userVerification)
                             
                             do {
                                 let result = try await authorizationController.performRequest(request)
                                 print(result)
                                 
                                 if case .passkeyAssertion(let account) = result {
-                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: String(data: account.credentialID, encoding: .utf8) ?? "", rawId: String(data: account.credentialID, encoding: .utf8) ?? "", response: ExistingPasskeyResponse(authenticatorData: String(data: account.rawAuthenticatorData, encoding: .utf8) ?? "", clientDataJSON: String(data: account.rawClientDataJSON, encoding: .utf8) ?? "", signature: String(data: account.signature, encoding: .utf8) ?? ""), type: "public-key")
+                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.string, rawId: account.credentialID.string, response: .init(authenticatorData: account.rawAuthenticatorData.string, clientDataJSON: account.rawClientDataJSON.string, signature: account.signature.string), type: "public-key")
                                 } else {
                                     throw NSError(domain: "Error", code: 0, userInfo: nil)
                                 }

@@ -324,7 +324,7 @@ import Alamofire
         }
     }
     
-    func loginWithPasskey(email: String, onNativeAuth: (PasskeyRequestOptions) async throws -> ExistingPasskeyClientResponse) async {
+    func loginWithPasskey(email: String, performNativeAuth: (PasskeyRequestOptions) async throws -> ExistingPasskeyClientResponse) async {
         isLoading = true
         let passkeyOptionsResult = await repository.getExistingPasskeyChallenge(email: email)
         isLoading = false
@@ -332,7 +332,7 @@ import Alamofire
         switch passkeyOptionsResult {
         case .success(let serverPasskeyOptions):
             do {
-                let serverPasskeyResponse = try await onNativeAuth(serverPasskeyOptions)
+                let serverPasskeyResponse = try await performNativeAuth(serverPasskeyOptions)
                 isLoading = true
                 let passkeyValidateResult = await repository.validateExistingPasskey(passkeyResponse: serverPasskeyResponse, email: email)
                 isLoading = false
@@ -382,7 +382,7 @@ import Alamofire
         }
     }
 
-    func createNewPasskey(onNativeAuth: (PasskeyCreationOptions) async throws -> NewPasskeyClientResponse) async {
+    func createNewPasskey(performNativeAuth: (PasskeyCreationOptions) async throws -> NewPasskeyClientResponse) async {
         isLoading = true
         let token = getToken()
         let passkeyOptionsResult: Result<PasskeyCreationOptions, RecipeError> = if let token {
@@ -396,7 +396,7 @@ import Alamofire
         case .success(let serverPasskeyOptions):
             do {
                 guard let token else { return }
-                let serverPasskeyResponse = try await onNativeAuth(serverPasskeyOptions)
+                let serverPasskeyResponse = try await performNativeAuth(serverPasskeyOptions)
                 isLoading = true
                 let passkeyValidateResult = await repository.validateNewPasskey(passkeyResponse: serverPasskeyResponse, token: token)
                 isLoading = false

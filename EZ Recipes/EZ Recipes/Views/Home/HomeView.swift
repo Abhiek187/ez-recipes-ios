@@ -24,8 +24,8 @@ struct HomeView: View {
     @Environment(\.requestReview) private var requestReview
 
     // Stored in UserDefaults.standard by default
-    @AppStorage(UserDefaultsManager.Keys.recipesViewed) var recipesViewed = 0
-    @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) var lastVersionPromptedForReview = ""
+    @AppStorage(UserDefaultsManager.Keys.recipesViewed) private var recipesViewed = 0
+    @AppStorage(UserDefaultsManager.Keys.lastVersionPromptedForReview) private var lastVersionPromptedForReview = ""
     private let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     
     private func presentReview() {

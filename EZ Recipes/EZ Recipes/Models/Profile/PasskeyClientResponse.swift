@@ -5,7 +5,7 @@
 //  Created by Abhishek Chaudhuri on 3/14/26.
 //
 
-struct PasskeyClientResponse<R: PasskeyResponse>: Encodable {
+struct PasskeyClientResponse<R: PasskeyResponse & Sendable>: Encodable {
     let authenticatorAttachment: String
     // let clientExtensionResults: [String: Any] // excluding since the type can be any arbitrary dictionary and doesn't conform to Encodable
     let id: String
