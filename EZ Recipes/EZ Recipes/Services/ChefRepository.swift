@@ -20,6 +20,11 @@ protocol ChefRepository: Sendable {
     func getAuthUrls(redirectUrl: String) async -> Result<[AuthUrl], RecipeError>
     func loginWithOAuth(oAuthRequest: OAuthRequest, token: String?) async -> Result<LoginResponse, RecipeError>
     func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError>
+    func getNewPasskeyChallenge(token: String) async -> Result<PasskeyCreationOptions, RecipeError>
+    func getExistingPasskeyChallenge(email: String) async -> Result<PasskeyRequestOptions, RecipeError>
+    func validateNewPasskey(passkeyResponse: NewPasskeyClientResponse, token: String) async -> Result<Token, RecipeError>
+    func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError>
+    func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError>
 }
 
 extension ChefRepository {

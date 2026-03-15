@@ -22,6 +22,8 @@ import Alamofire
     private(set) var authUrls: [Provider: URL?] = [:]
     var accountLinked = false
     var accountUnlinked = false
+    var passkeyCreated = false
+    var passkeyDeleted = false
     
     var favoriteRecipes: [Recipe?] = []
     var recentRecipes: [Recipe?] = []
@@ -83,7 +85,7 @@ import Alamofire
             showAlert = false
             
             saveToken(loginResponse.token)
-            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], passkeys: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
         case .failure(let recipeError):
             self.recipeError = recipeError
             showAlert = true
@@ -173,7 +175,7 @@ import Alamofire
             showAlert = false
             
             saveToken(loginResponse.token)
-            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+            chef = Chef(uid: loginResponse.uid, email: username, emailVerified: loginResponse.emailVerified, providerData: [], passkeys: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
             
             // Fetch the rest of the chef's profile
             let chefResult = await repository.getChef(token: loginResponse.token)
@@ -256,7 +258,7 @@ import Alamofire
             saveToken(loginResponse.token)
             if chef == nil {
                 // The email will be gotten from the GET chef response
-                chef = Chef(uid: loginResponse.uid, email: "", emailVerified: loginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
+                chef = Chef(uid: loginResponse.uid, email: "", emailVerified: loginResponse.emailVerified, providerData: [], passkeys: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: loginResponse.token)
             }
             
             // Fetch the rest of the chef's profile
@@ -314,6 +316,164 @@ import Alamofire
             case .failure(let recipeError):
                 self.recipeError = recipeError
                 showAlert = token != nil
+            }
+        case .failure(let recipeError):
+            isLoading = false
+            self.recipeError = recipeError
+            showAlert = token != nil
+        }
+    }
+    
+    func loginWithPasskey(email: String, onNativeAuth: (PasskeyRequestOptions) async throws -> ExistingPasskeyClientResponse) async {
+        isLoading = true
+        let passkeyOptionsResult = await repository.getExistingPasskeyChallenge(email: email)
+        isLoading = false
+        
+        switch passkeyOptionsResult {
+        case .success(let serverPasskeyOptions):
+            do {
+                let serverPasskeyResponse = try await onNativeAuth(serverPasskeyOptions)
+                isLoading = true
+                let passkeyValidateResult = await repository.validateExistingPasskey(passkeyResponse: serverPasskeyResponse, email: email)
+                isLoading = false
+                
+                switch passkeyValidateResult {
+                case .success(let tokenResponse):
+                    recipeError = nil
+                    showAlert = false
+                    
+                    let newToken = tokenResponse.token
+                    isLoading = true
+                    let chefResult: Result<Chef, RecipeError>
+                    if let newToken {
+                        saveToken(newToken)
+                        chefResult = await repository.getChef(token: newToken)
+                    } else {
+                        chefResult = .failure(RecipeError(error: Constants.noTokenFound))
+                    }
+                    isLoading = false
+                    
+                    switch chefResult {
+                    case .success(let chefResult):
+                        chef = chefResult
+                    case .failure(let recipeError):
+                        self.recipeError = recipeError
+                        showAlert = true
+                    }
+                    
+                    authState = .authenticated
+                        openLoginSheet = false
+                case .failure(let recipeError):
+                    self.recipeError = recipeError
+                    showAlert = true
+                }
+            } catch {
+                logger.error("Error signing in with a passkey: \(error)")
+                
+//                if (error !is GetCredentialCancellationException) {
+//                    // Don't show an error if the user dismissed the passkey prompt
+//                    recipeError = RecipeError(error: error.localizedDescription)
+//                    showAlert = true
+//                }
+            }
+        case .failure(let recipeError):
+            self.recipeError = recipeError
+            showAlert = true
+        }
+    }
+
+    func createNewPasskey(onNativeAuth: (PasskeyCreationOptions) async throws -> NewPasskeyClientResponse) async {
+        isLoading = true
+        let token = getToken()
+        let passkeyOptionsResult: Result<PasskeyCreationOptions, RecipeError> = if let token {
+            await repository.getNewPasskeyChallenge(token: token)
+        } else {
+            .failure(RecipeError(error: Constants.noTokenFound))
+        }
+        isLoading = false
+        
+        switch passkeyOptionsResult {
+        case .success(let serverPasskeyOptions):
+            do {
+                guard let token else { return }
+                let serverPasskeyResponse = try await onNativeAuth(serverPasskeyOptions)
+                isLoading = true
+                let passkeyValidateResult = await repository.validateNewPasskey(passkeyResponse: serverPasskeyResponse, token: token)
+                isLoading = false
+                
+                switch passkeyValidateResult {
+                case .success(let tokenResponse):
+                    recipeError = nil
+                    showAlert = false
+                    
+                    let newToken = tokenResponse.token
+                    isLoading = true
+                    let chefResult: Result<Chef, RecipeError>
+                    if let newToken {
+                        saveToken(newToken)
+                        chefResult = await repository.getChef(token: newToken)
+                    } else {
+                        chefResult = .failure(RecipeError(error: Constants.noTokenFound))
+                    }
+                    isLoading = false
+                    
+                    switch chefResult {
+                    case .success(let chefResult):
+                        chef = chefResult
+                        passkeyCreated = true
+                    case .failure(let recipeError):
+                        self.recipeError = recipeError
+                        showAlert = true
+                    }
+                case .failure(let recipeError):
+                    self.recipeError = recipeError
+                    showAlert = true
+                }
+            } catch {
+                logger.error("Error creating a new passkey: \(error)")
+                
+//                if (error !is CreateCredentialCancellationException) {
+//                    recipeError = RecipeError(error: error.localizedDescription)
+//                    showAlert = true
+//                }
+            }
+        case .failure(let recipeError):
+            self.recipeError = recipeError
+            showAlert = true
+        }
+    }
+
+    func deletePasskey(id: String) async {
+        isLoading = true
+        let token = getToken()
+        let deletePasskeyResult: Result<Token, RecipeError> = if let token {
+            await repository.deletePasskey(id: id, token: token)
+        } else {
+            .failure(RecipeError(error: Constants.noTokenFound))
+        }
+        
+        switch deletePasskeyResult {
+        case .success(let tokenResponse):
+            recipeError = nil
+            showAlert = false
+            
+            guard let newToken = tokenResponse.token else {
+                isLoading = false
+                return
+            }
+            saveToken(newToken)
+            
+            // Get the chef's updated passkey list
+            let chefResult = await repository.getChef(token: newToken)
+            isLoading = false
+            
+            switch chefResult {
+            case .success(let chefResult):
+                chef = chefResult
+                passkeyDeleted = true
+            case .failure(let recipeError):
+                self.recipeError = recipeError
+                showAlert = true
             }
         case .failure(let recipeError):
             isLoading = false

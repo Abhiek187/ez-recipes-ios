@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct LoginForm: View {
     private enum Field: CaseIterable {
@@ -16,6 +17,7 @@ struct LoginForm: View {
     // For step-up authentication, only the login screen is needed
     @Environment(LoginRouter.self) private var router: LoginRouter?
     @Environment(ProfileViewModel.self) private var viewModel
+    @Environment(\.authorizationController) private var authorizationController
     @FocusState private var focusedField: Field?
     
     @State private var username = ""
@@ -90,6 +92,35 @@ struct LoginForm: View {
                         // Handle double optional: if the provider doesn't exist in the dictionary, or if the URL is missing/invalid
                         OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
                     }
+                }
+                PasskeyButton(text: Constants.ProfileView.passkeySignIn, enabled: !usernameEmpty) {
+                    Task {
+                        await viewModel.loginWithPasskey(email: username) { serverPasskeyOptions in
+                            let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
+                            let request = provider.createCredentialAssertionRequest(challenge: Data(serverPasskeyOptions.challenge.utf8))
+                            request.allowedCredentials = serverPasskeyOptions.allowCredentials.map {
+                                ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: Data($0.id.utf8))
+                            }
+                            
+                            do {
+                                let result = try await authorizationController.performRequest(request)
+                                print(result)
+                                
+                                if case .passkeyAssertion(let account) = result {
+                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: String(data: account.credentialID, encoding: .utf8) ?? "", rawId: String(data: account.credentialID, encoding: .utf8) ?? "", response: ExistingPasskeyResponse(authenticatorData: String(data: account.rawAuthenticatorData, encoding: .utf8) ?? "", clientDataJSON: String(data: account.rawClientDataJSON, encoding: .utf8) ?? "", signature: String(data: account.signature, encoding: .utf8) ?? ""), type: "public-key")
+                                } else {
+                                    throw NSError(domain: "Error", code: 0, userInfo: nil)
+                                }
+                            } catch {
+                                print(error)
+                                throw error
+                            }
+                        }
+                    }
+                }
+                if usernameEmpty {
+                    Text(Constants.ProfileView.passkeyHint)
+                        .font(.subheadline)
                 }
                 
                 HStack {

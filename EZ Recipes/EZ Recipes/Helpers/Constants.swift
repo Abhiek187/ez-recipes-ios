@@ -47,7 +47,8 @@ struct Constants {
     static let baseRecipesPath = serverBaseUrl + "/api/recipes"
     static let baseTermsPath = serverBaseUrl + "/api/terms"
     static let baseChefsPath = serverBaseUrl + "/api/chefs"
-    static let recipeWebOrigin = "https://ez-recipes-web.onrender.com"
+    static let recipeWebHost = "ez-recipes-web.onrender.com"
+    static let recipeWebOrigin = "https://\(recipeWebHost)"
     static let redirectUrl = recipeWebOrigin + "/oauth/callback"
     
     // Using the Android email regex since Swift doesn't allow escaping certain literals in the RFC 5322 regex: https://android.googlesource.com/platform/frameworks/base/+/cd92588/core/java/android/util/Patterns.java
@@ -114,8 +115,11 @@ struct Constants {
         static let tokenError = RecipeError(error: "Invalid Firebase token provided: Error: Decoding Firebase ID token failed. Make sure you passed the entire string JWT which represents an ID token. See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.")
         
         static let terms = [Term(_id: "659355351c9a1fbc3bce6618", word: "produce", definition: "food grown by farming"), Term(_id: "6593556d1c9a1fbc3bce6619", word: "mince", definition: "cut up into small pieces"), Term(_id: "659355831c9a1fbc3bce661a", word: "broil", definition: "cook, such as in an oven"), Term(_id: "659355951c9a1fbc3bce661b", word: "simmer", definition: "stay below the boiling point when heated, such as with water"), Term(_id: "659355a41c9a1fbc3bce661c", word: "al dente", definition: "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")]
-        static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, providerData: [ProviderData(email: "test@email.com", providerId: "password", uid: "test@email.com"), ProviderData(email: "test@email.com", providerId: Provider.github.rawValue, uid: "29958092"), ProviderData(email: "test@email.com", providerId: Provider.facebook.rawValue, uid: "4260456714231215"), ProviderData(email: "test@email.com", providerId: Provider.google.rawValue, uid: "111444254381322957655"), ProviderData(email: "test2@email2.com", providerId: Provider.google.rawValue, uid: "100853917476273280774")], ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
+        
+        static let chef = Chef(uid: "oJG5PZ8KIIfvQMDsQzOwDbu2m6O2", email: "test@email.com", emailVerified: true, providerData: [ProviderData(email: "test@email.com", providerId: "password", uid: "test@email.com"), ProviderData(email: "test@email.com", providerId: Provider.github.rawValue, uid: "29958092"), ProviderData(email: "test@email.com", providerId: Provider.facebook.rawValue, uid: "4260456714231215"), ProviderData(email: "test@email.com", providerId: Provider.google.rawValue, uid: "111444254381322957655"), ProviderData(email: "test2@email2.com", providerId: Provider.google.rawValue, uid: "100853917476273280774")], passkeys: [Passkey(webAuthnUserID: "tgPWAI3qZg2Fpy2USU0s2B5TGeoNg3XeaoNmnzyIKXk", id: "maixhQnppPzK4cOySLxXfA", publicKey: "pQECAyYgASFYIGOmskty53DP+KNGrIxCVizp+rp8WReliMavPe7PFBsuIlggb6b5zDKjL3T1NdX2TWING3MCuz6C7V1aHcE71hh1XWY=", counter: 0, transports: ["hybrid", "internal"], deviceType: "multiDevice", backedUp: true, name: "Google Password Manager", lastUsed: "2026-01-19T03:37:48.876Z", iconLight: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE5MiAxOTIiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDE5MiAxOTIiIHdpZHRoPSIyNHB4Ij48cmVjdCBmaWxsPSJub25lIiBoZWlnaHQ9IjE5MiIgd2lkdGg9IjE5MiIgeT0iMCIvPjxnPjxwYXRoIGQ9Ik02OS4yOSwxMDZjLTMuNDYsNS45Ny05LjkxLDEwLTE3LjI5LDEwYy0xMS4wMywwLTIwLTguOTctMjAtMjBzOC45Ny0yMCwyMC0yMCBjNy4zOCwwLDEzLjgzLDQuMDMsMTcuMjksMTBoMjUuNTVDOTAuMyw2Ni41NCw3Mi44Miw1Miw1Miw1MkMyNy43NCw1Miw4LDcxLjc0LDgsOTZzMTkuNzQsNDQsNDQsNDRjMjAuODIsMCwzOC4zLTE0LjU0LDQyLjg0LTM0IEg2OS4yOXoiIGZpbGw9IiM0Mjg1RjQiLz48cmVjdCBmaWxsPSIjRkJCQzA0IiBoZWlnaHQ9IjI0IiB3aWR0aD0iNDQiIHg9Ijk0IiB5PSI4NCIvPjxwYXRoIGQ9Ik05NC4zMiw4NEg2OHYwLjA1YzIuNSwzLjM0LDQsNy40Nyw0LDExLjk1cy0xLjUsOC42MS00LDExLjk1VjEwOGgyNi4zMiBjMS4wOC0zLjgyLDEuNjgtNy44NCwxLjY4LTEyUzk1LjQxLDg3LjgyLDk0LjMyLDg0eiIgZmlsbD0iI0VBNDMzNSIvPjxwYXRoIGQ9Ik0xODQsMTA2djI2aC0xNnYtOGMwLTQuNDItMy41OC04LTgtOHMtOCwzLjU4LTgsOHY4aC0xNnYtMjZIMTg0eiIgZmlsbD0iIzM0QTg1MyIvPjxyZWN0IGZpbGw9IiMxODgwMzgiIGhlaWdodD0iMjQiIHdpZHRoPSI0OCIgeD0iMTM2IiB5PSI4NCIvPjwvZz48L3N2Zz4=", iconDark: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE5MiAxOTIiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDE5MiAxOTIiIHdpZHRoPSIyNHB4Ij48cmVjdCBmaWxsPSJub25lIiBoZWlnaHQ9IjE5MiIgd2lkdGg9IjE5MiIgeT0iMCIvPjxnPjxwYXRoIGQ9Ik02OS4yOSwxMDZjLTMuNDYsNS45Ny05LjkxLDEwLTE3LjI5LDEwYy0xMS4wMywwLTIwLTguOTctMjAtMjBzOC45Ny0yMCwyMC0yMCBjNy4zOCwwLDEzLjgzLDQuMDMsMTcuMjksMTBoMjUuNTVDOTAuMyw2Ni41NCw3Mi44Miw1Miw1Miw1MkMyNy43NCw1Miw4LDcxLjc0LDgsOTZzMTkuNzQsNDQsNDQsNDRjMjAuODIsMCwzOC4zLTE0LjU0LDQyLjg0LTM0IEg2OS4yOXoiIGZpbGw9IiM0Mjg1RjQiLz48cmVjdCBmaWxsPSIjRkJCQzA0IiBoZWlnaHQ9IjI0IiB3aWR0aD0iNDQiIHg9Ijk0IiB5PSI4NCIvPjxwYXRoIGQ9Ik05NC4zMiw4NEg2OHYwLjA1YzIuNSwzLjM0LDQsNy40Nyw0LDExLjk1cy0xLjUsOC42MS00LDExLjk1VjEwOGgyNi4zMiBjMS4wOC0zLjgyLDEuNjgtNy44NCwxLjY4LTEyUzk1LjQxLDg3LjgyLDk0LjMyLDg0eiIgZmlsbD0iI0VBNDMzNSIvPjxwYXRoIGQ9Ik0xODQsMTA2djI2aC0xNnYtOGMwLTQuNDItMy41OC04LTgtOHMtOCwzLjU4LTgsOHY4aC0xNnYtMjZIMTg0eiIgZmlsbD0iIzM0QTg1MyIvPjxyZWN0IGZpbGw9IiMxODgwMzgiIGhlaWdodD0iMjQiIHdpZHRoPSI0OCIgeD0iMTM2IiB5PSI4NCIvPjwvZz48L3N2Zz4=")], ratings: ["641024": 5, "663849": 3], recentRecipes: ["641024": "2024-10-17T02:54:07.471Z", "663849": "2024-10-17T22:28:27.387Z"], favoriteRecipes: ["641024"], token: "e30.e30.e30")
         static let authUrls = [AuthUrl(providerId: .google, authUrl: "https://www.google.com"), AuthUrl(providerId: .facebook, authUrl: "https://www.facebook.com"), AuthUrl(providerId: .github, authUrl: "https://github.com")]
+        static let passkeyCreationOptions = PasskeyCreationOptions(challenge: "u6R7q8xK3eCCmCUpx1HR-WtuV9z2d4FCVlntZFDrsbQ", rp: PasskeyCreationOptions.RelyingParty(name: "EZ Recipes Web", id: recipeWebOrigin), user: PasskeyCreationOptions.User(id: "ccr9dy6B7OXMyeDW0KPEuPZ9MfKkHLtFPbhnscTXhbM", name: "test@email.com", displayName: ""), pubKeyCredParams: [PasskeyCreationOptions.PubKeyCredParam(alg: -8, type: "public-key"), PasskeyCreationOptions.PubKeyCredParam(alg: -7, type: "public-key"), PasskeyCreationOptions.PubKeyCredParam(alg: -257, type: "public-key")], timeout: 60_000, attestation: "none", excludeCredentials: [PasskeyCreationOptions.Credential(id: "Xfo96lb073r7xKvCF3fTEg", transports: ["hybrid", "internal"], type: "public-key")], authenticatorSelection: PasskeyCreationOptions.AuthenticatorSelection(requireResidentKey: true, residentKey: "required", userVerification: "required"), extensions: ["credProps": true], hints: [])
+        static let passkeyRequestOptions = PasskeyRequestOptions(rpId: recipeWebHost, challenge: "5Hl-eJcWE1L0G-6hOrCY2vMWIjzwBjbqn5T91DtSKbw", allowCredentials: [PasskeyRequestOptions.Credential(id: "Xfo96lb073r7xKvCF3fTEg", transports: ["hybrid", "internal"], type: "public-key")], timeout: 60_000, userVerification: "required")
     }
     
     struct Tabs {
@@ -297,6 +301,17 @@ struct Constants {
         static let unlinkSuccess: @Sendable (Provider) -> String = { provider in
             String(localized: "Successfully unlinked \(provider.rawValue)!")
         }
+        static let passkeyTitle = String(localized: "Passkeys")
+        static let passkeyCreate = String(localized: "Create a passkey")
+        static let passkeyCreated = String(localized: "Passkey created successfully")
+        static let lastUsed: @Sendable (String) -> String = { date in
+            String(localized: "Last used: \(date)")
+        }
+        static let passkeyDelete = String(localized: "Delete passkey")
+        static let passkeyDeleteConfirmation: @Sendable (String) -> String = { passkey in
+            String(localized: "Are you sure you want to delete this passkey? \(passkey)")
+        }
+        static let passkeyDeleted = String(localized: "Passkey deleted. Make sure to also delete the passkey from your device.")
         
         // Login form
         static let signInHeader = String(localized: "Sign In")
@@ -306,6 +321,8 @@ struct Constants {
         static let passwordShow = String(localized: "Show password")
         static let passwordHide = String(localized: "Hide password")
         static let passwordForget = String(localized: "Forgot password?")
+        static let passkeySignIn = String(localized: "Sign in with a passkey")
+        static let passkeyHint = String(localized: "Username is required to sign in with a passkey")
         static let oAuthHeader = String(localized: "Or sign in using:")
         static let signInSuccess = String(localized: "Signed in successfully!")
         static let signOutSuccess = String(localized: "Signed out successfully!")
