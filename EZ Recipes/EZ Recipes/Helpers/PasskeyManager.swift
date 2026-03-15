@@ -8,7 +8,17 @@
 import AuthenticationServices
 import SwiftUI
 
-//struct PasskeyManager {
+struct PasskeyManager {
+    static func deletePasskeyFromAuthenticator(withId id: String, rpId: String) async throws {
+        guard let credentialId = id.base64Data else { return }
+        
+        // Revoking a passkey
+        if #available(iOS 26.2, *) {
+            try await ASCredentialDataManager().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: credentialId)
+        } else if #available(iOS 26.0, *) {
+            try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: credentialId)
+        }
+    }
 //    @Environment(\.authorizationController) private var authorizationController
 //    
 //    static func getPasskey(serverPasskeyOptions: PasskeyRequestOptions) async throws -> ExistingPasskeyClientResponse {
@@ -50,4 +60,4 @@ import SwiftUI
 //            try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: serverPasskeyOptions.rp.id, credentialID: Data())
 //        }
 //    }
-//}
+}

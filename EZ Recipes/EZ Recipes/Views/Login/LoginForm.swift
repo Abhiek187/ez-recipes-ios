@@ -108,7 +108,7 @@ struct LoginForm: View {
                                 print(result)
                                 
                                 if case .passkeyAssertion(let account) = result {
-                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.string, rawId: account.credentialID.string, response: .init(authenticatorData: account.rawAuthenticatorData.string, clientDataJSON: account.rawClientDataJSON.string, signature: account.signature.string), type: "public-key")
+                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64EncodedString(), rawId: account.credentialID.base64EncodedString(), response: .init(authenticatorData: account.rawAuthenticatorData.base64EncodedString(), clientDataJSON: account.rawClientDataJSON.base64EncodedString(), signature: account.signature.base64EncodedString()), type: "public-key")
                                 } else {
                                     throw NSError(domain: "Error", code: 0, userInfo: nil)
                                 }

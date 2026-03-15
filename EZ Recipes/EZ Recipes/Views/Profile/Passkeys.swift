@@ -66,7 +66,7 @@ struct Passkeys: View {
                             print(result)
                             
                             if case .passkeyRegistration(let account) = result {
-                                return NewPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.string, rawId: account.credentialID.string, response: .init(attestationObject: account.rawAttestationObject?.string ?? "", authenticatorData: "", clientDataJSON: account.rawClientDataJSON.string, publicKey: "", publicKeyAlgorithm: ASCOSEAlgorithmIdentifier.ES256.rawValue, transports: []), type: "public-key")
+                                return NewPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64EncodedString(), rawId: account.credentialID.base64EncodedString(), response: .init(attestationObject: account.rawAttestationObject?.base64EncodedString() ?? "", authenticatorData: "", clientDataJSON: account.rawClientDataJSON.base64EncodedString(), publicKey: "", publicKeyAlgorithm: ASCOSEAlgorithmIdentifier.ES256.rawValue, transports: []), type: "public-key")
                             } else {
                                 throw NSError(domain: "Error", code: 0, userInfo: nil)
                             }
@@ -75,13 +75,6 @@ struct Passkeys: View {
                             throw NSError(domain: "Error", code: 0, userInfo: nil)
                         } catch {
                             print(error)
-                
-                            // Revoking a passkey
-                            if #available(iOS 26.2, *) {
-                                try await ASCredentialDataManager().reportUnknownPublicKeyCredential(relyingPartyIdentifier: serverPasskeyOptions.rp.id, credentialID: Data())
-                            } else if #available(iOS 26.0, *) {
-                                try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: serverPasskeyOptions.rp.id, credentialID: Data())
-                            }
                             
                             throw NSError(domain: "Error", code: 0, userInfo: nil)
                         }
