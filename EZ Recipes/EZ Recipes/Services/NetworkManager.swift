@@ -168,7 +168,16 @@ extension NetworkManager: ChefRepository {
     }
     
     func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError> {
-        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder)
+        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder) { urlRequest in
+            // Append email as a query parameter without affecting the JSON body
+            if let url = urlRequest.url, var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                var items = urlComponents.queryItems ?? []
+                items.append(URLQueryItem(name: "email", value: email))
+                urlComponents.queryItems = items
+                urlRequest.url = urlComponents.url
+            }
+        }
+        
         return await parseResponse(fromRequest: request, method: #function)
     }
     
