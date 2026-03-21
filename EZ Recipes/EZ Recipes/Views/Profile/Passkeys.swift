@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AlertToast
-import SVGView
 import AuthenticationServices
 
 struct Passkeys: View {
@@ -29,8 +28,8 @@ struct Passkeys: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 8) {
                         let passkeyIcon = colorScheme == .light ? passkey.iconLight : passkey.iconDark
-                        if let passkeyIcon, let passkeyIconData = passkeyIcon.base64ImageData {
-                            SVGView(data: passkeyIconData)
+                        if let passkeyIcon {
+                            SVGWebView(src: passkeyIcon)
                                 .frame(width: 24, height: 24)
                         }
                         Text(passkey.name)
