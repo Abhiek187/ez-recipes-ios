@@ -6,58 +6,57 @@
 //
 
 import AuthenticationServices
+import OSLog
 import SwiftUI
 
-struct PasskeyManager {
-    static func deletePasskeyFromAuthenticator(withId id: String, rpId: String) async throws {
-        guard let credentialId = id.base64Data else { return }
-        
-        // Revoking a passkey
-        if #available(iOS 26.2, *) {
-            try await ASCredentialDataManager().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: credentialId)
-        } else if #available(iOS 26.0, *) {
-            try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: credentialId)
+enum PasskeyError: Error {
+    case invalidRequest
+    case missingAttestation(id: Data, rpId: String)
+    case unknownPasskeyResponse(result: ASAuthorizationResult)
+    case cancelled
+    case loginFailure(error: any Error)
+    case createFailure(error: any Error)
+}
+
+extension PasskeyError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidRequest:
+            return "The passkey server options couldn't be converted into Data"
+        case .missingAttestation:
+            return "Failed to get attestation data for the passkey. Unable to validate it against the server."
+        case .unknownPasskeyResponse(result: let result):
+            return "Unknown passkey response received: \(result)"
+        case .cancelled:
+            return "The passkey request was cancelled"
+        case .loginFailure(let error):
+            return "Failed to login with a passkey :: error: \(error.localizedDescription)"
+        case .createFailure(let error):
+            return "Failed to create a new passkey :: error: \(error.localizedDescription)"
         }
     }
-//    @Environment(\.authorizationController) private var authorizationController
-//    
-//    static func getPasskey(serverPasskeyOptions: PasskeyRequestOptions) async throws -> ExistingPasskeyClientResponse {
-//        let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
-//        let request = provider.createCredentialAssertionRequest(challenge: Data(serverPasskeyOptions.challenge.utf8))
-//        request.allowedCredentials = serverPasskeyOptions.allowCredentials.map {
-//            ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: Data($0.id.utf8))
-//        }
-//        
-//        do {
-//            let result = try await authorizationController.performRequest(request)
-//            print(result)
-//        } catch {
-//            print(error)
-//        }
-//    }
-//    
-//    @available(iOS 26.0, *)
-//    static func createPasskey(serverPasskeyOptions: PasskeyCreationOptions) async throws -> NewPasskeyClientResponse {
-//        let provider = ASAuthorizationAccountCreationProvider()
-//        let request = provider.createPlatformPublicKeyCredentialRegistrationRequest(acceptedContactIdentifiers: [.email], shouldRequestName: false, relyingPartyIdentifier: serverPasskeyOptions.rp.id, challenge: Data(serverPasskeyOptions.challenge.utf8), userID: Data(serverPasskeyOptions.user.id.utf8))
-//        
-//        do {
-//            let result = try await authorizationController.performRequest(request)
-//            if case .passkeyAccountCreation(let account) = result {
-//                // Register new account on backend
-//                print(account)
-//            }
-//        } catch ASAuthorizationError.deviceNotConfiguredForPasskeyCreation {
-//            print("Device not configured for passkey creation")
-//        } catch ASAuthorizationError.canceled {
-//            print("Authorization was cancelled")
-//        } catch ASAuthorizationError.preferSignInWithApple {
-//            print("User prefers to sign in with Apple")
-//        } catch {
-//            print(error)
-//            
-//            // Revoking a passkey
-//            try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: serverPasskeyOptions.rp.id, credentialID: Data())
-//        }
-//    }
+}
+
+/// Helper methods for passkeys
+struct PasskeyManager {
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "PasskeyManager")
+    
+    static func deletePasskeyFromAuthenticators(withId id: Data, rpId: String = Constants.recipeWebHost) async {
+        do {
+            if #available(iOS 26.2, *) {
+                try await ASCredentialDataManager().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: id)
+            } else if #available(iOS 26.0, *) {
+                try await ASCredentialUpdater().reportUnknownPublicKeyCredential(relyingPartyIdentifier: rpId, credentialID: id)
+            } else {
+                logger.warning("The Signal API isn't supported on this device. Please delete the passkey manually from all authenticators.")
+            }
+        } catch {
+            logger.warning("Failed to delete the passkey from all authenticators (ID: \(id.base64URLEncodedString), RP ID: \(rpId)). Please delete them manually. :: error: \(error.localizedDescription)")
+        }
+    }
+    
+    static func deletePasskeyFromAuthenticators(withId id: String, rpId: String = Constants.recipeWebHost) async {
+        guard let credentialId = id.base64UrlData else { return }
+        await deletePasskeyFromAuthenticators(withId: credentialId, rpId: rpId)
+    }
 }

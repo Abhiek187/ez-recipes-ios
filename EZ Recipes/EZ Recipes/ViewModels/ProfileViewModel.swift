@@ -362,19 +362,20 @@ import Alamofire
                     }
                     
                     authState = .authenticated
-                        openLoginSheet = false
+                    openLoginSheet = false
                 case .failure(let recipeError):
                     self.recipeError = recipeError
                     showAlert = true
                 }
             } catch {
-                logger.error("Error signing in with a passkey: \(error)")
+                logger.error("Error signing in with a passkey: \(error.localizedDescription)")
+                if case .cancelled = error as? PasskeyError {
+                    // Don't show an error if the user dismissed the passkey prompt
+                    return
+                }
                 
-//                if (error !is GetCredentialCancellationException) {
-//                    // Don't show an error if the user dismissed the passkey prompt
-//                    recipeError = RecipeError(error: error.localizedDescription)
-//                    showAlert = true
-//                }
+                recipeError = RecipeError(error: error.localizedDescription)
+                showAlert = true
             }
         case .failure(let recipeError):
             self.recipeError = recipeError
@@ -394,9 +395,15 @@ import Alamofire
         
         switch passkeyOptionsResult {
         case .success(let serverPasskeyOptions):
+            let rpId: String
+            let passkeyId: String
+            
             do {
                 guard let token else { return }
+                rpId = serverPasskeyOptions.rp.id
                 let serverPasskeyResponse = try await performNativeAuth(serverPasskeyOptions)
+                passkeyId = serverPasskeyResponse.id
+                
                 isLoading = true
                 let passkeyValidateResult = await repository.validateNewPasskey(passkeyResponse: serverPasskeyResponse, token: token)
                 isLoading = false
@@ -426,16 +433,21 @@ import Alamofire
                         showAlert = true
                     }
                 case .failure(let recipeError):
+                    // Attempt to delete the passkey saved in the authenticator
+                    await PasskeyManager.deletePasskeyFromAuthenticators(withId: passkeyId, rpId: rpId)
                     self.recipeError = recipeError
                     showAlert = true
                 }
             } catch {
-                logger.error("Error creating a new passkey: \(error)")
+                logger.error("Error creating a new passkey: \(error.localizedDescription)")
+                if case .cancelled = error as? PasskeyError { return }
                 
-//                if (error !is CreateCredentialCancellationException) {
-//                    recipeError = RecipeError(error: error.localizedDescription)
-//                    showAlert = true
-//                }
+                if case .missingAttestation(let passkeyId, let rpId) = error as? PasskeyError {
+                    await PasskeyManager.deletePasskeyFromAuthenticators(withId: passkeyId, rpId: rpId)
+                }
+                
+                recipeError = RecipeError(error: error.localizedDescription)
+                showAlert = true
             }
         case .failure(let recipeError):
             self.recipeError = recipeError
@@ -454,6 +466,7 @@ import Alamofire
         
         switch deletePasskeyResult {
         case .success(let tokenResponse):
+            await PasskeyManager.deletePasskeyFromAuthenticators(withId: id)
             recipeError = nil
             showAlert = false
             

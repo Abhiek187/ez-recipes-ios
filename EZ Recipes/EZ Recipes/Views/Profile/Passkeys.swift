@@ -52,31 +52,41 @@ struct Passkeys: View {
             PasskeyButton(text: Constants.ProfileView.passkeyCreate) {
                 Task {
                     await viewModel.createNewPasskey { serverPasskeyOptions in
-                        let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rp.id)
-                        let request = provider.createCredentialRegistrationRequest(challenge: serverPasskeyOptions.challenge.data, name: serverPasskeyOptions.user.name, userID: serverPasskeyOptions.user.id.data)
+                        // Convert the standard WebAuthn options to an ASAuthorization request
+                        guard let challenge = serverPasskeyOptions.challenge.base64UrlData, let userID = serverPasskeyOptions.user.id.base64UrlData else {
+                            throw PasskeyError.invalidRequest
+                        }
+                        let rpId = serverPasskeyOptions.rp.id
+                        let passkeyId: Data
+                        
+                        let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: rpId)
+                        let request = provider.createCredentialRegistrationRequest(challenge: challenge, name: serverPasskeyOptions.user.name, userID: userID)
                         request.displayName = serverPasskeyOptions.user.displayName
                         request.attestationPreference = .init(serverPasskeyOptions.attestation)
-                        request.excludedCredentials = serverPasskeyOptions.excludeCredentials.map {
-                            ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: $0.id.data)
-                        }
+                        request.excludedCredentials = serverPasskeyOptions.excludeCredentials.compactMap {
+                            $0.id.base64UrlData
+                        }.map(ASAuthorizationPlatformPublicKeyCredentialDescriptor.init(credentialID:))
                         request.userVerificationPreference = .init(serverPasskeyOptions.authenticatorSelection.userVerification)
                         
                         do {
+                            // Triggers the device to prompt for a passkey
                             let result = try await authorizationController.performRequest(request)
-                            print(result)
                             
+                            // Convert the ASAuthorization response to a standard WebAuthn response
                             if case .passkeyRegistration(let account) = result {
-                                return NewPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64EncodedString(), rawId: account.credentialID.base64EncodedString(), response: .init(attestationObject: account.rawAttestationObject?.base64EncodedString() ?? "", authenticatorData: "", clientDataJSON: account.rawClientDataJSON.base64EncodedString(), publicKey: "", publicKeyAlgorithm: ASCOSEAlgorithmIdentifier.ES256.rawValue, transports: []), type: "public-key")
+                                passkeyId = account.credentialID
+                                guard let attestationObject = account.rawAttestationObject?.base64URLEncodedString else {
+                                    throw PasskeyError.missingAttestation(id: passkeyId, rpId: rpId)
+                                }
+                                
+                                return NewPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64URLEncodedString, rawId: account.credentialID.base64URLEncodedString, response: .init(attestationObject: attestationObject, authenticatorData: nil, clientDataJSON: account.rawClientDataJSON.base64URLEncodedString, publicKey: nil, publicKeyAlgorithm: ASCOSEAlgorithmIdentifier.ES256.rawValue, transports: []), type: "public-key")
                             } else {
-                                throw NSError(domain: "Error", code: 0, userInfo: nil)
+                                throw PasskeyError.unknownPasskeyResponse(result: result)
                             }
                         } catch ASAuthorizationError.canceled {
-                            print("Authorization was cancelled")
-                            throw NSError(domain: "Error", code: 0, userInfo: nil)
+                            throw PasskeyError.cancelled
                         } catch {
-                            print(error)
-                            
-                            throw NSError(domain: "Error", code: 0, userInfo: nil)
+                            throw PasskeyError.createFailure(error: error)
                         }
                     }
                 }

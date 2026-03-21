@@ -96,25 +96,32 @@ struct LoginForm: View {
                 PasskeyButton(text: Constants.ProfileView.passkeySignIn, enabled: !usernameEmpty) {
                     Task {
                         await viewModel.loginWithPasskey(email: username) { serverPasskeyOptions in
-                            let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
-                            let request = provider.createCredentialAssertionRequest(challenge: serverPasskeyOptions.challenge.data)
-                            request.allowedCredentials = serverPasskeyOptions.allowCredentials.map {
-                                ASAuthorizationPlatformPublicKeyCredentialDescriptor(credentialID: $0.id.data)
+                            // Convert the standard WebAuthn options to an ASAuthorization request
+                            guard let challenge = serverPasskeyOptions.challenge.base64UrlData else {
+                                throw PasskeyError.invalidRequest
                             }
+                            
+                            let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
+                            let request = provider.createCredentialAssertionRequest(challenge: challenge)
+                            request.allowedCredentials = serverPasskeyOptions.allowCredentials.compactMap {
+                                $0.id.base64UrlData
+                            }.map(ASAuthorizationPlatformPublicKeyCredentialDescriptor.init(credentialID:))
                             request.userVerificationPreference = .init(rawValue: serverPasskeyOptions.userVerification)
                             
                             do {
+                                // Triggers the device to prompt for a passkey
                                 let result = try await authorizationController.performRequest(request)
-                                print(result)
                                 
+                                // Convert the ASAuthorization response to a standard WebAuthn response
                                 if case .passkeyAssertion(let account) = result {
-                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64EncodedString(), rawId: account.credentialID.base64EncodedString(), response: .init(authenticatorData: account.rawAuthenticatorData.base64EncodedString(), clientDataJSON: account.rawClientDataJSON.base64EncodedString(), signature: account.signature.base64EncodedString()), type: "public-key")
+                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64URLEncodedString, rawId: account.credentialID.base64URLEncodedString, response: .init(authenticatorData: account.rawAuthenticatorData.base64URLEncodedString, clientDataJSON: account.rawClientDataJSON.base64URLEncodedString, signature: account.signature.base64URLEncodedString), type: "public-key")
                                 } else {
-                                    throw NSError(domain: "Error", code: 0, userInfo: nil)
+                                    throw PasskeyError.unknownPasskeyResponse(result: result)
                                 }
+                            } catch ASAuthorizationError.canceled {
+                                throw PasskeyError.cancelled
                             } catch {
-                                print(error)
-                                throw error
+                                throw PasskeyError.loginFailure(error: error)
                             }
                         }
                     }

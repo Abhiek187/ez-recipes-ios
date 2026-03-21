@@ -15,20 +15,21 @@ struct PasskeyClientResponse<R: PasskeyResponse & Sendable>: Encodable {
 }
 
 protocol PasskeyResponse: Encodable {
-    var authenticatorData: String { get }
     var clientDataJSON: String { get }
 }
 
 struct NewPasskeyResponse: PasskeyResponse {
+    // iOS doesn't return the authenticatorData, publicKey, or transports (most can be derived from the attestationObject)
     let attestationObject: String
-    let authenticatorData: String
+    let authenticatorData: String?
     let clientDataJSON: String
-    let publicKey: String
+    let publicKey: String?
     let publicKeyAlgorithm: Int
     let transports: [String]
 }
 
 struct ExistingPasskeyResponse: PasskeyResponse {
+    // authenticatorData is provided since there's no attestationObject
     let authenticatorData: String
     let clientDataJSON: String
     let signature: String
