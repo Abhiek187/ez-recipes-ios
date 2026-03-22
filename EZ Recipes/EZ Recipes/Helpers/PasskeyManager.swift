@@ -30,9 +30,9 @@ extension PasskeyError: LocalizedError {
         case .cancelled:
             return "The passkey request was cancelled"
         case .loginFailure(let error):
-            return "Failed to login with a passkey :: error: \(error.localizedDescription)"
+            return "Failed to login with a passkey :: error: \(error)"
         case .createFailure(let error):
-            return "Failed to create a new passkey :: error: \(error.localizedDescription)"
+            return "Failed to create a new passkey :: error: \(error)"
         }
     }
 }

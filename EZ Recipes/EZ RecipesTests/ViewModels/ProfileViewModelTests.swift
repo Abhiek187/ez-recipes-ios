@@ -422,6 +422,166 @@ private extension ProfileViewModel {
         #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
         #expect(!viewModel.accountUnlinked)
     }
+    
+    @Test func loginWithPasskeySuccess() async throws {
+        // Given a valid passkey
+        // When logging in with a passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.loginWithPasskey(email: mockRepo.mockChef.email) { _ in
+            return ExistingPasskeyClientResponse(authenticatorAttachment: "", id: "", rawId: "", response: .init(authenticatorData: "", clientDataJSON: "", signature: ""), type: "")
+        }
+
+        // Then the user should be authenticated
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == mockRepo.mockChef)
+        #expect(viewModel.authState == .authenticated)
+        #expect(!viewModel.openLoginSheet)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+
+    @Test func loginWithPasskeyServerError() async {
+        // Given a valid passkey
+        // When logging in with a passkey and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.loginWithPasskey(email: mockRepo.mockChef.email) { _ in
+            return ExistingPasskeyClientResponse(authenticatorAttachment: "", id: "", rawId: "", response: .init(authenticatorData: "", clientDataJSON: "", signature: ""), type: "")
+        }
+        
+        // Then an error is shown
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+    }
+
+    @Test func loginWithPasskeyClientError() async {
+        // Given an invalid passkey
+        let passkeyError = PasskeyError.loginFailure(error: Constants.Mocks.recipeError)
+        
+        // When logging in with a passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.loginWithPasskey(email: mockRepo.mockChef.email) { _ in
+            throw passkeyError
+        }
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == RecipeError(error: passkeyError.localizedDescription))
+    }
+
+    @Test func loginWithPasskeyCanceled() async {
+        // Given the user canceled the passkey prompt
+        // When logging in with a passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.loginWithPasskey(email: mockRepo.mockChef.email) { _ in
+            throw PasskeyError.cancelled
+        }
+
+        // Then the error shouldn't be shown
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+    }
+
+    @Test func createNewPasskeySuccess() async throws {
+        // Given a valid passkey
+        // When creating a new passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.createNewPasskey() { _ in
+            return NewPasskeyClientResponse(authenticatorAttachment: "", id: "", rawId: "", response: .init(attestationObject: "", clientDataJSON: "", publicKeyAlgorithm: 0, transports: []), type: "")
+        }
+
+        // Then the passkey should be saved with the chef
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == mockRepo.mockChef)
+        #expect(viewModel.passkeyCreated)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+
+    @Test func createNewPasskeyServerError() async {
+        // Given a valid passkey
+        // When creating a new passkey and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.createNewPasskey() { _ in
+            return NewPasskeyClientResponse(authenticatorAttachment: "", id: "", rawId: "", response: .init(attestationObject: "", clientDataJSON: "", publicKeyAlgorithm: 0, transports: []), type: "")
+        }
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+        #expect(!viewModel.passkeyCreated)
+    }
+
+    @Test func createNewPasskeyClientError() async {
+        // Given an invalid passkey
+        let passkeyError = PasskeyError.createFailure(error: Constants.Mocks.recipeError)
+        
+        // When creating a new passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.createNewPasskey() { _ in
+            throw passkeyError
+        }
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == RecipeError(error: passkeyError.localizedDescription))
+        #expect(!viewModel.passkeyCreated)
+    }
+
+    @Test func createNewPasskeyCanceled() async {
+        // Given the user canceled the passkey prompt
+        // When creating a new passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.createNewPasskey() { _ in
+            throw PasskeyError.cancelled
+        }
+
+        // Then the error shouldn't be shown
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(!viewModel.passkeyCreated)
+    }
+
+    @Test func deletePasskeySuccess() async throws {
+        // Given a passkey to delete
+        let credentialId = "test-credential-id"
+
+        // When deleting the passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.deletePasskey(id: credentialId)
+
+        // Then the passkey should be removed from the chef
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == mockRepo.mockChef)
+        #expect(viewModel.passkeyDeleted)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+
+    @Test func deletePasskeyError() async {
+        // Given a passkey to delete
+        let credentialId = "test-credential-id"
+
+        // When deleting the passkey and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.deletePasskey(id: credentialId)
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+        #expect(!viewModel.passkeyDeleted)
+    }
+
+    @Test func deletePasskeyNoToken() async {
+        // Given a passkey to delete and no token
+        clearToken()
+        let credentialId = "test-credential-id"
+
+        // When deleting the passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.deletePasskey(id: credentialId)
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
+        #expect(!viewModel.passkeyDeleted)
+    }
 
     @Test func updateEmailSuccess() async throws {
         // Given a valid token

@@ -21,9 +21,9 @@ protocol PasskeyResponse: Encodable {
 struct NewPasskeyResponse: PasskeyResponse {
     // iOS doesn't return the authenticatorData, publicKey, or transports (most can be derived from the attestationObject)
     let attestationObject: String
-    let authenticatorData: String?
+    var authenticatorData: String? = nil
     let clientDataJSON: String
-    let publicKey: String?
+    var publicKey: String? = nil
     let publicKeyAlgorithm: Int
     let transports: [String]
 }
