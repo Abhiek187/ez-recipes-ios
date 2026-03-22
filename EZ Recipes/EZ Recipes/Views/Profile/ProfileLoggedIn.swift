@@ -17,6 +17,18 @@ struct ProfileLoggedIn: View {
     
     @State private var formToShow: ProfileForm? = nil
     @State private var showUnlinkConfirmation = false
+    @State private var showPasskeyDeleteConfirmation = false
+    
+    private var showErrorAlert: Binding<Bool> {
+        Binding(
+            get: { viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation && !showPasskeyDeleteConfirmation },
+            set: { newValue in
+                if !newValue {
+                    viewModel.showAlert = false
+                }
+            }
+        )
+    }
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -81,7 +93,7 @@ struct ProfileLoggedIn: View {
             }
             
             LinkedAccounts(chef: chef, showUnlinkConfirmation: $showUnlinkConfirmation)
-            Passkeys(chef: chef)
+            Passkeys(chef: chef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         }
         .listStyle(.insetGrouped) // group sections with padding
         .scrollContentBackground(.hidden) // hide section backgrounds in light mode
@@ -96,7 +108,7 @@ struct ProfileLoggedIn: View {
                 chef = newChef
             }
         }
-        .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation), message: viewModel.recipeError?.error)
+        .errorAlert(isPresented: showErrorAlert, message: viewModel.recipeError?.error)
         .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
             formToShow = nil
         }) {
@@ -167,6 +179,26 @@ struct ProfileLoggedIn: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     viewModel.accountUnlinked = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}
+
+#Preview("Passkey Created") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.passkeyCreated = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}
+
+#Preview("Passkey Deleted") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.passkeyDeleted = true
     
     return ProfileLoggedIn(chef: mockRepo.mockChef)
         .environment(viewModel)

@@ -11,13 +11,14 @@ import AuthenticationServices
 
 struct Passkeys: View {
     @State var chef: Chef
+    @Binding var showPasskeyDeleteConfirmation: Bool
     @Environment(ProfileViewModel.self) private var viewModel
+    
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.authorizationController) private var authorizationController
     @ScaledMetric private var scale = 1
     
     @State private var selectedPasskey: Passkey? = nil
-    @State private var showPasskeyDeleteConfirmation = false
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -115,10 +116,12 @@ struct Passkeys: View {
 }
 
 #Preview {
+    @Previewable @State var showPasskeyDeleteConfirmation = false
+    
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     
-    return Passkeys(chef: mockRepo.mockChef)
+    return Passkeys(chef: mockRepo.mockChef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         .environment(viewModel)
 }
