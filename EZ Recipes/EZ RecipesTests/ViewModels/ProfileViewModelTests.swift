@@ -44,7 +44,7 @@ private extension ProfileViewModel {
         // Then a new chef should be created
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: username, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: username, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: [], passkeys: [], ratings: [:], recentRecipes: [:], favoriteRecipes: [], token: mockRepo.mockLoginResponse.token))
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
     }
@@ -188,7 +188,7 @@ private extension ProfileViewModel {
         // Then the user should be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
 
@@ -207,7 +207,7 @@ private extension ProfileViewModel {
         // Then a new chef should be created, but the user shouldn't be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState != .authenticated)
 
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
@@ -314,7 +314,7 @@ private extension ProfileViewModel {
         // Then the chef should be updated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
         #expect(viewModel.accountLinked)
@@ -349,7 +349,7 @@ private extension ProfileViewModel {
         // Then the user should be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState == .authenticated)
         #expect(!viewModel.openLoginSheet)
         #expect(!viewModel.accountLinked)
@@ -370,7 +370,7 @@ private extension ProfileViewModel {
         // Then a new chef should be created, but the user shouldn't be authenticated
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: false, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.authState != .authenticated)
         #expect(!viewModel.accountLinked)
 
@@ -388,7 +388,7 @@ private extension ProfileViewModel {
         // Then the provider should be removed from the chef
         #expect(viewModel.recipeError == nil)
         #expect(!viewModel.showAlert)
-        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
+        #expect(viewModel.chef == Chef(uid: mockRepo.mockLoginResponse.uid, email: mockRepo.mockChef.email, emailVerified: mockRepo.mockLoginResponse.emailVerified, providerData: mockRepo.mockChef.providerData, passkeys: mockRepo.mockChef.passkeys, ratings: mockRepo.mockChef.ratings, recentRecipes: mockRepo.mockChef.recentRecipes, favoriteRecipes: mockRepo.mockChef.favoriteRecipes, token: mockRepo.mockLoginResponse.token))
         #expect(viewModel.accountUnlinked)
         
         #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)

@@ -46,4 +46,33 @@ import Testing
         
         #expect(html.htmlToMarkdown == markdown)
     }
+    
+    @Test("Encodes strings to Data and base64", arguments: [
+        "",
+        "Hello, World!",
+        "Swift is awesome!",
+        "🌍🎉🐶",
+        Constants.Mocks.chef.uid
+    ]) func testDataAndBase64Encoding(originalStr: String) {
+        let encodedStrData = originalStr.data
+        let base64EncodedStr = encodedStrData.base64EncodedString()
+        let base64URLEncodedStr = encodedStrData.base64URLEncodedString
+        // Both base64 strings may or may not be equal depending on special characters or padding
+        #expect(!base64EncodedStr.contains(["-", "_"]))
+        #expect(!base64URLEncodedStr.contains(["+", "/", "="]))
+        
+        let decodedBase64Data = base64EncodedStr.base64Data
+        let decodedBase64URLData = base64URLEncodedStr.base64UrlData
+        guard let decodedBase64Data, let decodedBase64URLData else {
+            Issue.record("Couldn't decode base64 strings to Data")
+            return
+        }
+        #expect(decodedBase64Data == encodedStrData)
+        #expect(decodedBase64URLData == encodedStrData)
+        
+        let decodedStr1 = decodedBase64Data.string
+        let decodedStr2 = decodedBase64URLData.string
+        #expect(decodedStr1 == originalStr)
+        #expect(decodedStr2 == originalStr)
+    }
 }
