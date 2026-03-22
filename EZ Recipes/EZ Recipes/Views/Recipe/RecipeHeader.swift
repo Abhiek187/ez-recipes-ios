@@ -30,7 +30,7 @@ struct RecipeHeader: View {
     var myRating: Int? = nil
     var onFindRecipeButtonTapped: () async -> Void // callback to pass to the parent View
     var onRate: (Int) -> Void = { _ in }
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         VStack(spacing: 16) {

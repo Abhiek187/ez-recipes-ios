@@ -9,7 +9,7 @@ import SwiftUI
 
 private struct Card: ViewModifier {
     var width: CGFloat?
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     
     func body(content: Content) -> some View {
         content

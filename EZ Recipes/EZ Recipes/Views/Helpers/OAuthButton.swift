@@ -15,6 +15,7 @@ struct OAuthButton: View {
     
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession
     @Environment(ProfileViewModel.self) private var viewModel
+    @ScaledMetric private var scale = 1
     
     var body: some View {
         Button {
@@ -50,7 +51,7 @@ struct OAuthButton: View {
                     .renderingMode(.original)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 24 * scale, height: 24 * scale)
                 Text(provider.style.label)
                     .lineLimit(1)
                     .truncationMode(.tail)

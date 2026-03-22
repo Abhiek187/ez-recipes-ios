@@ -5,6 +5,8 @@
 //  Created by Abhishek Chaudhuri on 7/24/24.
 //
 
+import Foundation
+
 extension String {
     /// Convert an HTML string to Markdown
     ///
@@ -44,5 +46,44 @@ extension String {
         }
 
         return text
+    }
+    
+    /// Convert a UTF-8 String to Data
+    var data: Data {
+        return Data(self.utf8)
+    }
+    
+    /// Convert a base64 String to Data, returns `nil` if conversion failed
+    var base64Data: Data? {
+        return Data(base64Encoded: self, options: .ignoreUnknownCharacters)
+    }
+    
+    /// Convert a base64 URL-encoded String to Data, returns `nil` if conversion failed
+    var base64UrlData: Data? {
+        // Convert to regular base64 first
+        var base64Str = self
+            .replacing("-", with: "+")
+            .replacing("_", with: "/")
+            
+        // Add padding if required
+        let remainder = base64Str.count % 4
+        if remainder != 0 {
+            base64Str.append(String(repeating: "=", count: 4 - remainder))
+        }
+        
+        return base64Str.base64Data
+    }
+    
+    /// Convert the base64 portion of an image string that starts with "data:IMAGE\_TYPE;base64,..." to Data, returns `nil` if conversion failed
+    var base64ImageData: Data? {
+        let base64Str = self.replacing(/^.+?,/, with: "")
+        return base64Str.base64Data
+    }
+    
+    /// Convert an ISO date string into a Date, returns `nil` if conversion failed
+    var date: Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter.date(from: self)
     }
 }

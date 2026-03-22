@@ -90,4 +90,24 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
     func unlinkOAuthProvider(providerId: Provider, token: String) async -> Result<Token, RecipeError> {
         return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
     }
+    
+    func getNewPasskeyChallenge(token: String) async -> Result<PasskeyCreationOptions, RecipeError> {
+        return isSuccess ? .success(Constants.Mocks.passkeyCreationOptions) : .failure(Constants.Mocks.tokenError)
+    }
+    
+    func getExistingPasskeyChallenge(email: String) async -> Result<PasskeyRequestOptions, RecipeError> {
+        return isSuccess ? .success(Constants.Mocks.passkeyRequestOptions) : .failure(Constants.Mocks.tokenError)
+    }
+    
+    func validateNewPasskey(passkeyResponse: NewPasskeyClientResponse, token: String) async -> Result<Token, RecipeError> {
+        return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
+    }
+    
+    func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError> {
+        return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
+    }
+    
+    func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError> {
+        return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
+    }
 }

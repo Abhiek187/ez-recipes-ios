@@ -17,6 +17,10 @@ struct ProfileTest {
     mutating func testSignIn() {
         let signUpButton = app.buttons["Sign Up"]
         XCTAssert(signUpButton.exists, "Error line \(#line): The sign in form isn't showing")
+        let passkeyButton = app.buttons["Sign in with a passkey"]
+        XCTAssertFalse(passkeyButton.isEnabled, "Error line \(#line): The passkey button should be disabled")
+        let passkeyHint = app.staticTexts["Username is required to sign in with a passkey"]
+        XCTAssert(passkeyHint.exists, "Error line \(#line): The passkey hint isn't visible")
         let loginButton = app.buttons["Login"].firstMatch
         XCTAssertFalse(loginButton.isEnabled, "Error line \(#line): The login button shouldn't be enabled")
         takeScreenshot(screenshotName, shotNum)
@@ -33,6 +37,8 @@ struct ProfileTest {
         usernameField.tap()
         XCTAssert(usernameRequiredError.exists, "Error line \(#line): The username required error isn't visible")
         usernameField.typeText("test@example.com")
+        XCTAssert(passkeyButton.isEnabled, "Error line \(#line): The passkey button should be enabled")
+        XCTAssertFalse(passkeyHint.exists, "Error line \(#line): The passkey hint shouldn't be visible")
         XCTAssertFalse(loginButton.isEnabled, "Error line \(#line): The login button shouldn't be enabled")
 
         /*

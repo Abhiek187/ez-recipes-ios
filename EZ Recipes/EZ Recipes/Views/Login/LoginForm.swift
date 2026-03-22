@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct LoginForm: View {
     private enum Field: CaseIterable {
@@ -16,6 +17,7 @@ struct LoginForm: View {
     // For step-up authentication, only the login screen is needed
     @Environment(LoginRouter.self) private var router: LoginRouter?
     @Environment(ProfileViewModel.self) private var viewModel
+    @Environment(\.authorizationController) private var authorizationController
     @FocusState private var focusedField: Field?
     
     @State private var username = ""
@@ -90,6 +92,43 @@ struct LoginForm: View {
                         // Handle double optional: if the provider doesn't exist in the dictionary, or if the URL is missing/invalid
                         OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
                     }
+                }
+                PasskeyButton(text: Constants.ProfileView.passkeySignIn, enabled: !usernameEmpty) {
+                    Task {
+                        await viewModel.loginWithPasskey(email: username) { serverPasskeyOptions in
+                            // Convert the standard WebAuthn options to an ASAuthorization request
+                            guard let challenge = serverPasskeyOptions.challenge.base64UrlData else {
+                                throw PasskeyError.invalidRequest
+                            }
+                            
+                            let provider = ASAuthorizationPlatformPublicKeyCredentialProvider(relyingPartyIdentifier: serverPasskeyOptions.rpId)
+                            let request = provider.createCredentialAssertionRequest(challenge: challenge)
+                            request.allowedCredentials = serverPasskeyOptions.allowCredentials.compactMap {
+                                $0.id.base64UrlData
+                            }.map(ASAuthorizationPlatformPublicKeyCredentialDescriptor.init(credentialID:))
+                            request.userVerificationPreference = .init(rawValue: serverPasskeyOptions.userVerification)
+                            
+                            do {
+                                // Triggers the device to prompt for a passkey
+                                let result = try await authorizationController.performRequest(request)
+                                
+                                // Convert the ASAuthorization response to a standard WebAuthn response
+                                if case .passkeyAssertion(let account) = result {
+                                    return ExistingPasskeyClientResponse(authenticatorAttachment: account.attachment == .platform ? "platform" : "cross-platform", id: account.credentialID.base64URLEncodedString, rawId: account.credentialID.base64URLEncodedString, response: .init(authenticatorData: account.rawAuthenticatorData.base64URLEncodedString, clientDataJSON: account.rawClientDataJSON.base64URLEncodedString, signature: account.signature.base64URLEncodedString), type: "public-key")
+                                } else {
+                                    throw PasskeyError.unknownPasskeyResponse(result: result)
+                                }
+                            } catch ASAuthorizationError.canceled {
+                                throw PasskeyError.cancelled
+                            } catch {
+                                throw PasskeyError.loginFailure(error: error)
+                            }
+                        }
+                    }
+                }
+                if usernameEmpty {
+                    Text(Constants.ProfileView.passkeyHint)
+                        .font(.subheadline)
                 }
                 
                 HStack {

@@ -151,4 +151,38 @@ extension NetworkManager: ChefRepository {
         let request = session.request("\(Constants.baseChefsPath)/oauth", method: .delete, parameters: ["providerId": providerId.rawValue], headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)
     }
+    
+    func getNewPasskeyChallenge(token: String) async -> Result<PasskeyCreationOptions, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/passkey/create", headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func getExistingPasskeyChallenge(email: String) async -> Result<PasskeyRequestOptions, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/passkey/auth", parameters: ["email": email])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func validateNewPasskey(passkeyResponse: NewPasskeyClientResponse, token: String) async -> Result<Token, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder, headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/passkey/verify", method: .post, parameters: passkeyResponse, encoder: jsonEncoder) { urlRequest in
+            // Append email as a query parameter without affecting the JSON body
+            if let url = urlRequest.url, var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+                var items = urlComponents.queryItems ?? []
+                items.append(URLQueryItem(name: "email", value: email))
+                urlComponents.queryItems = items
+                urlRequest.url = urlComponents.url
+            }
+        }
+        
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
+    func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError> {
+        let request = session.request("\(Constants.baseChefsPath)/passkey", method: .delete, parameters: ["id": id], headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
 }

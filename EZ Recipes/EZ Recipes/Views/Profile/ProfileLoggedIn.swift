@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import OrderedCollections
 import AlertToast
 
 struct ProfileLoggedIn: View {
@@ -18,21 +17,19 @@ struct ProfileLoggedIn: View {
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
-    @State private var linkedAccounts: OrderedDictionary<Provider, [String]> = [:]
     @State private var selectedProvider: Provider = .google
     @State private var showUnlinkConfirmation = false
+    @State private var showPasskeyDeleteConfirmation = false
     
-    private func buildLinkedAccounts(from providerData: [ProviderData]) -> OrderedDictionary<Provider, [String]> {
-        // Start with all the supported providers
-        let initialResult = OrderedDictionary<Provider, [String]>(
-            uniqueKeysWithValues: Provider.allCases.map { ($0, []) }
-        )
-        // A chef can link 0 or more emails with a provider
-        return providerData.reduce(into: initialResult) { result, providerData in
-            if let providerId = Provider(rawValue: providerData.providerId) {
-                result[providerId]?.append(providerData.email)
+    private var showErrorAlert: Binding<Bool> {
+        Binding(
+            get: { viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation && !showPasskeyDeleteConfirmation },
+            set: { newValue in
+                if !newValue {
+                    viewModel.showAlert = false
+                }
             }
-        }
+        )
     }
     
     var body: some View {
@@ -97,68 +94,23 @@ struct ProfileLoggedIn: View {
                 }
             }
             
-            Section(header: Text(Constants.ProfileView.linkedAccounts)
-                .font(.title2)
-            ) {
-                ForEach(linkedAccounts.elements, id: \.key) { provider, emails in
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            OAuthButton(provider: provider, authUrl: viewModel.authUrls[provider]?.flatMap { $0 })
-                            Button(role: .destructive) {
-                                // Confirm before unlinking
-                                selectedProvider = provider
-                                showUnlinkConfirmation = true
-                            } label: {
-                                Text(Constants.ProfileView.unlink)
-                            }
-                            .disabled(emails.isEmpty || viewModel.isLoading)
-                            ProgressView()
-                                .opacity(viewModel.isLoading ? 1 : 0)
-                        }
-                        if !emails.isEmpty {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(.green)
-                                Text(emails.joined(separator: ", "))
-                                    .font(.subheadline)
-                            }
-                        }
-                    }
-                }
-            }
+            LinkedAccounts(chef: chef, selectedProvider: $selectedProvider, showUnlinkConfirmation: $showUnlinkConfirmation)
+            Passkeys(chef: chef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         }
         .listStyle(.insetGrouped) // group sections with padding
         .scrollContentBackground(.hidden) // hide section backgrounds in light mode
         .task {
             await viewModel.getAuthUrls()
+            await PasskeyManager.syncPasskeysWithServer(withIds: chef.passkeys.map(\.id), userId: chef.uid)
+            // In case the chef signed in after updating their email
+            await PasskeyManager.updateUsername(chef.email, userId: chef.uid)
         }
         .onChange(of: viewModel.chef) { _, newChef in
             if let newChef {
                 chef = newChef
             }
         }
-        .onChange(of: chef.providerData, initial: true) { _, newProviderData in
-            linkedAccounts = buildLinkedAccounts(from: newProviderData)
-        }
-        .errorAlert(isPresented: .constant(viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation), message: viewModel.recipeError?.error)
-        .alert(Constants.ProfileView.unlinkConfirmation(selectedProvider), isPresented: $showUnlinkConfirmation) {
-            HStack {
-                Button(Constants.yesButton, role: .destructive) {
-                    Task {
-                        await viewModel.unlinkOAuthProvider(provider: selectedProvider)
-                    }
-                }
-                Button(Constants.noButton, role: .cancel) {
-                    viewModel.showAlert = false
-                }
-            }
-        }
-        .toast(isPresenting: $viewModel.accountLinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
-        }
-        .toast(isPresenting: $viewModel.accountUnlinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
-        }
+        .errorAlert(isPresented: showErrorAlert, message: viewModel.recipeError?.error)
         .sheet(isPresented: .constant(formToShow != nil && !viewModel.loginAgain), onDismiss: {
             formToShow = nil
         }) {
@@ -181,6 +133,20 @@ struct ProfileLoggedIn: View {
                     viewModel.loginAgain = false
                     formToShow = .updateEmail
                 }
+        }
+        // Toasts need to be defined outside list sections to prevent duplication
+        .toast(isPresenting: $viewModel.accountLinked) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
+        }
+        .toast(isPresenting: $viewModel.accountUnlinked) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
+        }
+        .toast(isPresenting: $viewModel.passkeyCreated) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.passkeyCreated)
+        }
+        .toast(isPresenting: $viewModel.passkeyDeleted, duration: 5) {
+            // Message is too big to display in a banner
+            AlertToast(displayMode: .alert, type: .regular, title: Constants.ProfileView.passkeyDeleted)
         }
     }
 }
@@ -229,6 +195,26 @@ struct ProfileLoggedIn: View {
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     viewModel.accountUnlinked = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}
+
+#Preview("Passkey Created") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.passkeyCreated = true
+    
+    return ProfileLoggedIn(chef: mockRepo.mockChef)
+        .environment(viewModel)
+}
+
+#Preview("Passkey Deleted") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    viewModel.chef = mockRepo.mockChef
+    viewModel.passkeyDeleted = true
     
     return ProfileLoggedIn(chef: mockRepo.mockChef)
         .environment(viewModel)
