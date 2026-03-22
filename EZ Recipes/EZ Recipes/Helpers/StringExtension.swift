@@ -48,6 +48,11 @@ extension String {
         return text
     }
     
+    /// Convert a UTF-8 String to Data
+    var data: Data {
+        return Data(self.utf8)
+    }
+    
     /// Convert a base64 String to Data, returns `nil` if conversion failed
     var base64Data: Data? {
         return Data(base64Encoded: self, options: .ignoreUnknownCharacters)

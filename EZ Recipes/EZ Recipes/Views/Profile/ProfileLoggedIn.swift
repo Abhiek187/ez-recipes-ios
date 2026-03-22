@@ -87,6 +87,9 @@ struct ProfileLoggedIn: View {
         .scrollContentBackground(.hidden) // hide section backgrounds in light mode
         .task {
             await viewModel.getAuthUrls()
+            await PasskeyManager.syncPasskeysWithServer(withIds: chef.passkeys.map(\.id), userId: chef.uid)
+            // In case the chef signed in after updating their email
+            await PasskeyManager.updateUsername(chef.email, userId: chef.uid)
         }
         .onChange(of: viewModel.chef) { _, newChef in
             if let newChef {
