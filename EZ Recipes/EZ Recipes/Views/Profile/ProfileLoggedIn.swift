@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ProfileLoggedIn: View {
     private enum ProfileForm {
@@ -16,6 +17,7 @@ struct ProfileLoggedIn: View {
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var formToShow: ProfileForm? = nil
+    @State private var selectedProvider: Provider = .google
     @State private var showUnlinkConfirmation = false
     @State private var showPasskeyDeleteConfirmation = false
     
@@ -92,7 +94,7 @@ struct ProfileLoggedIn: View {
                 }
             }
             
-            LinkedAccounts(chef: chef, showUnlinkConfirmation: $showUnlinkConfirmation)
+            LinkedAccounts(chef: chef, selectedProvider: $selectedProvider, showUnlinkConfirmation: $showUnlinkConfirmation)
             Passkeys(chef: chef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         }
         .listStyle(.insetGrouped) // group sections with padding
@@ -131,6 +133,20 @@ struct ProfileLoggedIn: View {
                     viewModel.loginAgain = false
                     formToShow = .updateEmail
                 }
+        }
+        // Toasts need to be defined outside list sections to prevent duplication
+        .toast(isPresenting: $viewModel.accountLinked) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
+        }
+        .toast(isPresenting: $viewModel.accountUnlinked) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
+        }
+        .toast(isPresenting: $viewModel.passkeyCreated) {
+            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.passkeyCreated)
+        }
+        .toast(isPresenting: $viewModel.passkeyDeleted, tapToDismiss: true) {
+            // Message is too big to display in a banner
+            AlertToast(displayMode: .alert, type: .regular, title: Constants.ProfileView.passkeyDeleted)
         }
     }
 }

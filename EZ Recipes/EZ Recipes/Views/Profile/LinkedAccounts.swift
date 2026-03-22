@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
-import AlertToast
 import OrderedCollections
 
 struct LinkedAccounts: View {
-    @State var chef: Chef
+    var chef: Chef
+    @Binding var selectedProvider: Provider
     @Binding var showUnlinkConfirmation: Bool
     @Environment(ProfileViewModel.self) private var viewModel
     
     @State private var linkedAccounts: OrderedDictionary<Provider, [String]> = [:]
-    @State private var selectedProvider: Provider = .google
     
     private func buildLinkedAccounts(from providerData: [ProviderData]) -> OrderedDictionary<Provider, [String]> {
         // Start with all the supported providers
@@ -77,22 +76,17 @@ struct LinkedAccounts: View {
                 }
             }
         }
-        .toast(isPresenting: $viewModel.accountLinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.linkSuccess(selectedProvider))
-        }
-        .toast(isPresenting: $viewModel.accountUnlinked) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.unlinkSuccess(selectedProvider))
-        }
     }
 }
 
 #Preview {
+    @Previewable @State var selectedProvider: Provider = .google
     @Previewable @State var showUnlinkConfirmation = false
     
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     
-    return LinkedAccounts(chef: mockRepo.mockChef, showUnlinkConfirmation: $showUnlinkConfirmation)
+    return LinkedAccounts(chef: mockRepo.mockChef, selectedProvider: $selectedProvider, showUnlinkConfirmation: $showUnlinkConfirmation)
         .environment(viewModel)
 }

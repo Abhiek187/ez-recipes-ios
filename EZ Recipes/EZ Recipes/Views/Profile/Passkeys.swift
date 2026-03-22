@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import AlertToast
 import AuthenticationServices
 
 struct Passkeys: View {
-    @State var chef: Chef
+    var chef: Chef
     @Binding var showPasskeyDeleteConfirmation: Bool
     @Environment(ProfileViewModel.self) private var viewModel
     
@@ -105,12 +104,6 @@ struct Passkeys: View {
                     viewModel.showAlert = false
                 }
             }
-        }
-        .toast(isPresenting: $viewModel.passkeyCreated) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.passkeyCreated)
-        }
-        .toast(isPresenting: $viewModel.passkeyDeleted) {
-            AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.passkeyDeleted)
         }
     }
 }
