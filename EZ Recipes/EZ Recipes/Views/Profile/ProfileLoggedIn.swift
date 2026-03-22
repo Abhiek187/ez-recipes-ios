@@ -144,7 +144,7 @@ struct ProfileLoggedIn: View {
         .toast(isPresenting: $viewModel.passkeyCreated) {
             AlertToast(displayMode: .banner(.pop), type: .regular, title: Constants.ProfileView.passkeyCreated)
         }
-        .toast(isPresenting: $viewModel.passkeyDeleted, tapToDismiss: true) {
+        .toast(isPresenting: $viewModel.passkeyDeleted, duration: 5) {
             // Message is too big to display in a banner
             AlertToast(displayMode: .alert, type: .regular, title: Constants.ProfileView.passkeyDeleted)
         }
