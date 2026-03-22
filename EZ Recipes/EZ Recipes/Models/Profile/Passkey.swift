@@ -6,7 +6,6 @@
 //
 
 struct Passkey: Codable, Equatable {
-    var webAuthnUserID: String? = nil
     let id: String
     let publicKey: String
     let counter: Int
