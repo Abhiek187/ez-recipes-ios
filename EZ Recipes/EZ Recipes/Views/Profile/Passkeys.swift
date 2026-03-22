@@ -14,6 +14,7 @@ struct Passkeys: View {
     @Environment(ProfileViewModel.self) private var viewModel
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.authorizationController) private var authorizationController
+    @ScaledMetric private var scale = 1
     
     @State private var selectedPasskey: Passkey? = nil
     @State private var showPasskeyDeleteConfirmation = false
@@ -30,7 +31,7 @@ struct Passkeys: View {
                         let passkeyIcon = colorScheme == .light ? passkey.iconLight : passkey.iconDark
                         if let passkeyIcon {
                             SVGWebView(src: passkeyIcon)
-                                .frame(width: 24, height: 24)
+                                .frame(width: 24 * scale, height: 24 * scale)
                         }
                         Text(passkey.name)
                             .font(.title3)
