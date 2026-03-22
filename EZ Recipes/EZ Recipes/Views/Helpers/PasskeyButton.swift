@@ -17,7 +17,9 @@ struct PasskeyButton: View {
             onClick()
         } label: {
             Label(text, systemImage: "person.badge.key.fill")
-                .padding(4)
+                .font(.headline)
+                .padding(2)
+                .foregroundStyle(.primary)
         }
         .disabled(!enabled)
         .buttonStyle(.borderedProminent)
