@@ -82,7 +82,7 @@ struct PasskeyManager {
                 logger.debug("Signaled all authenticators to sync \(ids.count) \(ids.count == 1 ? "passkey" : "passkeys") for user \(userId.string) and RP ID \(rpId): [\(ids.map(\.base64URLEncodedString).joined(separator: ", "))]")
             } else if #available(iOS 26.0, *) {
                 try await ASCredentialUpdater().reportAllAcceptedPublicKeyCredentials(relyingPartyIdentifier: rpId, userHandle: userId, acceptedCredentialIDs: ids)
-                logger.debug("Signaled all authenticators to sync \(ids.count) \(ids.count == 1 ? "passkey" : "passkeys") for user \(userId.string) and RP ID [\(rpId): \(ids.map(\.base64URLEncodedString).joined(separator: ", "))]")
+                logger.debug("Signaled all authenticators to sync \(ids.count) \(ids.count == 1 ? "passkey" : "passkeys") for user \(userId.string) and RP ID \(rpId): [\(ids.map(\.base64URLEncodedString).joined(separator: ", "))]")
             } else {
                 logger.warning("The Signal API isn't supported on this device. Please delete any outdated passkeys manually from all authenticators.")
             }
