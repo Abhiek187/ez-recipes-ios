@@ -201,7 +201,7 @@ struct Constants {
         
         static let nutritionFacts = String(localized: "Nutrition Facts")
         static let healthScore: @Sendable (Int) -> String = { score in
-            String(localized: "Health Score: \(score)%")
+            String(localized: "Health Score: \(score.formatted(.percent))")
         }
         static let servings: @Sendable (Int) -> String = { servings in
             String(localized: "\(servings) serving(s)")

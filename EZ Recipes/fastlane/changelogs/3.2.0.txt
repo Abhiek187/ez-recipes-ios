@@ -1,0 +1,5 @@
+New ways to sign in are here!
+- Login using Google, Facebook, or GitHub
+- Login using passkeys
+- Made the login forms scrollable
+- Improved the design of the profile screen

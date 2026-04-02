@@ -32,7 +32,7 @@ Creating an account is free and unlocks more exciting features for chefs. This i
 - iOS app created using SwiftUI and MVVM architecture
 - Responsive and accessible mobile design
 - REST APIs to a custom [server](https://github.com/Abhiek187/ez-recipes-server) using Alamofire, which fetches recipe information from [spoonacular](https://spoonacular.com/food-api) and MongoDB
-- Account management using Firebase Authentication
+- Account management using Firebase Authentication, OAuth, and passkeys
 - Offline data storage using UserDefaults and SwiftData
 - Encryption of sensitive data using the iOS Keychain
 - Universal Links to open recipes from the web app to the mobile app
