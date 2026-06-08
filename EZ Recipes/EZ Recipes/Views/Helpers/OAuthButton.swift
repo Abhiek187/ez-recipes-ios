@@ -31,12 +31,18 @@ struct OAuthButton: View {
                     
                     // Extract the authorization code from the redirect and then exchange it for an ID token
                     let queryItems = URLComponents(string: responseUrl.absoluteString)?.queryItems
-                    let authCode = queryItems?.filter { $0.name == "code" }.first?.value
+                    let authCode = queryItems?.first { $0.name == "code" }?.value
+                    let authState = queryItems?.first { $0.name == "state" }?.value
+                    let expectedState = URLComponents(url: authUrl, resolvingAgainstBaseURL: false)?.queryItems?.first { $0.name == "state" }?.value
+                    
                     guard let authCode else {
                         throw NSError(domain: "No auth code received", code: 0, userInfo: nil)
                     }
+                    guard let authState, authState == expectedState else {
+                        throw NSError(domain: "Invalid auth state received", code: 0, userInfo: nil)
+                    }
                     
-                    await viewModel.loginWithOAuth(code: authCode, provider: provider)
+                    await viewModel.loginWithOAuth(code: authCode, state: authState, provider: provider)
                 } catch {
                     // Don't show an alert if the user closed the auth session
                     if let webError = error as? ASWebAuthenticationSessionError, webError.code == .canceledLogin && webError.userInfo.isEmpty { return }

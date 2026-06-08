@@ -243,8 +243,8 @@ import Alamofire
         }
     }
     
-    func loginWithOAuth(code: String, provider: Provider) async {
-        let oAuthRequest = OAuthRequest(code: code, providerId: provider, redirectUrl: Constants.redirectUrl)
+    func loginWithOAuth(code: String, state: String, provider: Provider) async {
+        let oAuthRequest = OAuthRequest(code: code, state: state, providerId: provider, redirectUrl: Constants.redirectUrl)
         let token = getToken()
         
         isLoading = true

@@ -7,6 +7,7 @@
 
 struct OAuthRequest: Encodable {
     let code: String
+    let state: String
     let providerId: Provider
     let redirectUrl: String
 }
