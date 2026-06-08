@@ -303,13 +303,14 @@ private extension ProfileViewModel {
     }
     
     @Test func loginWithOAuthSuccess() async throws {
-        // Given a code, provider, and token
+        // Given a code, state, provider, and token
         let code = "abc123"
+        let state = "state"
         let provider: Provider = .google
         
         // When linking the provider
         let viewModel = ProfileViewModel()
-        await viewModel.loginWithOAuth(code: code, provider: provider)
+        await viewModel.loginWithOAuth(code: code, state: state, provider: provider)
         
         // Then the chef should be updated
         #expect(viewModel.recipeError == nil)
@@ -323,13 +324,14 @@ private extension ProfileViewModel {
     }
     
     @Test func loginWithOAuthError() async {
-        // Given a code, provider, and token
+        // Given a code, state, provider, and token
         let code = "abc123"
+        let state = "state"
         let provider: Provider = .google
         
         // When linking the provider and an error occurs
         let viewModel = ProfileViewModel(isSuccess: false)
-        await viewModel.loginWithOAuth(code: code, provider: provider)
+        await viewModel.loginWithOAuth(code: code, state: state, provider: provider)
         
         // Then an error is shown
         #expect(viewModel.chef == nil)
@@ -337,14 +339,15 @@ private extension ProfileViewModel {
     }
     
     @Test func loginWithOAuthNoToken() async throws {
-        // Given a code, provider, and no token
+        // Given a code, state, provider, and no token
         let code = "abc123"
+        let state = "state"
         let provider: Provider = .google
         clearToken()
         
         // When logging in with the provider
         let viewModel = ProfileViewModel()
-        await viewModel.loginWithOAuth(code: code, provider: provider)
+        await viewModel.loginWithOAuth(code: code, state: state, provider: provider)
         
         // Then the user should be authenticated
         #expect(viewModel.recipeError == nil)
@@ -358,14 +361,15 @@ private extension ProfileViewModel {
     }
     
     @Test func loginWithOAuthEmailNotVerified() async throws {
-        // Given a code, provider, and no token
+        // Given a code, state, provider, and no token
         let code = "abc123"
+        let state = "state"
         let provider: Provider = .google
         clearToken()
         
         // When logging in with the provider and the email isn't verified
         let viewModel = ProfileViewModel(isEmailVerified: false)
-        await viewModel.loginWithOAuth(code: code, provider: provider)
+        await viewModel.loginWithOAuth(code: code, state: state, provider: provider)
         
         // Then a new chef should be created, but the user shouldn't be authenticated
         #expect(viewModel.recipeError == nil)
