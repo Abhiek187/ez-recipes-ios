@@ -18,6 +18,7 @@ struct UserDefaultsManager {
         static let terms = "terms"
         static let recipesViewed = "recipesViewed"
         static let lastVersionPromptedForReview = "lastVersionPromptedForReview"
+        static let rememberMe = "rememberMe"
     }
     
     static func getTerms() -> [Term]? {
@@ -55,5 +56,56 @@ struct UserDefaultsManager {
     static func incrementRecipesViewed() {
         let recipesViewed = UserDefaults.standard.integer(forKey: Keys.recipesViewed)
         UserDefaults.standard.set(recipesViewed + 1, forKey: Keys.recipesViewed)
+    }
+    
+    static func getUsername() -> String? {
+        guard let rememberMePlist = UserDefaults.standard.value(forKey: Keys.rememberMe) as? Data else { return nil }
+        guard let rememberMe = try? PropertyListDecoder().decode(RememberMe.self, from: rememberMePlist) else {
+            logger.warning("Remember Me is corrupted, clearing the entry...")
+            UserDefaults.standard.removeObject(forKey: Keys.rememberMe)
+            return nil
+        }
+        
+        // Delete the username if it's expired
+        if Date().timeIntervalSince1970 >= rememberMe.expireAt {
+            logger.debug("Remembered username has expired")
+            return nil
+        }
+        
+        return rememberMe.username
+    }
+    
+    static func saveUsername(_ username: String? = nil) {
+        guard let oneMonth = Calendar.current.date(byAdding: .month, value: 1, to: Date()) else {
+            logger.warning("Failed to add 1 month to the current date")
+            return
+        }
+        let newUsername: String
+        
+        if let username {
+            newUsername = username
+        } else {
+            // If no username is provided, use the existing username saved
+            guard let existingUsername = getUsername() else {
+                // If no username is saved, don't do anything
+                logger.warning("No username provided and no username saved, returning early")
+                return
+            }
+            
+            newUsername = existingUsername
+        }
+        
+        let rememberMe = RememberMe(username: newUsername, expireAt: oneMonth.timeIntervalSince1970)
+        guard let rememberMePlist = try? PropertyListEncoder().encode(rememberMe) else {
+            logger.warning("Couldn't encode Remember Me to a property list: \(String(describing: rememberMe))")
+            return
+        }
+        UserDefaults.standard.set(rememberMePlist, forKey: Keys.rememberMe)
+        logger.debug("Saved username \(newUsername) to UserDefaults!")
+    }
+    
+    static func clearUsername() {
+        // Mainly useful for testing
+        UserDefaults.standard.removeObject(forKey: Keys.rememberMe)
     }
 }
