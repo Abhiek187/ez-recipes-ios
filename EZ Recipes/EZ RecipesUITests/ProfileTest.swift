@@ -30,6 +30,7 @@ struct ProfileTest {
          * Username Check:
          * - No error should be shown initially
          * - An error should be shown if the field is empty
+         * - The Remember Me toggle works
          */
         let usernameField = app.textFields["Username"]
         let usernameRequiredError = app.staticTexts["Error: Username is required"]
@@ -40,6 +41,12 @@ struct ProfileTest {
         XCTAssert(passkeyButton.isEnabled, "Error line \(#line): The passkey button should be enabled")
         XCTAssertFalse(passkeyHint.exists, "Error line \(#line): The passkey hint shouldn't be visible")
         XCTAssertFalse(loginButton.isEnabled, "Error line \(#line): The login button shouldn't be enabled")
+        let rememberMeToggle = app.switches["Remember Me"]
+        XCTAssert(rememberMeToggle.value as? String == "0", "Error line \(#line): The Remember Me should be disabled")
+        rememberMeToggle.tap()
+        XCTAssert(rememberMeToggle.value as? String == "1", "Error line \(#line): The Remember Me should be enabled")
+        rememberMeToggle.tap()
+        XCTAssert(rememberMeToggle.value as? String == "0", "Error line \(#line): The Remember Me should be disabled")
 
         /*
          * Password Check:
