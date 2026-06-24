@@ -77,7 +77,7 @@ struct LoginForm: View {
                     }
                 FormError(on: passwordTouched && passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
                 Toggle(Constants.ProfileView.rememberMe, isOn: $rememberMe)
-                    .frame(width: 200)
+                    .frame(width: 220)
                 
                 if let router {
                     Button {
