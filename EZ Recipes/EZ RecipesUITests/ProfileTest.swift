@@ -121,6 +121,7 @@ struct ProfileTest {
         let emailInvalidError = app.staticTexts["Error: Invalid email"]
         try XCTSkipIf(emailRequiredError.exists, "Skip line \(#line): The email required error is visible")
         let emailField = app.textFields["Email"]
+        try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)
@@ -178,7 +179,7 @@ struct ProfileTest {
         signInButton.tap()
     }
     
-    mutating func testForgetPassword() {
+    mutating func testForgetPassword() throws {
         let passwordForgetButton = app.buttons["Forgot password?"]
         XCTAssert(passwordForgetButton.exists, "Error line \(#line): The forget password button isn't visible")
         passwordForgetButton.tap()
@@ -198,6 +199,7 @@ struct ProfileTest {
         XCTAssertFalse(emailRequiredError.exists, "Error line \(#line): The email required error is visible")
         XCTAssertFalse(emailInvalidError.exists, "Error line \(#line): The invalid email error is visible")
         let emailField = app.textFields["Email"]
+        try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)

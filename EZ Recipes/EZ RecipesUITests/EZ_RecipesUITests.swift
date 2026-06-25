@@ -432,6 +432,6 @@ class EZ_RecipesUITests: XCTestCase {
         var profileTest = ProfileTest(app: app, takeScreenshot: takeScreenshot, screenshotName: screenshotName, shotNum: shotNum)
         profileTest.testSignIn()
         try profileTest.testSignUp()
-        profileTest.testForgetPassword()
+        try profileTest.testForgetPassword()
     }
 }
