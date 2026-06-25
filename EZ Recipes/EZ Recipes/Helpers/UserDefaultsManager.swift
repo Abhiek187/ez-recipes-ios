@@ -59,6 +59,8 @@ struct UserDefaultsManager {
     }
     
     static func getUsername() -> String? {
+        // Don't autofill the username during UI tests
+        if Constants.isUITest { return nil }
         guard let rememberMePlist = UserDefaults.standard.value(forKey: Keys.rememberMe) as? Data else { return nil }
         guard let rememberMe = try? PropertyListDecoder().decode(RememberMe.self, from: rememberMePlist) else {
             logger.warning("Remember Me is corrupted, clearing the entry...")
