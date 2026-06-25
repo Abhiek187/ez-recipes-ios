@@ -20,15 +20,16 @@ struct LoginForm: View {
     @Environment(\.authorizationController) private var authorizationController
     @FocusState private var focusedField: Field?
     
-    @State private var username = ""
+    @State private var username = UserDefaultsManager.getUsername() ?? ""
     @State private var password = ""
+    @State private var rememberMe = false
     
     // Focus
     @State private var usernameTouched = false
     @State private var passwordTouched = false
     
     // Errors
-    @State private var usernameEmpty = true
+    @State private var usernameEmpty = UserDefaultsManager.getUsername()?.isEmpty ?? true
     @State private var passwordEmpty = true
     
     let oAuthColumns = [
@@ -75,6 +76,8 @@ struct LoginForm: View {
                         }
                     }
                 FormError(on: passwordTouched && passwordEmpty, message: Constants.ProfileView.fieldRequired("Password"))
+                Toggle(Constants.ProfileView.rememberMe, isOn: $rememberMe)
+                    .frame(width: 220)
                 
                 if let router {
                     Button {
@@ -84,6 +87,7 @@ struct LoginForm: View {
                     }
                     .font(.title3)
                 }
+                Divider()
                 
                 Text(Constants.ProfileView.oAuthHeader)
                     .font(.title3)
@@ -165,6 +169,9 @@ struct LoginForm: View {
                 if let chef = viewModel.chef, !chef.emailVerified, let router {
                     await viewModel.sendVerificationEmail()
                     router.navigate(to: .verifyEmail(email: chef.email))
+                } else if let chef = viewModel.chef, rememberMe {
+                    // Autofill the username to make it easier to login in the future
+                    UserDefaultsManager.saveUsername(chef.email)
                 }
             }
         }
@@ -178,8 +185,19 @@ struct LoginForm: View {
 #Preview("No Loading") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
+    UserDefaultsManager.clearUsername()
     
-    LoginForm()
+    return LoginForm()
+        .environment(LoginRouter())
+        .environment(viewModel)
+}
+
+#Preview("Remember Me") {
+    let mockRepo = NetworkManagerMock.shared
+    let viewModel = ProfileViewModel(repository: mockRepo)
+    UserDefaultsManager.saveUsername(Constants.Mocks.chef.email)
+    
+    return LoginForm()
         .environment(LoginRouter())
         .environment(viewModel)
 }
@@ -188,6 +206,7 @@ struct LoginForm: View {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.isLoading = true
+    UserDefaultsManager.clearUsername()
     
     return LoginForm()
         .environment(LoginRouter())
@@ -197,6 +216,7 @@ struct LoginForm: View {
 #Preview("No Router") {
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
+    UserDefaultsManager.clearUsername()
     
     return LoginForm()
         .environment(viewModel)

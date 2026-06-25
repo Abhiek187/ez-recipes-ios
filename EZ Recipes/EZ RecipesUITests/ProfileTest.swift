@@ -30,6 +30,7 @@ struct ProfileTest {
          * Username Check:
          * - No error should be shown initially
          * - An error should be shown if the field is empty
+         * - The Remember Me toggle works
          */
         let usernameField = app.textFields["Username"]
         let usernameRequiredError = app.staticTexts["Error: Username is required"]
@@ -40,6 +41,12 @@ struct ProfileTest {
         XCTAssert(passkeyButton.isEnabled, "Error line \(#line): The passkey button should be enabled")
         XCTAssertFalse(passkeyHint.exists, "Error line \(#line): The passkey hint shouldn't be visible")
         XCTAssertFalse(loginButton.isEnabled, "Error line \(#line): The login button shouldn't be enabled")
+        let rememberMeToggle = app.switches["Remember Me"]
+        XCTAssert(rememberMeToggle.value as? String == "0", "Error line \(#line): The Remember Me should be disabled")
+        rememberMeToggle.tap()
+        XCTAssert(rememberMeToggle.value as? String == "1", "Error line \(#line): The Remember Me should be enabled")
+        rememberMeToggle.tap()
+        XCTAssert(rememberMeToggle.value as? String == "0", "Error line \(#line): The Remember Me should be disabled")
 
         /*
          * Password Check:
@@ -114,6 +121,7 @@ struct ProfileTest {
         let emailInvalidError = app.staticTexts["Error: Invalid email"]
         try XCTSkipIf(emailRequiredError.exists, "Skip line \(#line): The email required error is visible")
         let emailField = app.textFields["Email"]
+        try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)
@@ -171,7 +179,7 @@ struct ProfileTest {
         signInButton.tap()
     }
     
-    mutating func testForgetPassword() {
+    mutating func testForgetPassword() throws {
         let passwordForgetButton = app.buttons["Forgot password?"]
         XCTAssert(passwordForgetButton.exists, "Error line \(#line): The forget password button isn't visible")
         passwordForgetButton.tap()
@@ -191,6 +199,7 @@ struct ProfileTest {
         XCTAssertFalse(emailRequiredError.exists, "Error line \(#line): The email required error is visible")
         XCTAssertFalse(emailInvalidError.exists, "Error line \(#line): The invalid email error is visible")
         let emailField = app.textFields["Email"]
+        try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)

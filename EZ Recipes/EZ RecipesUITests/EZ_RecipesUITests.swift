@@ -27,6 +27,24 @@ class EZ_RecipesUITests: XCTestCase {
             setupSnapshot(app)
         }
         app.launch()
+        
+        // Account for UI that interrupts the expected test flow
+        addUIInterruptionMonitor(withDescription: "Save Password") { alert in
+            let notNowButton = alert.buttons["Not Now"]
+            if notNowButton.exists {
+                notNowButton.tap()
+                return true
+            }
+            return false
+        }
+        addUIInterruptionMonitor(withDescription: "Error") { alert in
+            let okButton = alert.buttons["OK"]
+            if okButton.exists {
+                okButton.tap()
+                return true
+            }
+            return false
+        }
     }
 
     override func tearDown() async throws {
@@ -414,6 +432,6 @@ class EZ_RecipesUITests: XCTestCase {
         var profileTest = ProfileTest(app: app, takeScreenshot: takeScreenshot, screenshotName: screenshotName, shotNum: shotNum)
         profileTest.testSignIn()
         try profileTest.testSignUp()
-        profileTest.testForgetPassword()
+        try profileTest.testForgetPassword()
     }
 }

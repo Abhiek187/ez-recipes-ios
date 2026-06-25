@@ -22,4 +22,16 @@ import Testing
             $0._id == $1._id && $0.word == $1.word && $0.definition == $1.definition
         })
     }
+    
+    @Test func saveUsername() throws {
+        // Given a username
+        let mockUsername = Constants.Mocks.chef.email
+        
+        // When saved to UserDefaults
+        UserDefaultsManager.saveUsername(mockUsername)
+        
+        // Then it should be retrievable
+        let storedUsername = try #require(UserDefaultsManager.getUsername())
+        #expect(storedUsername == mockUsername)
+    }
 }

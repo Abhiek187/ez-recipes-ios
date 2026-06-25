@@ -320,6 +320,7 @@ struct Constants {
         static let passwordField = String(localized: "Password")
         static let passwordShow = String(localized: "Show password")
         static let passwordHide = String(localized: "Hide password")
+        static let rememberMe = String(localized: "Remember Me")
         static let passwordForget = String(localized: "Forgot password?")
         static let passkeySignIn = String(localized: "Sign in with a passkey")
         static let passkeyHint = String(localized: "Username is required to sign in with a passkey")
