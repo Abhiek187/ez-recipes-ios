@@ -64,13 +64,14 @@ struct UserDefaultsManager {
         guard let rememberMePlist = UserDefaults.standard.value(forKey: Keys.rememberMe) as? Data else { return nil }
         guard let rememberMe = try? PropertyListDecoder().decode(RememberMe.self, from: rememberMePlist) else {
             logger.warning("Remember Me is corrupted, clearing the entry...")
-            UserDefaults.standard.removeObject(forKey: Keys.rememberMe)
+            clearUsername()
             return nil
         }
         
         // Delete the username if it's expired
         if Date().timeIntervalSince1970 >= rememberMe.expireAt {
             logger.debug("Remembered username has expired")
+            clearUsername()
             return nil
         }
         
@@ -107,7 +108,6 @@ struct UserDefaultsManager {
     }
     
     static func clearUsername() {
-        // Mainly useful for testing
         UserDefaults.standard.removeObject(forKey: Keys.rememberMe)
     }
 }
