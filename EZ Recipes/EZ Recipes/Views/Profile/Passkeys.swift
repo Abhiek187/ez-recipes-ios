@@ -10,6 +10,7 @@ import AuthenticationServices
 
 struct Passkeys: View {
     var chef: Chef
+    @Binding var showPasskeyRenameAlert: Bool
     @Binding var showPasskeyDeleteConfirmation: Bool
     @Environment(ProfileViewModel.self) private var viewModel
     
@@ -18,6 +19,7 @@ struct Passkeys: View {
     @ScaledMetric private var scale = 1
     
     @State private var selectedPasskey: Passkey? = nil
+    @State private var newPasskeyName = ""
     
     var body: some View {
         @Bindable var viewModel = viewModel
@@ -35,6 +37,16 @@ struct Passkeys: View {
                         }
                         Text(passkey.name)
                             .font(.title3)
+                        Button {
+                            selectedPasskey = passkey
+                            // Pre-fill the textfield with the current passkey name
+                            newPasskeyName = passkey.name
+                            showPasskeyRenameAlert = true
+                        } label: {
+                            Image(systemName: "pencil")
+                        }
+                        .accessibilityLabel(Constants.ProfileView.passkeyRename)
+                        .padding(.horizontal, 8)
                         Button(role: .destructive) {
                             selectedPasskey = passkey
                             showPasskeyDeleteConfirmation = true
@@ -92,6 +104,23 @@ struct Passkeys: View {
                 }
             }
         }
+        // Only one alert can appear in a view at a time
+        .alert(Constants.ProfileView.passkeyRename.capitalized, isPresented: $showPasskeyRenameAlert) {
+            TextField(Constants.ProfileView.passkeyRename, text: $newPasskeyName)
+            
+            HStack {
+                Button(Constants.okButton) {
+                    guard let selectedPasskey else { return }
+                    Task {
+                        await viewModel.renamePasskey(withId: selectedPasskey.id, newName: newPasskeyName)
+                    }
+                }
+                .disabled(newPasskeyName.isEmpty)
+                Button(Constants.cancelButton, role: .cancel) {
+                    showPasskeyRenameAlert = false
+                }
+            }
+        }
         .alert(Constants.ProfileView.passkeyDeleteConfirmation(selectedPasskey?.name ?? ""), isPresented: $showPasskeyDeleteConfirmation) {
             HStack {
                 Button(Constants.yesButton, role: .destructive) {
@@ -101,7 +130,7 @@ struct Passkeys: View {
                     }
                 }
                 Button(Constants.noButton, role: .cancel) {
-                    viewModel.showAlert = false
+                    showPasskeyDeleteConfirmation = false
                 }
             }
         }
@@ -109,12 +138,13 @@ struct Passkeys: View {
 }
 
 #Preview {
+    @Previewable @State var showPasskeyRenameAlert = false
     @Previewable @State var showPasskeyDeleteConfirmation = false
     
     let mockRepo = NetworkManagerMock.shared
     let viewModel = ProfileViewModel(repository: mockRepo)
     viewModel.chef = mockRepo.mockChef
     
-    return Passkeys(chef: mockRepo.mockChef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
+    return Passkeys(chef: mockRepo.mockChef, showPasskeyRenameAlert: $showPasskeyRenameAlert, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         .environment(viewModel)
 }

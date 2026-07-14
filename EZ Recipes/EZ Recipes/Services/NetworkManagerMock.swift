@@ -107,6 +107,10 @@ struct NetworkManagerMock: RecipeRepository, TermRepository, ChefRepository {
         return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
     }
     
+    func updatePasskey(withId id: String, newName name: String, token: String) async -> Result<Token, RecipeError> {
+        return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
+    }
+    
     func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError> {
         return isSuccess ? .success(mockToken) : .failure(Constants.Mocks.tokenError)
     }

@@ -24,6 +24,7 @@ protocol ChefRepository: Sendable {
     func getExistingPasskeyChallenge(email: String) async -> Result<PasskeyRequestOptions, RecipeError>
     func validateNewPasskey(passkeyResponse: NewPasskeyClientResponse, token: String) async -> Result<Token, RecipeError>
     func validateExistingPasskey(passkeyResponse: ExistingPasskeyClientResponse, email: String) async -> Result<Token, RecipeError>
+    func updatePasskey(withId id: String, newName name: String, token: String) async -> Result<Token, RecipeError>
     func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError>
 }
 
