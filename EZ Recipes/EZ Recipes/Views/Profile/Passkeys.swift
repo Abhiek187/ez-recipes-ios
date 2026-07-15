@@ -47,6 +47,8 @@ struct Passkeys: View {
                         }
                         .accessibilityLabel(Constants.ProfileView.passkeyRename)
                         .padding(.horizontal, 8)
+                        // The buttons must have a border to prevent the entire row from being clickable and triggering both buttons at the same time
+                        .buttonStyle(.borderedProminent)
                         Button(role: .destructive) {
                             selectedPasskey = passkey
                             showPasskeyDeleteConfirmation = true
@@ -54,6 +56,7 @@ struct Passkeys: View {
                             Image(systemName: "trash.fill")
                         }
                         .accessibilityLabel(Constants.ProfileView.passkeyDelete)
+                        .buttonStyle(.borderedProminent)
                     }
                     if let lastUsed = passkey.lastUsed.date {
                         Text(Constants.ProfileView.lastUsed(lastUsed.formatted(date: .long, time: .shortened)))
@@ -104,7 +107,6 @@ struct Passkeys: View {
                 }
             }
         }
-        // Only one alert can appear in a view at a time
         .alert(Constants.ProfileView.passkeyRename.capitalized, isPresented: $showPasskeyRenameAlert) {
             TextField(Constants.ProfileView.passkeyRename, text: $newPasskeyName)
             
