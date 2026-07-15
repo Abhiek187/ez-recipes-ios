@@ -18,7 +18,7 @@
 # - 13-inch iPad screenshots
 # Supported devices: https://github.com/fastlane/fastlane/blob/master/snapshot/lib/snapshot/reports_generator.rb
 #                    https://github.com/fastlane/fastlane/blob/master/frameit/lib/frameit/device_types.rb
-devices(["iPhone SE (3rd generation)", "iPhone 16 Pro Max", "iPad Pro 13-inch (M4)", "iPad mini (A17 Pro)"])
+devices(["iPhone 17", "iPhone 17 Pro Max", "iPad Pro 13-inch (M4)", "iPad mini (A17 Pro)"])
 
 # languages([
 #   "en-US",
