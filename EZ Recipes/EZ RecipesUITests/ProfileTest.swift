@@ -83,6 +83,13 @@ struct ProfileTest {
         }
         
         XCTAssert(loginButton.isEnabled, "Error line \(#line): The login button should be enabled")
+        
+        // If the keyboard is still present, hide it
+        let doneButton = app.buttons["Done"]
+        if doneButton.exists {
+            doneButton.tap()
+        }
+        
         signUpButton.tap()
     }
     
@@ -95,11 +102,6 @@ struct ProfileTest {
         let errorAlert = app.alerts["Error"]
         if errorAlert.exists {
             errorAlert.buttons["OK"].tap()
-        }
-        // If the keyboard is still present, hide it
-        let doneButton = app.buttons["Done"]
-        if doneButton.exists {
-            doneButton.tap()
         }
         // Account for anything else preventing the form from being interactive
         app.tap()
