@@ -19,11 +19,12 @@ struct ProfileLoggedIn: View {
     @State private var formToShow: ProfileForm? = nil
     @State private var selectedProvider: Provider = .google
     @State private var showUnlinkConfirmation = false
+    @State private var showPasskeyRenameAlert = false
     @State private var showPasskeyDeleteConfirmation = false
     
     private var showErrorAlert: Binding<Bool> {
         Binding(
-            get: { viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation && !showPasskeyDeleteConfirmation },
+            get: { viewModel.showAlert && !viewModel.loginAgain && !showUnlinkConfirmation && !showPasskeyRenameAlert && !showPasskeyDeleteConfirmation },
             set: { newValue in
                 if !newValue {
                     viewModel.showAlert = false
@@ -95,7 +96,7 @@ struct ProfileLoggedIn: View {
             }
             
             LinkedAccounts(chef: chef, selectedProvider: $selectedProvider, showUnlinkConfirmation: $showUnlinkConfirmation)
-            Passkeys(chef: chef, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
+            Passkeys(chef: chef, showPasskeyRenameAlert: $showPasskeyRenameAlert, showPasskeyDeleteConfirmation: $showPasskeyDeleteConfirmation)
         }
         .listStyle(.insetGrouped) // group sections with padding
         .scrollContentBackground(.hidden) // hide section backgrounds in light mode

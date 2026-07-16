@@ -454,6 +454,43 @@ import Alamofire
             showAlert = true
         }
     }
+    
+    func renamePasskey(withId id: String, newName name: String) async {
+        isLoading = true
+        let token = getToken()
+        let updatePasskeyResult: Result<Token, RecipeError> = if let token {
+            await repository.updatePasskey(withId: id, newName: name, token: token)
+        } else {
+            .failure(RecipeError(error: Constants.noTokenFound))
+        }
+        
+        switch updatePasskeyResult {
+        case .success(let tokenResponse):
+            recipeError = nil
+            showAlert = false
+            
+            guard let newToken = tokenResponse.token else {
+                isLoading = false
+                return
+            }
+            saveToken(newToken)
+            
+            let chefResult = await repository.getChef(token: newToken)
+            isLoading = false
+            
+            switch chefResult {
+            case .success(let chefResult):
+                chef = chefResult
+            case .failure(let recipeError):
+                self.recipeError = recipeError
+                showAlert = true
+            }
+        case .failure(let recipeError):
+            isLoading = false
+            self.recipeError = recipeError
+            showAlert = token != nil
+        }
+    }
 
     func deletePasskey(id: String) async {
         isLoading = true

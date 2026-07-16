@@ -20,6 +20,7 @@ struct Constants {
     static let unknownError = String(localized: "Something went terribly wrong. Please submit a bug report to https://github.com/Abhiek187/ez-recipes-ios/issues")
     static let noTokenFound = String(localized: "No token found")
     static let okButton = String(localized: "OK")
+    static let cancelButton = String(localized: "Cancel")
     static let yesButton = String(localized: "Yes")
     static let noButton = String(localized: "No")
     static let loadingMessages = [
@@ -307,6 +308,7 @@ struct Constants {
         static let lastUsed: @Sendable (String) -> String = { date in
             String(localized: "Last used: \(date)")
         }
+        static let passkeyRename = String(localized: "Rename passkey")
         static let passkeyDelete = String(localized: "Delete passkey")
         static let passkeyDeleteConfirmation: @Sendable (String) -> String = { passkey in
             String(localized: "Are you sure you want to delete this passkey? \(passkey)")

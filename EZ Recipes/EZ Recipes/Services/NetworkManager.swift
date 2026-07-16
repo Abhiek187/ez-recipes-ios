@@ -181,6 +181,12 @@ extension NetworkManager: ChefRepository {
         return await parseResponse(fromRequest: request, method: #function)
     }
     
+    func updatePasskey(withId id: String, newName name: String, token: String) async -> Result<Token, RecipeError> {
+        let parameters = PasskeyUpdate(id: id, name: name)
+        let request = session.request("\(Constants.baseChefsPath)/passkey", method: .patch, parameters: parameters, encoder: jsonEncoder, headers: [.authorization(bearerToken: token)])
+        return await parseResponse(fromRequest: request, method: #function)
+    }
+    
     func deletePasskey(id: String, token: String) async -> Result<Token, RecipeError> {
         let request = session.request("\(Constants.baseChefsPath)/passkey", method: .delete, parameters: ["id": id], headers: [.authorization(bearerToken: token)])
         return await parseResponse(fromRequest: request, method: #function)

@@ -542,6 +542,50 @@ private extension ProfileViewModel {
         #expect(!viewModel.showAlert)
         #expect(!viewModel.passkeyCreated)
     }
+    
+    @Test func renamePasskeySuccess() async throws {
+        // Given a passkey to rename
+        let credentialId = "test-credential-id"
+        let newName = "test passkey"
+
+        // When renaming the passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.renamePasskey(withId: credentialId, newName: newName)
+
+        // Then the passkey name should be updated
+        #expect(viewModel.recipeError == nil)
+        #expect(!viewModel.showAlert)
+        #expect(viewModel.chef == mockRepo.mockChef)
+
+        #expect(try KeychainManager.retrieve(forKey: .token) == mockRepo.mockLoginResponse.token)
+    }
+
+    @Test func renamePasskeyError() async {
+        // Given a passkey to rename
+        let credentialId = "test-credential-id"
+        let newName = "test passkey"
+
+        // When renaming the passkey and an error occurs
+        let viewModel = ProfileViewModel(isSuccess: false)
+        await viewModel.renamePasskey(withId: credentialId, newName: newName)
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == Constants.Mocks.tokenError)
+    }
+
+    @Test func renamePasskeyNoToken() async {
+        // Given a passkey to rename and no token
+        clearToken()
+        let credentialId = "test-credential-id"
+        let newName = "test passkey"
+
+        // When renaming the passkey
+        let viewModel = ProfileViewModel()
+        await viewModel.renamePasskey(withId: credentialId, newName: newName)
+
+        // Then an error is shown
+        #expect(viewModel.recipeError == RecipeError(error: Constants.noTokenFound))
+    }
 
     @Test func deletePasskeySuccess() async throws {
         // Given a passkey to delete
