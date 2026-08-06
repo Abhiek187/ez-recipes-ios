@@ -14,6 +14,13 @@ struct ProfileTest {
     let screenshotName: String
     var shotNum: Int
     
+    func dismissSavePasswordIfPresent(timeout: TimeInterval = 0.5) {
+        let alert = app.alerts["Save Password?"]
+        if alert.waitForExistence(timeout: timeout) {
+            alert.buttons["Not Now"].tap()
+        }
+    }
+    
     mutating func testSignIn() {
         let signUpButton = app.buttons["Sign Up"]
         XCTAssert(signUpButton.exists, "Error line \(#line): The sign in form isn't showing")
@@ -95,12 +102,10 @@ struct ProfileTest {
     
     mutating func testSignUp() throws {
         // If the Save Password prompt appears, close it
-        if app.staticTexts["Save Password?"].exists {
-            app.buttons["Not Now"].tap()
-        }
+        dismissSavePasswordIfPresent()
         // If an error alert appears, dismiss it
         let errorAlert = app.alerts["Error"]
-        if errorAlert.exists {
+        if errorAlert.waitForExistence(timeout: 0.5) {
             errorAlert.buttons["OK"].tap()
         }
         // Account for anything else preventing the form from being interactive
@@ -124,6 +129,7 @@ struct ProfileTest {
         try XCTSkipIf(emailRequiredError.exists, "Skip line \(#line): The email required error is visible")
         let emailField = app.textFields["Email"]
         try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
+        dismissSavePasswordIfPresent()
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)
@@ -149,6 +155,7 @@ struct ProfileTest {
         let hidePasswordButton = app.buttons["Hide password"].firstMatch
         XCTAssertFalse(hidePasswordButton.exists, "Error line \(#line): The password should be hidden")
         XCTAssert(showPasswordButton.exists, "Error line \(#line): The password should be hidden")
+        dismissSavePasswordIfPresent()
         showPasswordButton.tap()
         XCTAssert(hidePasswordButton.exists, "Error line \(#line): The password should be visible")
         let passwordField = app.textFields["Password"]
