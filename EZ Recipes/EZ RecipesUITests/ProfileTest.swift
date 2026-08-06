@@ -130,6 +130,7 @@ struct ProfileTest {
         let emailField = app.textFields["Email"]
         try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         dismissSavePasswordIfPresent()
+        try XCTSkipUnless(emailField.isHittable, "Skip line \(#line): The email field has no keyboard focus")
         emailField.tap()
         emailField.typeText("t")
         emailField.typeText(XCUIKeyboardKey.delete.rawValue)
