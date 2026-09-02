@@ -1,0 +1,95 @@
+//
+//  SearchRecipeIntent.swift
+//  EZ Recipes
+//
+//  Created by Abhishek Chaudhuri on 8/25/26.
+//
+
+import AppIntents
+import OSLog
+
+// Domain: system, Schemas: search, open
+// Test with Siri, Spotlight, & Shortcuts
+@AppIntent(schema: .system.search) // use .system.searchInApp on iOS 27+
+struct SearchRecipeIntent {
+    static let searchScopes: [StringSearchScope] = [.general]
+    var criteria: StringSearchCriteria
+    
+    static let title: LocalizedStringResource = "Search Recipes"
+    // Extra parameters control how the intent appears in Shortcuts
+    static let description = IntentDescription("Search for recipes using various filters", categoryName: "EZ Recipes", searchKeywords: ["Search", "Recipes", "Easy", "EZ"], resultValueName: "Recipes")
+    
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "SearchRecipeIntent")
+    
+    @Parameter(title: "Query", description: "A full-text query to search recipes by name or description")
+    var query: String?
+    @Parameter(title: "Min Calories", description: "The minimum number of calories for a recipe")
+    var minCals: Int?
+    @Parameter(title: "Max Calories", description: "The maximum number of calories for a recipe")
+    var maxCals: Int?
+    @Parameter(title: "Vegetarian", description: "Whether the recipe must be vegetarian")
+    var vegetarian: Bool?
+    @Parameter(title: "Vegan", description: "Whether the recipe must be vegan")
+    var vegan: Bool?
+    @Parameter(title: "Gluten-Free", description: "Whether the recipe must be gluten-free")
+    var glutenFree: Bool?
+    @Parameter(title: "Healthy", description: "Whether the recipe must be healthy")
+    var healthy: Bool?
+    @Parameter(title: "Cheap", description: "Whether the recipe must be cheap")
+    var cheap: Bool?
+    @Parameter(title: "Sustainable", description: "Whether the recipe must be sustainable")
+    var sustainable: Bool?
+    @Parameter(title: "Rating", description: "The minimum number of stars a recipe is rated, from 1-5")
+    var rating: Int?
+    @Parameter(title: "Spice Level", description: "The spice level for a recipe")
+    var spiceLevel: Set<SpiceLevel>?
+    @Parameter(title: "Meal Type", description: "The meal types a recipe is appropriate for, such as breakfast, lunch, or dinner")
+    var type: Set<MealType>?
+    @Parameter(title: "Cuisine", description: "The cuisine types associated with a recipe, such as American, Italian, or Latin American")
+    var culture: Set<Cuisine>?
+    
+    private var paramsString: String {
+        var params: [String] = []
+        
+        if let query { params.append("query=\(query)") }
+        if let minCals { params.append("minCals=\(minCals)") }
+        if let maxCals { params.append("maxCals=\(maxCals)") }
+        if let vegetarian { params.append("vegetarian=\(vegetarian)") }
+        if let vegan { params.append("vegan=\(vegan)") }
+        if let glutenFree { params.append("glutenFree=\(glutenFree)") }
+        if let healthy { params.append("healthy=\(healthy)") }
+        if let cheap { params.append("cheap=\(cheap)") }
+        if let sustainable { params.append("sustainable=\(sustainable)") }
+        if let rating { params.append("rating=\(rating)") }
+        if let spiceLevel { params.append("spiceLevel=\(spiceLevel)") }
+        if let type { params.append("type=\(type)") }
+        if let culture { params.append("culture=\(culture)") }
+        
+        return params.joined(separator: ", ")
+    }
+    
+    static var parameterSummary: some ParameterSummary {
+        Summary("Search recipes using the following filters: query=\(\.$query), minCals=\(\.$minCals), maxCals=\(\.$maxCals), vegetarian=\(\.$vegetarian), vegan=\(\.$vegan), glutenFree=\(\.$glutenFree), healthy=\(\.$healthy), cheap=\(\.$cheap), sustainable=\(\.$sustainable), rating=\(\.$rating), spiceLevel=\(\.$spiceLevel), type=\(\.$type), culture=\(\.$culture)")
+    }
+    
+    @Dependency
+    private var recipeRepository: NetworkManager
+    
+    func perform() async throws -> some IntentResult & ReturnsValue<[RecipePreview]> & ProvidesDialog & ShowsSnippetView {
+        logger.debug("Calling App Intent \(#file) with args: \(paramsString)")
+        let recipeFilter = RecipeFilter(query: query ?? "", minCals: minCals, maxCals: maxCals, vegetarian: vegetarian ?? false, vegan: vegan ?? false, glutenFree: glutenFree ?? false, healthy: healthy ?? false, cheap: cheap ?? false, sustainable: sustainable ?? false, rating: rating, spiceLevel: Set(spiceLevel?.map(\.rawValue) ?? []), type: Set(type?.map(\.rawValue) ?? []), culture: Set(culture?.map(\.rawValue) ?? []))
+        let result = await recipeRepository.getRecipes(withFilter: recipeFilter)
+        
+        switch result {
+        case .success(let recipes):
+            let recipePreview = recipes.map { $0.toRecipePreview() }
+            let dialog = IntentDialog(full: LocalizedStringResource(stringLiteral: recipePreview.map { $0.name }.joined(separator: ", ")), supporting: "I found \(recipePreview.count) \(recipePreview.count == 1 ? "recipe" : "recipes") that match your criteria.")
+            
+            let snippet = await SearchResults(searchViewModel: SearchViewModel(repository: recipeRepository))
+            
+            return .result(value: recipePreview, dialog: dialog, view: snippet)
+        case .failure(let recipeError):
+            throw recipeError
+        }
+    }
+}
