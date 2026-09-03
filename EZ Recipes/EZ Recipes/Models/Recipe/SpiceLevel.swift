@@ -16,7 +16,7 @@ extension SpiceLevel: AppEnum {
         TypeDisplayRepresentation(name: "Spice Level")
     }
     
-    static let caseDisplayRepresentations: [SpiceLevel : DisplayRepresentation] = [
+    static let caseDisplayRepresentations: [SpiceLevel: DisplayRepresentation] = [
         .none: DisplayRepresentation(title: "none"),
         .mild: DisplayRepresentation(title: "mild"),
         .spicy: DisplayRepresentation(title: "spicy"),

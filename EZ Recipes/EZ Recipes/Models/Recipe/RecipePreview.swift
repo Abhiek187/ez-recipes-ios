@@ -19,12 +19,12 @@ struct RecipePreview: AppEntity {
     @Property var averageRating: Double?
     
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
-        TypeDisplayRepresentation(name: "Recipe")
+        TypeDisplayRepresentation(name: "Recipe", numericFormat: LocalizedStringResource("\(placeholder: .int) recipes"))
     }
     
     var displayRepresentation: DisplayRepresentation {
-        if let image = URL(string: image) {
-            DisplayRepresentation(title: "\(name)", subtitle: "\(summary)", image: DisplayRepresentation.Image(url: image, width: 312, height: 231))
+        if let imageURL = URL(string: image) {
+            DisplayRepresentation(title: "\(name)", subtitle: "\(summary)", image: DisplayRepresentation.Image(url: imageURL, width: 312, height: 231))
         } else {
             DisplayRepresentation(title: "\(name)", subtitle: "\(summary)")
         }
@@ -32,9 +32,10 @@ struct RecipePreview: AppEntity {
     
     static let defaultQuery = RecipePreviewQuery()
     
-    init(id: Int, name: String, time: Int, summary: String, calories: Double?, totalRatings: Int?, averageRating: Double?) {
+    init(id: Int, name: String, image: String, time: Int, summary: String, calories: Double?, totalRatings: Int?, averageRating: Double?) {
         self.id = id
         self.name = name
+        self.image = image
         self.time = time
         self.summary = summary
         self.calories = calories
@@ -45,8 +46,7 @@ struct RecipePreview: AppEntity {
 
 extension RecipePreview: URLRepresentableEntity {
     static var urlRepresentation: URLRepresentation {
-        // Constants don't work, the entire string needs to be statically defined
-        "https://ez-recipes-web.onrender.com/recipe/\(.id)"
+        "https://ez-recipes-web.onrender.com/recipe/\(.id)" // matches a Universal Link to the recipe
     }
 }
 

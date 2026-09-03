@@ -99,6 +99,6 @@ extension MealType: AppEnum {
         .mocktail: DisplayRepresentation(title: "mocktail"),
         .seasoning: DisplayRepresentation(title: "seasoning"),
         .batter: DisplayRepresentation(title: "batter"),
-        .unknown: DisplayRepresentation(title: "Unknown")
+        .unknown: DisplayRepresentation(title: "unknown")
     ]
 }

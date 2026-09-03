@@ -12,11 +12,11 @@ import OSLog
 //@AppIntent(schema: .system.open)
 struct GetRecipeIntent: OpenIntent, URLRepresentableIntent {
     static let title: LocalizedStringResource = "Open Recipe"
-    static let description = IntentDescription("View a recipe by its ID")
+    static let description = IntentDescription("View a recipe in EZ Recipes")
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "GetRecipeIntent")
     
-    @Parameter(title: "Recipe")
+    @Parameter(title: "Recipe", description: "The recipe to open, based on the search output", inputConnectionBehavior: .connectToPreviousIntentResult)
     var target: RecipePreview
     
     static var parameterSummary: some ParameterSummary {

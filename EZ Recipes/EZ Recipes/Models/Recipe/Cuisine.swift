@@ -109,6 +109,6 @@ extension Cuisine: AppEnum {
         .BBQ: DisplayRepresentation(title: "BBQ"),
         .Barbecue: DisplayRepresentation(title: "Barbecue"),
         .Scandinavian: DisplayRepresentation(title: "Scandinavian"),
-        .unknown: DisplayRepresentation(title: "Unknown")
+        .unknown: DisplayRepresentation(title: "unknown")
     ]
 }
