@@ -9,6 +9,7 @@ import AppIntents
 
 // Only expose fields that are shown on recipe cards
 struct RecipePreview: AppEntity {
+    // TODO: Migrate to @ComputedProperty when targeting iOS 26+
     @Property var id: Int
     @Property var name: String
     @Property var image: String
