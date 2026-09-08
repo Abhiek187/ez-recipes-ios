@@ -10,6 +10,7 @@ import OSLog
 
 // Domain: system, Schemas: search, open
 // Test with Siri, Spotlight, & Shortcuts
+// TODO: Test using AppIntentTesting on iOS 27+
 @AppIntent(schema: .system.search) // use .system.searchInApp on iOS 27+
 struct SearchRecipeIntent {
     static let searchScopes: [StringSearchScope] = [.general]
@@ -21,8 +22,9 @@ struct SearchRecipeIntent {
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "SearchRecipeIntent")
     
-    @Parameter(title: "Query", description: "A full-text query to search recipes by name or description")
-    var query: String?
+    // criteria.term replaces the query parameter
+//    @Parameter(title: "Query", description: "A full-text query to search recipes by name or description")
+//    var query: String?
     @Parameter(title: "Min Calories", description: "The minimum number of calories for a recipe", inclusiveRange: (0, 2000), requestValueDialog: IntentDialog("Min calories must be between 0 and 2000"))
     var minCals: Int?
     @Parameter(title: "Max Calories", description: "The maximum number of calories for a recipe", inclusiveRange: (0, 2000), requestValueDialog: IntentDialog("Max calories must be between 0 and 2000"))
@@ -51,7 +53,7 @@ struct SearchRecipeIntent {
     private var paramsString: String {
         var params: [String] = []
         
-        if let query { params.append("query=\(query)") }
+        if !criteria.term.isEmpty { params.append("query=\(criteria.term)") }
         if let minCals { params.append("minCals=\(minCals)") }
         if let maxCals { params.append("maxCals=\(maxCals)") }
         if let vegetarian { params.append("vegetarian=\(vegetarian)") }
@@ -79,14 +81,14 @@ struct SearchRecipeIntent {
         logger.debug("Calling App Intent \(#file) with args:\n\(paramsString)")
         
         // Validate all the filters provided
-        if query == nil && minCals == nil && maxCals == nil && vegetarian == nil && vegan == nil && glutenFree == nil && healthy == nil && cheap == nil && sustainable == nil && rating == nil && spiceLevel?.isEmpty != false && type?.isEmpty != false && culture?.isEmpty != false {
+        if criteria.term.isEmpty && minCals == nil && maxCals == nil && vegetarian == nil && vegan == nil && glutenFree == nil && healthy == nil && cheap == nil && sustainable == nil && rating == nil && spiceLevel?.isEmpty != false && type?.isEmpty != false && culture?.isEmpty != false {
             throw IntentError.failure("At least one filter must be provided")
         }
-        if query?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true {
+        if criteria.term.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true {
             throw IntentError.failure("Query cannot be blank")
         }
         
-        let recipeFilter = RecipeFilter(query: query ?? "", minCals: minCals, maxCals: maxCals, vegetarian: vegetarian ?? false, vegan: vegan ?? false, glutenFree: glutenFree ?? false, healthy: healthy ?? false, cheap: cheap ?? false, sustainable: sustainable ?? false, rating: rating, spiceLevel: Set(spiceLevel?.map(\.rawValue) ?? []), type: Set(type?.map(\.rawValue) ?? []), culture: Set(culture?.map(\.rawValue) ?? []))
+        let recipeFilter = RecipeFilter(query: criteria.term, minCals: minCals, maxCals: maxCals, vegetarian: vegetarian ?? false, vegan: vegan ?? false, glutenFree: glutenFree ?? false, healthy: healthy ?? false, cheap: cheap ?? false, sustainable: sustainable ?? false, rating: rating, spiceLevel: Set(spiceLevel?.map(\.rawValue) ?? []), type: Set(type?.map(\.rawValue) ?? []), culture: Set(culture?.map(\.rawValue) ?? []))
         let result = await recipeRepository.getRecipes(withFilter: recipeFilter)
         
         switch result {
