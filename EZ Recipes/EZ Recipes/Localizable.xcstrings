@@ -400,6 +400,9 @@
     "Error" : {
 
     },
+    "Error: %@" : {
+
+    },
     "Error: %@ is required" : {
 
     },

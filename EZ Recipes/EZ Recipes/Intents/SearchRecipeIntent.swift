@@ -84,9 +84,6 @@ struct SearchRecipeIntent {
         if criteria.term.isEmpty && minCals == nil && maxCals == nil && vegetarian == nil && vegan == nil && glutenFree == nil && healthy == nil && cheap == nil && sustainable == nil && rating == nil && spiceLevel?.isEmpty != false && type?.isEmpty != false && culture?.isEmpty != false {
             throw IntentError.failure("At least one filter must be provided")
         }
-        if criteria.term.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true {
-            throw IntentError.failure("Query cannot be blank")
-        }
         
         let recipeFilter = RecipeFilter(query: criteria.term, minCals: minCals, maxCals: maxCals, vegetarian: vegetarian ?? false, vegan: vegan ?? false, glutenFree: glutenFree ?? false, healthy: healthy ?? false, cheap: cheap ?? false, sustainable: sustainable ?? false, rating: rating, spiceLevel: Set(spiceLevel?.map(\.rawValue) ?? []), type: Set(type?.map(\.rawValue) ?? []), culture: Set(culture?.map(\.rawValue) ?? []))
         let result = await recipeRepository.getRecipes(withFilter: recipeFilter)
