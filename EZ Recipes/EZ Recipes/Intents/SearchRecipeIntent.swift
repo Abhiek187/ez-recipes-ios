@@ -25,6 +25,7 @@ struct SearchRecipeIntent {
     // criteria.term replaces the query parameter
 //    @Parameter(title: "Query", description: "A full-text query to search recipes by name or description")
 //    var query: String?
+    // All other parameters must be optional if they're not part of the schema
     @Parameter(title: "Min Calories", description: "The minimum number of calories for a recipe", inclusiveRange: (0, 2000), requestValueDialog: IntentDialog("Min calories must be between 0 and 2000"))
     var minCals: Int?
     @Parameter(title: "Max Calories", description: "The maximum number of calories for a recipe", inclusiveRange: (0, 2000), requestValueDialog: IntentDialog("Max calories must be between 0 and 2000"))
