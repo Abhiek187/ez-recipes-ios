@@ -9,7 +9,7 @@ import AppIntents
 
 // Displays all the intents in a dedicated gallery section in Shortcuts
 struct RecipeShortcuts: AppShortcutsProvider {
-    static let shortcutTileColor: ShortcutTileColor = .yellow
+    static let shortcutTileColor: ShortcutTileColor = .yellow // doesn't work...at least on iOS 26
     
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: SearchRecipeIntent(), phrases: [

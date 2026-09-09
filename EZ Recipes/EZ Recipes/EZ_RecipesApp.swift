@@ -18,6 +18,9 @@ struct EZ_RecipesApp: App {
         
         // Dependencies required for App Intents
         AppDependencyManager.shared.add(dependency: networkManager)
+        
+        // Ensure App Shortcut parameters are up-to-date
+        RecipeShortcuts.updateAppShortcutParameters()
     }
     
     var body: some Scene {
