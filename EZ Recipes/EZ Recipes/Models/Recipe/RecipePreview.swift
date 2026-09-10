@@ -30,11 +30,8 @@ struct RecipePreview: AppEntity {
         if let calories { subtitle += ", \(calories.round()) calories" }
         if let averageRating { subtitle += ", \(averageRating.round(to: 2))/5 ⭐️" }
         
-        if let imageURL = URL(string: image) {
-            return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)", image: DisplayRepresentation.Image(url: imageURL, width: 312, height: 231))
-        } else {
-            return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)")
-        }
+        // Images will slow down the shortcut, so it's better to omit them
+        return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)")
     }
     
     static let defaultQuery = RecipePreviewQuery()
