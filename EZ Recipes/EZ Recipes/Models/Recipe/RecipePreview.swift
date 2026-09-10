@@ -23,11 +23,17 @@ struct RecipePreview: AppEntity {
         TypeDisplayRepresentation(name: "Recipe", numericFormat: LocalizedStringResource("\(placeholder: .int) recipes"))
     }
     
+    // Shown when displaying all the recipes in a list
     var displayRepresentation: DisplayRepresentation {
+        // The full summary wouldn't fit in a snippet
+        var subtitle = "\(time) minutes"
+        if let calories { subtitle += ", \(calories.round()) calories" }
+        if let averageRating { subtitle += ", \(averageRating.round(to: 2))/5 ⭐️" }
+        
         if let imageURL = URL(string: image) {
-            DisplayRepresentation(title: "\(name)", subtitle: "\(summary)", image: DisplayRepresentation.Image(url: imageURL, width: 312, height: 231))
+            return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)", image: DisplayRepresentation.Image(url: imageURL, width: 312, height: 231))
         } else {
-            DisplayRepresentation(title: "\(name)", subtitle: "\(summary)")
+            return DisplayRepresentation(title: "\(name)", subtitle: "\(subtitle)")
         }
     }
     

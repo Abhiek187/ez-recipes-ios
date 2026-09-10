@@ -78,7 +78,7 @@ struct SearchRecipeIntent {
     @Dependency
     private var recipeRepository: NetworkManager
     
-    func perform() async throws -> some IntentResult & ReturnsValue<[RecipePreview]> & ProvidesDialog & ShowsSnippetView {
+    func perform() async throws -> some IntentResult & ReturnsValue<[RecipePreview]> & ProvidesDialog {
         logger.debug("Calling App Intent \(#file) with args:\n\(paramsString)")
         
         // Validate all the filters provided
@@ -91,14 +91,25 @@ struct SearchRecipeIntent {
         
         switch result {
         case .success(let recipes):
+            if recipes.isEmpty {
+                throw IntentError.failure("No recipes found. Please try again with different filters.")
+            }
+            
             let recipePreview = recipes.map { $0.toRecipePreview() }
-            let dialog = IntentDialog(full: LocalizedStringResource(stringLiteral: recipePreview.map { $0.name }.joined(separator: ", ")), supporting: "I found \(recipePreview.count) \(recipePreview.count == 1 ? "recipe" : "recipes") that match your criteria.")
+            // Have Siri list the top 5 recipes from the results to let them choose one
+            let top5Recipes = recipePreview.prefix(5)
+            let top5RecipesString = top5Recipes.map {
+                var str = "\($0.name): \($0.time) minutes"
+                if let calories = $0.calories { str += ", \(calories.round()) calories" }
+                if let averageRating = $0.averageRating { str += ", \(averageRating.round(to: 2)) stars out of 5" }
+                return str
+            }.joined(separator: "; ")
+            let dialog = IntentDialog(full: "Here \(top5Recipes.count == 1 ? "is" : "are") the top \(top5Recipes.count) \(top5Recipes.count == 1 ? "recipe" : "recipes") that match your criteria: \(top5RecipesString). Which one would you like to open?", supporting: "I found \(recipePreview.count) \(recipePreview.count == 1 ? "recipe" : "recipes") that match your criteria.")
             
-            let snippet = await SearchResults(searchViewModel: SearchViewModel(repository: recipeRepository))
-            
-            return .result(value: recipePreview, dialog: dialog, view: snippet)
+            // Snippets must be < 400px tall
+            return .result(value: recipePreview, dialog: dialog)
         case .failure(let recipeError):
-            throw recipeError
+            throw IntentError.failure(recipeError.error)
         }
     }
 }
