@@ -44,6 +44,7 @@ struct SearchRecipeIntent {
     var sustainable: Bool?
     @Parameter(title: "Rating", description: "The minimum number of stars a recipe is rated, from 1-5", inclusiveRange: (1, 5), requestValueDialog: IntentDialog("Rating must be between 1 and 5"))
     var rating: Int?
+    // AppEnums may not work in the simulator, test on a physical device
     @Parameter(title: "Spice Level", description: "The spice level for a recipe")
     var spiceLevel: Set<SpiceLevel>?
     @Parameter(title: "Meal Type", description: "The meal types a recipe is appropriate for, such as breakfast, lunch, or dinner")
@@ -84,6 +85,15 @@ struct SearchRecipeIntent {
         // Validate all the filters provided
         if criteria.term.isEmpty && minCals == nil && maxCals == nil && vegetarian == nil && vegan == nil && glutenFree == nil && healthy == nil && cheap == nil && sustainable == nil && rating == nil && spiceLevel?.isEmpty != false && type?.isEmpty != false && culture?.isEmpty != false {
             throw IntentError.failure("At least one filter must be provided")
+        }
+        if spiceLevel?.contains(.unknown) == true {
+            throw $spiceLevel.needsValueError("Unknown spice level not supported. Please select any other spice level.")
+        }
+        if type?.contains(.unknown) == true {
+            throw $type.needsValueError("Unknown meal type not supported. Please select any other meal type.")
+        }
+        if culture?.contains(.unknown) == true {
+            throw $culture.needsValueError("Unknown cuisine not supported. Please select any other cuisine.")
         }
         
         let recipeFilter = RecipeFilter(query: criteria.term, minCals: minCals, maxCals: maxCals, vegetarian: vegetarian ?? false, vegan: vegan ?? false, glutenFree: glutenFree ?? false, healthy: healthy ?? false, cheap: cheap ?? false, sustainable: sustainable ?? false, rating: rating, spiceLevel: Set(spiceLevel?.map(\.rawValue) ?? []), type: Set(type?.map(\.rawValue) ?? []), culture: Set(culture?.map(\.rawValue) ?? []))
