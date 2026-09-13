@@ -33,6 +33,11 @@ struct GlossaryView: View {
                 $0.word < $1.word
             }
         }
+        .task {
+            if let terms {
+                try? await SpotlightManager.donateTerms(terms)
+            }
+        }
     }
 }
 

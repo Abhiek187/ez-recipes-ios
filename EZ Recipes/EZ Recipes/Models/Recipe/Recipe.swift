@@ -33,4 +33,8 @@ struct Recipe: Codable, Equatable {
     var totalRatings: Int? = nil
     var averageRating: Double? = nil
     var views: Int? = nil
+    
+    func toRecipePreview() -> RecipePreview {
+        RecipePreview(id: id, name: name, image: image, time: time, summary: summary, calories: nutrients.first { $0.name == "Calories"}?.amount, totalRatings: totalRatings, averageRating: averageRating)
+    }
 }

@@ -6,10 +6,22 @@
 //
 
 import SwiftUI
+import AppIntents
 
 @main
 struct EZ_RecipesApp: App {
-    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    let homeViewModel: HomeViewModel
+    
+    init() {
+        let networkManager = NetworkManager.shared
+        homeViewModel = HomeViewModel(repository: networkManager)
+        
+        // Dependencies required for App Intents
+        AppDependencyManager.shared.add(dependency: networkManager)
+        
+        // Ensure App Shortcut parameters are up-to-date
+        RecipeShortcuts.updateAppShortcutParameters()
+    }
     
     var body: some Scene {
         WindowGroup {
