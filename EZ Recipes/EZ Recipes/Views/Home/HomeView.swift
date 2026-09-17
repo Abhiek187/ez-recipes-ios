@@ -5,6 +5,7 @@
 //  Created by Abhishek Chaudhuri on 10/22/22.
 //
 
+import Combine
 import StoreKit
 import SwiftUI
 
@@ -33,7 +34,7 @@ struct HomeView: View {
         if !Constants.isUITest {
             Task {
                 // Delay for two seconds to avoid interrupting the person using the app
-                try await Task.sleep(for: .seconds(2))
+                try? await Task.sleep(for: .seconds(2))
                 requestReview()
             }
         }
