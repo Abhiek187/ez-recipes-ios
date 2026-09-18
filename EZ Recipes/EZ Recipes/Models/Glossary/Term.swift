@@ -34,9 +34,14 @@ struct Term: Codable, IndexedEntity {
     }
 }
 
-struct TermQuery: EntityQuery {
+struct TermQuery: EntityStringQuery {
     func entities(for identifiers: [Term.ID]) async throws -> [Term] {
         let terms = UserDefaultsManager.getTerms() ?? []
         return terms.filter { identifiers.contains($0._id) }
+    }
+    
+    func entities(matching string: String) async throws -> [Term] {
+        let terms = UserDefaultsManager.getTerms() ?? []
+        return terms.filter { $0.word.lowercased() == string.lowercased() }
     }
 }

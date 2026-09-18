@@ -10,7 +10,6 @@ import OSLog
 
 // Domain: system, Schemas: search, open
 // Test with Siri, Spotlight, & Shortcuts (may be buggy in the simulator)
-// TODO: Test using AppIntentTesting on iOS 27+
 @AppIntent(schema: .system.search) // use .system.searchInApp on iOS 27+
 struct SearchRecipeIntent {
     static let searchScopes: [StringSearchScope] = [.general]
