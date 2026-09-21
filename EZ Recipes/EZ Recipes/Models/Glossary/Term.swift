@@ -35,13 +35,33 @@ struct Term: Codable, IndexedEntity {
 }
 
 struct TermQuery: EntityStringQuery {
+    @Dependency
+    var termRepository: NetworkManager
+    
+    private func getTerms() async -> [Term] {
+        let terms = UserDefaultsManager.getTerms()
+        if let terms, !terms.isEmpty {
+            return terms
+        }
+        
+        let result = await termRepository.getTerms()
+        
+        switch result {
+        case .success(let newTerms):
+            UserDefaultsManager.saveTerms(terms: newTerms)
+            return newTerms
+        case .failure(_):
+            return []
+        }
+    }
+    
     func entities(for identifiers: [Term.ID]) async throws -> [Term] {
-        let terms = UserDefaultsManager.getTerms() ?? []
+        let terms = await getTerms()
         return terms.filter { identifiers.contains($0._id) }
     }
     
     func entities(matching string: String) async throws -> [Term] {
-        let terms = UserDefaultsManager.getTerms() ?? []
+        let terms = await getTerms()
         return terms.filter { $0.word.lowercased() == string.lowercased() }
     }
 }

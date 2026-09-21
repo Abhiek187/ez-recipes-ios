@@ -26,6 +26,9 @@ struct GetRecipeDefinitionIntent: AppIntent {
         Summary("Get the definition of \(\.$word)")
     }
     
+    @Dependency
+    private var termRepository: NetworkManager
+    
     func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
         logger.debug("Calling App Intent \(#file) with args: word=\(word)")
         let trimmedWord = word.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -35,7 +38,20 @@ struct GetRecipeDefinitionIntent: AppIntent {
             throw $word.needsValueError("The cooking term cannot be blank, please try again")
         }
         
-        guard let terms = UserDefaultsManager.getTerms(), let definition = terms.first(where: { $0.word.lowercased() == trimmedWord.lowercased() })?.definition else {
+        var terms = UserDefaultsManager.getTerms()
+        if terms?.isEmpty != false {
+            let result = await termRepository.getTerms()
+            
+            switch result {
+            case .success(let newTerms):
+                UserDefaultsManager.saveTerms(terms: newTerms)
+                terms = newTerms
+            case .failure(let recipeError):
+                throw IntentError.failure(recipeError.error)
+            }
+        }
+        
+        guard let definition = terms?.first(where: { $0.word.lowercased() == trimmedWord.lowercased() })?.definition else {
             throw IntentError.failure("No definition found for \(word)")
         }
         
