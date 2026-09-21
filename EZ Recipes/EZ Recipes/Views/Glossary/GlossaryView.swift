@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GlossaryView: View {
     var viewModel: HomeViewModel
+    // Update the terms list when switching tabs
     @State var terms = UserDefaultsManager.getTerms()
     
     var sortedTerms: [Term]? {
@@ -21,19 +22,18 @@ struct GlossaryView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if let sortedTerms, !sortedTerms.isEmpty {
+                if viewModel.isLoadingTerms {
+                    // Show that the terms are loading
+                    ProgressView()
+                } else if let sortedTerms {
                     List(sortedTerms, id: \._id) { term in
                         Text("**\(term.word)** — \(term.definition)")
                     }
-                } else {
-                    // Show that the terms are loading
-                    ProgressView()
                 }
             }
             .navigationTitle(Constants.Tabs.glossaryTitle)
         }
-        .onAppear {
-            // Update the terms list when switching tabs
+        .onChange(of: viewModel.isLoadingTerms) {
             terms = UserDefaultsManager.getTerms()
         }
         .task {
@@ -60,8 +60,7 @@ struct GlossaryView: View {
     let mockRepo = NetworkManagerMock.shared
     let swiftData = SwiftDataManager.preview
     let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
-    
-    UserDefaultsManager.saveTerms(terms: [])
+    homeViewModel.isLoadingTerms = true
     
     return GlossaryView(viewModel: homeViewModel)
 }
