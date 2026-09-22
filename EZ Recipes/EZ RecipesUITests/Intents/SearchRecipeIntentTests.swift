@@ -22,6 +22,8 @@ class SearchRecipeIntentTests: XCTestCase {
     private var mealTypeDefinition: AppEnumDefinition!
     private var cuisineDefinition: AppEnumDefinition!
     
+    private let blankCriteria = StringSearchCriteria(term: "")
+    
     override func setUp() async throws {
         app.launch()
         
@@ -57,6 +59,42 @@ class SearchRecipeIntentTests: XCTestCase {
         try await openDefinition.makeIntent(target: firstRecipe).run()
         let recipeTitle = app.staticTexts[try firstRecipe.name]
         XCTAssert(recipeTitle.waitForExistence(timeout: 30))
+    }
+    
+    func testNoFilters() async throws {
+        do {
+            _ = try await searchDefinition.makeIntent(criteria: blankCriteria).run() // criteria is still required
+            XCTFail("Error wasn't thrown when no filters were provided")
+        } catch {
+            XCTAssert(error.localizedDescription.contains("At least one filter must be provided"))
+        }
+    }
+    
+    func testUnknownSpiceLevel() async throws {
+        do {
+            _ = try await searchDefinition.makeIntent(criteria: blankCriteria, spiceLevel: ["unknown"]).run()
+            XCTFail("Error wasn't thrown when an unknown spice level was passed")
+        } catch {
+            XCTAssert(error.localizedDescription.contains("The App Intent requested value for parameter 'spiceLevel'"))
+        }
+    }
+    
+    func testUnknownMealType() async throws {
+        do {
+            _ = try await searchDefinition.makeIntent(criteria: blankCriteria, type: ["unknown"]).run()
+            XCTFail("Error wasn't thrown when an unknown meal type was passed")
+        } catch {
+            XCTAssert(error.localizedDescription.contains("The App Intent requested value for parameter 'type'"))
+        }
+    }
+    
+    func testUnknownCuisine() async throws {
+        do {
+            _ = try await searchDefinition.makeIntent(criteria: blankCriteria, culture: ["unknown"]).run()
+            XCTFail("Error wasn't thrown when an unknown cuisine was passed")
+        } catch {
+            XCTAssert(error.localizedDescription.contains("The App Intent requested value for parameter 'culture'"))
+        }
     }
 }
 
