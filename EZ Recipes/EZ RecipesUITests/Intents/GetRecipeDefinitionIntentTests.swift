@@ -15,26 +15,29 @@ import XCTest
 class GetRecipeDefinitionIntentTests: XCTestCase {
     private let app = XCUIApplication()
     private let definitions = IntentDefinitions(bundleIdentifier: "com.abhiek.EZ-Recipes")
-    private let INTENT = "GetRecipeDefinitionIntent"
-    private let ENTITY = "Term"
+    private var intentDefinition: AppIntentDefinition!
+    private var entityDefinition: AppEntityDefinition!
     
     override func setUp() async throws {
         app.launch()
+        
+        intentDefinition = definitions.intents["GetRecipeDefinitionIntent"]
+        entityDefinition = definitions.entities["Term"]
     }
     
     func testIntent() async throws {
-        let result = try await definitions.intents[INTENT].makeIntent(word: "al dente").run()
+        let result = try await intentDefinition.makeIntent(word: "al dente").run()
         XCTAssertEqual(try result.value, "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")
     }
     
     func testIntentCaseInsensitive() async throws {
-        let result = try await definitions.intents[INTENT].makeIntent(word: "AL DENTE").run()
+        let result = try await intentDefinition.makeIntent(word: "AL DENTE").run()
         XCTAssertEqual(try result.value, "(\"to the tooth\") pasta or rice that's cooked so it can be chewed")
     }
     
     func testBlankWord() async throws {
         do {
-            _ = try await definitions.intents[INTENT].makeIntent(word: " ").run()
+            _ = try await intentDefinition.makeIntent(word: " ").run()
             XCTFail("Intent should've failed, but got success instead")
         } catch {
             // Can't get error inside needsValueError, but can check if the correct parameter failed
@@ -44,7 +47,7 @@ class GetRecipeDefinitionIntentTests: XCTestCase {
     
     func testUnknownWord() async throws {
         do {
-            _ = try await definitions.intents[INTENT].makeIntent(word: "pizza").run()
+            _ = try await intentDefinition.makeIntent(word: "pizza").run()
             XCTFail("Intent should've failed, but got success instead")
         } catch let error as NSError {
             // The raw error prepends "LNPerformActionErrorCodeLocalizedStringResource:" before the actual error message
@@ -53,24 +56,24 @@ class GetRecipeDefinitionIntentTests: XCTestCase {
     }
     
     func testFindTermByWord() async throws {
-        let terms = try await definitions.entities[ENTITY].entities(matching: "al dente")
+        let terms = try await entityDefinition.entities(matching: "al dente")
         // Only the id field is exposed from entities by default, but exposing other fields will interfere with decoding JSON responses
         // So just test if at least one result is found
         XCTAssertFalse(terms.isEmpty)
     }
     
     func testFindTermByWordCaseInsensitive() async throws {
-        let terms = try await definitions.entities[ENTITY].entities(matching: "Al Dente")
+        let terms = try await entityDefinition.entities(matching: "Al Dente")
         XCTAssertFalse(terms.isEmpty)
     }
     
     func testTermAppearsInSpotlight() async throws {
-        let spotlightResults = try await definitions.entities[ENTITY].spotlightQuery("al dente")
+        let spotlightResults = try await entityDefinition.spotlightQuery("al dente")
         XCTAssertFalse(spotlightResults.isEmpty)
     }
     
     func testAllTermsIndexed() async throws {
-        let allTerms = try await definitions.entities[ENTITY].spotlightQuery()
+        let allTerms = try await entityDefinition.spotlightQuery()
         XCTAssertFalse(allTerms.isEmpty)
     }
 }
