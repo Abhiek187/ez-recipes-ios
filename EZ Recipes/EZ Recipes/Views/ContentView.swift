@@ -31,7 +31,7 @@ struct ContentView: View {
                 SearchView(viewModel: searchViewModel)
             }
             Tab(Constants.Tabs.glossaryTitle, systemImage: "book", value: Constants.Tabs.glossaryTitle) {
-                GlossaryView()
+                GlossaryView(viewModel: homeViewModel)
             }
             Tab(Constants.Tabs.profileTitle, systemImage: "person.crop.circle", value: Constants.Tabs.profileTitle) {
                 ProfileView(viewModel: profileViewModel, profileAction: homeViewModel.profileAction)

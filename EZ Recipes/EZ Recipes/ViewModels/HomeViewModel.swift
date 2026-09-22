@@ -13,6 +13,7 @@ import OSLog
 @Observable class HomeViewModel: ViewModel {
     // Don't allow the View to make changes to the ViewModel, except for bindings
     var isLoading = false
+    var isLoadingTerms = false
     var isFirstPrompt = true
     
     var isRecipeLoaded = false
@@ -118,7 +119,9 @@ import OSLog
         if UserDefaultsManager.getTerms() != nil { return }
         
         // The API can continue running in the background
+        isLoadingTerms = true
         let result = await repository.getTerms()
+        isLoadingTerms = false
         
         switch result {
         case .success(let terms):

@@ -8,41 +8,59 @@
 import SwiftUI
 
 struct GlossaryView: View {
-    @State var terms = UserDefaultsManager.getTerms()?.sorted(by: {
-        // Sort all the terms alphabetically for ease of reference
-        $0.word < $1.word
-    })
+    var viewModel: HomeViewModel
+    // Update the terms list when switching tabs
+    @State var terms = UserDefaultsManager.getTerms()
+    
+    var sortedTerms: [Term]? {
+        terms?.sorted(by: {
+            // Sort all the terms alphabetically for ease of reference
+            $0.word < $1.word
+        })
+    }
     
     var body: some View {
         NavigationStack {
             Group {
-                if let terms {
-                    List(terms, id: \._id) { term in
-                        Text("**\(term.word)** — \(term.definition)")
-                    }
-                } else {
+                if viewModel.isLoadingTerms {
                     // Show that the terms are loading
                     ProgressView()
+                } else if let sortedTerms {
+                    List(sortedTerms, id: \._id) { term in
+                        Text("**\(term.word)** — \(term.definition)")
+                    }
                 }
             }
             .navigationTitle(Constants.Tabs.glossaryTitle)
         }
-        .onAppear {
-            // Update the terms list when switching tabs
-            terms = UserDefaultsManager.getTerms()?.sorted {
-                $0.word < $1.word
-            }
+        .onChange(of: viewModel.isLoadingTerms) {
+            terms = UserDefaultsManager.getTerms()
         }
         .task {
-            if let terms {
+            if terms?.isEmpty != false {
+                await viewModel.checkCachedTerms()
+            } else if let terms {
                 try? await SpotlightManager.donateTerms(terms)
             }
         }
     }
 }
 
-#Preview {
+#Preview("No Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+    
     UserDefaultsManager.saveTerms(terms: Constants.Mocks.terms)
     
-    return GlossaryView()
+    return GlossaryView(viewModel: homeViewModel)
+}
+
+#Preview("Loading") {
+    let mockRepo = NetworkManagerMock.shared
+    let swiftData = SwiftDataManager.preview
+    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+    homeViewModel.isLoadingTerms = true
+    
+    return GlossaryView(viewModel: homeViewModel)
 }
