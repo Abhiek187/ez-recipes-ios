@@ -28,7 +28,7 @@ private extension HomeViewModel {
         let recipe = Constants.Mocks.thaiBasilChicken
         
         // When setRecipe() is called
-        let viewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+        let viewModel = HomeViewModel(swiftData)
         viewModel.setRecipe(recipe)
         
         // Then the recipe property should match the given recipe

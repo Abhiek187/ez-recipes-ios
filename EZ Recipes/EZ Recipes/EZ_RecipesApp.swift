@@ -11,10 +11,12 @@ import AppIntents
 @main
 struct EZ_RecipesApp: App {
     let homeViewModel: HomeViewModel
+    let glossaryViewModel: GlossaryViewModel
     
     init() {
         let networkManager = NetworkManager.shared
         homeViewModel = HomeViewModel(repository: networkManager)
+        glossaryViewModel = GlossaryViewModel(repository: networkManager)
         
         // Dependencies required for App Intents
         AppDependencyManager.shared.add(dependency: networkManager)
@@ -25,7 +27,7 @@ struct EZ_RecipesApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(homeViewModel: homeViewModel)
+            ContentView(homeViewModel: homeViewModel, glossaryViewModel: glossaryViewModel)
                 .onOpenURL { url in
                     // Verify Universal Links configuration: https://app-site-association.cdn-apple.com/a/v1/ez-recipes-web.onrender.com
                     // Debugging Universal Links: https://developer.apple.com/documentation/technotes/tn3155-debugging-universal-links
@@ -34,7 +36,7 @@ struct EZ_RecipesApp: App {
                     }
                 }
                 .task {
-                    await homeViewModel.checkCachedTerms()
+                    await glossaryViewModel.checkCachedTerms()
                     // Universal Links for testing
                     // await homeViewModel.handleDeepLink(URL(string: "\(Constants.recipeWebOrigin)/recipe/644783")!)
                     // await homeViewModel.handleDeepLink(URL(string: "\(Constants.recipeWebOrigin)/profile?action=verifyEmail")!)
