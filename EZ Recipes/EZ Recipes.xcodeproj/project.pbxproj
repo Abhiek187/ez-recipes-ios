@@ -10,7 +10,6 @@
 		5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 5E0405A62DA0CFF300C3B312 /* AlertToast */; };
 		5E6C8C472EF8BA1E002F4B53 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 5E6C8C462EF8BA1E002F4B53 /* OrderedCollections */; };
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
-		F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = F17A80A42B78764300E811C8 /* MultiPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +74,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */,
-				F17A80A52B78764300E811C8 /* MultiPicker in Frameworks */,
 				5E6C8C472EF8BA1E002F4B53 /* OrderedCollections in Frameworks */,
 				F12C1C662904D16700C3302B /* Alamofire in Frameworks */,
 			);
@@ -149,7 +147,6 @@
 			name = "EZ Recipes";
 			packageProductDependencies = (
 				F12C1C652904D16700C3302B /* Alamofire */,
-				F17A80A42B78764300E811C8 /* MultiPicker */,
 				5E0405A62DA0CFF300C3B312 /* AlertToast */,
 				5E6C8C462EF8BA1E002F4B53 /* OrderedCollections */,
 			);
@@ -233,7 +230,6 @@
 			mainGroup = F12C1C1E2904951600C3302B;
 			packageReferences = (
 				F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */,
-				F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */,
 				5E0405A52DA0CFF300C3B312 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				5E6C8C452EF8BA1E002F4B53 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
@@ -631,14 +627,6 @@
 				minimumVersion = 5.12.2;
 			};
 		};
-		F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/toastersocks/MultiPicker.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.7;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -656,11 +644,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		F17A80A42B78764300E811C8 /* MultiPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F17A80A32B78764300E811C8 /* XCRemoteSwiftPackageReference "MultiPicker" */;
-			productName = MultiPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

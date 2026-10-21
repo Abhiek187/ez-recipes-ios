@@ -1,5 +1,5 @@
 {
-  "originHash" : "fe7e761e52eb7bb60d88af2ca60ba4c37a948970a819a10bf47e6d97611e118e",
+  "originHash" : "495d3ef5dc22d61500745e332b80a2aca8c15a86f90b0c44219a868ebede281e",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -17,33 +17,6 @@
       "state" : {
         "revision" : "b39252eacd159904afd7d718bba0afabb87f2f2f",
         "version" : "1.3.9"
-      }
-    },
-    {
-      "identity" : "flow",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/toastersocks/Flow.git",
-      "state" : {
-        "revision" : "d8dfb284137885811e269818aa7b070db1f7b73e",
-        "version" : "1.3.1"
-      }
-    },
-    {
-      "identity" : "helpers",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/toastersocks/Helpers.git",
-      "state" : {
-        "revision" : "346e151c1fece09adaddd9ed1fe6d8930e29b72d",
-        "version" : "1.0.2"
-      }
-    },
-    {
-      "identity" : "multipicker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/toastersocks/MultiPicker.git",
-      "state" : {
-        "revision" : "6ecf486ba29c15ed11a0c4d5c0f9c5afeb5ed491",
-        "version" : "2.0.7"
       }
     },
     {
