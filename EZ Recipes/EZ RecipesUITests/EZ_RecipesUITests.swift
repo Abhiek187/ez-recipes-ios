@@ -62,6 +62,24 @@ class EZ_RecipesUITests: XCTestCase {
         }
     }
     
+    private func goBack(to: String) {
+        let backSearchButton = app.navigationBars.buttons[to]
+        let duoBackButton = app.buttons["BackButton"]
+        let sidebarButton = if #available(iOS 26.0, *) {
+            app.buttons["Show Sidebar"]
+        } else {
+            app.navigationBars.buttons["ToggleSidebar"]
+        }
+        
+        if backSearchButton.exists {
+            backSearchButton.tap()
+        } else if duoBackButton.exists {
+            duoBackButton.tap()
+        } else if sidebarButton.exists {
+            sidebarButton.tap()
+        }
+    }
+    
     private func takeScreenshot(withName name: String, shotNum: Int? = nil) {
         if isLocal {
             var screenshotName = name
@@ -337,13 +355,7 @@ class EZ_RecipesUITests: XCTestCase {
         let spicyButton = collectionViewsQuery.buttons["spicy"]
         spicyButton.tap()
         spicyButton.tap()
-        let backSearchButton = app.navigationBars.buttons["Search"]
-        
-        if backSearchButton.exists {
-            backSearchButton.tap()
-        } else if sidebarButton.exists {
-            sidebarButton.tap()
-        }
+        goBack(to: "Search")
         
         let mealTypeText = collectionViewsQuery.staticTexts["Meal Type"]
         XCTAssert(mealTypeText.exists, "Error line \(#line): The meal type picker couldn't be found")
@@ -366,12 +378,7 @@ class EZ_RecipesUITests: XCTestCase {
         mainCourseButton.tap()
         let mainDishButton = collectionViewsQuery.buttons["main dish"]
         mainDishButton.tap()
-        
-        if backSearchButton.exists {
-            backSearchButton.tap()
-        } else if sidebarButton.exists {
-            sidebarButton.tap()
-        }
+        goBack(to: "Search")
         
         let cuisineText = collectionViewsQuery.staticTexts["Cuisine"]
         XCTAssert(cuisineText.exists, "Error line \(#line): The cuisine picker couldn't be found")
@@ -384,12 +391,7 @@ class EZ_RecipesUITests: XCTestCase {
             popoverDismissRegion.tap() // for large screens
         }
         italianButton.tap()
-        
-        if backSearchButton.exists {
-            backSearchButton.tap()
-        } else if sidebarButton.exists {
-            sidebarButton.tap()
-        }
+        goBack(to: "Search")
         
         let cuisines = collectionViewsQuery.staticTexts["Italian"]
         XCTAssert(cuisines.exists, "Error line \(#line): The cuisines selected aren't shown")

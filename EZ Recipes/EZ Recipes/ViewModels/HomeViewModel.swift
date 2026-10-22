@@ -13,7 +13,6 @@ import OSLog
 @Observable class HomeViewModel: ViewModel {
     // Don't allow the View to make changes to the ViewModel, except for bindings
     var isLoading = false
-    var isLoadingTerms = false
     var isFirstPrompt = true
     
     var isRecipeLoaded = false
@@ -38,16 +37,16 @@ import OSLog
     var profileAction: ProfileAction? = nil
     
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? Constants.appName, category: "HomeViewModel")
-    private var repository: RecipeRepository & TermRepository
+    private var repository: RecipeRepository
     private var swiftData = SwiftDataManager.shared
     
     // Utilize dependency injection for happy little tests
-    required init(repository: RecipeRepository & TermRepository) {
+    required init(repository: RecipeRepository) {
         self.repository = repository
         self.recentRecipes = getAllRecentRecipes()
     }
     
-    convenience init(repository: RecipeRepository & TermRepository, swiftData: SwiftDataManager) {
+    convenience init(repository: RecipeRepository, swiftData: SwiftDataManager) {
         self.init(repository: repository)
         self.swiftData = swiftData
         self.recentRecipes = getAllRecentRecipes()
@@ -111,23 +110,6 @@ import OSLog
             }
             
             self.profileAction = profileAction
-        }
-    }
-    
-    func checkCachedTerms() async {
-        // Check if terms need to be cached
-        if UserDefaultsManager.getTerms() != nil { return }
-        
-        // The API can continue running in the background
-        isLoadingTerms = true
-        let result = await repository.getTerms()
-        isLoadingTerms = false
-        
-        switch result {
-        case .success(let terms):
-            UserDefaultsManager.saveTerms(terms: terms)
-        case .failure(let recipeError):
-            logger.warning("Failed to get terms :: error: \(recipeError.localizedDescription)")
         }
     }
     

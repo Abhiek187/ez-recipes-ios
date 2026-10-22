@@ -11,14 +11,16 @@ struct ContentView: View {
     let repository = NetworkManager.shared
     let homeViewModel: HomeViewModel
     let searchViewModel: SearchViewModel
+    let glossaryViewModel: GlossaryViewModel
     let profileViewModel: ProfileViewModel
     
     @State private var currentTab = Constants.Tabs.homeTitle
     
     // HomeViewModel is used for deep linking
-    init(homeViewModel: HomeViewModel) {
+    init(homeViewModel: HomeViewModel, glossaryViewModel: GlossaryViewModel) {
         self.homeViewModel = homeViewModel
         searchViewModel = SearchViewModel(repository: repository)
+        self.glossaryViewModel = glossaryViewModel
         profileViewModel = ProfileViewModel(repository: repository)
     }
     
@@ -31,7 +33,7 @@ struct ContentView: View {
                 SearchView(viewModel: searchViewModel)
             }
             Tab(Constants.Tabs.glossaryTitle, systemImage: "book", value: Constants.Tabs.glossaryTitle) {
-                GlossaryView(viewModel: homeViewModel)
+                GlossaryView(viewModel: glossaryViewModel)
             }
             Tab(Constants.Tabs.profileTitle, systemImage: "person.crop.circle", value: Constants.Tabs.profileTitle) {
                 ProfileView(viewModel: profileViewModel, profileAction: homeViewModel.profileAction)
@@ -48,7 +50,9 @@ struct ContentView: View {
 }
 
 #Preview {
-    let homeViewModel = HomeViewModel(repository: NetworkManager.shared)
+    let repository = NetworkManager.shared
+    let homeViewModel = HomeViewModel(repository: repository)
+    let glossaryViewModel = GlossaryViewModel(repository: repository)
     
-    ContentView(homeViewModel: homeViewModel)
+    ContentView(homeViewModel: homeViewModel, glossaryViewModel: glossaryViewModel)
 }

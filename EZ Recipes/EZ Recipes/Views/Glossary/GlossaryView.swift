@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct GlossaryView: View {
-    var viewModel: HomeViewModel
-    // Update the terms list when switching tabs
-    @State var terms = UserDefaultsManager.getTerms()
+    var viewModel: GlossaryViewModel
     
+    // Update the terms list when switching tabs
     var sortedTerms: [Term]? {
-        terms?.sorted(by: {
+        viewModel.terms?.sorted(by: {
             // Sort all the terms alphabetically for ease of reference
             $0.word < $1.word
         })
@@ -22,7 +21,7 @@ struct GlossaryView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoadingTerms {
+                if viewModel.isLoading {
                     // Show that the terms are loading
                     ProgressView()
                 } else if let sortedTerms {
@@ -33,13 +32,10 @@ struct GlossaryView: View {
             }
             .navigationTitle(Constants.Tabs.glossaryTitle)
         }
-        .onChange(of: viewModel.isLoadingTerms) {
-            terms = UserDefaultsManager.getTerms()
-        }
         .task {
-            if terms?.isEmpty != false {
+            if viewModel.terms?.isEmpty != false {
                 await viewModel.checkCachedTerms()
-            } else if let terms {
+            } else if let terms = viewModel.terms {
                 try? await SpotlightManager.donateTerms(terms)
             }
         }
@@ -48,8 +44,7 @@ struct GlossaryView: View {
 
 #Preview("No Loading") {
     let mockRepo = NetworkManagerMock.shared
-    let swiftData = SwiftDataManager.preview
-    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
+    let homeViewModel = GlossaryViewModel(repository: mockRepo)
     
     UserDefaultsManager.saveTerms(terms: Constants.Mocks.terms)
     
@@ -58,9 +53,8 @@ struct GlossaryView: View {
 
 #Preview("Loading") {
     let mockRepo = NetworkManagerMock.shared
-    let swiftData = SwiftDataManager.preview
-    let homeViewModel = HomeViewModel(repository: mockRepo, swiftData: swiftData)
-    homeViewModel.isLoadingTerms = true
+    let homeViewModel = GlossaryViewModel(repository: mockRepo)
+    homeViewModel.isLoading = true
     
     return GlossaryView(viewModel: homeViewModel)
 }

@@ -12,13 +12,14 @@
 #   "Apple Watch Series 6 - 44mm"
 # ])
 
-# 10 screenshots per locale, each with 2 required screen sizes, with corresponding portrait and landscape sizes:
+# 10 screenshots per locale, each with 3 required screen sizes, with corresponding portrait and landscape sizes:
 # https://developer.apple.com/help/app-store-connect/reference/screenshot-specifications/
-# - 6.9-inch iPhone screenshots
+# - iPhone Duo screenshots
+# - iPhone screenshots with Dynamic Island (Face ID & Home Button optional)
 # - 13-inch iPad screenshots
 # Supported devices: https://github.com/fastlane/fastlane/blob/master/snapshot/lib/snapshot/reports_generator.rb
 #                    https://github.com/fastlane/fastlane/blob/master/frameit/lib/frameit/device_types.rb
-devices(["iPhone 17", "iPhone 17 Pro Max", "iPad Pro 13-inch (M4)", "iPad mini (A17 Pro)"])
+devices(["iPhone Duo", "iPhone 17", "iPhone 17 Pro Max", "iPad Pro 13-inch (M4)", "iPad mini (A17 Pro)"])
 
 # languages([
 #   "en-US",

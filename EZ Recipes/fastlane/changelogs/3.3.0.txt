@@ -1,0 +1,4 @@
+- Shortcuts are here! Use Siri or the Shortcuts app to search for your favorite recipes or get the definition of a cooking term
+- Cooking terms can also be looked up through Spotlight
+- Fixed how glossary terms are loaded when idle
+- Fixed a potential hang when viewing a recipe with many steps
