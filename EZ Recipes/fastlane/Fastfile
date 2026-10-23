@@ -58,7 +58,7 @@ platform :ios do
     # Override the status bar: xcrun simctl status_bar ACCE5FA5-142E-4DDB-89D5-18BD949644EC override --time 2007-01-09T09:41:00-05:00 --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --operatorName '' --cellularBars 4 --batteryState charged --batteryLevel 100 &> /dev/null
     # Clean, build, test the app, & take screenshots on all devices: set -o pipefail && xcodebuild -scheme EZ\ RecipesUITests -project ./EZ\ Recipes.xcodeproj -derivedDataPath /var/folders/w4/jz5wfy_511g5r2q6t6qm3nc9hk7wqj/T/snapshot_derived20230102-59844-z0fp12 -only-testing:EZ\ RecipesUITests/EZ_RecipesUITests -destination 'platform=iOS Simulator,name=iPhone 8,OS=16.1' -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max,OS=16.1' -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (6th generation),OS=16.1' FASTLANE_SNAPSHOT=YES FASTLANE_LANGUAGE=en-US clean build test | tee ~/Library/Logs/snapshot/EZ\ RecipesUITests-EZ\ RecipesUITests.log | xcbeautify
     # Clear status bar override: xcrun simctl status_bar ACCE5FA5-142E-4DDB-89D5-18BD949644EC clear &> /dev/null
-    capture_screenshots(only_testing: ["EZ RecipesUITests/EZ_RecipesUITests"])
+#    capture_screenshots(only_testing: ["EZ RecipesUITests/EZ_RecipesUITests"])
     frame_screenshots
   end
   
