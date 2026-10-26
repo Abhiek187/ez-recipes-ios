@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 5E0405A62DA0CFF300C3B312 /* AlertToast */; };
 		5E6C8C472EF8BA1E002F4B53 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 5E6C8C462EF8BA1E002F4B53 /* OrderedCollections */; };
+		5E85214D308EE42000687ABE /* MultiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 5E85214C308EE42000687ABE /* MultiPicker */; };
 		F12C1C662904D16700C3302B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F12C1C652904D16700C3302B /* Alamofire */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E85214D308EE42000687ABE /* MultiPicker in Frameworks */,
 				5E0405A72DA0CFF300C3B312 /* AlertToast in Frameworks */,
 				5E6C8C472EF8BA1E002F4B53 /* OrderedCollections in Frameworks */,
 				F12C1C662904D16700C3302B /* Alamofire in Frameworks */,
@@ -149,6 +151,7 @@
 				F12C1C652904D16700C3302B /* Alamofire */,
 				5E0405A62DA0CFF300C3B312 /* AlertToast */,
 				5E6C8C462EF8BA1E002F4B53 /* OrderedCollections */,
+				5E85214C308EE42000687ABE /* MultiPicker */,
 			);
 			productName = "EZ Recipes";
 			productReference = F12C1C272904951600C3302B /* EZ Recipes.app */;
@@ -232,6 +235,7 @@
 				F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				5E0405A52DA0CFF300C3B312 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				5E6C8C452EF8BA1E002F4B53 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				5E85214B308EE42000687ABE /* XCRemoteSwiftPackageReference "MultiPicker" */,
 			);
 			productRefGroup = F12C1C282904951600C3302B /* Products */;
 			projectDirPath = "";
@@ -619,6 +623,14 @@
 				minimumVersion = 1.7.1;
 			};
 		};
+		5E85214B308EE42000687ABE /* XCRemoteSwiftPackageReference "MultiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/toastersocks/MultiPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		F12C1C642904D16600C3302B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -639,6 +651,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5E6C8C452EF8BA1E002F4B53 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
+		};
+		5E85214C308EE42000687ABE /* MultiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E85214B308EE42000687ABE /* XCRemoteSwiftPackageReference "MultiPicker" */;
+			productName = MultiPicker;
 		};
 		F12C1C652904D16700C3302B /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

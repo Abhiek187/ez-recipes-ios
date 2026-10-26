@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MultiPicker
 
 struct FilterForm: View {
     // Focusable fields in form order

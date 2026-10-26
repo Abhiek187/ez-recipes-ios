@@ -14,6 +14,7 @@ struct SearchView: View {
         NavigationSplitView {
             FilterForm(viewModel: viewModel)
                 .navigationTitle(Constants.Tabs.searchTitle)
+                .persistNavigationTitle()
         } detail: {
             NavigationStack {
                 SearchSecondaryView()
