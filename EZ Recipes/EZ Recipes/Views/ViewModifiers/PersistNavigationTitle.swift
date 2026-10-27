@@ -9,12 +9,17 @@ import SwiftUI
 
 private struct PersistNavigationTitle: ViewModifier {
     func body(content: Content) -> some View {
+        // Temporary until the pipeline uses Xcode 27
+        #if CI
+        content
+        #else
         if #available(iOS 27.0, *) {
             content
                 .toolbarMinimizationBehavior(.never, for: .navigationBar)
         } else {
             content
         }
+        #endif
     }
 }
 
