@@ -620,7 +620,7 @@
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.7.1;
+				minimumVersion = 1.7.5;
 			};
 		};
 		5E85214B308EE42000687ABE /* XCRemoteSwiftPackageReference "MultiPicker" */ = {
