@@ -80,9 +80,7 @@ platform :ios do
                               in_house: false) # optional but may be required if using match/sigh
     
     # If the current version and the App Store version are the same, increment the current version (and reset the build number to 1)
-    # version = SharedValues::VERSION, build = SharedValues::BUILD
-    get_version
-    current_version = lane_context[SharedValues::VERSION]
+    current_version, = get_version
     # version = SharedValues::LATEST_VERSION, build = SharedValues::LATEST_BUILD_NUMBER
     app_store_build_number
     
@@ -92,11 +90,10 @@ platform :ios do
     end
     
     # Check if release notes were written for the upcoming version
-    get_version
-    current_version = lane_context[SharedValues::VERSION]
-    changelog_path = "changelogs/#{current_version}.txt"
+    next_version, = get_version
+    changelog_path = "changelogs/#{next_version}.txt"
     unless File.file?(changelog_path)
-      UI.user_error!("No release notes for version #{current_version} found in fastlane/#{changelog_path}")
+      UI.user_error!("No release notes for version #{next_version} found in fastlane/#{changelog_path}")
     end
     
     # Get the distribution certificate, private key, and App Store provisioning profile from a private GitHub repo
